@@ -100,7 +100,7 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px;
   <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="trust-card wa-link-card">🎧 দ্রুত WhatsApp সাপোর্ট</a>
 </div>
 <main class="container">
-  <div id="adminBox" class="admin-box">
+<button type="button" id="pubBtn" class="btn-main" onclick="saveNewItem()">প্রোডাক্ট পাবলিশ করুন</button>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
       <button type="button" onclick="exitAdmin()" style="background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">লগআউট</button>
@@ -212,15 +212,14 @@ function verifyAdminLogin() {
       var c = document.createElement('canvas');
       c.width = 450;
       c.height = img.height * (450 / img.width);
-      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      base64Photo = c.toDataURL('image/jpeg', 0.72);
-      if (btn) btn.innerText = '✅ ছবি রেডি! এখন প্রোডাক্ট পাবলিশ করুন';
-    };
-    img.src = e.target.result;
-  };
+      // ২১৫ থেকে ২২০ নম্বর লাইনের জায়গায় এটি বসান
+function getWaUrl(name, price) {
+  var myNum = '8801767068529'; 
+  var text = 'Order from Chitro mart bd - Product: ' + name + ' | Price: ' + price + ' Tk';
+  return 'https://api.whatsapp.com/send?phone=' + myNum + '&text=' + encodeURIComponent(text);
+}
   r.readAsDataURL(file);
 }
-
 async function saveNewItem() {
   var name = document.getElementById('pName').value.trim();
   var price = Number(document.getElementById('pPrice').value);
