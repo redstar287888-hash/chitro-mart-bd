@@ -3,135 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chitro mart bd - অনলাইন শপিং</title>
+    <meta name="referrer" content="no-referrer">
+    <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #eaeded; color: #0f1111; }
-        
-        /* Amazon Style Header */
-        header { background-color: #131921; color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 24px; font-weight: bold; color: #ff9900; text-decoration: none; }
-        .logo span { color: white; }
-        .delivery-box { font-size: 12px; color: #ccc; }
-        .delivery-box strong { display: block; font-size: 14px; color: white; }
-        
-        .search-bar { flex: 1; max-width: 600px; display: flex; }
-        .search-bar input { width: 100%; padding: 10px; border: none; border-radius: 4px 0 0 4px; font-size: 15px; outline: none; }
-        .search-bar button { background-color: #febd69; border: none; padding: 0 18px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; font-size: 15px; }
-        .search-bar button:hover { background-color: #f3a847; }
-        
-        .sub-nav { background-color: #232f3e; color: white; padding: 8px 20px; font-size: 14px; display: flex; gap: 20px; }
-        
-        /* Banner */
-        .hero { background: linear-gradient(to bottom, #232f3e, #eaeded); color: white; text-align: center; padding: 35px 15px 50px; }
-        .hero h1 { font-size: 32px; margin-bottom: 8px; }
-        .hero p { font-size: 16px; color: #ddd; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: #f3f4f6; color: #0f1111; }
 
-        /* Product Grid */
-        .container { max-width: 1250px; margin: -30px auto 30px; padding: 0 15px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 15px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .card img { width: 100%; height: 240px; object-fit: contain; margin-bottom: 12px; background: #fff; cursor: pointer; }
-        .card h3 { font-size: 16px; margin-bottom: 8px; color: #0f1111; line-height: 1.4; cursor: pointer; }
-        .card h3:hover { color: #c7511f; }
-        .price { font-size: 20px; font-weight: bold; color: #B12704; margin-bottom: 12px; }
+        /* Top Header - Amazon Premium Style */
+        header { background-color: #131921; color: white; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .logo { font-size: 26px; font-weight: 700; color: #ff9900; text-decoration: none; letter-spacing: -0.5px; white-space: nowrap; }
+        .logo span { color: #ffffff; }
         
-        .btn-group { display: flex; flex-direction: column; gap: 8px; }
-        .btn-details { background: #f0f2f2; border: 1px solid #d5d9d9; padding: 8px; border-radius: 20px; cursor: pointer; font-size: 13px; text-align: center; }
-        .btn-details:hover { background: #e3e6e6; }
-        .btn-order { background: #ffd814; border: 1px solid #fcd200; padding: 9px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; text-align: center; text-decoration: none; color: #0f1111; display: block; }
-        .btn-order:hover { background: #f7ca00; }
+        .location-box { display: flex; flex-direction: column; font-size: 12px; color: #cccccc; white-space: nowrap; }
+        .location-box strong { color: #ffffff; font-size: 14px; }
 
-        /* Modal for Details */
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 15px; }
-        .modal-content { background: white; max-width: 650px; width: 100%; border-radius: 8px; padding: 20px; max-height: 85vh; overflow-y: auto; position: relative; }
-        .close-btn { position: absolute; right: 15px; top: 10px; font-size: 28px; cursor: pointer; font-weight: bold; }
-        .modal-body { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-        .modal-body img { max-height: 280px; object-fit: contain; width: 100%; }
-        .modal-details-text { white-space: pre-line; font-size: 14px; line-height: 1.6; color: #333; background: #f9f9f9; padding: 12px; border-radius: 6px; }
+        .search-container { flex: 1; max-width: 680px; display: flex; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 2px transparent; transition: 0.2s; }
+        .search-container:focus-within { box-shadow: 0 0 0 3px #ff9900; }
+        .search-container input { width: 100%; padding: 11px 15px; border: none; font-size: 15px; outline: none; }
+        .search-container button { background-color: #febd69; border: none; padding: 0 22px; font-size: 16px; font-weight: 700; color: #111; cursor: pointer; transition: 0.2s; }
+        .search-container button:hover { background-color: #f3a847; }
+
+        .header-wa { background: #25D366; color: #fff; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap; transition: 0.2s; }
+        .header-wa:hover { background: #1ebe5d; }
+
+        /* Sub Navigation */
+        .sub-nav { background-color: #232f3e; color: white; padding: 10px 24px; display: flex; gap: 24px; font-size: 14px; font-weight: 500; overflow-x: auto; }
+        .sub-nav span { cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .sub-nav span:hover { color: #ff9900; }
+
+        /* Hero Banner */
+        .hero-banner { background: linear-gradient(135deg, #131921 0%, #232f3e 60%, #37475a 100%); color: white; padding: 45px 24px 75px; text-align: center; position: relative; }
+        .hero-badge { display: inline-block; background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid #ff9900; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+        .hero-banner h1 { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
+        .hero-banner p { font-size: 17px; color: #d1d5db; max-width: 650px; margin: 0 auto; }
+
+        /* Trust Badges */
+        .trust-bar { max-width: 1240px; margin: -35px auto 25px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; position: relative; z-index: 10; }
+        .trust-item { background: white; padding: 16px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 15px; color: #1f2937; }
+        .trust-icon { font-size: 24px; }
+
+        /* Section Title */
+        .main-container { max-width: 1240px; margin: 0 auto 40px; padding: 0 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .section-header h2 { font-size: 24px; font-weight: 700; color: #111827; }
+
+        /* Premium Product Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px; }
+        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); border-color: #ff9900; }
+        
+        .img-wrapper { width: 100%; height: 270px; background: #ffffff; padding: 15px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f3f4f6; position: relative; cursor: pointer; }
+        .img-wrapper img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+        .product-card:hover .img-wrapper img { transform: scale(1.05); }
+        .badge-tag { position: absolute; top: 12px; left: 12px; background: #cc0c39; color: white; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
+
+        .card-info { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .product-title { font-size: 18px; font-weight: 600; color: #0f1111; margin-bottom: 6px; line-height: 1.4; cursor: pointer; }
+        .product-title:hover { color: #c7511f; }
+        .rating { color: #ffa41c; font-size: 14px; margin-bottom: 10px; }
+        .rating span { color: #565959; font-size: 13px; margin-left: 4px; }
+        
+        .price-box { margin-bottom: 15px; }
+        .price-current { font-size: 24px; font-weight: 700; color: #B12704; }
+        .delivery-text { font-size: 13px; color: #007600; font-weight: 600; margin-top: 2px; }
+
+        .card-actions { display: flex; flex-direction: column; gap: 9px; }
+        .btn-view { background: #f3f4f6; color: #111; border: 1px solid #d1d5db; padding: 9px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-view:hover { background: #e5e7eb; }
+        .btn-buy { background: linear-gradient(to bottom, #ffd814, #f7ca00); color: #0f1111; border: 1px solid #fcd200; padding: 10px; border-radius: 8px; font-size: 15px; font-weight: 700; text-align: center; text-decoration: none; display: block; transition: 0.2s; }
+        .btn-buy:hover { background: #f0c14b; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(3px); }
+        .modal-box { background: white; max-width: 720px; width: 100%; border-radius: 12px; padding: 24px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .modal-close { position: absolute; right: 18px; top: 12px; font-size: 30px; cursor: pointer; color: #555; font-weight: bold; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; margin-top: 10px; }
+        @media (max-width: 650px) { .modal-grid { grid-template-columns: 1fr; } .location-box { display: none; } }
+        .modal-img img { width: 100%; max-height: 320px; object-fit: contain; border: 1px solid #eee; border-radius: 8px; padding: 10px; }
+        .modal-desc { white-space: pre-line; font-size: 14px; line-height: 1.65; color: #374151; background: #f9fafb; padding: 14px; border-radius: 8px; border: 1px solid #e5e7eb; margin: 12px 0; max-height: 240px; overflow-y: auto; }
 
         /* Contact & Footer */
-        .contact-section { background: white; text-align: center; padding: 30px 15px; margin-top: 30px; border-top: 1px solid #ddd; }
-        .contact-section h2 { font-size: 22px; margin-bottom: 8px; }
-        .contact-section p { font-size: 15px; color: #444; margin-bottom: 15px; }
-        .wa-btn { background: #25D366; color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 16px; }
-        .back-top { background: #37475a; color: white; text-align: center; padding: 12px; cursor: pointer; font-size: 14px; }
-        footer { background: #131921; color: #ddd; text-align: center; padding: 20px; font-size: 13px; }
+        .contact-banner { background: white; text-align: center; padding: 40px 20px; border-top: 1px solid #e5e7eb; }
+        .contact-banner h2 { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 6px; }
+        .contact-banner p { font-size: 16px; color: #4b5563; margin-bottom: 18px; }
+        .wa-big-btn { background: #25D366; color: white; padding: 13px 32px; border-radius: 30px; text-decoration: none; font-size: 18px; font-weight: 700; display: inline-block; box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4); transition: 0.2s; }
+        .wa-big-btn:hover { background: #1ebe5d; transform: scale(1.03); }
+        .back-top { background: #37475a; color: white; text-align: center; padding: 13px; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .back-top:hover { background: #485769; }
+        footer { background: #131921; color: #9ca3af; text-align: center; padding: 24px; font-size: 14px; }
     </style>
 </head>
 <body>
     <header>
         <a href="#" class="logo">Chitro <span>mart bd</span></a>
-        <div class="delivery-box">ডেলিভারি স্থান <strong>বাংলাদেশ</strong></div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="পণ্য খুঁজুন..." onkeyup="filterProducts()">
-            <button onclick="filterProducts()">খুঁজুন</button>
+        <div class="location-box">ডেলিভারি স্থান <strong>বাংলাদেশ</strong></div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="পছন্দের পণ্য খুঁজুন (যেমন: Shirt, Gadget)..." onkeyup="searchProducts()">
+            <button onclick="searchProducts()">খুঁজুন</button>
         </div>
+        <a href="https://wa.me" target="_blank" class="header-wa">WhatsApp অর্ডার</a>
     </header>
 
     <div class="sub-nav">
-        <span>সকল পণ্য</span>
-        <span>কাস্টমার সার্ভিস</span>
+        <span onclick="resetFilter()">সকল পণ্য</span>
+        <span onclick="resetFilter()">নতুন কালেকশন</span>
+        <span onclick="document.getElementById('contactArea').scrollIntoView({behavior:'smooth'})">কাস্টমার সার্ভিস</span>
     </div>
 
-    <div class="hero">
+    <div class="hero-banner">
+        <div class="hero-badge">১০০% অরিজিনাল ও এক্সপোর্ট কোয়ালিটি</div>
         <h1>Chitro mart bd</h1>
-        <p>সেরা মানের পণ্য এখন আপনার হাতের নাগালে — সারা বাংলাদেশে হোম ডেলিভারি</p>
+        <p>সেরা মানের পণ্য এখন আপনার হাতের নাগালে — সারা বাংলাদেশে দ্রুত ক্যাশ অন ডেলিভারি</p>
     </div>
 
-    <div class="container">
+    <div class="trust-bar">
+        <div class="trust-item"><span class="trust-icon">🚚</span> সারা বাংলাদেশে হোম ডেলিভারি</div>
+        <div class="trust-item"><span class="trust-icon">💵</span> পণ্য হাতে পেয়ে টাকা পরিশোধ</div>
+        <div class="trust-item"><span class="trust-icon">✅</span> ১০০% প্রিমিয়াম কোয়ালিটি গ্যারান্টি</div>
+        <div class="trust-item"><span class="trust-icon">⚡</span> দ্রুত WhatsApp অর্ডার সাপোর্ট</div>
+    </div>
+
+    <div class="main-container">
+        <div class="section-header">
+            <h2>আমাদের সেরা কালেকশন</h2>
+            <span id="productCount" style="color: #6b7280; font-size: 14px;"></span>
+        </div>
         <div id="productGrid" class="product-grid"></div>
     </div>
 
-    <!-- Product Details Modal -->
+    <!-- Product Modal -->
     <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-body" id="modalBody"></div>
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
         </div>
     </div>
 
-    <!-- WhatsApp Contact Section -->
-    <div class="contact-section">
-        <h2>whats app</h2>
-        <p>order confirm korte zodazod korun</p>
-        <a href="https://wa.me" target="_blank" class="wa-btn">01767068529</a>
+    <!-- Contact Section -->
+    <div class="contact-banner" id="contactArea">
+        <h2>WhatsApp সাপোর্ট</h2>
+        <p>অর্ডার কনফার্ম করতে যোগাযোগ করুন</p>
+        <a href="https://wa.me" target="_blank" class="wa-big-btn">01767068529</a>
     </div>
 
     <div class="back-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">উপরে ফিরে যান</div>
     <footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
 
     <script>
-        const allProducts = [
+        const productsData = [
             {
                 id: 1,
                 name: "Stylish Denim Shirt",
                 price: "860",
+                tag: "প্রিমিয়াম কালেকশন",
                 image: "https://postimg.cc",
-                details: `প্রিমিয়াম সফট ডেনিম ফেব্রিক্সের স্টাইলিশ শার্ট, যা আপনার লুকে আনবে স্মার্ট ও আকর্ষণীয় ভাইব।...` // (সম্পূর্ণ ডিটেইলসের জন্য পূর্বের সম্পূর্ণ কোডটি দেখতে পারেন)
+                details: `প্রিমিয়াম সফট ডেনিম ফেব্রিক্সের স্টাইলিশ শার্ট, যা আপনার লুকে আনবে স্মার্ট ও আকর্ষণীয় ভাইব।\nআরামদায়ক ফেব্রিক্স, সুন্দর ওয়াশ ও প্রিমিয়াম ফিনিশিংয়ের কারণে ক্যাজুয়াল এবং আউটডোর ব্যবহারের জন্য উপযুক্ত।\n\n📌 Product Details:\n• প্রোডাক্টের ধরন: মেনস ডেনিম শার্ট\n• ফেব্রিক্স: ১০০% প্রিমিয়াম ডেনিম\n• কোয়ালিটি: এক্সপোর্ট কোয়ালিটি\n• সাইজ: M, L, XL, XXL`
             }
         ];
 
-        function displayProducts(products) {
+        function renderProducts(list) {
             const grid = document.getElementById('productGrid');
-            if (products.length === 0) {
-                grid.innerHTML = '<div style="background:white;padding:30px;text-align:center;grid-column:1/-1;"><h3>কোনো পণ্য পাওয়া যায়নি।</h3></div>';
+            document.getElementById('productCount').innerText = `মোট পণ্য: ${list.length}টি`;
+            
+            if (list.length === 0) {
+                grid.innerHTML = '<div style="background:white;padding:40px;text-align:center;border-radius:8px;grid-column:1/-1;"><h3>কোনো পণ্য খুঁজে পাওয়া যায়নি।</h3></div>';
                 return;
             }
-            grid.innerHTML = products.map(p => {
-                const waMsg = encodeURIComponent(`আসসালামু আলাইকুম, আমি এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
+
+            grid.innerHTML = list.map(p => {
+                const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
                 return `
-                    <div class="card">
+                    <div class="product-card">
                         <div>
-                            <img src="${p.image}" alt="${p.name}" onclick="openModal(${p.id})">
-                            <h3 onclick="openModal(${p.id})">${p.name}</h3>
-                        </div>
-                        <div>
-                            <div class="price">৳ ${p.price}</div>
-                            <div class="btn-group">
-                                <button class="btn-details" onclick="openModal(${p.id})">বিস্তারিত দেখুন</button>
-                                <a href="https://wa.me?text=${waMsg}" target="_blank" class="btn-order">অর্ডার করুন</a>
+                            <div class="img-wrapper" onclick="openModal(${p.id})">
+                                ${p.tag ? `<span class="badge-tag">${p.tag}</span>` : ''}
+                                <img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co';">
+                            </div>
+                            <div class="card-info">
+                                <div>
+                                    <h3 class="product-title" onclick="openModal(${p.id})">${p.name}</h3>
+                                    <div class="rating">★★★★★ <span>(এক্সপোর্ট কোয়ালিটি)</span></div>
+                                    <div class="price-box">
+                                        <div class="price-current">৳ ${p.price}</div>
+                                        <div class="delivery-text">✓ ক্যাশ অন ডেলিভারি সুবিধা</div>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-view" onclick="openModal(${p.id})">বিস্তারিত ও সাইজ দেখুন</button>
+                                    <a href="https://wa.me?text=${msg}" target="_blank" class="btn-buy">অর্ডার করুন</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,22 +200,34 @@
             }).join('');
         }
 
-        function filterProducts() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
-            displayProducts(filtered);
+        function searchProducts() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = productsData.filter(p => p.name.toLowerCase().includes(q) || p.details.toLowerCase().includes(q));
+            renderProducts(filtered);
+        }
+
+        function resetFilter() {
+            document.getElementById('searchInput').value = '';
+            renderProducts(productsData);
         }
 
         function openModal(id) {
-            const p = allProducts.find(item => item.id === id);
+            const p = productsData.find(item => item.id === id);
             if (!p) return;
-            const waMsg = encodeURIComponent(`আসসালামু আলাইকুম, আমি এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
-            document.getElementById('modalBody').innerHTML = `
-                <img src="${p.image}" alt="${p.name}">
-                <h2>${p.name}</h2>
-                <div class="price">৳ ${p.price}</div>
-                <div class="modal-details-text">${p.details}</div>
-                <a href="https://wa.me?text=${waMsg}" target="_blank" class="btn-order">WhatsApp-এ অর্ডার কনফার্ম করুন</a>
+            const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
+            document.getElementById('modalContent').innerHTML = `
+                <div class="modal-grid">
+                    <div class="modal-img">
+                        <img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.onerror=null; this.src='https://placehold.co';">
+                    </div>
+                    <div>
+                        <h2 style="font-size:22px;margin-bottom:6px;">${p.name}</h2>
+                        <div class="price-current" style="margin-bottom:8px;">৳ ${p.price}</div>
+                        <div class="delivery-text">✓ সারা বাংলাদেশে হোম ডেলিভারি</div>
+                        <div class="modal-desc">${p.details}</div>
+                        <a href="https://wa.me?text=${msg}" target="_blank" class="btn-buy">WhatsApp-এ অর্ডার কনফার্ম করুন</a>
+                    </div>
+                </div>
             `;
             document.getElementById('productModal').style.display = 'flex';
         }
@@ -163,12 +236,11 @@
             document.getElementById('productModal').style.display = 'none';
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('productModal');
-            if (event.target === modal) closeModal();
+        window.onclick = function(e) {
+            if (e.target === document.getElementById('productModal')) closeModal();
         }
 
-        displayProducts(allProducts);
+        renderProducts(productsData);
     </script>
 </body>
 </html>
