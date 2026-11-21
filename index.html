@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -119,45 +119,37 @@
     <footer><p>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</p></footer>
 
     <script>
-        const SHEET_ID = "11Fz_Knf6gwIY1d3W2CbYl2RqLv1Usetubkjm6tDtFKl";
+        const OPENSHEET_URL = "https://elk.sh";
         let allProducts = [];
         let cartCount = 0;
 
-        window.handleSheetData = function(data) {
-            const rows = (data && data.table && data.table.rows) ? data.table.rows : [];
-            allProducts = rows.map(r => {
-                const c = r.c || [];
-                const colA = c.at(0);
-                const colB = c.at(1);
-                const colC = c.at(2);
-                const colD = c.at(3);
+        async function loadProducts() {
+            try {
+                const response = await fetch(OPENSHEET_URL);
+                if (!response.ok) throw new Error("API Error");
+                const rows = await response.json();
 
-                const rawName = colA && colA.v !== null ? String(colA.v).trim() : "";
-                const rawPrice = colB && colB.v !== null ? String(colB.v).trim() : "";
-                const rawImage = colC && colC.v !== null ? String(colC.v).trim() : "";
-                const rawDetails = colD && colD.v !== null ? String(colD.v).trim() : "";
+                allProducts = rows.map(item => {
+                    const rawName = (item.Name || item.name || "").trim();
+                    const rawPrice = (item.price || item.Price || "").trim();
+                    const rawImage = (item.image || item.Image || "").trim();
+                    const rawDetails = (item.details || item.Details || "").trim();
 
-                if (rawName !== "" && rawName.toLowerCase() !== "name") {
-                    return {
-                        name: rawName,
-                        price: rawPrice,
-                        image: rawImage !== "" ? rawImage : "https://placeholder.com",
-                        details: rawDetails
-                    };
-                }
-                return null;
-            }).filter(item => item !== null);
+                    if (rawName !== "") {
+                        return {
+                            name: rawName,
+                            price: rawPrice,
+                            image: rawImage !== "" ? rawImage : "https://placeholder.com",
+                            details: rawDetails
+                        };
+                    }
+                    return null;
+                }).filter(item => item !== null);
 
-            renderProducts(allProducts);
-        };
-
-        function loadProducts() {
-            const script = document.createElement('script');
-            script.src = `https://google.com{SHEET_ID}/gviz/tq?tqx=responseHandler:handleSheetData&t=${Date.now()}`;
-            script.onerror = function() {
-                document.getElementById('statusSub').innerText = "Google Sheet-এর Share পারমিশন 'Anyone with the link' করা আছে কি না তা চেক করুন।";
-            };
-            document.body.appendChild(script);
+                renderProducts(allProducts);
+            } catch (error) {
+                document.getElementById('statusSub').innerText = "ডেটা লোড হচ্ছে না। Google Sheet-এর Share সেটিংস 'Anyone with the link' করা আছে কি না দেখুন।";
+            }
         }
 
         function renderProducts(products) {
