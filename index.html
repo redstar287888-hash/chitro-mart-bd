@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chitro mart bd - অনলাইন শপিং</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #eaeded; color: #0f1111; }
+        .amazon-header { background-color: #131921; color: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; position: sticky; top: 0; z-index: 1000; gap: 15px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .brand-logo { font-size: 24px; font-weight: 800; color: #ffffff; text-decoration: none; white-space: nowrap; padding: 4px 8px; }
+        .brand-logo span { color: #ff9900; margin-left: 4px; }
+        .deliver-box { font-size: 12px; color: #cccccc; line-height: 1.2; white-space: nowrap; }
+        .deliver-box strong { display: block; color: #ffffff; font-size: 14px; }
+        .search-container { display: flex; flex: 1; max-width: 650px; height: 40px; border-radius: 4px; overflow: hidden; }
+        .search-container input { width: 100%; padding: 0 14px; border: none; font-size: 15px; outline: none; }
+        .search-container button { background-color: #febd69; border: none; padding: 0 18px; cursor: pointer; font-weight: bold; font-size: 14px; color: #131921; white-space: nowrap; }
+        .header-right { display: flex; align-items: center; gap: 15px; white-space: nowrap; }
+        .nav-box { color: #ffffff; text-decoration: none; font-size: 12px; padding: 4px 8px; }
+        .nav-box strong { display: block; font-size: 13px; }
+        .cart-box { display: flex; align-items: center; color: #ffffff; font-weight: bold; font-size: 15px; padding: 6px 10px; cursor: pointer; }
+        .cart-count { color: #f08804; font-size: 18px; margin-right: 5px; }
+        .sub-navbar { background-color: #232f3e; color: #ffffff; padding: 10px 24px; display: flex; gap: 22px; font-size: 14px; overflow-x: auto; }
+        .sub-navbar a { color: #ffffff; text-decoration: none; white-space: nowrap; cursor: pointer; }
+        .sub-navbar a:hover { color: #febd69; }
+        .hero-area { background: linear-gradient(180deg, #131921 0%, #232f3e 55%, #eaeded 100%); color: #ffffff; text-align: center; padding: 50px 20px 85px 20px; }
+        .hero-area h1 { font-size: 36px; margin-bottom: 10px; }
+        .main-wrapper { max-width: 1320px; margin: -50px auto 50px auto; padding: 0 20px; min-height: 260px; }
+        .empty-state { background: #ffffff; padding: 65px 20px; text-align: center; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .product-card { background: #ffffff; padding: 20px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-3px); }
+        .product-card img { width: 100%; height: 210px; object-fit: contain; margin-bottom: 15px; cursor: pointer; }
+        .product-title { font-size: 17px; color: #0f1111; font-weight: 600; margin-bottom: 8px; cursor: pointer; }
+        .product-details { font-size: 13px; color: #565959; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .dynamic-price { font-size: 24px; font-weight: 700; color: #b12704; margin: 8px 0 12px 0; }
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        .details-btn { background: #ffffff; border: 1px solid #d5d9d9; border-radius: 20px; padding: 8px 14px; text-align: center; color: #0f1111; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .amazon-btn { background: linear-gradient(to bottom, #f7dfa5, #f0c14b); border: 1px solid #a88734; border-radius: 20px; padding: 10px 16px; text-align: center; text-decoration: none; color: #111111; font-size: 14px; font-weight: 700; display: block; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: #ffffff; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; border-radius: 8px; padding: 25px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 26px; font-weight: bold; cursor: pointer; color: #555; }
+        .modal-img { width: 100%; max-height: 280px; object-fit: contain; margin-bottom: 15px; }
+        .modal-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: #131921; }
+        .modal-price { font-size: 26px; font-weight: 700; color: #b12704; margin-bottom: 15px; }
+        .modal-desc { font-size: 15px; line-height: 1.7; color: #333; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 6px; }
+        .premium-contact-section { background: #ffffff; border-top: 3px solid #ff9900; padding: 40px 20px; text-align: center; }
+        .contact-title { font-size: 22px; font-weight: 700; color: #131921; margin-bottom: 24px; }
+        .social-buttons-wrap { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 28px; border-radius: 50px; text-decoration: none; color: #ffffff; font-size: 16px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .fb-btn { background: linear-gradient(135deg, #1877F2, #0d5bba); }
+        .wa-btn { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .social-icon { width: 24px; height: 24px; fill: #ffffff; flex-shrink: 0; }
+        .back-to-top { background-color: #37475a; color: #ffffff; text-align: center; padding: 14px; font-size: 14px; cursor: pointer; }
+        footer { background-color: #131921; color: #dddddd; text-align: center; padding: 25px 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <header class="amazon-header">
+        <a href="#" onclick="resetSearch()" class="brand-logo">Chitro mart<span>bd</span></a>
+        <div class="deliver-box">ডেলিভারি স্থান<strong>বাংলাদেশ</strong></div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="পণ্য খুঁজুন..." onkeyup="filterProducts()">
+            <button onclick="filterProducts()">খুঁজুন</button>
+        </div>
+        <div class="header-right">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="nav-box">ফেসবুক পেজ<strong>Chitro mart bd</strong></a>
+            <div class="cart-box" onclick="alert('আপনার কার্টে ' + cartCount + ' টি পণ্য আছে।')">
+                <span class="cart-count" id="cartCount">0</span> কার্ট
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-navbar">
+        <a onclick="resetSearch()">সকল পণ্য</a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">ফেসবুক পেজ</a>
+        <a href="https://wa.me" target="_blank" rel="noopener noreferrer">কাস্টমার সার্ভিস</a>
+    </nav>
+
+    <div class="hero-area">
+        <h1>Chitro mart bd</h1>
+        <p>সেরা মানের পণ্য এখন আপনার হাতের নাগালে — সারা বাংলাদেশে হোম ডেলিভারি</p>
+    </div>
+
+    <div class="main-wrapper">
+        <div id="statusMessage" class="empty-state">
+            <h2>Chitro mart bd-তে স্বাগতম</h2>
+            <p>পণ্য লোড হচ্ছে অথবা বর্তমানে কোনো পণ্য যুক্ত করা হয়নি...</p>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <div class="modal-overlay" id="productModal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <img id="mImg" class="modal-img" src="" alt="">
+            <div id="mTitle" class="modal-title"></div>
+            <div id="mPrice" class="modal-price"></div>
+            <div id="mDesc" class="modal-desc"></div>
+            <a id="mOrderBtn" href="#" target="_blank" class="amazon-btn" onclick="addToCart()">সরাসরি হোয়াটসঅ্যাপে অর্ডার করুন</a>
+        </div>
+    </div>
+
+    <section class="premium-contact-section" id="contact-area">
+        <div class="contact-title">অর্ডার করতে যোগাযোগ করুন</div>
+        <div class="social-buttons-wrap">
+            <a class="social-btn fb-btn" href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                <span>ফেসবুক পেজ: Chitro mart bd</span>
+            </a>
+            <a class="social-btn wa-btn" href="https://wa.me" target="_blank" rel="noopener noreferrer">
+                <svg class="social-icon" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+                <span>হোয়াটসঅ্যাপ: 01767068529</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">উপরে ফিরে যান</div>
+    <footer><p>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</p></footer>
+
+    <script>
+        const GOOGLE_SHEET_CSV_URL = "https://google.com";
+        let allProducts = [];
+        let cartCount = 0;
+
+        async function loadProducts() {
+            try {
+                const response = await fetch(GOOGLE_SHEET_CSV_URL + "&t=" + new Date().getTime());
+                const csvText = await response.text();
+                const rows = csvText.split(/\r?\n/).slice(1);
+                allProducts = rows.map(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if (cols.length >= 2 && cols[0].trim() !== "") {
+                        return {
+                            name: cols[0].replace(/^"|"$/g, '').trim(),
+                            price: cols[1] ? cols[1].replace(/^"|"$/g, '').trim() : "",
+                            image: cols[2] && cols[2].trim() !== "" ? cols[2].replace(/^"|"$/g, '').trim() : "https://placeholder.com",
+                            details: cols[3] ? cols[3].replace(/^"|"$/g, '').trim() : ""
+                        };
+                    }
+                    return null;
+                }).filter(item => item !== null);
+                renderProducts(allProducts);
+            } catch (error) { console.error(error); }
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            const statusMsg = document.getElementById('statusMessage');
+            grid.innerHTML = '';
+            if (products.length === 0) { statusMsg.style.display = 'block'; return; }
+            statusMsg.style.display = 'none';
+            products.forEach((product, index) => {
+                const waText = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে "${product.name}" (দাম: ৳${product.price}) পণ্যটি অর্ডার করতে চাই।`);
+                const waOrderLink = `https://wa.me?text=${waText}`;
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `<div><img src="${product.image}" alt="${product.name}" onclick="openModal(${index})"><div class="product-title" onclick="openModal(${index})">${product.name}</div><div class="product-details">${product.details.replace(/\|/g, ' • ')}</div></div><div><div class="dynamic-price"><span>৳</span>${product.price}</div><div class="btn-group"><button class="details-btn" onclick="openModal(${index})">বিস্তারিত দেখুন</button><a href="${waOrderLink}" target="_blank" class="amazon-btn" onclick="addToCart()">সরাসরি অর্ডার করুন</a></div></div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(index) {
+            const p = allProducts[index];
+            document.getElementById('mImg').src = p.image;
+            document.getElementById('mTitle').innerText = p.name;
+            document.getElementById('mPrice').innerText = '৳ ' + p.price;
+            document.getElementById('mDesc').innerHTML = p.details.split('|').map(line => `• ${line.trim()}`).join('<br>');
+            const waText = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে "${p.name}" (দাম: ৳${p.price}) পণ্যটি অর্ডার করতে চাই।`);
+            document.getElementById('mOrderBtn').href = `https://wa.me?text=${waText}`;
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('productModal').style.display = 'none'; }
+        function addToCart() { cartCount++; document.getElementById('cartCount').innerText = cartCount; }
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(query) || p.details.toLowerCase().includes(query)));
+        }
+        function resetSearch() { document.getElementById('searchInput').value = ''; renderProducts(allProducts); }
+        loadProducts();
+    </script>
+</body>
+</html>
