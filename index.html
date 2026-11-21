@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
         body { background-color: #f3f3f3; color: #111; }
         .top-notice { background: #232f3e; color: #ff9900; text-align: center; padding: 6px; font-size: 13px; font-weight: bold; }
         header { background-color: #131921; color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
@@ -15,7 +15,6 @@
         .search-bar input { width: 100%; padding: 9px 14px; border: none; border-radius: 4px 0 0 4px; font-size: 15px; outline: none; }
         .search-bar button { background: #febd69; border: none; padding: 0 18px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; color: #111; }
         .admin-btn { background: transparent; border: 1px solid #ff9900; color: #ff9900; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .admin-btn:hover { background: #ff9900; color: #111; }
         .hero { background: linear-gradient(135deg, #131921 0%, #232f3e 100%); color: white; padding: 40px 20px; text-align: center; }
         .badge { display: inline-block; background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid #ff9900; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
         .hero h1 { font-size: 30px; margin-bottom: 8px; }
@@ -63,7 +62,7 @@
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="আপনার পছন্দের পণ্য খুঁজুন...">
             <button onclick="filterProducts()">খুঁজুন</button>
         </div>
-        <button class="admin-btn" id="adminBtn">🔒 অ্যাডমিন</button>
+        <button type="button" class="admin-btn" onclick="openAdmin()">🔒 অ্যাডমিন</button>
     </header>
     <section class="hero">
         <div class="badge">✨ ১০০% অরিজিনাল ও প্রিমিয়াম কালেকশন</div>
@@ -75,60 +74,39 @@
             <div class="feat-pill">🎧 দ্রুত WhatsApp সাপোর্ট</div>
         </div>
     </section>
-    <!-- Admin Product Upload Panel -->
+
     <div id="adminBox">
-        <h3>➕ নতুন প্রোডাক্ট যোগ করুন (Cloud Store)</h3>
-        <div class="form-group">
-            <label>প্রোডাক্টের নাম:</label>
-            <input type="text" id="pName" placeholder="যেমন: প্রিমিয়াম স্মার্ট ওয়াচ">
-        </div>
-        <div class="form-group">
-            <label>দাম (টাকায়):</label>
-            <input type="number" id="pPrice" placeholder="যেমন: 1250">
-        </div>
-        <div class="form-group">
-            <label>ছবির লিংক (URL) অথবা ফোন/ল্যাপটপ থেকে ছবি সিলেক্ট করুন:</label>
-            <input type="text" id="pImgUrl" placeholder="ছবির ডাইরেক্ট লিংক দিন (অথবা নিচ থেকে ফাইল নিন)">
-            <input type="file" id="pImgFile" accept="image/*" style="margin-top:6px;">
-        </div>
-        <div class="form-group">
-            <label>সংক্ষিপ্ত বিবরণ:</label>
-            <textarea id="pDesc" rows="2" placeholder="প্রোডাক্ট সম্পর্কে বিস্তারিত লিখুন..."></textarea>
-        </div>
-        <button class="btn-publish" id="pubBtn">পাবলিশ করুন</button>
+        <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
+        <div class="form-group"><label>প্রোডাক্টের নাম:</label><input type="text" id="pName"></div>
+        <div class="form-group"><label>দাম (টাকায়):</label><input type="number" id="pPrice"></div>
+        <div class="form-group"><label>ছবির লিংক (URL):</label><input type="text" id="pImgUrl" placeholder="https://..."></div>
+        <div class="form-group"><label>বিবরণ:</label><textarea id="pDesc" rows="2"></textarea></div>
+        <button type="button" class="btn-publish" id="pubBtn" onclick="publishProduct()">পাবলিশ করুন</button>
     </div>
 
-    <!-- Products Display Section -->
     <div class="container">
         <div class="section-title">🔥 আমাদের সেরা কালেকশন</div>
-        <div class="products-grid" id="productGrid">
-            <p style="text-align:center; grid-column: 1/-1; color:#555;">পণ্য লোড হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</p>
-        </div>
+        <div class="products-grid" id="productGrid"><p style="text-align:center; grid-column:1/-1;">লোড হচ্ছে...</p></div>
     </div>
 
-    <!-- WhatsApp & Contact Section -->
     <div class="contact-section">
         <div class="wa-box">
             <h4>whats app</h4>
             <p>order confirm korte zodazod korun</p>
             <a href="https://wa.me" target="_blank" class="wa-num">01767068529</a>
-        </div>
-        <br>
+        </div><br>
         <a href="https://facebook.com" target="_blank" class="fb-btn">📘 Chitro mart bd ফেসবুক পেজ</a>
     </div>
 
-    <footer>
-        &copy; 2026 Chitro mart bd. সর্বস্বত্ব সংরক্ষিত। | <a href="https://facebook.com" target="_blank">আমাদের ফেসবুক পেজ ভিজিট করুন</a>
-    </footer>
+    <footer>&copy; 2026 Chitro mart bd. সর্বস্বত্ব সংরক্ষিত। | <a href="https://facebook.com" target="_blank">আমাদের ফেসবুক পেজ ভিজিট করুন</a></footer>
 
-    <!-- Admin Login Modal -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <h3>অ্যাডমিন লগইন</h3>
-            <input type="password" id="passVal" placeholder="পাসওয়ার্ড দিন (ডিফল্ট: 1234)">
+            <input type="password" id="passVal" placeholder="পাসওয়ার্ড (1234)">
             <div class="modal-btns">
-                <button style="background:#ff9900;" id="loginSubmitBtn">লগইন</button>
-                <button style="background:#ccc;" id="loginCancelBtn">বাতিল</button>
+                <button type="button" style="background:#ff9900;" onclick="doLogin()">লগইন</button>
+                <button type="button" style="background:#ccc;" onclick="closeLogin()">বাতিল</button>
             </div>
         </div>
     </div>
@@ -137,187 +115,93 @@
         var BIN_ID = "6b01efb9ac6210605a9a8909";
         var MASTER_KEY = "$2a$10$S30MqmbM63CxaURxbezmLuIf.878qOeBSoZMSuG3yhPBjol7A4bOe";
         var API_URL = "https://jsonbin.io" + BIN_ID;
-
-        var ADMIN_PASS = "1234";
-        var WA_NUMBER = "8801767068529";
-
         var storeItems = [];
-        var adminActive = sessionStorage.getItem('cm_admin_ok') === 'true';
-        var base64Photo = '';
+        var isAdmin = false;
 
-        if (adminActive) {
-            document.getElementById('adminBox').style.display = 'block';
-        }
-
-        // অ্যাডমিন বাটন ও মডাল ইভেন্ট
-        document.getElementById('adminBtn').onclick = function() {
-            if (adminActive) {
+        function openAdmin() {
+            if (isAdmin) {
                 var box = document.getElementById('adminBox');
                 box.style.display = (box.style.display === 'block') ? 'none' : 'block';
             } else {
                 document.getElementById('loginModal').style.display = 'flex';
             }
-        };
-
-        document.getElementById('loginCancelBtn').onclick = function() {
-            document.getElementById('loginModal').style.display = 'none';
-        };
-
-        document.getElementById('loginSubmitBtn').onclick = function() {
-            var pass = document.getElementById('passVal').value;
-            if (pass === ADMIN_PASS) {
-                adminActive = true;
-                sessionStorage.setItem('cm_admin_ok', 'true');
-                document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('passVal').value = '';
+        }
+        function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
+        function doLogin() {
+            if (document.getElementById('passVal').value === "1234") {
+                isAdmin = true;
+                closeLogin();
                 document.getElementById('adminBox').style.display = 'block';
                 drawProducts();
-            } else {
-                alert('ভুল পাসওয়ার্ড!');
-            }
-        };
+            } else { alert('ভুল পাসওয়ার্ড!'); }
+        }
 
-        // ছবি প্রসেসিং (সঠিক ফাইল ইনপুটসহ)
-        document.getElementById('pImgFile').onchange = function(e) {
-            var file = e.target.files[0];
-            if (!file) return;
-            var btn = document.getElementById('pubBtn');
-            btn.innerText = 'ছবি প্রসেস হচ্ছে...';
-            btn.disabled = true;
-
-            var reader = new FileReader();
-            reader.onload = function(ev) {
-                var img = new Image();
-                img.onload = function() {
-                    var canvas = document.createElement('canvas');
-                    var maxW = 500;
-                    var scale = maxW / img.width;
-                    canvas.width = maxW;
-                    canvas.height = img.height * scale;
-                    var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    base64Photo = canvas.toDataURL('image/jpeg', 0.7);
-                    btn.innerText = 'পাবলিশ করুন';
-                    btn.disabled = false;
-                };
-                img.src = ev.target.result;
-            };
-            reader.readAsDataURL(file);
-        };
-
-        // প্রোডাক্ট পাবলিশ করা
-        document.getElementById('pubBtn').onclick = async function() {
+        async function publishProduct() {
             var name = document.getElementById('pName').value.trim();
             var price = document.getElementById('pPrice').value.trim();
-            var urlInput = document.getElementById('pImgUrl').value.trim();
+            var img = document.getElementById('pImgUrl').value.trim() || 'https://placeholder.com';
             var desc = document.getElementById('pDesc').value.trim();
-            var finalImg = urlInput || base64Photo || 'https://placeholder.com';
-
-            if (!name || !price) {
-                alert('অনুগ্রহ করে প্রোডাক্টের নাম এবং দাম লিখুন!');
-                return;
-            }
+            if (!name || !price) { alert('নাম ও দাম দিন!'); return; }
 
             var btn = document.getElementById('pubBtn');
-            btn.innerText = 'পাবলিশ হচ্ছে...';
-            btn.disabled = true;
-
-            var newProduct = {
-                id: Date.now(),
-                name: name,
-                price: price,
-                img: finalImg,
-                desc: desc
-            };
-
-            var updatedList = [newProduct].concat(storeItems);
+            btn.innerText = 'সেভ হচ্ছে...';
+            var updated = [{ id: Date.now(), name: name, price: price, img: img, desc: desc }].concat(storeItems);
 
             try {
                 var res = await fetch(API_URL, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': MASTER_KEY
-                    },
-                    body: JSON.stringify({ products: updatedList })
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+                    body: JSON.stringify({ products: updated })
                 });
-
                 if (res.ok) {
-                    alert('প্রোডাক্ট সফলভাবে যোগ হয়েছে!');
-                    storeItems = updatedList;
+                    alert('প্রোডাক্ট যোগ হয়েছে!');
+                    storeItems = updated;
                     drawProducts();
                     document.getElementById('pName').value = '';
                     document.getElementById('pPrice').value = '';
                     document.getElementById('pImgUrl').value = '';
-                    document.getElementById('pImgFile').value = '';
                     document.getElementById('pDesc').value = '';
-                    base64Photo = '';
-                } else {
-                    alert('সেভ হয়নি! API Key বা ইন্টারনেট চেক করুন।');
-                }
-            } catch (err) {
-                alert('নেটওয়ার্ক সমস্যা! আবার চেষ্টা করুন।');
-            }
+                } else { alert('সেভ হয়নি!'); }
+            } catch (e) { alert('নেটওয়ার্ক সমস্যা!'); }
             btn.innerText = 'পাবলিশ করুন';
-            btn.disabled = false;
-        };
+        }
 
-        // ডাটাবেস থেকে সব প্রোডাক্ট লোড করা
-        async function loadCloudItems() {
-            var grid = document.getElementById('productGrid');
+        async function loadItems() {
             try {
-                var res = await fetch(API_URL + "/latest", {
-                    headers: {
-                        'X-Master-Key': MASTER_KEY
-                    }
-                });
+                var res = await fetch(API_URL + "/latest", { headers: { 'X-Master-Key': MASTER_KEY } });
                 var data = await res.json();
-                if (data && data.record && Array.isArray(data.record.products)) {
-                    storeItems = data.record.products;
-                } else {
-                    storeItems = [];
-                }
+                storeItems = (data && data.record && data.record.products) ? data.record.products : [];
                 drawProducts();
-            } catch (err) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">ডাটা লোড করা যায়নি। ইন্টারনেট সংযোগ চেক করুন।</p>';
-            }
+            } catch (e) { document.getElementById('productGrid').innerHTML = '<p style="color:red; text-align:center; grid-column:1/-1;">লোড সমস্যা!</p>'; }
         }
 
-        // প্রোডাক্ট ডিলিট করা
-        async function deleteProduct(id) {
-            if (!confirm('আপনি কি নিশ্চিতভাবে এই প্রোডাক্টটি মুছে ফেলতে চান?')) return;
-            var updatedList = storeItems.filter(function(item) {
-                return item.id !== id;
+        async function delItem(id) {
+            if (!confirm('ডিলিট করবেন?')) return;
+            var updated = storeItems.filter(function(x) { return x.id !== id; });
+            var res = await fetch(API_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
+                body: JSON.stringify({ products: updated })
             });
-
-            try {
-                var res = await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': MASTER_KEY
-                    },
-                    body: JSON.stringify({ products: updatedList })
-                });
-                if (res.ok) {
-                    storeItems = updatedList;
-                    drawProducts();
-                }
-            } catch (err) {
-                alert('ডিলিট করতে সমস্যা হয়েছে।');
-            }
+            if (res.ok) { storeItems = updated; drawProducts(); }
         }
 
-        // পেজে প্রোডাক্ট দেখানো
         function drawProducts(list) {
             var items = list || storeItems;
             var grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-
-            if (items.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#555;">এখনো কোনো প্রোডাক্ট যোগ করা হয়নি।</p>';
-                return;
-            }
-
+            grid.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1;">কোনো প্রোডাক্ট নেই।</p>';
             items.forEach(function(p) {
-                var waText = encodeURIComponent("আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n*পণ্য:* " + p.name + "\n*দাম:* " + p.price + " টাকা");
+                var wa = encodeURIComponent("অর্ডার করতে চাই:\nপণ্য: " + p.name + "\nদাম: " + p.price + " টাকা");
+                var del = isAdmin ? `<button class="btn-delete" onclick="delItem(${p.id})">ডিলিট</button>` : '';
+                grid.innerHTML += `<div class="product-card"><img src="${p.img}" class="product-img"><div class="product-info"><div class="product-title">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-price">৳ ${p.price}</div><a href="https://wa.me?text=${wa}" target="_blank" class="btn-order">WhatsApp অর্ডার</a>${del}</div></div>`;
+            });
+        }
+
+        function filterProducts() {
+            var q = document.getElementById('searchInput').value.toLowerCase();
+            drawProducts(storeItems.filter(function(p) { return p.name.toLowerCase().includes(q); }));
+        }
+        loadItems();
+    </script>
+</body>
+</html>
