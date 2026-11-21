@@ -24,16 +24,17 @@ function showAdminLogin() {
 
 function verifyAdminLogin() {
     const inputPass = document.getElementById('passVal').value.trim();
-    if (inputPass === 'chitro2026') {
+    if (inputPass === 'redstar(())') {
         adminActive = true;
         sessionStorage.setItem('cm_admin_v4', 'yes');
         document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('passVal').value = '';
         const box = document.getElementById('adminBox');
         box.style.display = 'block';
         box.scrollIntoView({ behavior: 'smooth' });
         drawProducts();
     } else {
-        alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন: chitro2026');
+        alert('ভুল পাসওয়ার্ড! আপনি অ্যাডমিন নন।');
     }
 }
 
