@@ -43,7 +43,7 @@
         .modal-img { width: 100%; max-height: 280px; object-fit: contain; margin-bottom: 15px; }
         .modal-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; color: #131921; }
         .modal-price { font-size: 26px; font-weight: 700; color: #b12704; margin-bottom: 15px; }
-        .modal-desc { font-size: 15px; line-height: 1.7; color: #333; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 6px; }
+        .modal-desc { font-size: 15px; line-height: 1.7; color: #333; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 6px; white-space: pre-line; }
         .premium-contact-section { background: #ffffff; border-top: 3px solid #ff9900; padding: 40px 20px; text-align: center; }
         .contact-title { font-size: 22px; font-weight: 700; color: #131921; margin-bottom: 24px; }
         .social-buttons-wrap { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
@@ -118,34 +118,29 @@
     <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">উপরে ফিরে যান</div>
     <footer><p>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</p></footer>
 
-        <script>
-        const SHEET_ID = "1sF027mH6l92qH6X58Y7Y_v2-0x4w3v1"; 
-        // আপনার শিটের আসল পাবলিক লিংক থেকে সরাসরি ডেটা আনার সবচেয়ে নিরাপদ পদ্ধতি:
-        const CSV_URL = "https://google.com";
-        const PROXY_URL = "https://allorigins.win" + encodeURIComponent(CSV_URL);
+    <script>
+        const SHEET_ID = "11Fz_Knf6gwIY1d3W2CbYl2RqLv1Usetubkjm6tDtFKl";
+        const GVIZ_URL = `https://google.com{SHEET_ID}/gviz/tq?tqx=out:json`;
 
         let allProducts = [];
         let cartCount = 0;
 
         async function loadProducts() {
             try {
-                let response;
-                try {
-                    response = await fetch(CSV_URL);
-                    if (!response.ok) throw new Error("Direct failed");
-                } catch (e) {
-                    response = await fetch(PROXY_URL);
-                }
-                const csvText = await response.text();
-                const rows = csvText.split(/\r?\n/).slice(1);
-                allProducts = rows.map(row => {
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    const rawName = (cols.shift() || "").replace(/^"|"$/g, '').trim();
-                    const rawPrice = (cols.shift() || "").replace(/^"|"$/g, '').trim();
-                    const rawImage = (cols.shift() || "").replace(/^"|"$/g, '').trim();
-                    const rawDetails = (cols.shift() || "").replace(/^"|"$/g, '').trim();
+                const response = await fetch(GVIZ_URL);
+                const text = await response.text();
+                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+                const data = JSON.parse(jsonString);
+                const rows = data.table.rows;
 
-                    if (rawName !== "") {
+                allProducts = rows.map(r => {
+                    const c = r.c || [];
+                    const rawName = c[0] && c[0].v ? String(c[0].v).trim() : "";
+                    const rawPrice = c[1] && c[1].v ? String(c[1].v).trim() : "";
+                    const rawImage = c[2] && c[2].v ? String(c[2].v).trim() : "";
+                    const rawDetails = c[3] && c[3].v ? String(c[3].v).trim() : "";
+
+                    if (rawName !== "" && rawName.toLowerCase() !== "name") {
                         return {
                             name: rawName,
                             price: rawPrice,
@@ -155,11 +150,13 @@
                     }
                     return null;
                 }).filter(item => item !== null);
+
                 renderProducts(allProducts);
             } catch (error) {
-                document.getElementById('statusSub').innerText = "পণ্য লোড করতে সমস্যা হয়েছে। দয়া করে পেজটি রিফ্রেশ দিন।";
+                document.getElementById('statusSub').innerText = "Google Sheet-এর Share পারমিশন 'Anyone with the link' করা আছে কি না তা চেক করুন।";
             }
         }
+
         function renderProducts(products) {
             const grid = document.getElementById('productGrid');
             const statusMsg = document.getElementById('statusMessage');
@@ -172,22 +169,22 @@
             statusMsg.style.display = 'none';
             products.forEach((product, index) => {
                 const waText = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে "${product.name}" (দাম: ৳${product.price}) পণ্যটি অর্ডার করতে চাই।`);
-                const waOrderLink = `https://wa.me{waText}`;
+                const waOrderLink = `https://wa.me?text=${waText}`;
                 const card = document.createElement('div');
                 card.className = 'product-card';
-                card.innerHTML = `<div><img src="${product.image}" alt="${product.name}" onclick="openModal(${index})"><div class="product-title" onclick="openModal(${index})">${product.name}</div><div class="product-details">${product.details.replace(/\|/g, ' • ')}</div></div><div><div class="dynamic-price"><span>৳</span>${product.price}</div><div class="btn-group"><button class="details-btn" onclick="openModal(${index})">বিস্তারিত দেখুন</button><a href="${waOrderLink}" target="_blank" class="amazon-btn" onclick="addToCart()">সরাসরি অর্ডার করুন</a></div></div>`;
+                card.innerHTML = `<div><img src="${product.image}" alt="${product.name}" onclick="openModal(${index})"><div class="product-title" onclick="openModal(${index})">${product.name}</div><div class="product-details">${product.details.replace(/\n/g, ' • ')}</div></div><div><div class="dynamic-price"><span>৳</span>${product.price}</div><div class="btn-group"><button class="details-btn" onclick="openModal(${index})">বিস্তারিত দেখুন</button><a href="${waOrderLink}" target="_blank" class="amazon-btn" onclick="addToCart()">সরাসরি অর্ডার করুন</a></div></div>`;
                 grid.appendChild(card);
             });
         }
 
         function openModal(index) {
-            const p = allProducts.at(index);
+            const p = allProducts[index];
             document.getElementById('mImg').src = p.image;
             document.getElementById('mTitle').innerText = p.name;
             document.getElementById('mPrice').innerText = '৳ ' + p.price;
-            document.getElementById('mDesc').innerHTML = p.details.split('|').map(line => `• ${line.trim()}`).join('<br>');
+            document.getElementById('mDesc').innerText = p.details;
             const waText = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে "${p.name}" (দাম: ৳${p.price}) পণ্যটি অর্ডার করতে চাই।`);
-            document.getElementById('mOrderBtn').href = `https://wa.me{waText}`;
+            document.getElementById('mOrderBtn').href = `https://wa.me?text=${waText}`;
             document.getElementById('productModal').style.display = 'flex';
         }
 
