@@ -1,207 +1,309 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #f3f3f3; color: #111; }
-        .top-notice { background: #232f3e; color: #ff9900; text-align: center; padding: 6px; font-size: 13px; font-weight: bold; }
-        header { background-color: #131921; color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
-        .logo span { color: #ff9900; }
-        .search-bar { display: flex; flex: 1; max-width: 500px; min-width: 220px; }
-        .search-bar input { width: 100%; padding: 9px 14px; border: none; border-radius: 4px 0 0 4px; font-size: 15px; outline: none; }
-        .search-bar button { background: #febd69; border: none; padding: 0 18px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; color: #111; }
-        .admin-btn { background: transparent; border: 1px solid #ff9900; color: #ff9900; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .hero { background: linear-gradient(135deg, #131921 0%, #232f3e 100%); color: white; padding: 40px 20px; text-align: center; }
-        .badge { display: inline-block; background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid #ff9900; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
-        .hero h1 { font-size: 30px; margin-bottom: 8px; }
-        .hero h1 span { color: #ff9900; }
-        .hero p { color: #ddd; max-width: 600px; margin: 0 auto 18px; font-size: 15px; }
-        .features { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .feat-pill { background: #fff; color: #111; padding: 7px 15px; border-radius: 25px; font-size: 13px; font-weight: bold; }
-        #adminBox { display: none; max-width: 550px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid #ff9900; }
-        #adminBox h3 { margin-bottom: 12px; color: #131921; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 4px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .btn-publish { background: #ff9900; color: #111; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 15px; }
-        .section-title { font-size: 22px; font-weight: bold; margin-bottom: 18px; border-left: 4px solid #ff9900; padding-left: 10px; color: #131921; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
-        .product-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
-        .product-img { width: 100%; height: 220px; object-fit: cover; background: #eee; }
-        .product-info { padding: 14px; }
-        .product-title { font-size: 17px; font-weight: bold; color: #0f1111; margin-bottom: 5px; }
-        .product-desc { font-size: 13px; color: #565959; margin-bottom: 10px; }
-        .product-price { font-size: 20px; font-weight: bold; color: #B12704; margin-bottom: 12px; }
-        .btn-order { display: block; text-align: center; background: #25D366; color: #fff; text-decoration: none; padding: 9px; border-radius: 5px; font-weight: bold; font-size: 15px; }
-        .btn-delete { background: #d9534f; color: white; border: none; padding: 6px; width: 100%; margin-top: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-        .contact-section { background: #fff; padding: 25px 15px; text-align: center; margin-top: 35px; border-top: 1px solid #ddd; }
-        .wa-box { display: inline-block; background: #e8f8f0; border: 2px solid #25D366; padding: 14px 24px; border-radius: 10px; margin-bottom: 12px; }
-        .wa-box h4 { color: #128C7E; font-size: 18px; }
-        .wa-box p { font-size: 15px; font-weight: bold; color: #111; margin: 4px 0; }
-        .wa-num { display: inline-block; background: #25D366; color: #fff; padding: 6px 18px; border-radius: 20px; font-weight: bold; font-size: 18px; text-decoration: none; margin-top: 5px; }
-        .fb-btn { display: inline-block; background: #1877F2; color: #fff; padding: 9px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; margin-top: 8px; }
-        footer { background: #131921; color: #ccc; text-align: center; padding: 14px; font-size: 14px; }
-        footer a { color: #ff9900; text-decoration: none; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: #fff; padding: 22px; border-radius: 8px; width: 310px; text-align: center; }
-        .modal-content input { width: 100%; padding: 9px; margin: 12px 0; border: 1px solid #ccc; border-radius: 4px; }
-        .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
+<link href="https://googleapis.com" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+body { background: #f4f6f9; color: #0f172a; display: flex; flex-direction: column; min-height: 100vh; }
+
+.top-bar { background: linear-gradient(90deg, #020617, #1e293b, #020617); color: #f8fafc; text-align: center; padding: 9px; font-size: 13.5px; border-bottom: 1px solid rgba(245, 158, 11, 0.3); }
+.top-bar span { color: #fbbf24; font-weight: 700; }
+
+header { background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(10px); color: #fff; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.25); }
+.logo { font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
+.logo span { color: #f59e0b; }
+
+.search-box { flex: 1; max-width: 500px; display: flex; background: #fff; border-radius: 50px; padding: 4px; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+.search-box input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; outline: none; font-size: 15px; }
+.search-box button { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.search-box button:hover { filter: brightness(1.1); }
+
+.hdr-btn { background: #131b2e; color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.6); padding: 8px 18px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.25s; }
+.hdr-btn:hover { background: #f59e0b; color: #000; }
+
+.hero { background: radial-gradient(circle at 75% 25%, #1e293b 0%, #090d16 75%); color: #fff; text-align: center; padding: 75px 5% 95px; position: relative; }
+.hero-badge { display: inline-block; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+.hero h1 { font-size: 44px; margin-bottom: 12px; font-weight: 700; letter-spacing: -0.5px; }
+.hero h1 span { color: #f59e0b; }
+.hero p { color: #cbd5e1; font-size: 17px; max-width: 620px; margin: 0 auto; line-height: 1.6; }
+
+.trust-row { max-width: 1180px; margin: -42px auto 38px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; position: relative; z-index: 10; }
+.trust-card { background: #fff; padding: 18px 20px; border-radius: 14px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07); border: 1px solid #e2e8f0; font-weight: 700; font-size: 15.5px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #0f172a; transition: 0.25s; }
+.trust-card:hover { transform: translateY(-4px); border-color: #f59e0b; box-shadow: 0 14px 30px rgba(245, 158, 11, 0.15); }
+.trust-card.wa-link-card { border-color: rgba(37, 211, 102, 0.5); cursor: pointer; }
+.trust-card.wa-link-card:hover { background: #f0fdf4; border-color: #25D366; }
+
+.container { max-width: 1180px; width: 100%; margin: 0 auto 55px; padding: 0 20px; flex: 1; }
+.sec-head { font-size: 25px; font-weight: 700; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+.sec-head::before { content: ""; width: 6px; height: 26px; background: #f59e0b; border-radius: 4px; display: inline-block; }
+
+.admin-box { display: none; background: #fff; border: 2px solid #f59e0b; border-radius: 16px; padding: 24px; margin-bottom: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.admin-grid input, .admin-grid textarea { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+.admin-grid textarea { grid-column: 1 / -1; height: 95px; }
+.btn-main { grid-column: 1 / -1; background: #090d16; color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-main:hover { background: #f59e0b; color: #000; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
+.card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; position: relative; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+.card:hover { transform: translateY(-6px); border-color: #f59e0b; box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12); }
+.del-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; z-index: 5; }
+.img-box { width: 100%; height: 260px; padding: 14px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: #fff; }
+.img-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.3s; }
+.card:hover .img-box img { transform: scale(1.05); }
+.card-body { padding: 18px; }
+.card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; cursor: pointer; color: #0f172a; }
+.card-price { font-size: 22px; font-weight: 700; color: #b91c1c; margin-bottom: 14px; }
+.btn-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 9px; }
+.btn-det { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.btn-det:hover { background: #e2e8f0; }
+.btn-buy { background: #25D366; color: #fff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 14px; text-align: center; display: block; transition: 0.2s; }
+.btn-buy:hover { background: #1ebe5d; }
+
+.empty-box { background: #fff; border: 2px dashed #cbd5e1; border-radius: 18px; padding: 65px 20px; text-align: center; grid-column: 1 / -1; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.modal { display: none; position: fixed; inset: 0; background: rgba(9, 13, 22, 0.8); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 15px; }
+.modal-card { background: #fff; max-width: 740px; width: 100%; border-radius: 18px; padding: 26px; max-height: 90vh; overflow-y: auto; position: relative; }
+.close-x { position: absolute; right: 18px; top: 12px; font-size: 28px; cursor: pointer; font-weight: 700; color: #64748b; }
+
+.contact-sec { background: #fff; border-top: 1px solid #e2e8f0; padding: 55px 20px; text-align: center; }
+.contact-sec h2 { font-size: 28px; margin-bottom: 24px; color: #090d16; }
+.soc-btns { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; align-items: center; }
+.wa-custom-box { border: 2px solid #25D366; background: #f0fdf4; padding: 14px 26px; border-radius: 16px; display: inline-flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: #0f172a; transition: 0.25s; }
+.wa-custom-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37,211,102,0.25); }
+.soc-pill { display: inline-flex; align-items: center; gap: 10px; padding: 14px 30px; border-radius: 50px; color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; transition: 0.25s; }
+.soc-pill:hover { transform: translateY(-3px); }
+footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px; font-size: 14px; border-top: 1px solid #1e293b; }
+@media(max-width: 650px) { .admin-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 30px; } }
+</style>
 </head>
 <body>
-    <div class="top-notice">🚚 সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
-    <header>
-        <a href="#" class="logo">Chitro <span>mart bd</span></a>
-        <div class="search-bar">
-            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="আপনার পছন্দের পণ্য খুঁজুন...">
-            <button onclick="filterProducts()">খুঁজুন</button>
-        </div>
-        <button type="button" class="admin-btn" onclick="openAdmin()">🔒 অ্যাডমিন</button>
-    </header>
-    <section class="hero">
-        <div class="badge">✨ ১০০% অরিজিনাল ও প্রিমিয়াম কালেকশন</div>
-        <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
-        <p>সেরা মানের এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
-        <div class="features">
-            <div class="feat-pill">📦 ক্যাশ অন ডেলিভারি</div>
-            <div class="feat-pill">⭐ ১০০% প্রিমিয়াম কোয়ালিটি</div>
-            <div class="feat-pill">🎧 দ্রুত WhatsApp সাপোর্ট</div>
-        </div>
-    </section>
+<div class="top-bar">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
+<header>
+  <a href="#" class="logo">Chitro <span>mart bd</span></a>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="drawProducts()">
+    <button type="button" onclick="drawProducts()">খুঁজুন</button>
+  </div>
+  <button type="button" class="hdr-btn" onclick="document.getElementById('loginModal').style.display='flex'">🔐 অ্যাডমিন</button>
+</header>
+<section class="hero">
+  <div class="hero-badge">১০০% অরিজিনাল ও প্রিমিয়াম কালেকশন</div>
+  <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
+  <p>সেরা মানের ও এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
+</section>
 
-    <div id="adminBox">
-        <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
-        <div class="form-group"><label>প্রোডাক্টের নাম:</label><input type="text" id="pName"></div>
-        <div class="form-group"><label>দাম (টাকায়):</label><input type="number" id="pPrice"></div>
-        <div class="form-group"><label>ছবির লিংক (URL):</label><input type="text" id="pImgUrl" placeholder="https://..."></div>
-        <div class="form-group"><label>বিবরণ:</label><textarea id="pDesc" rows="2"></textarea></div>
-        <button type="button" class="btn-publish" id="pubBtn" onclick="publishProduct()">পাবলিশ করুন</button>
+<div class="trust-row">
+  <div class="trust-card">🚚 সারা দেশে হোম ডেলিভারি</div>
+  <div class="trust-card">💵 ক্যাশ অন ডেলিভারি</div>
+  <div class="trust-card">✨ ১০০% প্রিমিয়াম কোয়ালিটি</div>
+  <a href="https://wa.me" target="_blank" rel="noopener noreferrer" class="trust-card wa-link-card">🎧 দ্রুত WhatsApp সাপোর্ট</a>
+</div>
+
+<main class="container">
+  <div id="adminBox" class="admin-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
+      <button type="button" onclick="exitAdmin()" style="background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">লগআউট</button>
     </div>
-
-    <div class="container">
-        <div class="section-title">🔥 আমাদের সেরা কালেকশন</div>
-        <div class="products-grid" id="productGrid"><p style="text-align:center; grid-column:1/-1;">লোড হচ্ছে...</p></div>
+    <div class="admin-grid">
+      <input type="text" id="pName" placeholder="প্রোডাক্টের নাম লিখুন *">
+      <input type="number" id="pPrice" placeholder="বর্তমান দাম (যেমন: 860) *">
+      <input type="file" id="pFile" accept="image/*" onchange="handlePhoto(this)">
+      <input type="text" id="pLink" placeholder="অথবা ছবির ডিরেক্ট লিংক দিন">
+      <textarea id="pDesc" placeholder="বাংলায় প্রোডাক্টের বিস্তারিত বিবরণ ও সাইজ লিখুন..."></textarea>
+      <button type="button" id="pubBtn" class="btn-main" onclick="saveNewItem()">প্রোডাক্ট পাবলিশ করুন</button>
     </div>
+  </div>
+  <div class="sec-head">আমাদের কালেকশন</div>
+  <div id="gridArea" class="grid"></div>
+</main>
 
-    <div class="contact-section">
-        <div class="wa-box">
-            <h4>whats app</h4>
-            <p>order confirm korte zodazod korun</p>
-            <a href="https://wa.me" target="_blank" class="wa-num">01767068529</a>
-        </div><br>
-        <a href="https://facebook.com" target="_blank" class="fb-btn">📘 Chitro mart bd ফেসবুক পেজ</a>
-    </div>
+<div id="loginModal" class="modal">
+  <div class="modal-card" style="max-width:350px;text-align:center;">
+    <span class="close-x" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
+    <h3>🔐 অ্যাডমিন লগইন</h3>
+    <input type="password" id="passVal" placeholder="গোপন পাসওয়ার্ড দিন" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
+    <button type="button" class="btn-main" style="width:100%;" onclick="verifyAdminLogin()">প্রবেশ করুন</button>
+  </div>
+</div>
 
-    <footer>&copy; 2026 Chitro mart bd. সর্বস্বত্ব সংরক্ষিত। | <a href="https://facebook.com" target="_blank">আমাদের ফেসবুক পেজ ভিজিট করুন</a></footer>
+<div id="detailModal" class="modal">
+  <div class="modal-card">
+    <span class="close-x" onclick="document.getElementById('detailModal').style.display='none'">&times;</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
 
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <h3>অ্যাডমিন লগইন</h3>
-            <input type="password" id="passVal" placeholder="পাসওয়ার্ড (1234)">
-            <div class="modal-btns">
-                <button type="button" style="background:#ff9900;" onclick="doLogin()">লগইন</button>
-                <button type="button" style="background:#ccc;" onclick="closeLogin()">বাতিল</button>
-            </div>
-        </div>
-    </div>
+<section class="contact-sec">
+  <h2>অর্ডার করতে যোগাযোগ করুন</h2>
+  <div class="soc-btns">
+    <a href="https://wa.me" target="_blank" rel="noopener noreferrer" class="wa-custom-box">
+      <span style="color:#16a34a;font-weight:700;font-size:18px;">whats app</span>
+      <span style="color:#334155;font-size:15px;font-weight:600;">order confirm korte zodazod korun</span>
+      <span style="background:#25D366;color:#fff;padding:6px 20px;border-radius:50px;font-weight:700;font-size:17px;">01767068529</span>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61596351826814" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#1877F2;box-shadow:0 6px 20px rgba(24,119,242,0.35);">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+      <span>Chitro mart bd ফেসবুক পেজ</span>
+    </a>
+  </div>
+</section>
 
-    <script>
-        var BIN_ID = "6b01efb9ac6210605a9a8909";
-        var MASTER_KEY = "$2a$10$S30MqmbM63CxaURxbezmLuIf.878qOeBSoZMSuG3yhPBjol7A4bOe";
-        var API_URL = "https://jsonbin.io" + BIN_ID;
-        var storeItems = [];
-        var isAdmin = false;
+<footer>
+  &copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত। | 
+  <a href="https://www.facebook.com/profile.php?id=61596351826814" target="_blank" rel="noopener noreferrer" style="color:#fbbf24;text-decoration:none;font-weight:600;">আমাদের ফেসবুক পেজ ভিজিট করুন</a>
+</footer>
 
-        function openAdmin() {
-            if (isAdmin) {
-                var box = document.getElementById('adminBox');
-                box.style.display = (box.style.display === 'block') ? 'none' : 'block';
-            } else {
-                document.getElementById('loginModal').style.display = 'flex';
-            }
+<script>
+var DB_URL = 'https://firebaseio.com';
+var storeItems = [];
+var adminActive = sessionStorage.getItem('cm_admin_ok') === 'yes';
+var base64Photo = '';
+
+if (adminActive) document.getElementById('adminBox').style.display = 'block';
+
+function verifyAdminLogin() {
+  if (document.getElementById('passVal').value.trim() === 'redstar(())') {
+    adminActive = true;
+    sessionStorage.setItem('cm_admin_ok', 'yes');
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('passVal').value = '';
+    document.getElementById('adminBox').style.display = 'block';
+    drawProducts();
+  } else { alert('ভুল পাসওয়ার্ড!'); }
+}
+
+function exitAdmin() {
+  adminActive = false;
+  sessionStorage.removeItem('cm_admin_ok');
+  document.getElementById('adminBox').style.display = 'none';
+  drawProducts();
+}
+
+function handlePhoto(input) {
+  var file = input.files.item(0);
+  if (!file) return;
+  var btn = document.getElementById('pubBtn');
+  if (btn) btn.innerText = 'ছবি প্রসেস হচ্ছে... অপেক্ষা করুন';
+  var r = new FileReader();
+  r.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var c = document.createElement('canvas');
+      c.width = 450;
+      c.height = img.height * (450 / img.width);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      base64Photo = c.toDataURL('image/jpeg', 0.72);
+      if (btn) btn.innerText = '✅ ছবি রেডি! এখন প্রোডাক্ট পাবলিশ করুন';
+    };
+    img.src = e.target.result;
+  };
+  r.readAsDataURL(file);
+}
+
+async function loadCloudItems() {
+  try {
+    var res = await fetch(DB_URL + '.json');
+    var data = await res.json();
+    storeItems = [];
+    if (data) {
+      for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+          var item = data[key];
+          item.fbKey = key;
+          storeItems.unshift(item);
         }
-        function closeLogin() { document.getElementById('loginModal').style.display = 'none'; }
-        function doLogin() {
-            if (document.getElementById('passVal').value === "1234") {
-                isAdmin = true;
-                closeLogin();
-                document.getElementById('adminBox').style.display = 'block';
-                drawProducts();
-            } else { alert('ভুল পাসওয়ার্ড!'); }
-        }
+      }
+    }
+    drawProducts();
+  } catch (err) {
+    drawProducts();
+  }
+}
 
-        async function publishProduct() {
-            var name = document.getElementById('pName').value.trim();
-            var price = document.getElementById('pPrice').value.trim();
-            var img = document.getElementById('pImgUrl').value.trim() || 'https://placeholder.com';
-            var desc = document.getElementById('pDesc').value.trim();
-            if (!name || !price) { alert('নাম ও দাম দিন!'); return; }
+async function saveNewItem() {
+  var name = document.getElementById('pName').value.trim();
+  var price = Number(document.getElementById('pPrice').value);
+  var linkVal = document.getElementById('pLink').value.trim();
+  var img = base64Photo || linkVal;
+  var desc = document.getElementById('pDesc').value.trim() || '১০০% প্রিমিয়াম কোয়ালিটি পণ্য।';
 
-            var btn = document.getElementById('pubBtn');
-            btn.innerText = 'সেভ হচ্ছে...';
-            var updated = [{ id: Date.now(), name: name, price: price, img: img, desc: desc }].concat(storeItems);
+  if (!name || !price) { alert('দয়া করে প্রোডাক্টের নাম এবং দাম লিখুন!'); return; }
+  if (!img) { alert('ছবি সিলেক্ট করে ২ সেকেন্ড অপেক্ষা করুন অথবা ছবির লিংক দিন।'); return; }
 
-            try {
-                var res = await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
-                    body: JSON.stringify({ products: updated })
-                });
-                if (res.ok) {
-                    alert('প্রোডাক্ট যোগ হয়েছে!');
-                    storeItems = updated;
-                    drawProducts();
-                    document.getElementById('pName').value = '';
-                    document.getElementById('pPrice').value = '';
-                    document.getElementById('pImgUrl').value = '';
-                    document.getElementById('pDesc').value = '';
-                } else { alert('সেভ হয়নি!'); }
-            } catch (e) { alert('নেটওয়ার্ক সমস্যা!'); }
-            btn.innerText = 'পাবলিশ করুন';
-        }
+  var btn = document.getElementById('pubBtn');
+  if (btn) { btn.innerText = 'পাবলিশ হচ্ছে...'; btn.disabled = true; }
 
-        async function loadItems() {
-            try {
-                var res = await fetch(API_URL + "/latest", { headers: { 'X-Master-Key': MASTER_KEY } });
-                var data = await res.json();
-                storeItems = (data && data.record && data.record.products) ? data.record.products : [];
-                drawProducts();
-            } catch (e) { document.getElementById('productGrid').innerHTML = '<p style="color:red; text-align:center; grid-column:1/-1;">লোড সমস্যা!</p>'; }
-        }
+  try {
+    var res = await fetch(DB_URL + '.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: Date.now(), name: name, price: price, img: img, desc: desc })
+    });
+    if (!res.ok) {
+      alert('Firebase পারমিশন এরর! Firebase Console-এ গিয়ে Realtime Database > Rules-এ .write: true করে Publish করুন।');
+      return;
+    }
+    base64Photo = '';
+    document.getElementById('pName').value = '';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pFile').value = '';
+    document.getElementById('pLink').value = '';
+    document.getElementById('pDesc').value = '';
+    await loadCloudItems();
+    alert('অভিনন্দন! প্রোডাক্ট সফলভাবে পাবলিশ হয়েছে।');
+  } catch (err) {
+    alert('সমস্যা হয়েছে: ' + err.message);
+  } finally {
+    if (btn) { btn.innerText = 'প্রোডাক্ট পাবলিশ করুন'; btn.disabled = false; }
+  }
+}
 
-        async function delItem(id) {
-            if (!confirm('ডিলিট করবেন?')) return;
-            var updated = storeItems.filter(function(x) { return x.id !== id; });
-            var res = await fetch(API_URL, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'X-Master-Key': MASTER_KEY },
-                body: JSON.stringify({ products: updated })
-            });
-            if (res.ok) { storeItems = updated; drawProducts(); }
-        }
+async function deleteItem(fbKey) {
+  if (confirm('ডিলিট করবেন?')) {
+    await fetch(DB_URL + '/' + fbKey + '.json', { method: 'DELETE' });
+    await loadCloudItems();
+  }
+}
 
-        function drawProducts(list) {
-            var items = list || storeItems;
-            var grid = document.getElementById('productGrid');
-            grid.innerHTML = items.length ? '' : '<p style="text-align:center; grid-column:1/-1;">কোনো প্রোডাক্ট নেই।</p>';
-            items.forEach(function(p) {
-                var wa = encodeURIComponent("অর্ডার করতে চাই:\nপণ্য: " + p.name + "\nদাম: " + p.price + " টাকা");
-                var del = isAdmin ? `<button class="btn-delete" onclick="delItem(${p.id})">ডিলিট</button>` : '';
-                grid.innerHTML += `<div class="product-card"><img src="${p.img}" class="product-img"><div class="product-info"><div class="product-title">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-price">৳ ${p.price}</div><a href="https://wa.me?text=${wa}" target="_blank" class="btn-order">WhatsApp অর্ডার</a>${del}</div></div>`;
-            });
-        }
+function getWaUrl(name, price) {
+  var myNum = '8801767068529';
+  var cleanName = String(name).replace(/[^a-zA-Z0-9\u0980-\u09FF ]/g, ' ');
+  var text = 'Order from Chitro mart bd - Product: ' + cleanName + ' | Price: ' + price + ' Tk';
+  return 'https://wa.me' + myNum + '?text=' + encodeURIComponent(text);
+}
 
-        function filterProducts() {
-            var q = document.getElementById('searchInput').value.toLowerCase();
-            drawProducts(storeItems.filter(function(p) { return p.name.toLowerCase().includes(q); }));
-        }
-        loadItems();
-    </script>
-</body>
-</html>
+function drawProducts() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var list = storeItems.filter(function(x) { return x.name.toLowerCase().indexOf(q) > -1; });
+  var grid = document.getElementById('gridArea');
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-box"><div style="font-size:48px;">🛍️</div><h3>আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(p) {
+    var del = adminActive ? '<button type="button" class="del-btn" onclick="deleteItem(\'' + p.fbKey + '\')">ডিলিট ✕</button>' : '';
+    var waLink = getWaUrl(p.name, p.price);
+    return '<div class="card">' + del +
+      '<div class="img-box" onclick="openDetails(\'' + p.fbKey + '\')"><img src="' + p.img + '"></div>' +
+      '<div class="card-body"><div class="card-title" onclick="openDetails(\'' + p.fbKey + '\')">' + p.name + '</div>' +
+      '<div class="card-price">৳' + p.price + '</div>' +
+      '<div class="btn-row">' +
+        '<button type="button" class="btn-det" onclick="openDetails(\'' + p.fbKey + '\')">বিস্তারিত দেখুন</button>' +
+        '<a href="' + waLink + '" target="_blank" rel="noopener noreferrer" class="btn-buy">Order Now</a>' +
+      '</div></div></div>';
+  }).join('');
+}
+
+function openDetails(fbKey) {
+  var p = storeItems.find(function(x) { return x.fbKey === fbKey; });
+  if (!p) return;
+  var waLink = getWaUrl(p.name, p.price);
+  document.getElementById('modalBody').innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;align-items:start;">' +
+      '<img src="' + p.img + '" style="width:100%;max-height:320px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;padding:10px;">' +
+      '<div>' +
+        '<h2 style="font-size:23px;margin-bottom:6px;">' + p.name + '</h2>' +
+        '<div class="card-price">৳' + p.price + '</div>' +
