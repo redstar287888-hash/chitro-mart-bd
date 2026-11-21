@@ -10,20 +10,20 @@
 body { background: #f4f6f9; color: #0f172a; display: flex; flex-direction: column; min-height: 100vh; }
 .top-bar { background: linear-gradient(90deg, #020617, #1e293b, #020617); color: #f8fafc; text-align: center; padding: 9px; font-size: 13.5px; border-bottom: 1px solid rgba(245, 158, 11, 0.3); }
 .top-bar span { color: #fbbf24; font-weight: 700; }
-header { background: rgba(9, 13, 22, 0.96); color: #fff; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.25); }
+header { background: #090d16; color: #fff; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.25); }
 .logo { font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; }
 .logo span { color: #f59e0b; }
-.search-box { flex: 1; max-width: 500px; display: flex; background: #fff; border-radius: 50px; padding: 4px; }
+.search-box { flex: 1; max-width: 480px; display: flex; background: #fff; border-radius: 50px; padding: 4px; }
 .search-box input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; outline: none; font-size: 15px; }
-.search-box button { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; }
-.hdr-btn { background: #131b2e; color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.6); padding: 8px 18px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 14px; }
-.hdr-btn:hover { background: #f59e0b; color: #000; }
-.hero { background: radial-gradient(circle at 75% 25%, #1e293b 0%, #090d16 75%); color: #fff; text-align: center; padding: 75px 5% 95px; }
+.search-box button { background: #f59e0b; color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; }
+.hdr-btn { background: #f59e0b; color: #000; border: none; padding: 9px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+.hdr-btn:hover { background: #fbbf24; }
+.hero { background: radial-gradient(circle at 75% 25%, #1e293b 0%, #090d16 75%); color: #fff; text-align: center; padding: 70px 5% 90px; }
 .hero-badge { display: inline-block; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-.hero h1 { font-size: 44px; margin-bottom: 12px; font-weight: 700; }
+.hero h1 { font-size: 42px; margin-bottom: 12px; font-weight: 700; }
 .hero h1 span { color: #f59e0b; }
 .hero p { color: #cbd5e1; font-size: 17px; max-width: 620px; margin: 0 auto; line-height: 1.6; }
-.trust-row { max-width: 1180px; margin: -42px auto 38px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; position: relative; z-index: 10; }
+.trust-row { max-width: 1180px; margin: -40px auto 38px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; position: relative; z-index: 10; }
 .trust-card { background: #fff; padding: 18px 20px; border-radius: 14px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07); border: 1px solid #e2e8f0; font-weight: 700; font-size: 15.5px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #0f172a; }
 .container { max-width: 1180px; width: 100%; margin: 0 auto 55px; padding: 0 20px; flex: 1; }
 .sec-head { font-size: 25px; font-weight: 700; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
@@ -46,7 +46,7 @@ header { background: rgba(9, 13, 22, 0.96); color: #fff; padding: 15px 5%; displ
 .btn-det { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
 .btn-buy { background: #25D366; color: #fff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 14px; text-align: center; display: block; }
 .empty-box { background: #fff; border: 2px dashed #cbd5e1; border-radius: 18px; padding: 65px 20px; text-align: center; grid-column: 1 / -1; }
-.modal { display: none; position: fixed; inset: 0; background: rgba(9, 13, 22, 0.8); z-index: 999; align-items: center; justify-content: center; padding: 15px; }
+.modal { display: none; position: fixed; inset: 0; background: rgba(9, 13, 22, 0.85); z-index: 9999; align-items: center; justify-content: center; padding: 15px; }
 .modal-card { background: #fff; max-width: 740px; width: 100%; border-radius: 18px; padding: 26px; max-height: 90vh; overflow-y: auto; position: relative; }
 .close-x { position: absolute; right: 18px; top: 12px; font-size: 28px; cursor: pointer; font-weight: 700; color: #64748b; }
 .contact-sec { background: #fff; border-top: 1px solid #e2e8f0; padding: 55px 20px; text-align: center; }
@@ -65,7 +65,7 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px;
     <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="drawProducts()">
     <button type="button" onclick="drawProducts()">খুঁজুন</button>
   </div>
-  <button type="button" class="hdr-btn" onclick="if(sessionStorage.getItem('cm_admin_ok')==='yes'){document.getElementById('adminBox').style.display='block';}else{document.getElementById('loginModal').style.display='flex';}">🔐 অ্যাডমিন</button>
+  <button type="button" class="hdr-btn" onclick="if(sessionStorage.getItem('cm_admin_ok')==='yes'){document.getElementById('adminBox').style.display='block';}else{document.getElementById('loginModal').style.display='flex';}">🔐 অ্যাডমিন লগইন</button>
 </header>
 
 <section class="hero">
@@ -101,7 +101,7 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px;
 </main>
 
 <div id="loginModal" class="modal">
-  <div class="modal-card" style="max-width:350px;text-align:center;">
+  <div class="modal-card" style="max-width:360px;text-align:center;">
     <span class="close-x" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
     <h3>🔐 অ্যাডমিন লগইন</h3>
-    <input type="password" id="passVal" placeholder="গোপন পাসওয়ার্ড দিন" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
+    <input type="password" id="passVal" placeholder="পাসওয়ার্ড দিন (redstar(()))" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
