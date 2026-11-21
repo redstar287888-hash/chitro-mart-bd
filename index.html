@@ -232,11 +232,10 @@ function deleteItem(id) {
   }
 }
 
-function getWaUrl(name, price) {
+ function getWaUrl(name, price) {
   var text = 'আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n\nপণ্য: ' + name + '\nদাম: ৳' + price;
-  return 'https://whatsapp.com&text=' + encodeURIComponent(text);
+  return 'https://wa.me' + encodeURIComponent(text);
 }
-
 function drawProducts() {
   var q = document.getElementById('searchInput').value.toLowerCase();
   var list = storeItems.filter(function(x) { return x.name.toLowerCase().indexOf(q) > -1; });
