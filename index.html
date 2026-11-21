@@ -7,51 +7,73 @@
 <link href="https://googleapis.com" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
-body { background: #f1f5f9; color: #0f172a; display: flex; flex-direction: column; min-height: 100vh; }
-.top-bar { background: #020617; color: #fff; text-align: center; padding: 8px; font-size: 13px; }
-.top-bar span { color: #f59e0b; font-weight: 700; }
-header { background: #090d16; color: #fff; padding: 14px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-.logo { font-size: 26px; font-weight: 700; color: #fff; text-decoration: none; }
+body { background: #f4f6f9; color: #0f172a; display: flex; flex-direction: column; min-height: 100vh; }
+
+.top-bar { background: linear-gradient(90deg, #020617, #1e293b, #020617); color: #f8fafc; text-align: center; padding: 9px; font-size: 13.5px; border-bottom: 1px solid rgba(245, 158, 11, 0.3); }
+.top-bar span { color: #fbbf24; font-weight: 700; }
+
+header { background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(10px); color: #fff; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 25px rgba(0,0,0,0.25); }
+.logo { font-size: 28px; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
 .logo span { color: #f59e0b; }
-.search-box { flex: 1; max-width: 480px; display: flex; background: #fff; border-radius: 50px; padding: 3px; }
-.search-box input { flex: 1; border: none; padding: 8px 16px; border-radius: 50px; outline: none; font-size: 15px; }
-.search-box button { background: #f59e0b; border: none; padding: 8px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; }
-.hdr-btn { background: #131b2e; color: #f59e0b; border: 1px solid #f59e0b; padding: 8px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 14px; }
-.hero { background: linear-gradient(135deg, #090d16, #1e293b); color: #fff; text-align: center; padding: 60px 5% 75px; }
-.hero h1 { font-size: 38px; margin-bottom: 10px; }
+
+.search-box { flex: 1; max-width: 500px; display: flex; background: #fff; border-radius: 50px; padding: 4px; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+.search-box input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; outline: none; font-size: 15px; }
+.search-box button { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.search-box button:hover { filter: brightness(1.1); }
+
+.hdr-btn { background: #131b2e; color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.6); padding: 8px 18px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.25s; }
+.hdr-btn:hover { background: #f59e0b; color: #000; }
+
+.hero { background: radial-gradient(circle at 75% 25%, #1e293b 0%, #090d16 75%); color: #fff; text-align: center; padding: 75px 5% 95px; position: relative; }
+.hero-badge { display: inline-block; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+.hero h1 { font-size: 44px; margin-bottom: 12px; font-weight: 700; letter-spacing: -0.5px; }
 .hero h1 span { color: #f59e0b; }
-.hero p { color: #cbd5e1; font-size: 16px; max-width: 600px; margin: 0 auto; }
-.trust-row { max-width: 1150px; margin: -30px auto 30px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
-.trust-card { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); font-weight: 700; text-align: center; }
-.container { max-width: 1150px; width: 100%; margin: 0 auto 45px; padding: 0 20px; flex: 1; }
-.admin-box { display: none; background: #fff; border: 2px solid #f59e0b; border-radius: 14px; padding: 22px; margin-bottom: 30px; }
+.hero p { color: #cbd5e1; font-size: 17px; max-width: 620px; margin: 0 auto; line-height: 1.6; }
+
+.trust-row { max-width: 1180px; margin: -42px auto 38px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; position: relative; z-index: 10; }
+.trust-card { background: #fff; padding: 18px 20px; border-radius: 14px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07); border: 1px solid #e2e8f0; font-weight: 700; font-size: 15.5px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; color: #0f172a; transition: 0.25s; }
+.trust-card:hover { transform: translateY(-4px); border-color: #f59e0b; box-shadow: 0 14px 30px rgba(245, 158, 11, 0.15); }
+.trust-card.wa-link-card { border-color: rgba(37, 211, 102, 0.5); cursor: pointer; }
+.trust-card.wa-link-card:hover { background: #f0fdf4; border-color: #25D366; }
+
+.container { max-width: 1180px; width: 100%; margin: 0 auto 55px; padding: 0 20px; flex: 1; }
+.sec-head { font-size: 25px; font-weight: 700; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+.sec-head::before { content: ""; width: 6px; height: 26px; background: #f59e0b; border-radius: 4px; display: inline-block; }
+
+.admin-box { display: none; background: #fff; border: 2px solid #f59e0b; border-radius: 16px; padding: 24px; margin-bottom: 35px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
 .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-.admin-grid input, .admin-grid textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
+.admin-grid input, .admin-grid textarea { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
 .admin-grid textarea { grid-column: 1 / -1; height: 95px; }
-.btn-main { grid-column: 1 / -1; background: #090d16; color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
-.card { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: 0.25s; }
-.card:hover { transform: translateY(-4px); border-color: #f59e0b; }
+.btn-main { grid-column: 1 / -1; background: #090d16; color: #fff; border: none; padding: 13px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-main:hover { background: #f59e0b; color: #000; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
+.card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; position: relative; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+.card:hover { transform: translateY(-6px); border-color: #f59e0b; box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12); }
 .del-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; font-weight: 700; cursor: pointer; z-index: 5; }
-.img-box { width: 100%; height: 250px; padding: 12px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
-.img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.card-body { padding: 16px; }
-.card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; cursor: pointer; }
-.card-price { font-size: 21px; font-weight: 700; color: #b91c1c; margin-bottom: 12px; }
-.btn-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8px; }
-.btn-det { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; }
-.btn-buy { background: #25D366; color: #fff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 14px; text-align: center; display: block; }
-.empty-box { background: #fff; border: 2px dashed #cbd5e1; border-radius: 14px; padding: 55px 20px; text-align: center; grid-column: 1 / -1; }
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 999; align-items: center; justify-content: center; padding: 15px; }
-.modal-card { background: #fff; max-width: 720px; width: 100%; border-radius: 16px; padding: 25px; max-height: 90vh; overflow-y: auto; position: relative; }
-.close-x { position: absolute; right: 16px; top: 10px; font-size: 28px; cursor: pointer; font-weight: 700; color: #64748b; }
-.contact-sec { background: #fff; border-top: 1px solid #e2e8f0; padding: 50px 20px; text-align: center; }
-.contact-sec h2 { font-size: 26px; margin-bottom: 22px; }
-.soc-btns { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-.soc-pill { display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px; border-radius: 50px; color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; transition: 0.2s; }
-.soc-pill:hover { transform: translateY(-2px); }
-footer { background: #090d16; color: #94a3b8; text-align: center; padding: 20px; font-size: 14px; }
-@media(max-width: 650px) { .admin-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 28px; } }
+.img-box { width: 100%; height: 260px; padding: 14px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: #fff; }
+.img-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.3s; }
+.card:hover .img-box img { transform: scale(1.05); }
+.card-body { padding: 18px; }
+.card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; cursor: pointer; color: #0f172a; }
+.card-price { font-size: 22px; font-weight: 700; color: #b91c1c; margin-bottom: 14px; }
+.btn-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 9px; }
+.btn-det { background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.btn-det:hover { background: #e2e8f0; }
+.btn-buy { background: #25D366; color: #fff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 14px; text-align: center; display: block; transition: 0.2s; }
+.btn-buy:hover { background: #1ebe5d; }
+
+.empty-box { background: #fff; border: 2px dashed #cbd5e1; border-radius: 18px; padding: 65px 20px; text-align: center; grid-column: 1 / -1; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.modal { display: none; position: fixed; inset: 0; background: rgba(9, 13, 22, 0.8); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 15px; }
+.modal-card { background: #fff; max-width: 740px; width: 100%; border-radius: 18px; padding: 26px; max-height: 90vh; overflow-y: auto; position: relative; }
+.close-x { position: absolute; right: 18px; top: 12px; font-size: 28px; cursor: pointer; font-weight: 700; color: #64748b; }
+
+.contact-sec { background: #fff; border-top: 1px solid #e2e8f0; padding: 55px 20px; text-align: center; }
+.contact-sec h2 { font-size: 28px; margin-bottom: 24px; color: #090d16; }
+.soc-btns { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+.soc-pill { display: inline-flex; align-items: center; gap: 10px; padding: 14px 30px; border-radius: 50px; color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; transition: 0.25s; }
+.soc-pill:hover { transform: translateY(-3px); }
+footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px; font-size: 14px; border-top: 1px solid #1e293b; }
+@media(max-width: 650px) { .admin-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 30px; } }
 </style>
 </head>
 <body>
@@ -66,6 +88,7 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 20px;
 </header>
 
 <section class="hero">
+  <div class="hero-badge">১০০% অরিজিনাল ও প্রিমিয়াম কালেকশন</div>
   <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
   <p>সেরা মানের ও এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
 </section>
@@ -74,9 +97,8 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 20px;
   <div class="trust-card">🚚 সারা দেশে হোম ডেলিভারি</div>
   <div class="trust-card">💵 ক্যাশ অন ডেলিভারি</div>
   <div class="trust-card">✨ ১০০% প্রিমিয়াম কোয়ালিটি</div>
-  <div class="trust-card">🎧 দ্রুত WhatsApp সাপোর্ট</div>
+  <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="trust-card wa-link-card">🎧 দ্রুত WhatsApp সাপোর্ট</a>
 </div>
-
 <main class="container">
   <div id="adminBox" class="admin-box">
     <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -92,6 +114,7 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 20px;
       <button type="button" class="btn-main" onclick="saveNewItem()">প্রোডাক্ট পাবলিশ করুন</button>
     </div>
   </div>
+  <div class="sec-head">আমাদের কালেকশন</div>
   <div id="gridArea" class="grid"></div>
 </main>
 
@@ -110,14 +133,15 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 20px;
     <div id="modalBody"></div>
   </div>
 </div>
+
 <section class="contact-sec">
   <h2>অর্ডার করতে যোগাযোগ করুন</h2>
   <div class="soc-btns">
-    <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#25D366;">
+    <a href="https://whatsapp.com" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#25D366;box-shadow:0 6px 20px rgba(37,211,102,0.35);">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 32 32"><path d="M16 2.93c-7.21 0-13.07 5.86-13.07 13.07 0 2.3.6 4.55 1.74 6.53L2.8 29.2l6.85-1.8c1.91 1.04 4.07 1.59 6.35 1.59 7.21 0 13.07-5.86 13.07-13.07S23.21 2.93 16 2.93zm0 23.85c-1.97 0-3.9-.53-5.58-1.53l-.4-.24-4.14 1.09 1.11-4.03-.26-.41c-1.1-1.74-1.68-3.75-1.68-5.81 0-6.02 4.9-10.92 10.92-10.92s10.92 4.9 10.92 10.92-4.89 10.93-10.89 10.93zm5.99-8.18c-.33-.16-1.94-.96-2.24-1.07-.3-.11-.52-.16-.74.16-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.16-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.39c.16.22 2.32 3.54 5.62 4.96.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.21-1.56.27-.77.27-1.42.19-1.56-.08-.14-.3-.22-.63-.38z"/></svg>
       <span>01767068529</span>
     </a>
-    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#1877F2;">
+    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#1877F2;box-shadow:0 6px 20px rgba(24,119,242,0.35);">
       <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
       <span>ফেসবুক পেজ</span>
     </a>
@@ -141,9 +165,7 @@ function verifyAdminLogin() {
     document.getElementById('passVal').value = '';
     document.getElementById('adminBox').style.display = 'block';
     drawProducts();
-  } else {
-    alert('ভুল পাসওয়ার্ড!');
-  }
+  } else { alert('ভুল পাসওয়ার্ড!'); }
 }
 
 function exitAdmin() {
@@ -154,20 +176,19 @@ function exitAdmin() {
 }
 
 function handlePhoto(input) {
-  if (!input.files || !input.files) return;
+  if (!input.files || !input.files[0]) return;
   var r = new FileReader();
   r.onload = function(e) {
     var img = new Image();
     img.onload = function() {
       var c = document.createElement('canvas');
-      c.width = 450;
-      c.height = img.height * (450 / img.width);
+      c.width = 450; c.height = img.height * (450 / img.width);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       base64Photo = c.toDataURL('image/jpeg', 0.75);
     };
     img.src = e.target.result;
   };
-  r.readAsDataURL(input.files);
+  r.readAsDataURL(input.files[0]);
 }
 
 function saveNewItem() {
@@ -178,14 +199,8 @@ function saveNewItem() {
   if (!name || !price || !img) { alert('নাম, দাম এবং ছবি দিন!'); return; }
   storeItems.unshift({ id: Date.now(), name: name, price: price, img: img, desc: desc });
   localStorage.setItem('cm_items_ok', JSON.stringify(storeItems));
-  base64Photo = '';
-  document.getElementById('pName').value = '';
-  document.getElementById('pPrice').value = '';
-  document.getElementById('pFile').value = '';
-  document.getElementById('pLink').value = '';
-  document.getElementById('pDesc').value = '';
-  drawProducts();
-  alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
+  base64Photo = ''; document.getElementById('pName').value = ''; document.getElementById('pPrice').value = ''; document.getElementById('pFile').value = ''; document.getElementById('pLink').value = ''; document.getElementById('pDesc').value = '';
+  drawProducts(); alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
 }
 
 function deleteItem(id) {
