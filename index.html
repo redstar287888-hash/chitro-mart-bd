@@ -100,7 +100,7 @@
 
     <!-- Admin Product Upload Panel -->
     <div id="adminBox">
-        <h3>➕ নতুন প্রোডাক্ট যোগ করুন (Firebase Cloud)</h3>
+        <h3>➕ নতুন প্রোডাক্ট যোগ করুন (Cloud Store)</h3>
         <div class="form-group">
             <label>প্রোডাক্টের নাম:</label>
             <input type="text" id="pName" placeholder="যেমন: প্রিমিয়াম স্মার্ট ওয়াচ">
@@ -156,9 +156,11 @@
     </div>
 
     <script>
-        // আপনার আসল Firebase Realtime Database URL
-        var DB_URL = "https://firebaseio.com";
-        
+        // আপনার JSONBin.io ডাটাবেস তথ্য
+        var BIN_ID = "6b01efb9ac6210605a9a8909";
+        var MASTER_KEY = "$2a$10$S30MqmbM63CxaURxbezmLuIf.878qOeBSoZMSuG3yhPBjol7A4bOe";
+        var API_URL = "https://jsonbin.io" + BIN_ID;
+
         // অ্যাডমিন পাসওয়ার্ড ও হোয়াটসঅ্যাপ নম্বর
         var ADMIN_PASS = "1234";
         var WA_NUMBER = "8801767068529";
@@ -198,7 +200,7 @@
             }
         }
 
-        // ছবি ছোট করে Base64-এ রূপান্তর (যাতে Firebase-এ দ্রুত সেভ হয়)
+        // ছবি ছোট করে Base64-এ রূপান্তর
         function handlePhoto(input) {
             var file = input.files;
             if (!file) return;
@@ -226,7 +228,7 @@
             reader.readAsDataURL(file);
         }
 
-        // Firebase-এ নতুন প্রোডাক্ট পাবলিশ করা
+        // JSONBin-এ নতুন প্রোডাক্ট পাবলিশ করা
         async function publishProduct() {
             var name = document.getElementById('pName').value.trim();
             var price = document.getElementById('pPrice').value.trim();
@@ -243,59 +245,87 @@
             btn.innerText = 'পাবলিশ হচ্ছে...';
             btn.disabled = true;
 
-            var newProduct = { name: name, price: price, img: finalImg, desc: desc };
+            var newProduct = {
+                id: Date.now(),
+                name: name,
+                price: price,
+                img: finalImg,
+                desc: desc
+            };
+
+            var updatedList = [newProduct].concat(storeItems);
 
             try {
-                var res = await fetch(DB_URL + '/products.json', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newProduct)
+                var res = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify({ products: updatedList })
                 });
+
                 if (res.ok) {
                     alert('প্রোডাক্ট সফলভাবে যোগ হয়েছে!');
+                    storeItems = updatedList;
+                    drawProducts();
                     document.getElementById('pName').value = '';
                     document.getElementById('pPrice').value = '';
                     document.getElementById('pImgUrl').value = '';
                     document.getElementById('pImgFile').value = '';
                     document.getElementById('pDesc').value = '';
                     base64Photo = '';
-                    loadCloudItems();
                 } else {
-                    alert('সেভ হয়নি! Firebase Rules-এ .write: true করা আছে কি না চেক করুন।');
+                    alert('সেভ হয়নি! API Key বা ইন্টারনেট চেক করুন।');
                 }
             } catch (err) {
-                alert('নেটওয়ার্ক বা Firebase URL সমস্যা! কনসোল চেক করুন।');
+                alert('নেটওয়ার্ক সমস্যা! আবার চেষ্টা করুন।');
             }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
         }
 
-        // Firebase থেকে সব প্রোডাক্ট লোড করা (সব ভিজিটর দেখতে পাবে)
+        // JSONBin থেকে সব প্রোডাক্ট লোড করা (সবাই দেখতে পাবে)
         async function loadCloudItems() {
             var grid = document.getElementById('productGrid');
             try {
-                var res = await fetch(DB_URL + '/products.json');
-                var data = await res.json();
-                storeItems = [];
-                if (data) {
-                    for (var key in data) {
-                        var item = data[key];
-                        item.fbKey = key;
-                        storeItems.unshift(item);
+                var res = await fetch(API_URL + "/latest", {
+                    headers: {
+                        'X-Master-Key': MASTER_KEY
                     }
+                });
+                var data = await res.json();
+                if (data && data.record && Array.isArray(data.record.products)) {
+                    storeItems = data.record.products;
+                } else {
+                    storeItems = [];
                 }
                 drawProducts();
             } catch (err) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">ডাটা লোড করা যায়নি। ইন্টারনেট সংযোগ বা Firebase Rules চেক করুন।</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">ডাটা লোড করা যায়নি। ইন্টারনেট সংযোগ চেক করুন।</p>';
             }
         }
 
         // প্রোডাক্ট ডিলিট করা (শুধু অ্যাডমিনের জন্য)
-        async function deleteProduct(fbKey) {
+        async function deleteProduct(id) {
             if (!confirm('আপনি কি নিশ্চিতভাবে এই প্রোডাক্টটি মুছে ফেলতে চান?')) return;
+            var updatedList = storeItems.filter(function(item) {
+                return item.id !== id;
+            });
+
             try {
-                await fetch(DB_URL + '/products/' + fbKey + '.json', { method: 'DELETE' });
-                loadCloudItems();
+                var res = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': MASTER_KEY
+                    },
+                    body: JSON.stringify({ products: updatedList })
+                });
+                if (res.ok) {
+                    storeItems = updatedList;
+                    drawProducts();
+                }
             } catch (err) {
                 alert('ডিলিট করতে সমস্যা হয়েছে।');
             }
@@ -314,7 +344,7 @@
 
             items.forEach(function(p) {
                 var waText = encodeURIComponent("আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n*পণ্য:* " + p.name + "\n*দাম:* " + p.price + " টাকা");
-                var delBtn = adminActive ? `<button class="btn-delete" onclick="deleteProduct('${p.fbKey}')">🗑️ ডিলিট করুন</button>` : '';
+                var delBtn = adminActive ? `<button class="btn-delete" onclick="deleteProduct(${p.id})">🗑️ ডিলিট করুন</button>` : '';
 
                 grid.innerHTML += `
                     <div class="product-card">
@@ -335,13 +365,3 @@
         function filterProducts() {
             var q = document.getElementById('searchInput').value.toLowerCase();
             var filtered = storeItems.filter(function(p) {
-                return p.name.toLowerCase().includes(q) || (p.desc && p.desc.toLowerCase().includes(q));
-            });
-            drawProducts(filtered);
-        }
-
-        // পেজ লোড হলেই ডাটাবেস থেকে প্রোডাক্ট আনবে
-        loadCloudItems();
-    </script>
-</body>
-</html>
