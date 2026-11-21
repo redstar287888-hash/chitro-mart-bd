@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <style>
@@ -17,313 +18,99 @@
             --wa-green: #25D366;
             --fb-blue: #1877F2;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
+        .top-notice { background-color: #020617; color: #f1f5f9; text-align: center; padding: 8px 15px; font-size: 13px; }
+        .top-notice span { color: var(--gold); font-weight: 700; }
 
-        body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        header { background-color: var(--dark-bg); color: white; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .brand-logo { font-size: 28px; font-weight: 700; color: #ffffff; text-decoration: none; }
+        .brand-logo span { color: var(--gold); }
 
-        /* উপরের ঘোষণা বার */
-        .top-notice {
-            background-color: #020617;
-            color: #f1f5f9;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 13px;
-            letter-spacing: 0.3px;
-        }
-        .top-notice span {
-            color: var(--gold);
-            font-weight: 700;
-        }
+        .search-box { flex: 1; max-width: 520px; display: flex; background: #ffffff; border-radius: 50px; padding: 4px; }
+        .search-box input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; font-size: 15px; outline: none; }
+        .search-box button { background-color: var(--gold); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; }
 
-        /* নেভিগেশন হেডার */
-        header {
-            background-color: var(--dark-bg);
-            color: white;
-            padding: 15px 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
+        .nav-links { display: flex; gap: 20px; font-size: 15px; font-weight: 600; }
+        .nav-links a { color: #e2e8f0; text-decoration: none; }
+        .nav-links a:hover { color: var(--gold); }
 
-        .brand-logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-        .brand-logo span {
-            color: var(--gold);
-        }
+        .hero-section { background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #ffffff; text-align: center; padding: 65px 5% 80px; }
+        .hero-badge { display: inline-block; background: rgba(245, 158, 11, 0.15); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+        .hero-section h1 { font-size: 40px; font-weight: 700; margin-bottom: 10px; }
+        .hero-section h1 span { color: var(--gold); }
+        .hero-section p { font-size: 17px; color: #cbd5e1; max-width: 620px; margin: 0 auto; }
 
-        .search-box {
-            flex: 1;
-            max-width: 520px;
-            display: flex;
-            background: #ffffff;
-            border-radius: 50px;
-            padding: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .search-box input {
-            flex: 1;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 15px;
-            outline: none;
-        }
-        .search-box button {
-            background-color: var(--gold);
-            color: #000000;
-            border: none;
-            padding: 8px 22px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .search-box button:hover {
-            background-color: var(--gold-hover);
-            color: #ffffff;
-        }
+        .features-bar { max-width: 1180px; margin: -35px auto 35px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; position: relative; z-index: 10; }
+        .feature-card { background: #ffffff; padding: 16px 20px; border-radius: 12px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07); display: flex; align-items: center; gap: 14px; }
+        .feature-icon { font-size: 26px; }
+        .feature-text h4 { font-size: 16px; font-weight: 700; }
+        .feature-text p { font-size: 13px; color: var(--text-muted); }
 
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .nav-links a {
-            color: #e2e8f0;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .nav-links a:hover {
-            color: var(--gold);
-        }
+        .main-content { max-width: 1180px; width: 100%; margin: 10px auto 50px; padding: 0 20px; flex: 1; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; }
+        .section-title { font-size: 26px; font-weight: 700; }
 
-        /* হিরো ব্যানার */
-        .hero-section {
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: #ffffff;
-            text-align: center;
-            padding: 75px 5% 85px;
-            position: relative;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--gold);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            padding: 5px 18px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-        .hero-section h1 {
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.25;
-        }
-        .hero-section h1 span {
-            color: var(--gold);
-        }
-        .hero-section p {
-            font-size: 18px;
-            color: #cbd5e1;
-            max-width: 620px;
-            margin: 0 auto;
-        }
+        /* অ্যাডমিন প্যানেল বক্স */
+        .admin-panel { display: none; background: #ffffff; border: 2px solid var(--gold); border-radius: 16px; padding: 25px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15); }
+        .admin-panel h3 { font-size: 22px; margin-bottom: 15px; color: var(--dark-bg); display: flex; justify-content: space-between; align-items: center; }
+        .admin-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .admin-form input, .admin-form textarea { width: 100%; padding: 11px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+        .admin-form textarea { grid-column: 1 / -1; height: 90px; resize: vertical; }
+        .admin-submit { grid-column: 1 / -1; background: var(--dark-bg); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .admin-submit:hover { background: var(--gold); color: black; }
 
-        /* বিশ্বাসযোগ্যতা বার */
-        .features-bar {
-            max-width: 1180px;
-            margin: -35px auto 35px;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 18px;
-            position: relative;
-            z-index: 10;
-        }
-        .feature-card {
-            background: #ffffff;
-            padding: 18px 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border: 1px solid #f1f5f9;
-        }
-        .feature-icon {
-            font-size: 26px;
-        }
-        .feature-text h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-        .feature-text p {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+        /* প্রোডাক্ট কার্ড গ্রিড */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
+        .product-card { background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12); border-color: var(--gold); }
+        .del-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; z-index: 5; }
+        .img-box { width: 100%; height: 260px; padding: 15px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: #fff; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.3s; }
+        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .card-title { font-size: 18px; font-weight: 700; color: var(--dark-bg); margin-bottom: 8px; cursor: pointer; }
+        .card-price { font-size: 22px; font-weight: 700; color: #b91c1c; margin-bottom: 14px; }
+        .card-btns { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; }
+        .btn-details { background: #f1f5f9; color: var(--dark-bg); border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
+        .btn-order { background: var(--dark-bg); color: #ffffff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; }
+        .btn-order:hover { background: var(--gold); color: #000000; }
 
-        /* প্রোডাক্ট সেকশন (বর্তমানে খালি / ফ্রেশ লুক) */
-        .main-content {
-            max-width: 1180px;
-            width: 100%;
-            margin: 10px auto 50px;
-            padding: 0 20px;
-            flex: 1;
-        }
-        .section-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .empty-store-box {
-            background: #ffffff;
-            border: 2px dashed #cbd5e1;
-            border-radius: 16px;
-            padding: 65px 25px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-        }
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-        .empty-store-box h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark-bg);
-            margin-bottom: 8px;
-        }
-        .empty-store-box p {
-            font-size: 16px;
-            color: var(--text-muted);
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        .empty-store-box { background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 60px 25px; text-align: center; grid-column: 1 / -1; }
+        /* বিস্তারিত পপ-আপ (Modal) */
+        .modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 15px; }
+        .modal-box { background: #ffffff; max-width: 720px; width: 100%; border-radius: 16px; padding: 25px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; right: 18px; top: 12px; font-size: 28px; cursor: pointer; font-weight: bold; color: #64748b; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 22px; margin-top: 10px; }
+        @media (max-width: 650px) { .modal-grid, .admin-form { grid-template-columns: 1fr; } .nav-links { display: none; } }
+        .modal-grid img { width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; }
+        .modal-desc { background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.6; white-space: pre-line; margin: 12px 0; border: 1px solid #e2e8f0; max-height: 220px; overflow-y: auto; }
+
         /* কন্টাক্ট ও সোশ্যাল সেকশন */
-        .contact-wrapper {
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            padding: 50px 20px;
-            text-align: center;
-        }
-        .contact-heading {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--dark-bg);
-            margin-bottom: 22px;
-        }
-        .social-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
-        }
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 13px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: 700;
-            transition: all 0.25s ease;
-        }
-        .btn-whatsapp {
-            background-color: var(--wa-green);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-        }
-        .btn-whatsapp:hover {
-            background-color: #1ebe5d;
-            transform: translateY(-3px);
-        }
-        .btn-facebook {
-            background-color: var(--fb-blue);
-            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35);
-        }
-        .btn-facebook:hover {
-            background-color: #1464cc;
-            transform: translateY(-3px);
-        }
-        .social-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
+        .contact-wrapper { background: #ffffff; border-top: 1px solid #e2e8f0; padding: 50px 20px; text-align: center; }
+        .contact-heading { font-size: 26px; font-weight: 700; color: var(--dark-bg); margin-bottom: 22px; }
+        .social-buttons { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .social-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px; border-radius: 50px; text-decoration: none; color: #ffffff; font-size: 17px; font-weight: 700; transition: 0.25s; }
+        .btn-whatsapp { background-color: var(--wa-green); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); }
+        .btn-whatsapp:hover { background-color: #1ebe5d; transform: translateY(-3px); }
+        .btn-facebook { background-color: var(--fb-blue); box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35); }
+        .btn-facebook:hover { background-color: #1464cc; transform: translateY(-3px); }
+        .social-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* ফুটার */
-        .back-to-top {
-            background-color: var(--navy-light);
-            color: #ffffff;
-            text-align: center;
-            padding: 13px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .back-to-top:hover {
-            background-color: #334155;
-        }
-        footer {
-            background-color: var(--dark-bg);
-            color: #94a3b8;
-            text-align: center;
-            padding: 22px 15px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 640px) {
-            .hero-section h1 { font-size: 30px; }
-            .nav-links { display: none; }
-        }
+        .back-to-top { background-color: var(--navy-light); color: #ffffff; text-align: center; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        footer { background-color: var(--dark-bg); color: #94a3b8; text-align: center; padding: 22px 15px; font-size: 14px; position: relative; }
+        .admin-trigger { color: #475569; font-size: 12px; cursor: pointer; text-decoration: underline; margin-left: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="top-notice">
-        সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!
-    </div>
+    <div class="top-notice">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
 
     <header>
-        <a href="#" class="brand">Chitro <span>mart bd</span></a>
+        <a href="#" class="brand-logo">Chitro <span>mart bd</span></a>
         <div class="search-box">
-            <input type="text" placeholder="আপনার পছন্দের পণ্য খুঁজুন...">
-            <button type="button">খুঁজুন</button>
+            <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="searchItems()">
+            <button type="button" onclick="searchItems()">খুঁজুন</button>
         </div>
         <nav class="nav-links">
             <a href="#">হোম</a>
@@ -339,74 +126,114 @@
     </section>
 
     <div class="features-bar">
-        <div class="feature-card">
-            <span class="feature-icon">🚚</span>
-            <div class="feature-text">
-                <h4>সারা দেশে হোম ডেলিভারি</h4>
-                <p>দ্রুত ও নিরাপদ ডেলিভারি সার্ভিস</p>
-            </div>
-        </div>
-        <div class="feature-card">
-            <span class="feature-icon">💵</span>
-            <div class="feature-text">
-                <h4>ক্যাশ অন ডেলিভারি</h4>
-                <p>পণ্য দেখে টাকা পরিশোধের সুবিধা</p>
-            </div>
-        </div>
-        <div class="feature-card">
-            <span class="feature-icon">✨</span>
-            <div class="feature-text">
-                <h4>১০০% প্রিমিয়াম কোয়ালিটি</h4>
-                <p>সেরা মানের পণ্যের নিশ্চয়তা</p>
-            </div>
-        </div>
-        <div class="feature-card">
-            <span class="feature-icon">🎧</span>
-            <div class="feature-text">
-                <h4>তাৎক্ষণিক সাপোর্ট</h4>
-                <p>সরাসরি WhatsApp ও Facebook-এ</p>
-            </div>
-        </div>
+        <div class="feature-card"><span class="feature-icon">🚚</span><div class="feature-text"><h4>সারা দেশে হোম ডেলিভারি</h4><p>দ্রুত ও নিরাপদ ডেলিভারি সার্ভিস</p></div></div>
+        <div class="feature-card"><span class="feature-icon">💵</span><div class="feature-text"><h4>ক্যাশ অন ডেলিভারি</h4><p>পণ্য দেখে টাকা পরিশোধের সুবিধা</p></div></div>
+        <div class="feature-card"><span class="feature-icon">✨</span><div class="feature-text"><h4>১০০% প্রিমিয়াম কোয়ালিটি</h4><p>সেরা মানের পণ্যের নিশ্চয়তা</p></div></div>
+        <div class="feature-card"><span class="feature-icon">🎧</span><div class="feature-text"><h4>তাৎক্ষণিক সাপোর্ট</h4><p>সরাসরি WhatsApp ও Facebook-এ</p></div></div>
     </div>
 
     <main class="main-content" id="products">
-        <h2 class="section-title">আমাদের কালেকশন</h2>
         
-        <!-- প্রোডাক্ট গ্রিড (ভবিষ্যতে এখানে প্রোডাক্ট যুক্ত হবে) -->
-        <div id="productGrid">
-            <div class="empty-store-box">
-                <div class="empty-icon">🛍️</div>
-                <h3>আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3>
-                <p>খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে। যেকোনো তথ্যের জন্য নিচে আমাদের সাথে যোগাযোগ করুন।</p>
+        <!-- গোপন অ্যাডমিন প্যানেল (লগইন করলে দেখা যাবে) -->
+        <div id="adminPanel" class="admin-panel">
+            <h3>
+                <span>➕ নতুন প্রোডাক্ট যোগ করুন (অ্যাডমিন প্যানেল)</span>
+                <button onclick="logoutAdmin()" style="background:#ef4444;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px;">লগআউট</button>
+            </h3>
+            <div class="admin-form">
+                <input type="text" id="pName" placeholder="প্রোডাক্টের নাম লিখুন *">
+                <input type="number" id="pPrice" placeholder="দাম লিখুন (যেমন: 860) *">
+                <input type="text" id="pImage" placeholder="ছবির ডিরেক্ট লিংক (https://...) *" style="grid-column: 1 / -1;">
+                <textarea id="pDetails" placeholder="প্রোডাক্টের সাইজ, ফেব্রিক্স ও বিস্তারিত তথ্য লিখুন..."></textarea>
+                <button class="admin-submit" onclick="addNewProduct()">প্রোডাক্ট পাবলিশ করুন</button>
             </div>
         </div>
+
+        <div class="section-header">
+            <h2 class="section-title">আমাদের কালেকশন</h2>
+        </div>
+        <div id="productGrid" class="product-grid"></div>
     </main>
+
+    <!-- বিস্তারিত পপ-আপ -->
+    <div id="detailModal" class="modal">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
 
     <!-- কন্টাক্ট সেকশন -->
     <section class="contact-wrapper" id="contact">
         <h2 class="contact-heading">অর্ডার করতে যোগাযোগ করুন</h2>
         <div class="social-buttons">
-            <!-- WhatsApp বাটন -->
             <a href="https://wa.me" target="_blank" class="social-btn btn-whatsapp">
                 <svg viewBox="0 0 32 32"><path d="M16 2.93c-7.21 0-13.07 5.86-13.07 13.07 0 2.3.6 4.55 1.74 6.53L2.8 29.2l6.85-1.8c1.91 1.04 4.07 1.59 6.35 1.59 7.21 0 13.07-5.86 13.07-13.07S23.21 2.93 16 2.93zm0 23.85c-1.97 0-3.9-.53-5.58-1.53l-.4-.24-4.14 1.09 1.11-4.03-.26-.41c-1.1-1.74-1.68-3.75-1.68-5.81 0-6.02 4.9-10.92 10.92-10.92s10.92 4.9 10.92 10.92-4.89 10.93-10.89 10.93zm5.99-8.18c-.33-.16-1.94-.96-2.24-1.07-.3-.11-.52-.16-.74.16-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.16-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.39c.16.22 2.32 3.54 5.62 4.96.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.21-1.56.27-.77.27-1.42.19-1.56-.08-.14-.3-.22-.63-.38z"/></svg>
                 <span>01767068529</span>
             </a>
-
-            <!-- Facebook বাটন -->
-            <a href="https://www.facebook.com/profile.php?id=61596351826814" target="_blank" class="social-btn btn-facebook">
+            <a href="https://facebook.com" target="_blank" class="social-btn btn-facebook">
                 <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
                 <span>ফেসবুক পেজ</span>
             </a>
         </div>
     </section>
 
-    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        উপরে ফিরে যান ↑
-    </div>
-
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">উপরে ফিরে যান ↑</div>
     <footer>
         &copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।
+        <span class="admin-trigger" onclick="adminLogin()">অ্যাডমিন লগইন</span>
     </footer>
 
-</body>
-</html>
+    <script>
+        // ===== এখানে ফায়ারবেস (Firebase) ডাটাবেজ লিংক বসালে সব মোবাইলে প্রোডাক্ট দেখা যাবে =====
+        const FIREBASE_DB_URL = ""; // যেমন: https://firebaseio.com
+
+        let isAdmin = sessionStorage.getItem('chitro_admin') === 'true';
+        let products = JSON.parse(localStorage.getItem('chitro_products')) || [];
+
+        if (isAdmin) {
+            document.getElementById('adminPanel').style.display = 'block';
+        }
+
+        function adminLogin() {
+            const pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন:");
+            if (pass === "chitro2026") {
+                sessionStorage.setItem('chitro_admin', 'true');
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminPanel').scrollIntoView({behavior: 'smooth'});
+                showProducts(products);
+            } else if (pass !== null) {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
+
+        function logoutAdmin() {
+            sessionStorage.removeItem('chitro_admin');
+            isAdmin = false;
+            document.getElementById('adminPanel').style.display = 'none';
+            showProducts(products);
+        }
+
+        async function loadAllProducts() {
+            if (FIREBASE_DB_URL) {
+                try {
+                    const res = await fetch(FIREBASE_DB_URL);
+                    const data = await res.json();
+                    products = data ? Object.keys(data).map(key => ({ firebaseKey: key, ...data[key] })) : [];
+                } catch (e) { console.error(e); }
+            }
+            showProducts(products);
+        }
+
+        async function addNewProduct() {
+            const name = document.getElementById('pName').value.trim();
+            const price = document.getElementById('pPrice').value.trim();
+            const image = document.getElementById('pImage').value.trim();
+            const details = document.getElementById('pDetails').value.trim() || "প্রিমিয়াম কোয়ালিটি পণ্য।";
+
+            if (!name || !price || !image) {
+                alert("অনুগ্রহ করে প্রোডাক্টের নাম, দাম এবং ছবির লিংক দিন!");
+                return;
+            }
+
