@@ -59,7 +59,6 @@
         .admin-form textarea { grid-column: 1 / -1; height: 90px; resize: vertical; }
         .admin-submit { grid-column: 1 / -1; background: var(--dark-bg); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
         .admin-submit:hover { background: var(--gold); color: black; }
-
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
         .product-card { background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12); border-color: var(--gold); }
@@ -95,7 +94,7 @@
 
         .back-to-top { background-color: var(--navy-light); color: #ffffff; text-align: center; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; }
         footer { background-color: var(--dark-bg); color: #94a3b8; text-align: center; padding: 22px 15px; font-size: 14px; }
-        .admin-trigger { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-left: 10px; }
+        .admin-trigger { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 5px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-left: 10px; }
         .admin-trigger:hover { background: var(--gold); color: #000; }
     </style>
 </head>
@@ -128,9 +127,7 @@
         <div class="feature-card"><span class="feature-icon">✨</span><div class="feature-text"><h4>১০০% প্রিমিয়াম কোয়ালিটি</h4><p>সেরা মানের পণ্যের নিশ্চয়তা</p></div></div>
         <div class="feature-card"><span class="feature-icon">🎧</span><div class="feature-text"><h4>তাৎক্ষণিক সাপোর্ট</h4><p>সরাসরি WhatsApp ও Facebook-এ</p></div></div>
     </div>
-
     <main class="main-content" id="products">
-        <!-- অ্যাডমিন প্যানেল -->
         <div id="adminPanel" class="admin-panel">
             <h3>
                 <span>➕ নতুন প্রোডাক্ট যোগ করুন</span>
@@ -151,18 +148,16 @@
         <div id="productGrid" class="product-grid"></div>
     </main>
 
-    <!-- অ্যাডমিন লগইন পপ-আপ -->
     <div id="loginModal" class="modal">
         <div class="modal-box login-box">
             <span class="close-btn" onclick="closeLoginModal()">&times;</span>
             <h3>অ্যাডমিন লগইন</h3>
             <p style="font-size:14px;color:#64748b;margin-top:5px;">প্রোডাক্ট যোগ করতে পাসওয়ার্ড দিন</p>
-            <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন (chitro2026)">
+            <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন">
             <button type="button" class="admin-submit" style="width:100%;" onclick="checkAdminPass()">প্রবেশ করুন</button>
         </div>
     </div>
 
-    <!-- বিস্তারিত পপ-আপ -->
     <div id="detailModal" class="modal">
         <div class="modal-box">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -170,7 +165,6 @@
         </div>
     </div>
 
-    <!-- কন্টাক্ট সেকশন -->
     <section class="contact-wrapper" id="contact">
         <h2 class="contact-heading">অর্ডার করতে যোগাযোগ করুন</h2>
         <div class="social-buttons">
@@ -196,18 +190,13 @@
         let isAdmin = sessionStorage.getItem('chitro_admin') === 'true';
         let products = JSON.parse(localStorage.getItem('chitro_products')) || [];
 
-        if (isAdmin) {
-            document.getElementById('adminPanel').style.display = 'block';
-        }
+        if (isAdmin) { document.getElementById('adminPanel').style.display = 'block'; }
 
         function openLoginModal() {
             document.getElementById('loginModal').style.display = 'flex';
             document.getElementById('adminPassInput').focus();
         }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
         function checkAdminPass() {
             const pass = document.getElementById('adminPassInput').value;
@@ -246,14 +235,9 @@
             const price = document.getElementById('pPrice').value.trim();
             const image = document.getElementById('pImage').value.trim();
             const details = document.getElementById('pDetails').value.trim() || "প্রিমিয়াম কোয়ালিটি পণ্য।";
-
-            if (!name || !price || !image) {
-                alert("অনুগ্রহ করে প্রোডাক্টের নাম, দাম এবং ছবির লিংক দিন!");
-                return;
-            }
+            if (!name || !price || !image) { alert("অনুগ্রহ করে প্রোডাক্টের নাম, দাম এবং ছবির লিংক দিন!"); return; }
 
             const newProd = { id: Date.now(), name, price, image, details };
-
             if (FIREBASE_DB_URL) {
                 await fetch(FIREBASE_DB_URL, { method: 'POST', body: JSON.stringify(newProd) });
                 await loadAllProducts();
@@ -262,7 +246,6 @@
                 localStorage.setItem('chitro_products', JSON.stringify(products));
                 showProducts(products);
             }
-
             document.getElementById('pName').value = '';
             document.getElementById('pPrice').value = '';
             document.getElementById('pImage').value = '';
@@ -286,8 +269,21 @@
         function showProducts(list) {
             const grid = document.getElementById('productGrid');
             if (list.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-store-box">
-                        <div style="font-size:48px;margin-bottom:10px;">🛍️</div>
-                        <h3 style="font-size:22px;margin-bottom:6px;">আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3>
-                        <p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p>
+                grid.innerHTML = `<div class="empty-store-box"><div style="font-size:48px;margin-bottom:10px;">🛍️</div><h3 style="font-size:22px;margin-bottom:6px;">আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>`;
+                return;
+            }
+            grid.innerHTML = list.map(p => {
+                const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
+                return `<div class="product-card">${isAdmin ? `<button type="button" class="del-btn" onclick="deleteProduct(${p.id}, '${p.firebaseKey || ''}')">ডিলিট ✕</button>` : ''}<div><div class="img-box" onclick="openDetail(${p.id})"><img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.src='https://placehold.co'"></div><div class="card-body"><div><h3 class="card-title" onclick="openDetail(${p.id})">${p.name}</h3><div class="card-price">৳ ${p.price}</div></div><div class="card-btns"><button type="button" class="btn-details" onclick="openDetail(${p.id})">বিস্তারিত</button><a href="https://wa.me?text=${msg}" target="_blank" class="btn-order">অর্ডার করুন</a></div></div></div></div>`;
+            }).join('');
+        }
+
+        function searchItems() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            showProducts(products.filter(p => p.name.toLowerCase().includes(q)));
+        }
+
+        function openDetail(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+            const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
