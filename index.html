@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
+    <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
     <link href="https://googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="top-bar">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
+    <div class="top-bar">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
 
     <header>
         <a href="#" class="logo">Chitro <span>mart bd</span></a>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="renderStore()">
-            <button type="button" onclick="renderStore()">খুঁজুন</button>
+            <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="drawProducts()">
+            <button type="button" onclick="drawProducts()">খুঁজুন</button>
         </div>
         <div class="hdr-btns">
-            <button type="button" class="hdr-btn" onclick="openCart()">🛒 কার্ট (<span id="cartNum">0</span>)</button>
-            <button type="button" class="hdr-btn gold" onclick="openAdminModal()">🔐 অ্যাডমিন</button>
+            <button type="button" class="hdr-btn" onclick="viewCart()">🛒 কার্ট (<span id="cartNum">0</span>)</button>
+            <button type="button" class="hdr-btn gold" onclick="document.getElementById('loginModal').style.display='flex'">🔐 অ্যাডমিন</button>
         </div>
     </header>
 
     <section class="hero">
-        <div class="hero-tag">প্রিমিয়াম কোয়ালিটি অনলাইন স্টোর</div>
+        <div class="hero-tag">প্রিমিয়াম কোয়ালিটি অনলাইন স্টোর</div>
         <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
         <p>সেরা মানের ও এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
     </section>
@@ -32,7 +32,7 @@
     <div class="trust-row">
         <div class="trust-card">🚚 সারা দেশে হোম ডেলিভারি</div>
         <div class="trust-card">💵 ক্যাশ অন ডেলিভারি</div>
-        <div class="trust-card">✨ ১০০% প্রিমিয়াম কোয়ালিটি</div>
+        <div class="trust-card">✨ ১০০% প্রিমিয়াম কোয়ালিটি</div>
         <div class="trust-card">🎧 দ্রুত WhatsApp সাপোর্ট</div>
     </div>
 
@@ -40,7 +40,7 @@
         <div id="adminBox" class="admin-box">
             <div style="display:flex;justify-content:space-between;align-items:center;">
                 <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
-                <button type="button" onclick="logoutAdmin()" style="background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">লগআউট</button>
+                <button type="button" onclick="exitAdmin()" style="background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;">লগআউট</button>
             </div>
             <div class="admin-grid">
                 <input type="text" id="pName" placeholder="প্রোডাক্টের নাম লিখুন *">
@@ -52,31 +52,31 @@
                 </select>
                 <input type="number" id="pPrice" placeholder="বর্তমান দাম (যেমন: 860) *">
                 <input type="number" id="pOld" placeholder="আগের দাম (ঐচ্ছিক)">
-                <input type="file" id="pFile" accept="image/*" onchange="readImg(this)">
+                <input type="file" id="pFile" accept="image/*" onchange="handlePhoto(this)">
                 <input type="text" id="pLink" placeholder="অথবা ছবির ডিরেক্ট লিংক দিন">
                 <input type="text" id="pSizes" placeholder="সাইজ (যেমন: M, L, XL, XXL)" style="grid-column:1/-1;">
                 <textarea id="pDesc" placeholder="প্রোডাক্টের বিস্তারিত বিবরণ লিখুন..."></textarea>
-                <button type="button" class="btn-main" onclick="addProduct()">প্রোডাক্ট পাবলিশ করুন</button>
+                <button type="button" class="btn-main" onclick="saveNewItem()">প্রোডাক্ট পাবলিশ করুন</button>
             </div>
         </div>
 
         <div class="cat-bar">
-            <button type="button" class="cat-btn active" onclick="setCat('সব', this)">সব পণ্য</button>
-            <button type="button" class="cat-btn" onclick="setCat('মেনস ফ্যাশন', this)">মেনস ফ্যাশন</button>
-            <button type="button" class="cat-btn" onclick="setCat('উইমেনস ফ্যাশন', this)">উইমেনস ফ্যাশন</button>
-            <button type="button" class="cat-btn" onclick="setCat('গ্যাজেট', this)">গ্যাজেট</button>
-            <button type="button" class="cat-btn" onclick="setCat('লাইফস্টাইল', this)">লাইফস্টাইল</button>
+            <button type="button" class="cat-btn active" onclick="changeCategory('সব', this)">সব পণ্য</button>
+            <button type="button" class="cat-btn" onclick="changeCategory('মেনস ফ্যাশন', this)">মেনস ফ্যাশন</button>
+            <button type="button" class="cat-btn" onclick="changeCategory('উইমেনস ফ্যাশন', this)">উইমেনস ফ্যাশন</button>
+            <button type="button" class="cat-btn" onclick="changeCategory('গ্যাজেট', this)">গ্যাজেট</button>
+            <button type="button" class="cat-btn" onclick="changeCategory('লাইফস্টাইল', this)">লাইফস্টাইল</button>
         </div>
 
         <div id="gridArea" class="grid"></div>
     </main>
-    <!-- অ্যাডমিন পাসওয়ার্ড মডাল -->
+    <!-- অ্যাডমিন পাসওয়ার্ড মডাল -->
     <div id="loginModal" class="modal">
         <div class="modal-card" style="max-width:360px;text-align:center;">
             <span class="close-x" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
             <h3>🔐 অ্যাডমিন লগইন</h3>
-            <input type="password" id="passVal" placeholder="পাসওয়ার্ড দিন (chitro2026)" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
-            <button type="button" class="btn-main" style="width:100%;" onclick="checkPass()">প্রবেশ করুন</button>
+            <input type="password" id="passVal" placeholder="পাসওয়ার্ড দিন (chitro2026)" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
+            <button type="button" class="btn-main" style="width:100%;" onclick="verifyAdminLogin()">প্রবেশ করুন</button>
         </div>
     </div>
 
@@ -105,104 +105,6 @@
     <div class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">উপরে ফিরে যান ↑</div>
     <footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
 
-    <script>
-        let items = JSON.parse(localStorage.getItem('cm_v3_items')) || [];
-        let cart = JSON.parse(localStorage.getItem('cm_v3_cart')) || [];
-        let curCat = 'সব', isAdmin = sessionStorage.getItem('cm_v3_admin') === 'true', imgData = '';
-
-        if (isAdmin) document.getElementById('adminBox').style.display = 'block';
-
-        function openAdminModal() {
-            if (isAdmin) { document.getElementById('adminBox').style.display = 'block'; return; }
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-        function checkPass() {
-            if (document.getElementById('passVal').value === 'chitro2026') {
-                isAdmin = true; sessionStorage.setItem('cm_v3_admin', 'true');
-                document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('adminBox').style.display = 'block';
-                renderStore();
-            } else { alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড: chitro2026'); }
-        }
-        function logoutAdmin() { isAdmin = false; sessionStorage.removeItem('cm_v3_admin'); document.getElementById('adminBox').style.display = 'none'; renderStore(); }
-
-        function readImg(inp) {
-            if (!inp.files || !inp.files) return;
-            const r = new FileReader();
-            r.onload = e => {
-                const im = new Image();
-                im.onload = () => {
-                    const c = document.createElement('canvas');
-                    const w = 500; c.width = w; c.height = im.height * (w / im.width);
-                    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-                    imgData = c.toDataURL('image/jpeg', 0.8);
-                };
-                im.src = e.target.result;
-            };
-            r.readAsDataURL(inp.files);
-        }
-
-        function addProduct() {
-            const name = document.getElementById('pName').value.trim();
-            const cat = document.getElementById('pCat').value;
-            const price = Number(document.getElementById('pPrice').value);
-            const old = Number(document.getElementById('pOld').value) || 0;
-            const img = imgData || document.getElementById('pLink').value.trim();
-            const sizes = document.getElementById('pSizes').value.trim();
-            const desc = document.getElementById('pDesc').value.trim() || 'প্রিমিয়াম কোয়ালিটি পণ্য।';
-            if (!name || !price || !img) { alert('নাম, দাম এবং ছবি দিন!'); return; }
-            items.unshift({ id: Date.now(), name, cat, price, old, img, sizes, desc });
-            localStorage.setItem('cm_v3_items', JSON.stringify(items));
-            imgData = ''; document.getElementById('pName').value = ''; document.getElementById('pPrice').value = ''; document.getElementById('pOld').value = ''; document.getElementById('pLink').value = ''; document.getElementById('pSizes').value = ''; document.getElementById('pDesc').value = '';
-            renderStore(); alert('প্রোডাক্ট যুক্ত হয়েছে!');
-        }
-
-        function delProd(id) {
-            if (confirm('ডিলিট করবেন?')) { items = items.filter(x => x.id !== id); localStorage.setItem('cm_v3_items', JSON.stringify(items)); renderStore(); }
-        }
-
-        function setCat(c, btn) {
-            curCat = c; document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderStore();
-        }
-
-        function renderStore() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const list = items.filter(x => (curCat === 'সব' || x.cat === curCat) && x.name.toLowerCase().includes(q));
-            const grid = document.getElementById('gridArea');
-            if (list.length === 0) {
-                grid.innerHTML = `<div class="empty-box"><div style="font-size:48px;">🛍️</div><h3>আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>`;
-                return;
-            }
-            grid.innerHTML = list.map(p => `
-                <div class="card">
-                    ${isAdmin ? `<button class="del-btn" onclick="delProd(${p.id})">ডিলিট ✕</button>` : ''}
-                    <div class="img-box" onclick="openOrder(${p.id})"><img src="${p.img}" alt="${p.name}"></div>
-                    <div class="card-body">
-                        <div style="font-size:12px;color:#64748b;font-weight:700;">${p.cat}</div>
-                        <div class="card-title" onclick="openOrder(${p.id})">${p.name}</div>
-                        <div class="card-price">৳${p.price} ${p.old > p.price ? `<span style="font-size:14px;color:#94a3b8;text-decoration:line-through;">৳${p.old}</span>` : ''}</div>
-                        <div class="btn-row">
-                            <button class="btn-sub" onclick="addCart(${p.id})">+ কার্ট</button>
-                            <button class="btn-buy" onclick="openOrder(${p.id})">অর্ডার করুন</button>
-                        </div>
-                    </div>
-                </div>`).join('');
-        }
-
-        function openOrder(id) {
-            const p = items.find(x => x.id === id); if (!p) return;
-            const sHtml = p.sizes ? `<select id="oSize" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">${p.sizes.split(',').map(s => `<option>সাইজ: ${s.trim()}</option>`).join('')}</select>` : '';
-            document.getElementById('modalBody').innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
-                    <img src="${p.img}" style="width:100%;max-height:280px;object-fit:contain;border:1px solid #eee;border-radius:10px;padding:10px;">
-                    <div>
-                        <h2>${p.name}</h2><div class="card-price">৳${p.price}</div>
-                        <p style="background:#f8fafc;padding:10px;border-radius:8px;white-space:pre-line;font-size:14px;margin-bottom:10px;">${p.desc}</p>
-                        ${sHtml}
-                        <input id="cName" placeholder="আপনার নাম *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">
-                        <input id="cPhone" placeholder="মোবাইল নম্বর *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">
-                        <select id="cArea" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">
-                            <option value="70">ঢাকার ভেতরে ডেলিভারি (৳৭০)</option>
-                            <option value="130">ঢাকার বাইরে সারা বাংলাদেশ (৳১৩০)</option>
-                        </select>
-                        <input id="cAddr" placeholder="সম্পূর্ণ ঠিকানা *" style="width:100%;padding:10px;margin-bottom:10px;border:1px solid #cbd5e1;border-radius:8px;">
+    <script src="app.js"></script>
+</body>
+</html>
