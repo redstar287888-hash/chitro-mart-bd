@@ -119,21 +119,24 @@
     <footer><p>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</p></footer>
 
     <script>
-        const OPENSHEET_URL = "https://elk.sh";
+        const NEW_SHEET_ID = "11hNvd_BRm_EDXENIG88A7zcea4cZEghR7L_FNOBlJGM";
+        const PUB_CSV_URL = "https://google.com";
+        const OPENSHEET_URL = `https://elk.sh{NEW_SHEET_ID}/1`;
+
         let allProducts = [];
         let cartCount = 0;
 
         async function loadProducts() {
             try {
                 const response = await fetch(OPENSHEET_URL);
-                if (!response.ok) throw new Error("API Error");
+                if (!response.ok) throw new Error("Opensheet failed");
                 const rows = await response.json();
 
                 allProducts = rows.map(item => {
                     const rawName = (item.Name || item.name || "").trim();
-                    const rawPrice = (item.price || item.Price || "").trim();
-                    const rawImage = (item.image || item.Image || "").trim();
-                    const rawDetails = (item.details || item.Details || "").trim();
+                    const rawPrice = (item.Price || item.price || "").trim();
+                    const rawImage = (item.Image || item.image || "").trim();
+                    const rawDetails = (item.Details || item.details || "").trim();
 
                     if (rawName !== "") {
                         return {
@@ -148,7 +151,34 @@
 
                 renderProducts(allProducts);
             } catch (error) {
-                document.getElementById('statusSub').innerText = "ডেটা লোড হচ্ছে না। Google Sheet-এর Share সেটিংস 'Anyone with the link' করা আছে কি না দেখুন।";
+                loadFromCSVBackup();
+            }
+        }
+
+        async function loadFromCSVBackup() {
+            try {
+                const res = await fetch(PUB_CSV_URL);
+                const csvText = await res.text();
+                const lines = csvText.split(/\r?\n/).slice(1);
+                allProducts = lines.map(line => {
+                    const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    const rawName = (cols.shift() || "").replace(/^"|"$/g, '').trim();
+                    const rawPrice = (cols.shift() || "").replace(/^"|"$/g, '').trim();
+                    const rawImage = (cols.shift() || "").replace(/^"|"$/g, '').trim();
+                    const rawDetails = (cols.shift() || "").replace(/^"|"$/g, '').trim();
+                    if (rawName !== "") {
+                        return {
+                            name: rawName,
+                            price: rawPrice,
+                            image: rawImage !== "" ? rawImage : "https://placeholder.com",
+                            details: rawDetails
+                        };
+                    }
+                    return null;
+                }).filter(item => item !== null);
+                renderProducts(allProducts);
+            } catch (e) {
+                document.getElementById('statusSub').innerText = "বর্তমানে কোনো পণ্য যুক্ত করা হয়নি।";
             }
         }
 
@@ -192,5 +222,3 @@
         function resetSearch() { document.getElementById('searchInput').value = ''; renderProducts(allProducts); }
         loadProducts();
     </script>
-</body>
-</html>
