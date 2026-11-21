@@ -9,7 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
         body { background-color: #f3f3f3; color: #111; }
         
-        /* Top Bar & Header (Amazon Style) */
+        /* Top Bar & Header */
         .top-notice { background: #232f3e; color: #ff9900; text-align: center; padding: 6px; font-size: 13px; font-weight: 600; }
         header { background-color: #131921; color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
         .logo { font-size: 24px; font-weight: 700; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 5px; }
@@ -110,7 +110,7 @@
             <input type="number" id="pPrice" placeholder="যেমন: 1250">
         </div>
         <div class="form-group">
-            <label>ছবির লিংক (URL) অথবা ফোন থেকে ছবি সিলেক্ট করুন:</label>
+            <label>ছবির লিংক (URL) অথবা ফোন/ল্যাপটপ থেকে ছবি সিলেক্ট করুন:</label>
             <input type="text" id="pImgUrl" placeholder="ছবির ডাইরেক্ট লিংক দিন (অথবা নিচ থেকে ফাইল নিন)">
             <input type="file" id="pImgFile" accept="image/*" onchange="handlePhoto(this)" style="margin-top:6px;">
         </div>
@@ -156,10 +156,10 @@
     </div>
 
     <script>
-        // ১. এখানে আপনার Firebase Console থেকে কপি করা আসল Realtime Database URL বসান (শেষে / রাখবেন না)
-        var DB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
+        // আপনার আসল Firebase Realtime Database URL
+        var DB_URL = "https://firebaseio.com";
         
-        // ২. অ্যাডমিন পাসওয়ার্ড ও হোয়াটসঅ্যাপ নম্বর
+        // অ্যাডমিন পাসওয়ার্ড ও হোয়াটসঅ্যাপ নম্বর
         var ADMIN_PASS = "1234";
         var WA_NUMBER = "8801767068529";
 
@@ -200,7 +200,7 @@
 
         // ছবি ছোট করে Base64-এ রূপান্তর (যাতে Firebase-এ দ্রুত সেভ হয়)
         function handlePhoto(input) {
-            var file = input.files[0];
+            var file = input.files;
             if (!file) return;
             var btn = document.getElementById('pubBtn');
             btn.innerText = 'ছবি প্রসেস হচ্ছে...';
@@ -286,7 +286,7 @@
                 }
                 drawProducts();
             } catch (err) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">ডাটা লোড করা যায়নি। কোডে আপনার সঠিক Firebase URL বসানো আছে কি না নিশ্চিত করুন।</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:red;">ডাটা লোড করা যায়নি। ইন্টারনেট সংযোগ বা Firebase Rules চেক করুন।</p>';
             }
         }
 
