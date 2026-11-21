@@ -170,9 +170,9 @@ footer { background: #090d16; color: #94a3b8; text-align: center; padding: 22px;
   &copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত। | 
   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style="color:#fbbf24;text-decoration:none;font-weight:600;">আমাদের ফেসবুক পেজ ভিজিট করুন</a>
 </footer>
-
 <script>
-var storeItems = JSON.parse(localStorage.getItem('cm_items_ok')) || [];
+var DB_URL = 'https://firebaseio.com';
+var storeItems = [];
 var adminActive = sessionStorage.getItem('cm_admin_ok') === 'yes';
 var base64Photo = '';
 
@@ -203,7 +203,8 @@ function handlePhoto(input) {
     var img = new Image();
     img.onload = function() {
       var c = document.createElement('canvas');
-      c.width = 450; c.height = img.height * (450 / img.width);
+      c.width = 450;
+      c.height = img.height * (450 / img.width);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       base64Photo = c.toDataURL('image/jpeg', 0.75);
     };
@@ -212,31 +213,45 @@ function handlePhoto(input) {
   r.readAsDataURL(input.files[0]);
 }
 
-function saveNewItem() {
+async function loadCloudItems() {
+  try {
+    var res = await fetch(DB_URL + '.json');
+    var data = await res.json();
+    storeItems = data ? Object.keys(data).map(function(k) { var x = data[k]; x.fbKey = k; return x; }).reverse() : [];
+  } catch (e) {}
+  drawProducts();
+}
+
+async function saveNewItem() {
   var name = document.getElementById('pName').value.trim();
   var price = Number(document.getElementById('pPrice').value);
   var img = base64Photo || document.getElementById('pLink').value.trim();
   var desc = document.getElementById('pDesc').value.trim() || '১০০% প্রিমিয়াম কোয়ালিটি পণ্য।';
   if (!name || !price || !img) { alert('নাম, দাম এবং ছবি দিন!'); return; }
-  storeItems.unshift({ id: Date.now(), name: name, price: price, img: img, desc: desc });
-  localStorage.setItem('cm_items_ok', JSON.stringify(storeItems));
+  await fetch(DB_URL + '.json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: Date.now(), name: name, price: price, img: img, desc: desc })
+  });
   base64Photo = ''; document.getElementById('pName').value = ''; document.getElementById('pPrice').value = ''; document.getElementById('pFile').value = ''; document.getElementById('pLink').value = ''; document.getElementById('pDesc').value = '';
-  drawProducts(); alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
+  await loadCloudItems();
+  alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
 }
 
-function deleteItem(id) {
+async function deleteItem(fbKey) {
   if (confirm('ডিলিট করবেন?')) {
-    storeItems = storeItems.filter(function(x) { return x.id !== id; });
-    localStorage.setItem('cm_items_ok', JSON.stringify(storeItems));
-    drawProducts();
+    await fetch(DB_URL + '/' + fbKey + '.json', { method: 'DELETE' });
+    await loadCloudItems();
   }
 }
- function getWaUrl(name, price) {
+
+function getWaUrl(name, price) {
   var myNum = '880' + '1767' + '068529';
   var cleanName = String(name).replace(/[^a-zA-Z0-9\u0980-\u09FF ]/g, ' ');
   var text = 'Order from Chitro mart bd - Product: ' + cleanName + ' | Price: ' + price + ' Tk';
-  return 'https://wa.me/' + myNum + '?text=' + encodeURIComponent(text);
+  return 'https://wa.me' + myNum + '?text=' + encodeURIComponent(text);
 }
+
 function drawProducts() {
   var q = document.getElementById('searchInput').value.toLowerCase();
   var list = storeItems.filter(function(x) { return x.name.toLowerCase().indexOf(q) > -1; });
@@ -246,21 +261,21 @@ function drawProducts() {
     return;
   }
   grid.innerHTML = list.map(function(p) {
-    var del = adminActive ? '<button type="button" class="del-btn" onclick="deleteItem(' + p.id + ')">ডিলিট ✕</button>' : '';
+    var del = adminActive ? '<button type="button" class="del-btn" onclick="deleteItem(\'' + p.fbKey + '\')">ডিলিট ✕</button>' : '';
     var waLink = getWaUrl(p.name, p.price);
     return '<div class="card">' + del +
-      '<div class="img-box" onclick="openDetails(' + p.id + ')"><img src="' + p.img + '"></div>' +
-      '<div class="card-body"><div class="card-title" onclick="openDetails(' + p.id + ')">' + p.name + '</div>' +
+      '<div class="img-box" onclick="openDetails(\'' + p.fbKey + '\')"><img src="' + p.img + '"></div>' +
+      '<div class="card-body"><div class="card-title" onclick="openDetails(\'' + p.fbKey + '\')">' + p.name + '</div>' +
       '<div class="card-price">৳' + p.price + '</div>' +
       '<div class="btn-row">' +
-        '<button type="button" class="btn-det" onclick="openDetails(' + p.id + ')">বিস্তারিত দেখুন</button>' +
+        '<button type="button" class="btn-det" onclick="openDetails(\'' + p.fbKey + '\')">বিস্তারিত দেখুন</button>' +
         '<a href="' + waLink + '" target="_blank" rel="noopener noreferrer" class="btn-buy">Order Now</a>' +
       '</div></div></div>';
   }).join('');
 }
 
-function openDetails(id) {
-  var p = storeItems.find(function(x) { return x.id === id; });
+function openDetails(fbKey) {
+  var p = storeItems.find(function(x) { return x.fbKey === fbKey; });
   if (!p) return;
   var waLink = getWaUrl(p.name, p.price);
   document.getElementById('modalBody').innerHTML =
@@ -276,7 +291,7 @@ function openDetails(id) {
   document.getElementById('detailModal').style.display = 'flex';
 }
 
-drawProducts();
+loadCloudItems();
 </script>
 </body>
 </html>
