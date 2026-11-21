@@ -135,10 +135,15 @@
 
                 allProducts = rows.map(r => {
                     const c = r.c || [];
-                    const rawName = c[0] && c[0].v ? String(c[0].v).trim() : "";
-                    const rawPrice = c[1] && c[1].v ? String(c[1].v).trim() : "";
-                    const rawImage = c[2] && c[2].v ? String(c[2].v).trim() : "";
-                    const rawDetails = c[3] && c[3].v ? String(c[3].v).trim() : "";
+                    const colA = c.at(0);
+                    const colB = c.at(1);
+                    const colC = c.at(2);
+                    const colD = c.at(3);
+
+                    const rawName = colA && colA.v !== null ? String(colA.v).trim() : "";
+                    const rawPrice = colB && colB.v !== null ? String(colB.v).trim() : "";
+                    const rawImage = colC && colC.v !== null ? String(colC.v).trim() : "";
+                    const rawDetails = colD && colD.v !== null ? String(colD.v).trim() : "";
 
                     if (rawName !== "" && rawName.toLowerCase() !== "name") {
                         return {
@@ -178,7 +183,7 @@
         }
 
         function openModal(index) {
-            const p = allProducts[index];
+            const p = allProducts.at(index);
             document.getElementById('mImg').src = p.image;
             document.getElementById('mTitle').innerText = p.name;
             document.getElementById('mPrice').innerText = '৳ ' + p.price;
