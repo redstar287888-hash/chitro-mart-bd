@@ -85,7 +85,7 @@
     <div class="main-wrapper">
         <div id="statusMessage" class="empty-state">
             <h2>Chitro mart bd-তে স্বাগতম</h2>
-            <p>পণ্য লোড হচ্ছে অথবা বর্তমানে কোনো পণ্য যুক্ত করা হয়নি...</p>
+            <p id="statusSub">পণ্য লোড হচ্ছে...</p>
         </div>
         <div class="product-grid" id="productGrid"></div>
     </div>
@@ -119,8 +119,7 @@
     <footer><p>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</p></footer>
 
     <script>
-        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTwTxRX7xVT4VMC4zTY9eXO_LKmN9dl6VDSYxkhO8lLqs_z4lqfpnpWhhQXd1Qw_Zmy3wL4HuKpTMs0/pub?gid=0&single=true&output=csv
-";
+        const GOOGLE_SHEET_CSV_URL = "https://google.com";
         let allProducts = [];
         let cartCount = 0;
 
@@ -142,14 +141,20 @@
                     return null;
                 }).filter(item => item !== null);
                 renderProducts(allProducts);
-            } catch (error) { console.error(error); }
+            } catch (error) {
+                document.getElementById('statusSub').innerText = "পণ্য লোড করতে সমস্যা হয়েছে। দয়া করে পেজটি রিফ্রেশ দিন।";
+            }
         }
 
         function renderProducts(products) {
             const grid = document.getElementById('productGrid');
             const statusMsg = document.getElementById('statusMessage');
             grid.innerHTML = '';
-            if (products.length === 0) { statusMsg.style.display = 'block'; return; }
+            if (products.length === 0) {
+                statusMsg.style.display = 'block';
+                document.getElementById('statusSub').innerText = "বর্তমানে কোনো পণ্য যুক্ত করা হয়নি।";
+                return;
+            }
             statusMsg.style.display = 'none';
             products.forEach((product, index) => {
                 const waText = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে "${product.name}" (দাম: ৳${product.price}) পণ্যটি অর্ডার করতে চাই।`);
