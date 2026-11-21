@@ -231,9 +231,9 @@ function deleteItem(id) {
     drawProducts();
   }
 }
-
  function getWaUrl(name, price) {
-  var text = 'আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n\nপণ্য: ' + name + '\nদাম: ৳' + price;
+  var cleanName = String(name).replace(/[^a-zA-Z0-9\u0980-\u09FF ]/g, ' ');
+  var text = 'Order from Chitro mart bd - Product: ' + cleanName + ' | Price: ' + price + ' Tk';
   return 'https://wa.me' + encodeURIComponent(text);
 }
 function drawProducts() {
