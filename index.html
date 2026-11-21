@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -120,46 +120,44 @@
 
     <script>
         const SHEET_ID = "11Fz_Knf6gwIY1d3W2CbYl2RqLv1Usetubkjm6tDtFKl";
-        const GVIZ_URL = `https://google.com{SHEET_ID}/gviz/tq?tqx=out:json`;
-
         let allProducts = [];
         let cartCount = 0;
 
-        async function loadProducts() {
-            try {
-                const response = await fetch(GVIZ_URL);
-                const text = await response.text();
-                const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
-                const data = JSON.parse(jsonString);
-                const rows = data.table.rows;
+        window.handleSheetData = function(data) {
+            const rows = (data && data.table && data.table.rows) ? data.table.rows : [];
+            allProducts = rows.map(r => {
+                const c = r.c || [];
+                const colA = c.at(0);
+                const colB = c.at(1);
+                const colC = c.at(2);
+                const colD = c.at(3);
 
-                allProducts = rows.map(r => {
-                    const c = r.c || [];
-                    const colA = c.at(0);
-                    const colB = c.at(1);
-                    const colC = c.at(2);
-                    const colD = c.at(3);
+                const rawName = colA && colA.v !== null ? String(colA.v).trim() : "";
+                const rawPrice = colB && colB.v !== null ? String(colB.v).trim() : "";
+                const rawImage = colC && colC.v !== null ? String(colC.v).trim() : "";
+                const rawDetails = colD && colD.v !== null ? String(colD.v).trim() : "";
 
-                    const rawName = colA && colA.v !== null ? String(colA.v).trim() : "";
-                    const rawPrice = colB && colB.v !== null ? String(colB.v).trim() : "";
-                    const rawImage = colC && colC.v !== null ? String(colC.v).trim() : "";
-                    const rawDetails = colD && colD.v !== null ? String(colD.v).trim() : "";
+                if (rawName !== "" && rawName.toLowerCase() !== "name") {
+                    return {
+                        name: rawName,
+                        price: rawPrice,
+                        image: rawImage !== "" ? rawImage : "https://placeholder.com",
+                        details: rawDetails
+                    };
+                }
+                return null;
+            }).filter(item => item !== null);
 
-                    if (rawName !== "" && rawName.toLowerCase() !== "name") {
-                        return {
-                            name: rawName,
-                            price: rawPrice,
-                            image: rawImage !== "" ? rawImage : "https://placeholder.com",
-                            details: rawDetails
-                        };
-                    }
-                    return null;
-                }).filter(item => item !== null);
+            renderProducts(allProducts);
+        };
 
-                renderProducts(allProducts);
-            } catch (error) {
+        function loadProducts() {
+            const script = document.createElement('script');
+            script.src = `https://google.com{SHEET_ID}/gviz/tq?tqx=responseHandler:handleSheetData&t=${Date.now()}`;
+            script.onerror = function() {
                 document.getElementById('statusSub').innerText = "Google Sheet-এর Share পারমিশন 'Anyone with the link' করা আছে কি না তা চেক করুন।";
-            }
+            };
+            document.body.appendChild(script);
         }
 
         function renderProducts(products) {
