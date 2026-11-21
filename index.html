@@ -196,6 +196,8 @@ function exitAdmin() {
  function handlePhoto(input) {
   var file = input.files.item(0);
   if (!file) return;
+  var btn = document.getElementById('pubBtn');
+  if (btn) btn.innerText = 'ছবি প্রসেস হচ্ছে... অপেক্ষা করুন';
   var r = new FileReader();
   r.onload = function(e) {
     var img = new Image();
@@ -205,36 +207,56 @@ function exitAdmin() {
       c.height = img.height * (450 / img.width);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       base64Photo = c.toDataURL('image/jpeg', 0.72);
+      if (btn) btn.innerText = '✅ ছবি রেডি! এখন প্রোডাক্ট পাবলিশ করুন';
     };
     img.src = e.target.result;
   };
   r.readAsDataURL(file);
 }
-async function loadCloudItems() {
-  try {
-    var res = await fetch(DB_URL + '.json');
-    var data = await res.json();
-    storeItems = data ? Object.keys(data).map(function(k) { var x = data[k]; x.fbKey = k; return x; }).reverse() : [];
-  } catch (e) {}
-  drawProducts();
-}
 
 async function saveNewItem() {
   var name = document.getElementById('pName').value.trim();
   var price = Number(document.getElementById('pPrice').value);
-  var img = base64Photo || document.getElementById('pLink').value.trim();
+  var linkVal = document.getElementById('pLink').value.trim();
+  var img = base64Photo || linkVal;
   var desc = document.getElementById('pDesc').value.trim() || '১০০% প্রিমিয়াম কোয়ালিটি পণ্য।';
-  if (!name || !price || !img) { alert('নাম, দাম এবং ছবি দিন!'); return; }
-  await fetch(DB_URL + '.json', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: Date.now(), name: name, price: price, img: img, desc: desc })
-  });
-  base64Photo = ''; document.getElementById('pName').value = ''; document.getElementById('pPrice').value = ''; document.getElementById('pFile').value = ''; document.getElementById('pLink').value = ''; document.getElementById('pDesc').value = '';
-  await loadCloudItems();
-  alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
-}
 
+  if (!name || !price) {
+    alert('দয়া করে প্রোডাক্টের নাম এবং দাম লিখুন!');
+    return;
+  }
+  if (!img) {
+    alert('ছবি এখনো রেডি হয়নি বা সিলেক্ট করা হয়নি! ছবি সিলেক্ট করে ২ সেকেন্ড অপেক্ষা করুন অথবা ছবির লিংক দিন।');
+    return;
+  }
+
+  var btn = document.getElementById('pubBtn');
+  if (btn) { btn.innerText = 'পাবলিশ হচ্ছে...'; btn.disabled = true; }
+
+  try {
+    var res = await fetch('https://firebaseio.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: Date.now(), name: name, price: price, img: img, desc: desc })
+    });
+    if (!res.ok) {
+      alert('Firebase পারমিশন এরর! Firebase Console-এ গিয়ে Realtime Database > Rules-এ .write: true করে Publish করুন।');
+      return;
+    }
+    base64Photo = '';
+    document.getElementById('pName').value = '';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pFile').value = '';
+    document.getElementById('pLink').value = '';
+    document.getElementById('pDesc').value = '';
+    await loadCloudItems();
+    alert('অভিনন্দন! প্রোডাক্ট সফলভাবে সবার জন্য পাবলিশ হয়েছে।');
+  } catch (err) {
+    alert('সমস্যা হয়েছে: ' + err.message);
+  } finally {
+    if (btn) { btn.innerText = 'প্রোডাক্ট পাবলিশ করুন'; btn.disabled = false; }
+  }
+}
 async function deleteItem(fbKey) {
   if (confirm('ডিলিট করবেন?')) {
     await fetch(DB_URL + '/' + fbKey + '.json', { method: 'DELETE' });
