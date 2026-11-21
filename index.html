@@ -1,279 +1,369 @@
+
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
-<html lang="bn">
+<html b:version='2'
+      class='v2'
+      xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:b='http://www.google.com/2005/gml/b'
+      xmlns:data='http://www.google.com/2005/gml/data'
+      xmlns:expr='http://www.google.com/2005/gml/expr'>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>Chitro mart bd | প্রিমিয়াম লাইফস্টাইল ও ফ্যাশন স্টোর</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #1e293b;
-            --accent: #f59e0b;
-            --accent-hover: #d97706;
-            --bg: #f8fafc;
-            --text: #0f172a;
-            --muted: #64748b;
-            --wa: #16a34a;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); }
+  <meta charset='UTF-8'/>
+  <meta name='viewport' content='width=device-width, initial-scale=1'/>
+  <meta name='theme-color' content='#17251e'/>
 
-        /* Top Announcement Bar */
-        .top-bar { background: #020617; color: #f8fafc; text-align: center; padding: 7px 15px; font-size: 13px; letter-spacing: 0.3px; }
-        .top-bar span { color: var(--accent); font-weight: 700; }
+  <title>CHITRO MART BD | প্রিমিয়াম অনলাইন শপ</title>
 
-        /* Main Navbar */
-        header { background: var(--primary); color: white; padding: 14px 5%; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-        .brand { font-size: 26px; font-weight: 700; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
-        .brand span { color: var(--accent); }
+  <b:include data='blog' name='all-head-content'/>
 
-        .search-wrap { flex: 1; max-width: 550px; display: flex; background: white; border-radius: 50px; padding: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .search-wrap input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; outline: none; font-size: 15px; }
-        .search-wrap button { background: var(--accent); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .search-wrap button:hover { background: var(--accent-hover); color: white; }
+  <link href='https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
 
-        .nav-wa { background: var(--wa); color: white; padding: 9px 18px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap; transition: 0.2s; }
-        .nav-wa:hover { background: #15803d; }
+  <b:skin><![CDATA[
 
-        /* Modern Hero Section */
-        .hero { background: radial-gradient(circle at top right, #1e293b, #0f172a); color: white; padding: 60px 5%; text-align: center; position: relative; overflow: hidden; }
-        .hero-tag { display: inline-block; background: rgba(245, 158, 11, 0.15); color: var(--accent); border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-        .hero h1 { font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
-        .hero h1 span { color: var(--accent); }
-        .hero p { font-size: 17px; color: #cbd5e1; max-width: 600px; margin: 0 auto 25px; }
-        .hero-btn { background: var(--accent); color: #000; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block; transition: 0.3s; }
-        .hero-btn:hover { background: white; transform: translateY(-2px); }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        /* Category Filter Pills */
-        .filter-bar { max-width: 1280px; margin: 30px auto 10px; padding: 0 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .cat-btn { background: white; border: 1px solid #e2e8f0; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; color: var(--secondary); cursor: pointer; transition: 0.2s; }
-        .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+body {
+  font-family: 'Hind Siliguri', sans-serif;
+  background: #f8f7f3;
+  color: #202820;
+}
 
-        /* Product Showcase */
-        .container { max-width: 1280px; margin: 20px auto 50px; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 25px; }
-        
-        .card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; }
-        .card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(15, 23, 42, 0.1); border-color: var(--accent); }
-        
-        .card-img { position: relative; width: 100%; height: 280px; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 15px; border-bottom: 1px solid #f1f5f9; cursor: pointer; }
-        .card-img img { max-width: 100%; max-height: 100%; object-fit: contain; transition: 0.3s; }
-        .card:hover .card-img img { transform: scale(1.06); }
-        .discount-badge { position: absolute; top: 14px; left: 14px; background: #ef4444; color: white; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+.topbar {
+  background: #111b15;
+  color: #d9bd83;
+  text-align: center;
+  padding: 9px;
+  font-size: 13px;
+  letter-spacing: .4px;
+}
 
-        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .cat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
-        .card-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; cursor: pointer; line-height: 1.4; }
-        .card-title:hover { color: var(--accent-hover); }
-        
-        .price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 15px; }
-        .price-now { font-size: 24px; font-weight: 700; color: #0f172a; }
-        .price-old { font-size: 15px; color: #94a3b8; text-decoration: line-through; }
+.header {
+  background: #fff;
+  padding: 20px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  border-bottom: 1px solid #eee9df;
+}
 
-        .btn-row { display: grid; grid-template-columns: 1fr 1.3fr; gap: 10px; }
-        .btn-info { background: #f1f5f9; color: var(--primary); border: none; padding: 10px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .btn-info:hover { background: #e2e8f0; }
-        .btn-order { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; text-align: center; }
-        .btn-order:hover { background: var(--accent); color: #000; }
+.logo {
+  font-size: 27px;
+  font-weight: 700;
+  color: #17251e;
+  letter-spacing: 1px;
+}
 
-        /* Modal & Checkout Form */
-        .modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 15px; }
-        .modal-box { background: white; max-width: 780px; width: 100%; border-radius: 18px; padding: 28px; max-height: 90vh; overflow-y: auto; position: relative; animation: pop 0.25s ease; }
-        @keyframes pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .close-modal { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: var(--muted); font-weight: bold; }
-        .modal-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 25px; }
-        @media (max-width: 680px) { .modal-layout { grid-template-columns: 1fr; } .hero h1 { font-size: 28px; } }
-        .modal-img-box { border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; display: flex; align-items: center; justify-content: center; }
-        .modal-img-box img { max-width: 100%; max-height: 300px; object-fit: contain; }
-        .details-box { background: #f8fafc; padding: 12px; border-radius: 10px; font-size: 14px; line-height: 1.6; white-space: pre-line; color: #334155; margin: 12px 0; max-height: 160px; overflow-y: auto; border: 1px solid #e2e8f0; }
+.logo span {
+  color: #b99757;
+}
 
-        .order-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .order-form input, .order-form select { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; }
-        .order-form input:focus { border-color: var(--accent); }
-        .submit-wa { background: var(--wa); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 5px; }
-        .submit-wa:hover { background: #15803d; }
+.nav {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
 
-        /* WhatsApp Contact Footer Section */
-        .wa-footer-box { background: white; border-top: 1px solid #e2e8f0; padding: 45px 20px; text-align: center; }
-        .wa-footer-box h2 { font-size: 28px; font-weight: 700; color: var(--primary); margin-bottom: 6px; text-transform: lowercase; }
-        .wa-footer-box p { font-size: 16px; color: var(--muted); margin-bottom: 18px; }
-        .wa-link-pill { background: var(--wa); color: white; padding: 14px 34px; border-radius: 50px; text-decoration: none; font-size: 19px; font-weight: 700; display: inline-block; box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3); transition: 0.2s; }
-        .wa-link-pill:hover { transform: translateY(-2px); background: #15803d; }
+.nav a {
+  color: #303830;
+  text-decoration: none;
+  font-size: 15px;
+  transition: .3s;
+}
 
-        footer { background: var(--primary); color: #94a3b8; text-align: center; padding: 22px; font-size: 14px; }
-    </style>
+.nav a:hover {
+  color: #b99757;
+}
+
+.hero {
+  width: 90%;
+  max-width: 1400px;
+  min-height: 390px;
+  margin: 35px auto;
+  border-radius: 15px;
+  background: linear-gradient(120deg,#14231b,#304b39);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 35px 20px;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.hero h1 span {
+  color: #d7b779;
+}
+
+.hero p {
+  color: #e4e6e1;
+  font-size: 17px;
+}
+
+.hero-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 30px;
+  background: #c5a66b;
+  color: #142019;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: .3s;
+}
+
+.hero-btn:hover {
+  background: #e1c78f;
+  transform: translateY(-3px);
+}
+
+.section-title {
+  text-align: center;
+  margin: 55px 0 25px;
+}
+
+.section-title h2 {
+  color: #17251e;
+  font-size: 29px;
+}
+
+.section-title p {
+  color: #858585;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.empty-products {
+  width: 90%;
+  max-width: 1400px;
+  min-height: 160px;
+  margin: auto;
+  border: 1px dashed #c9b995;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  text-align: center;
+  padding: 25px;
+}
+
+.contact {
+  margin-top: 65px;
+  padding: 50px 20px;
+  background: #17251e;
+  text-align: center;
+  color: white;
+}
+
+.contact h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.contact p {
+  color: #d5d9d5;
+  margin-bottom: 22px;
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.social a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 24px;
+  color: white;
+  text-decoration: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: .3s;
+}
+
+.social a:hover {
+  transform: translateY(-4px);
+}
+
+.social svg {
+  width: 23px;
+  height: 23px;
+  fill: white;
+}
+
+.whatsapp {
+  background: #168c54;
+}
+
+.facebook {
+  background: #1877f2;
+}
+
+.phone {
+  margin-top: 18px;
+  color: #e4d1a8;
+  font-size: 15px;
+}
+
+.footer {
+  background: #101713;
+  color: #aaa;
+  text-align: center;
+  padding: 22px 10px;
+  font-size: 13px;
+}
+
+@media(max-width:650px) {
+  .header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .nav {
+    justify-content: center;
+    gap: 17px;
+  }
+
+  .hero {
+    min-height: 310px;
+  }
+
+  .hero h1 {
+    font-size: 29px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  .contact h2 {
+    font-size: 23px;
+  }
+}
+
+  ]]></b:skin>
 </head>
+
 <body>
-    <div class="top-bar">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে টাকা পরিশোধ করুন!</div>
 
-    <header>
-        <a href="#" class="brand">Chitro <span>mart bd</span></a>
-        <div class="search-wrap">
-            <input type="text" id="searchBox" placeholder="পছন্দের পণ্য খুঁজুন..." onkeyup="filterAll()">
-            <button onclick="filterAll()">খুঁজুন</button>
-        </div>
-        <a href="https://wa.me" target="_blank" class="nav-wa">WhatsApp: 01767068529</a>
-    </header>
+  <div class='topbar'>
+    CHITRO MART BD — আপনার পছন্দের বিশ্বস্ত অনলাইন শপ
+  </div>
 
-    <section class="hero">
-        <div class="hero-tag">PREMIUM QUALITY COLLECTION 2026</div>
-        <h1>সেরা মানের ফ্যাশন ও লাইফস্টাইল এখন <span>Chitro mart bd</span>-তে</h1>
-        <p>১০০% এক্সপোর্ট কোয়ালিটি পণ্য, সাশ্রয়ী মূল্য এবং দ্রুততম হোম ডেলিভারি সার্ভিস।</p>
-        <a href="#shopSection" class="hero-btn">কালেকশন দেখুন</a>
-    </section>
+  <header class='header'>
 
-    <div class="filter-bar" id="shopSection">
-        <button class="cat-btn active" onclick="setCategory('All', this)">সকল পণ্য</button>
-        <button class="cat-btn" onclick="setCategory('Men Fashion', this)">মেনস ফ্যাশন</button>
-        <button class="cat-btn" onclick="setCategory('Gadgets', this)">গ্যাজেট ও এক্সেসরিজ</button>
+    <div class='logo'>
+      CHITRO <span>MART BD</span>
     </div>
 
-    <div class="container">
-        <div id="productGrid" class="grid"></div>
+    <nav class='nav'>
+      <a href='/'>হোম</a>
+      <a href='#products'>আমাদের পণ্য</a>
+      <a href='#contact'>যোগাযোগ</a>
+    </nav>
+
+  </header>
+
+  <section class='hero'>
+    <div>
+
+      <h1>
+        স্বাগতম <span>CHITRO MART BD</span>-তে
+      </h1>
+
+      <p>
+        আপনার পছন্দ, আমাদের অগ্রাধিকার।
+      </p>
+
+      <a href='#products' class='hero-btn'>
+        পণ্য দেখুন
+      </a>
+
+    </div>
+  </section>
+
+  <section id='products'>
+
+    <div class='section-title'>
+      <h2>আমাদের পণ্যসমূহ</h2>
+      <p>আপনার পছন্দের পণ্য খুঁজে নিন</p>
     </div>
 
-    <!-- Product & Direct Order Modal -->
-    <div id="orderModal" class="modal">
-        <div class="modal-box">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div id="modalBody"></div>
-        </div>
+    <div class='empty-products'>
+      এখানে আপনার পণ্যসমূহ প্রদর্শিত হবে।
     </div>
 
-    <!-- WhatsApp Section (As requested) -->
-    <div class="wa-footer-box">
-        <h2>whats app</h2>
-        <p>order confirm korte zodazod korun</p>
-        <a href="https://wa.me" target="_blank" class="wa-link-pill">01767068529</a>
+    <b:section id='main'
+               class='main'
+               maxwidgets='1'
+               showaddelement='yes'>
+    </b:section>
+
+  </section>
+
+  <section class='contact' id='contact'>
+
+    <h2>অর্ডার করতে যোগাযোগ করুন</h2>
+
+    <p>
+      আপনার পছন্দের পণ্য অর্ডার করতে নিচের মাধ্যমে যোগাযোগ করুন।
+    </p>
+
+    <div class='social'>
+
+      <a class='whatsapp'
+         href='https://wa.me/8801767068529'
+         target='_blank'
+         rel='noopener'>
+
+        <svg viewBox='0 0 24 24'>
+          <path d='M12 .5a11.5 11.5 0 0 0-9.8 17.5L.7 23.3l5.5-1.4A11.5 11.5 0 1 0 12 .5zm0 20.1a8.5 8.5 0 0 1-4.3-1.2l-.3-.2-3.2.8.9-3.1-.2-.3A8.5 8.5 0 1 1 12 20.6zm4.7-6.4c-.3-.2-1.7-.9-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 .9-.2.2-.4.2-.7.1-.3-.2-1.2-.5-2.3-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.5.1-.2 0-.4 0-.5l-.9-2.1c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.1 3c.2.2 2 3.1 4.8 4.3.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.3z'/>
+        </svg>
+
+        WhatsApp
+
+      </a>
+
+      <a class='facebook'
+         href='https://www.facebook.com/profile.php?id=61596351826814'
+         target='_blank'
+         rel='noopener'>
+
+        <svg viewBox='0 0 24 24'>
+          <path d='M24 12a12 12 0 1 0-13.875 11.85v-8.38H7.078V12h3.047V9.356c0-3.007 1.792-4.668 4.533-4.668 1.313 0 2.686.235 2.686.235v2.953h-1.513c-1.49 0-1.956.925-1.956 1.874V12h3.328l-.532 3.47h-2.796v8.38A12.003 12.003 0 0 0 24 12'/>
+        </svg>
+
+        Facebook
+
+      </a>
+
     </div>
 
-    <footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
+    <div class='phone'>
+      WhatsApp: 01767068529
+    </div>
 
-    <script>
-        const products = [
-            {
-                id: 1,
-                category: "Men Fashion",
-                name: "Stylish Denim Shirt",
-                price: 860,
-                oldPrice: 1150,
-                badge: "২৫% ছাড়",
-                image: "https://postimg.cc",
-                sizes: ["M", "L", "XL", "XXL", "3XL"],
-                details: `প্রিমিয়াম সফট ডেনিম ফেব্রিক্সের স্টাইলিশ শার্ট, যা আপনার লুকে আনবে স্মার্ট ও আকর্ষণীয় ভাইব।\n\n📌 Product Details:\n• ফেব্রিক্স: ১০০% প্রিমিয়াম ডেনিম (এক্সপোর্ট কোয়ালিটি)\n• ডিজাইন: ফুল স্লিভ, বাটন ফ্রন্ট ও ডুয়াল চেস্ট পকেট\n• কালার ও ওয়াশ: ১০০% গ্যারান্টিযুক্ত\n\n📏 Size Measurement:\n• M = Chest 40", Length 28"\n• L = Chest 42", Length 29"\n• XL = Chest 44", Length 30"\n• XXL = Chest 46", Length 31"\n• 3XL = Chest 48", Length 31"`
-            }
-        ];
+  </section>
 
-        let currentCategory = 'All';
+  <footer class='footer'>
+    © 2026 CHITRO MART BD — সর্বস্বত্ব সংরক্ষিত
+  </footer>
 
-        function renderProducts(items) {
-            const grid = document.getElementById('productGrid');
-            if (items.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;background:white;border-radius:12px;"><h3>এই ক্যাটাগরিতে এখনো কোনো পণ্য যুক্ত করা হয়নি।</h3></div>';
-                return;
-            }
-
-            grid.innerHTML = items.map(p => `
-                <div class="card">
-                    <div>
-                        <div class="card-img" onclick="openOrderModal(${p.id})">
-                            ${p.badge ? `<span class="discount-badge">${p.badge}</span>` : ''}
-                            <img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.onerror=null;this.src='https://unsplash.com';">
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <div class="cat-label">${p.category}</div>
-                                <h3 class="card-title" onclick="openOrderModal(${p.id})">${p.name}</h3>
-                                <div class="price-row">
-                                    <span class="price-now">৳${p.price}</span>
-                                    ${p.oldPrice ? `<span class="price-old">৳${p.oldPrice}</span>` : ''}
-                                </div>
-                            </div>
-                            <div class="btn-row">
-                                <button class="btn-info" onclick="openOrderModal(${p.id})">বিস্তারিত</button>
-                                <button class="btn-order" onclick="openOrderModal(${p.id})">অর্ডার করুন</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function setCategory(cat, btn) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterAll();
-        }
-
-        function filterAll() {
-            const q = document.getElementById('searchBox').value.toLowerCase();
-            const filtered = products.filter(p => {
-                const matchCat = currentCategory === 'All' || p.category === currentCategory;
-                const matchSearch = p.name.toLowerCase().includes(q) || p.details.toLowerCase().includes(q);
-                return matchCat && matchSearch;
-            });
-            renderProducts(filtered);
-        }
-
-        function openOrderModal(id) {
-            const p = products.find(item => item.id === id);
-            if (!p) return;
-            const sizeOptions = p.sizes.map(s => `<option value="${s}">সাইজ: ${s}</option>`).join('');
-            
-            document.getElementById('modalBody').innerHTML = `
-                <div class="modal-layout">
-                    <div class="modal-img-box">
-                        <img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.onerror=null;this.src='https://unsplash.com';">
-                    </div>
-                    <div>
-                        <span class="cat-label">${p.category}</span>
-                        <h2 style="font-size:24px;margin-bottom:5px;">${p.name}</h2>
-                        <div class="price-row">
-                            <span class="price-now">৳${p.price}</span>
-                            ${p.oldPrice ? `<span class="price-old">৳${p.oldPrice}</span>` : ''}
-                        </div>
-                        <div class="details-box">${p.details}</div>
-                        
-                        <div class="order-form">
-                            <input type="text" id="custName" placeholder="আপনার নাম লিখুন *" required>
-                            <input type="tel" id="custPhone" placeholder="মোবাইল নম্বর লিখুন *" required>
-                            <input type="text" id="custAddress" placeholder="সম্পূর্ণ ঠিকানা (জেলা ও থানা সহ) *" required>
-                            <select id="custSize">${sizeOptions}</select>
-                            <button class="submit-wa" onclick="confirmWhatsAppOrder('${p.name}', ${p.price})">WhatsApp-এ অর্ডার কনফার্ম করুন</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('orderModal').style.display = 'flex';
-        }
-
-        function confirmWhatsAppOrder(prodName, prodPrice) {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const size = document.getElementById('custSize').value;
-
-            if (!name || !phone || !address) {
-                alert("অনুগ্রহ করে আপনার নাম, মোবাইল নম্বর এবং ঠিকানা লিখুন!");
-                return;
-            }
-
-            const text = `আসসালামু আলাইকুম, আমি Chitro mart bd থেকে অর্ডার করতে চাই:\n\n🛍️ পণ্য: ${prodName}\n💰 দাম: ৳${prodPrice}\n📏 ${size}\n\n👤 নাম: ${name}\n📞 মোবাইল: ${phone}\n📍 ঠিকানা: ${address}`;
-            window.open(`https://wa.me?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
-        }
-
-        window.onclick = function(e) {
-            if (e.target === document.getElementById('orderModal')) closeModal();
-        }
-
-        renderProducts(products);
-    </script>
 </body>
 </html>
