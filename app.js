@@ -156,15 +156,31 @@ function viewProduct(id) {
     document.getElementById('orderModal').style.display = 'flex';
 }
 
-function orderWhatsApp(name, price) {
+ function orderWhatsApp(name, price) {
     const cn = document.getElementById('cName').value.trim();
     const cp = document.getElementById('cPhone').value.trim();
     const ca = document.getElementById('cAddr').value.trim();
     const dl = Number(document.getElementById('cArea').value);
-    const sz = document.getElementById('oSize') ? `\n📏 ${document.getElementById('oSize').value}` : '';
-    if (!cn || !cp || !ca) { alert('নাম, নম্বর ও ঠিকানা দিন!'); return; }
-    const txt = `আসসালামু আলাইকুম, Chitro mart bd থেকে অর্ডার:\n\n🛍️ পণ্য: ${name}${sz}\n💰 দাম: ৳${price}\n🚚 ডেলিভারি: ৳${dl}\n💵 মোট: ৳${price + dl}\n\n👤 নাম: ${cn}\n📞 ফোন: ${cp}\n📍 ঠিকানা: ${ca}`;
-    window.open(`https://wa.me{encodeURIComponent(txt)}`, '_blank');
+    const sizeBox = document.getElementById('oSize');
+    const sz = sizeBox ? '\n📏 ' + sizeBox.value : '';
+    
+    if (!cn || !cp || !ca) { 
+        alert('নাম, নম্বর ও ঠিকানা দিন!'); 
+        return; 
+    }
+    
+    const total = price + dl;
+    const txt = 'আসসালামু আলাইকুম, Chitro mart bd থেকে অর্ডার:\n\n' +
+                '🛍️ পণ্য: ' + name + sz + '\n' +
+                '💰 দাম: ৳' + price + '\n' +
+                '🚚 ডেলিভারি: ৳' + dl + '\n' +
+                '💵 মোট: ৳' + total + '\n\n' +
+                '👤 নাম: ' + cn + '\n' +
+                '📞 ফোন: ' + cp + '\n' +
+                '📍 ঠিকানা: ' + ca;
+                
+    const finalUrl = 'https://wa.me' + encodeURIComponent(txt);
+    window.open(finalUrl, '_blank');
 }
 
 function pushCart(id) {
@@ -179,8 +195,9 @@ function pushCart(id) {
 function viewCart() {
     if (cartItems.length === 0) { alert('আপনার কার্ট খালি!'); return; }
     const total = cartItems.reduce((s, x) => s + x.price, 0);
-    const list = cartItems.map((x, i) => `${i + 1}. ${x.name} - ৳${x.price}`).join('\n');
-    if (confirm(`কার্টের পণ্যসমূহ:\n${list}\n\nমোট মূল্য: ৳${total}\n\nWhatsApp-এ অর্ডার করতে OK চাপুন।`)) {
-        window.open(`https://wa.me{encodeURIComponent('কার্ট অর্ডার:\n' + list + '\nমোট: ৳' + total)}`, '_blank');
+    const list = cartItems.map((x, i) => (i + 1) + '. ' + x.name + ' - ৳' + x.price).join('\n');
+    if (confirm('কার্টের পণ্যসমূহ:\n' + list + '\n\nমোট মূল্য: ৳' + total + '\n\nWhatsApp-এ অর্ডার করতে OK চাপুন।')) {
+        const cartUrl = 'https://wa.me' + encodeURIComponent('কার্ট অর্ডার:\n' + list + '\nমোট: ৳' + total);
+        window.open(cartUrl, '_blank');
     }
 }
