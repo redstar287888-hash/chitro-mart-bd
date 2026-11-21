@@ -232,9 +232,10 @@ function deleteItem(id) {
   }
 }
  function getWaUrl(name, price) {
+  var myNum = '880' + '1767' + '068529';
   var cleanName = String(name).replace(/[^a-zA-Z0-9\u0980-\u09FF ]/g, ' ');
   var text = 'Order from Chitro mart bd - Product: ' + cleanName + ' | Price: ' + price + ' Tk';
-     return 'https://wa.me' + encodeURIComponent(text);
+  return 'https://wa.me' + myNum + '?text=' + encodeURIComponent(text);
 }
 function drawProducts() {
   var q = document.getElementById('searchInput').value.toLowerCase();
