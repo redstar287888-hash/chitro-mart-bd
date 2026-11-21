@@ -1,289 +1,226 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
-    <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --dark-bg: #0f172a;
-            --navy-light: #1e293b;
-            --gold: #f59e0b;
-            --gold-hover: #d97706;
-            --light-bg: #f8fafc;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --wa-green: #25D366;
-            --fb-blue: #1877F2;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
-
-        .top-notice { background-color: #020617; color: #f1f5f9; text-align: center; padding: 8px 15px; font-size: 13px; }
-        .top-notice span { color: var(--gold); font-weight: 700; }
-
-        header { background-color: var(--dark-bg); color: white; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-        .brand-logo { font-size: 28px; font-weight: 700; color: #ffffff; text-decoration: none; }
-        .brand-logo span { color: var(--gold); }
-
-        .search-box { flex: 1; max-width: 520px; display: flex; background: #ffffff; border-radius: 50px; padding: 4px; }
-        .search-box input { flex: 1; border: none; padding: 8px 18px; border-radius: 50px; font-size: 15px; outline: none; }
-        .search-box button { background-color: var(--gold); color: #000; border: none; padding: 8px 22px; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; }
-
-        .nav-links { display: flex; gap: 20px; font-size: 15px; font-weight: 600; }
-        .nav-links a { color: #e2e8f0; text-decoration: none; }
-        .nav-links a:hover { color: var(--gold); }
-
-        .hero-section { background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #ffffff; text-align: center; padding: 65px 5% 80px; }
-        .hero-badge { display: inline-block; background: rgba(245, 158, 11, 0.15); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.4); padding: 5px 18px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-        .hero-section h1 { font-size: 40px; font-weight: 700; margin-bottom: 10px; }
-        .hero-section h1 span { color: var(--gold); }
-        .hero-section p { font-size: 17px; color: #cbd5e1; max-width: 620px; margin: 0 auto; }
-
-        .features-bar { max-width: 1180px; margin: -35px auto 35px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; position: relative; z-index: 10; }
-        .feature-card { background: #ffffff; padding: 16px 20px; border-radius: 12px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07); display: flex; align-items: center; gap: 14px; }
-        .feature-icon { font-size: 26px; }
-        .feature-text h4 { font-size: 16px; font-weight: 700; }
-        .feature-text p { font-size: 13px; color: var(--text-muted); }
-
-        .main-content { max-width: 1180px; width: 100%; margin: 10px auto 50px; padding: 0 20px; flex: 1; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; }
-        .section-title { font-size: 26px; font-weight: 700; }
-
-        .admin-panel { display: none; background: #ffffff; border: 2px solid var(--gold); border-radius: 16px; padding: 25px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15); }
-        .admin-panel h3 { font-size: 22px; margin-bottom: 15px; color: var(--dark-bg); display: flex; justify-content: space-between; align-items: center; }
-        .admin-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .admin-form input, .admin-form textarea { width: 100%; padding: 11px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
-        .admin-form textarea { grid-column: 1 / -1; height: 90px; resize: vertical; }
-        .admin-submit { grid-column: 1 / -1; background: var(--dark-bg); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .admin-submit:hover { background: var(--gold); color: black; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 24px; }
-        .product-card { background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; position: relative; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12); border-color: var(--gold); }
-        .del-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; z-index: 5; }
-        .img-box { width: 100%; height: 260px; padding: 15px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; cursor: pointer; background: #fff; }
-        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .card-title { font-size: 18px; font-weight: 700; color: var(--dark-bg); margin-bottom: 8px; cursor: pointer; }
-        .card-price { font-size: 22px; font-weight: 700; color: #b91c1c; margin-bottom: 14px; }
-        .card-btns { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; }
-        .btn-details { background: #f1f5f9; color: var(--dark-bg); border: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; }
-        .btn-order { background: var(--dark-bg); color: #ffffff; text-decoration: none; padding: 10px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; }
-        .btn-order:hover { background: var(--gold); color: #000000; }
-        .empty-store-box { background: #ffffff; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 60px 25px; text-align: center; grid-column: 1 / -1; }
-
-        .modal { display: none; position: fixed; z-index: 2000; inset: 0; background: rgba(2, 6, 23, 0.75); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 15px; }
-        .modal-box { background: #ffffff; max-width: 720px; width: 100%; border-radius: 16px; padding: 25px; max-height: 90vh; overflow-y: auto; position: relative; }
-        .login-box { max-width: 380px; text-align: center; }
-        .login-box input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; margin: 15px 0; font-size: 16px; text-align: center; }
-        .close-btn { position: absolute; right: 18px; top: 12px; font-size: 28px; cursor: pointer; font-weight: bold; color: #64748b; }
-        .modal-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 22px; margin-top: 10px; }
-        @media (max-width: 650px) { .modal-grid, .admin-form { grid-template-columns: 1fr; } .nav-links { display: none; } }
-        .modal-grid img { width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; }
-        .modal-desc { background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 14px; line-height: 1.6; white-space: pre-line; margin: 12px 0; border: 1px solid #e2e8f0; max-height: 220px; overflow-y: auto; }
-
-        .contact-wrapper { background: #ffffff; border-top: 1px solid #e2e8f0; padding: 50px 20px; text-align: center; }
-        .contact-heading { font-size: 26px; font-weight: 700; color: var(--dark-bg); margin-bottom: 22px; }
-        .social-buttons { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; }
-        .social-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px; border-radius: 50px; text-decoration: none; color: #ffffff; font-size: 17px; font-weight: 700; transition: 0.25s; }
-        .btn-whatsapp { background-color: var(--wa-green); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35); }
-        .btn-facebook { background-color: var(--fb-blue); box-shadow: 0 6px 20px rgba(24, 119, 242, 0.35); }
-        .social-btn svg { width: 24px; height: 24px; fill: currentColor; }
-
-        .back-to-top { background-color: var(--navy-light); color: #ffffff; text-align: center; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; }
-        footer { background-color: var(--dark-bg); color: #94a3b8; text-align: center; padding: 22px 15px; font-size: 14px; }
-        .admin-trigger { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 5px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-left: 10px; }
-        .admin-trigger:hover { background: var(--gold); color: #000; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
+<link href="https://googleapis.com" rel="stylesheet">
+<style>
+:root { --dark:#0f172a; --navy:#1e293b; --gold:#f59e0b; --bg:#f8fafc; --wa:#25D366; --fb:#1877F2; }
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Hind Siliguri',sans-serif; }
+body { background:var(--bg); color:var(--dark); display:flex; flex-direction:column; min-height:100vh; }
+.top-bar { background:#020617; color:#fff; text-align:center; padding:7px; font-size:13px; }
+.top-bar span { color:var(--gold); font-weight:700; }
+header { background:var(--dark); color:#fff; padding:14px 5%; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:sticky; top:0; z-index:999; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+.logo { font-size:26px; font-weight:700; color:#fff; text-decoration:none; }
+.logo span { color:var(--gold); }
+.search-bar { flex:1; max-width:460px; display:flex; background:#fff; border-radius:30px; padding:3px; }
+.search-bar input { flex:1; border:none; padding:7px 15px; border-radius:30px; outline:none; font-size:14px; }
+.search-bar button { background:var(--gold); border:none; padding:7px 18px; border-radius:30px; font-weight:700; cursor:pointer; }
+.admin-top-btn { background:var(--navy); color:var(--gold); border:1px solid var(--gold); padding:7px 15px; border-radius:20px; font-size:13px; font-weight:700; cursor:pointer; }
+.admin-top-btn:hover { background:var(--gold); color:#000; }
+.hero { background:linear-gradient(135deg,#0f172a,#1e293b); color:#fff; text-align:center; padding:55px 5% 70px; }
+.hero h1 { font-size:38px; margin-bottom:10px; }
+.hero h1 span { color:var(--gold); }
+.hero p { color:#cbd5e1; font-size:16px; max-width:600px; margin:0 auto; }
+.trust-grid { max-width:1150px; margin:-30px auto 30px; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; position:relative; z-index:10; }
+.trust-card { background:#fff; padding:15px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.06); display:flex; align-items:center; gap:12px; font-weight:600; font-size:15px; }
+.container { max-width:1150px; width:100%; margin:0 auto 40px; padding:0 20px; flex:1; }
+.cat-tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.cat-tab { background:#fff; border:1px solid #cbd5e1; padding:7px 18px; border-radius:20px; cursor:pointer; font-weight:600; font-size:14px; }
+.cat-tab.active, .cat-tab:hover { background:var(--dark); color:#fff; border-color:var(--dark); }
+.admin-box { display:none; background:#fff; border:2px solid var(--gold); border-radius:14px; padding:22px; margin-bottom:30px; box-shadow:0 10px 25px rgba(245,158,11,0.15); }
+.admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:15px; }
+.admin-grid input, .admin-grid select, .admin-grid textarea { width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px; }
+.admin-grid textarea { grid-column:1/-1; height:80px; }
+.pub-btn { grid-column:1/-1; background:var(--dark); color:#fff; border:none; padding:12px; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; }
+.pub-btn:hover { background:var(--gold); color:#000; }
+.prod-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:22px; }
+.card { background:#fff; border-radius:12px; overflow:hidden; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between; position:relative; transition:0.25s; }
+.card:hover { transform:translateY(-4px); box-shadow:0 10px 22px rgba(0,0,0,0.1); border-color:var(--gold); }
+.del-tag { position:absolute; top:10px; right:10px; background:#ef4444; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; }
+.card-img { width:100%; height:240px; padding:12px; display:flex; align-items:center; justify-content:center; border-bottom:1px solid #f1f5f9; cursor:pointer; }
+.card-img img { max-width:100%; max-height:100%; object-fit:contain; }
+.card-body { padding:16px; }
+.card-cat { font-size:12px; color:#64748b; font-weight:600; }
+.card-title { font-size:18px; font-weight:700; margin:4px 0 8px; cursor:pointer; }
+.card-price { font-size:21px; font-weight:700; color:#b91c1c; margin-bottom:12px; }
+.btn-pair { display:grid; grid-template-columns:1fr 1.2fr; gap:8px; }
+.btn-det { background:#f1f5f9; border:none; padding:9px; border-radius:8px; font-weight:600; cursor:pointer; }
+.btn-ord { background:var(--dark); color:#fff; border:none; padding:9px; border-radius:8px; font-weight:600; cursor:pointer; }
+.btn-ord:hover { background:var(--gold); color:#000; }
+.empty-box { background:#fff; border:2px dashed #cbd5e1; border-radius:14px; padding:55px 20px; text-align:center; grid-column:1/-1; }
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:2000; align-items:center; justify-content:center; padding:15px; }
+.modal-card { background:#fff; max-width:650px; width:100%; border-radius:14px; padding:24px; max-height:90vh; overflow-y:auto; position:relative; }
+.close-x { position:absolute; right:16px; top:10px; font-size:26px; cursor:pointer; font-weight:700; }
+.contact-sec { background:#fff; border-top:1px solid #e2e8f0; padding:45px 20px; text-align:center; }
+.contact-sec h2 { font-size:26px; margin-bottom:20px; }
+.soc-row { display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
+.soc-btn { display:inline-flex; align-items:center; gap:10px; padding:12px 26px; border-radius:50px; color:#fff; text-decoration:none; font-weight:700; font-size:17px; }
+footer { background:var(--dark); color:#94a3b8; text-align:center; padding:20px; font-size:14px; }
+@media(max-width:600px){ .admin-grid{grid-template-columns:1fr;} .hero h1{font-size:28px;} }
+</style>
 </head>
 <body>
+<div class="top-bar">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে টাকা পরিশোধ করুন!</div>
+<header>
+  <a href="#" class="logo">Chitro <span>mart bd</span></a>
+  <div class="search-bar">
+    <input type="text" id="qInput" placeholder="পছন্দের পণ্য খুঁজুন..." onkeyup="renderList()">
+    <button onclick="renderList()">খুঁজুন</button>
+  </div>
+  <button class="admin-top-btn" onclick="openAdminBox()">🔐 অ্যাডমিন প্যানেল</button>
+</header>
 
-    <div class="top-notice">সারা বাংলাদেশে <span>ক্যাশ অন ডেলিভারি</span> সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
+<section class="hero">
+  <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
+  <p>সেরা মানের ও এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
+</section>
 
-    <header>
-        <a href="#" class="brand-logo">Chitro <span>mart bd</span></a>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." onkeyup="searchItems()">
-            <button type="button" onclick="searchItems()">খুঁজুন</button>
-        </div>
-        <nav class="nav-links">
-            <a href="#">হোম</a>
-            <a href="#products">কালেকশন</a>
-            <a href="#contact">যোগাযোগ</a>
-        </nav>
-    </header>
+<div class="trust-grid">
+  <div class="trust-card">🚚 সারা দেশে হোম ডেলিভারি</div>
+  <div class="trust-card">💵 ক্যাশ অন ডেলিভারি</div>
+  <div class="trust-card">✨ ১০০% প্রিমিয়াম কোয়ালিটি</div>
+  <div class="trust-card">🎧 দ্রুত WhatsApp সাপোর্ট</div>
+</div>
 
-    <section class="hero-section">
-        <div class="hero-badge">প্রিমিয়াম কোয়ালিটি অনলাইন স্টোর</div>
-        <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
-        <p>সেরা মানের ও এক্সক্লুসিভ সব পণ্য এখন আপনার হাতের নাগালে। আস্থার সাথে কেনাকাটা করুন ঘরে বসেই।</p>
-    </section>
-
-    <div class="features-bar">
-        <div class="feature-card"><span class="feature-icon">🚚</span><div class="feature-text"><h4>সারা দেশে হোম ডেলিভারি</h4><p>দ্রুত ও নিরাপদ ডেলিভারি সার্ভিস</p></div></div>
-        <div class="feature-card"><span class="feature-icon">💵</span><div class="feature-text"><h4>ক্যাশ অন ডেলিভারি</h4><p>পণ্য দেখে টাকা পরিশোধের সুবিধা</p></div></div>
-        <div class="feature-card"><span class="feature-icon">✨</span><div class="feature-text"><h4>১০০% প্রিমিয়াম কোয়ালিটি</h4><p>সেরা মানের পণ্যের নিশ্চয়তা</p></div></div>
-        <div class="feature-card"><span class="feature-icon">🎧</span><div class="feature-text"><h4>তাৎক্ষণিক সাপোর্ট</h4><p>সরাসরি WhatsApp ও Facebook-এ</p></div></div>
+<div class="container">
+  <div id="adminPanel" class="admin-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3>➕ নতুন প্রোডাক্ট যোগ করুন</h3>
+      <button onclick="closeAdminBox()" style="background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;">বন্ধ করুন</button>
     </div>
-    <main class="main-content" id="products">
-        <div id="adminPanel" class="admin-panel">
-            <h3>
-                <span>➕ নতুন প্রোডাক্ট যোগ করুন</span>
-                <button type="button" onclick="logoutAdmin()" style="background:#ef4444;color:white;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:13px;">লগআউট</button>
-            </h3>
-            <div class="admin-form">
-                <input type="text" id="pName" placeholder="প্রোডাক্টের নাম লিখুন *">
-                <input type="number" id="pPrice" placeholder="দাম লিখুন (যেমন: 860) *">
-                <input type="text" id="pImage" placeholder="ছবির ডিরেক্ট লিংক (https://...) *" style="grid-column: 1 / -1;">
-                <textarea id="pDetails" placeholder="প্রোডাক্টের সাইজ, ফেব্রিক্স ও বিস্তারিত তথ্য লিখুন..."></textarea>
-                <button type="button" class="admin-submit" onclick="addNewProduct()">প্রোডাক্ট পাবলিশ করুন</button>
-            </div>
-        </div>
-
-        <div class="section-header">
-            <h2 class="section-title">আমাদের কালেকশন</h2>
-        </div>
-        <div id="productGrid" class="product-grid"></div>
-    </main>
-
-    <div id="loginModal" class="modal">
-        <div class="modal-box login-box">
-            <span class="close-btn" onclick="closeLoginModal()">&times;</span>
-            <h3>অ্যাডমিন লগইন</h3>
-            <p style="font-size:14px;color:#64748b;margin-top:5px;">প্রোডাক্ট যোগ করতে পাসওয়ার্ড দিন</p>
-            <input type="password" id="adminPassInput" placeholder="পাসওয়ার্ড লিখুন">
-            <button type="button" class="admin-submit" style="width:100%;" onclick="checkAdminPass()">প্রবেশ করুন</button>
-        </div>
+    <div class="admin-grid">
+      <input type="text" id="inName" placeholder="প্রোডাক্টের নাম লিখুন *">
+      <input type="number" id="inPrice" placeholder="দাম লিখুন (যেমন: 860) *">
+      <select id="inCat">
+        <option value="ফ্যাশন">ক্যাটাগরি: ফ্যাশন</option>
+        <option value="গ্যাজেট">ক্যাটাগরি: গ্যাজেট</option>
+        <option value="লাইফস্টাইল">ক্যাটাগরি: লাইফস্টাইল</option>
+      </select>
+      <input type="file" id="inFile" accept="image/*" onchange="encodeImg(this)">
+      <input type="text" id="inImgUrl" placeholder="অথবা ছবির লিংক দিন (গ্যালারি থেকে না দিলে)" style="grid-column:1/-1;">
+      <textarea id="inDesc" placeholder="সাইজ, ফেব্রিক্স ও বিস্তারিত তথ্য লিখুন..."></textarea>
+      <button class="pub-btn" onclick="saveProduct()">প্রোডাক্ট পাবলিশ করুন</button>
     </div>
+  </div>
 
-    <div id="detailModal" class="modal">
-        <div class="modal-box">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div id="modalBody"></div>
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="setCat('সব',this)">সব পণ্য</button>
+    <button class="cat-tab" onclick="setCat('ফ্যাশন',this)">ফ্যাশন</button>
+    <button class="cat-tab" onclick="setCat('গ্যাজেট',this)">গ্যাজেট</button>
+    <button class="cat-tab" onclick="setCat('লাইফস্টাইল',this)">লাইফস্টাইল</button>
+  </div>
+
+  <div id="prodGrid" class="prod-grid"></div>
+</div>
+<div id="orderModal" class="modal">
+  <div class="modal-card">
+    <span class="close-x" onclick="document.getElementById('orderModal').style.display='none'">&times;</span>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<section class="contact-sec">
+  <h2>অর্ডার করতে যোগাযোগ করুন</h2>
+  <div class="soc-row">
+    <a href="https://wa.me" target="_blank" class="soc-btn" style="background:var(--wa);">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 32 32"><path d="M16 2.93c-7.21 0-13.07 5.86-13.07 13.07 0 2.3.6 4.55 1.74 6.53L2.8 29.2l6.85-1.8c1.91 1.04 4.07 1.59 6.35 1.59 7.21 0 13.07-5.86 13.07-13.07S23.21 2.93 16 2.93zm0 23.85c-1.97 0-3.9-.53-5.58-1.53l-.4-.24-4.14 1.09 1.11-4.03-.26-.41c-1.1-1.74-1.68-3.75-1.68-5.81 0-6.02 4.9-10.92 10.92-10.92s10.92 4.9 10.92 10.92-4.89 10.93-10.89 10.93zm5.99-8.18c-.33-.16-1.94-.96-2.24-1.07-.3-.11-.52-.16-.74.16-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.16-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.39c.16.22 2.32 3.54 5.62 4.96.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.21-1.56.27-.77.27-1.42.19-1.56-.08-.14-.3-.22-.63-.38z"/></svg>
+      <span>01767068529</span>
+    </a>
+    <a href="https://facebook.com" target="_blank" class="soc-btn" style="background:var(--fb);">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+      <span>ফেসবুক পেজ</span>
+    </a>
+  </div>
+</section>
+
+<footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
+
+<script>
+let items = JSON.parse(localStorage.getItem('cm_items')) || [];
+let curCat = 'সব', adminOn = false, base64Img = '';
+
+function openAdminBox(){
+  let p = prompt("অ্যাডমিন পাসওয়ার্ড দিন (chitro2026):");
+  if(p === "chitro2026"){ adminOn = true; document.getElementById('adminPanel').style.display='block'; renderList(); }
+  else if(p !== null){ alert("ভুল পাসওয়ার্ড!"); }
+}
+function closeAdminBox(){ adminOn = false; document.getElementById('adminPanel').style.display='none'; renderList(); }
+
+function encodeImg(input){
+  if(input.files && input.files[0]){
+    let r = new FileReader();
+    r.onload = e => { base64Img = e.target.result; };
+    r.readAsDataURL(input.files[0]);
+  }
+}
+
+function saveProduct(){
+  let name = document.getElementById('inName').value.trim();
+  let price = document.getElementById('inPrice').value.trim();
+  let cat = document.getElementById('inCat').value;
+  let img = base64Img || document.getElementById('inImgUrl').value.trim();
+  let desc = document.getElementById('inDesc').value.trim() || "প্রিমিয়াম কোয়ালিটি পণ্য।";
+  if(!name || !price || !img){ alert("নাম, দাম এবং ছবি দিন!"); return; }
+  items.unshift({id:Date.now(), name, price, cat, img, desc});
+  localStorage.setItem('cm_items', JSON.stringify(items));
+  base64Img = ''; document.getElementById('inName').value=''; document.getElementById('inPrice').value=''; document.getElementById('inImgUrl').value=''; document.getElementById('inDesc').value='';
+  renderList(); alert("প্রোডাক্ট যোগ হয়েছে!");
+}
+
+function delItem(id){
+  if(confirm("ডিলিট করবেন?")){ items = items.filter(x=>x.id!==id); localStorage.setItem('cm_items', JSON.stringify(items)); renderList(); }
+}
+
+function setCat(c, btn){
+  curCat = c; document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderList();
+}
+
+function renderList(){
+  let q = document.getElementById('qInput').value.toLowerCase();
+  let list = items.filter(x => (curCat==='সব' || x.cat===curCat) && x.name.toLowerCase().includes(q));
+  let grid = document.getElementById('prodGrid');
+  if(list.length===0){
+    grid.innerHTML = `<div class="empty-box"><div style="font-size:44px;">🛍️</div><h3>আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(p=>`
+    <div class="card">
+      ${adminOn ? `<button class="del-tag" onclick="delItem(${p.id})">ডিলিট ✕</button>` : ''}
+      <div class="card-img" onclick="openOrder(${p.id})"><img src="${p.img}" alt="${p.name}"></div>
+      <div class="card-body">
+        <div class="card-cat">${p.cat}</div>
+        <div class="card-title" onclick="openOrder(${p.id})">${p.name}</div>
+        <div class="card-price">৳ ${p.price}</div>
+        <div class="btn-pair">
+          <button class="btn-det" onclick="openOrder(${p.id})">বিস্তারিত</button>
+          <button class="btn-ord" onclick="openOrder(${p.id})">অর্ডার করুন</button>
         </div>
-    </div>
+      </div>
+    </div>`).join('');
+}
 
-    <section class="contact-wrapper" id="contact">
-        <h2 class="contact-heading">অর্ডার করতে যোগাযোগ করুন</h2>
-        <div class="social-buttons">
-            <a href="https://wa.me" target="_blank" class="social-btn btn-whatsapp">
-                <svg viewBox="0 0 32 32"><path d="M16 2.93c-7.21 0-13.07 5.86-13.07 13.07 0 2.3.6 4.55 1.74 6.53L2.8 29.2l6.85-1.8c1.91 1.04 4.07 1.59 6.35 1.59 7.21 0 13.07-5.86 13.07-13.07S23.21 2.93 16 2.93zm0 23.85c-1.97 0-3.9-.53-5.58-1.53l-.4-.24-4.14 1.09 1.11-4.03-.26-.41c-1.1-1.74-1.68-3.75-1.68-5.81 0-6.02 4.9-10.92 10.92-10.92s10.92 4.9 10.92 10.92-4.89 10.93-10.89 10.93zm5.99-8.18c-.33-.16-1.94-.96-2.24-1.07-.3-.11-.52-.16-.74.16-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.16-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.39c.16.22 2.32 3.54 5.62 4.96.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.21-1.56.27-.77.27-1.42.19-1.56-.08-.14-.3-.22-.63-.38z"/></svg>
-                <span>01767068529</span>
-            </a>
-            <a href="https://facebook.com" target="_blank" class="social-btn btn-facebook">
-                <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
-                <span>ফেসবুক পেজ</span>
-            </a>
-        </div>
-    </section>
+function openOrder(id){
+  let p = items.find(x=>x.id===id); if(!p) return;
+  document.getElementById('modalContent').innerHTML = `
+    <img src="${p.img}" style="width:100%;max-height:240px;object-fit:contain;margin-bottom:10px;">
+    <h2>${p.name}</h2><div class="card-price">৳ ${p.price}</div>
+    <p style="background:#f8fafc;padding:10px;border-radius:8px;white-space:pre-line;font-size:14px;margin-bottom:12px;">${p.desc}</p>
+    <input id="cName" placeholder="আপনার নাম *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">
+    <input id="cPhone" placeholder="মোবাইল নম্বর *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">
+    <input id="cAddr" placeholder="সম্পূর্ণ ঠিকানা *" style="width:100%;padding:10px;margin-bottom:10px;border:1px solid #cbd5e1;border-radius:8px;">
+    <button onclick="sendWa('${p.name}',${p.price})" style="width:100%;background:var(--wa);color:#fff;border:none;padding:12px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;">WhatsApp-এ অর্ডার কনফার্ম করুন</button>`;
+  document.getElementById('orderModal').style.display='flex';
+}
 
-    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">উপরে ফিরে যান ↑</div>
-    <footer>
-        &copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।
-        <button type="button" class="admin-trigger" onclick="openLoginModal()">অ্যাডমিন লগইন</button>
-    </footer>
-
-    <script>
-        const FIREBASE_DB_URL = ""; 
-        let isAdmin = sessionStorage.getItem('chitro_admin') === 'true';
-        let products = JSON.parse(localStorage.getItem('chitro_products')) || [];
-
-        if (isAdmin) { document.getElementById('adminPanel').style.display = 'block'; }
-
-        function openLoginModal() {
-            document.getElementById('loginModal').style.display = 'flex';
-            document.getElementById('adminPassInput').focus();
-        }
-        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
-
-        function checkAdminPass() {
-            const pass = document.getElementById('adminPassInput').value;
-            if (pass === "chitro2026") {
-                sessionStorage.setItem('chitro_admin', 'true');
-                isAdmin = true;
-                closeLoginModal();
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('adminPanel').scrollIntoView({behavior: 'smooth'});
-                showProducts(products);
-            } else {
-                alert("ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন: chitro2026");
-            }
-        }
-
-        function logoutAdmin() {
-            sessionStorage.removeItem('chitro_admin');
-            isAdmin = false;
-            document.getElementById('adminPanel').style.display = 'none';
-            showProducts(products);
-        }
-
-        async function loadAllProducts() {
-            if (FIREBASE_DB_URL) {
-                try {
-                    const res = await fetch(FIREBASE_DB_URL);
-                    const data = await res.json();
-                    products = data ? Object.keys(data).map(key => ({ firebaseKey: key, ...data[key] })) : [];
-                } catch (e) { console.error(e); }
-            }
-            showProducts(products);
-        }
-
-        async function addNewProduct() {
-            const name = document.getElementById('pName').value.trim();
-            const price = document.getElementById('pPrice').value.trim();
-            const image = document.getElementById('pImage').value.trim();
-            const details = document.getElementById('pDetails').value.trim() || "প্রিমিয়াম কোয়ালিটি পণ্য।";
-            if (!name || !price || !image) { alert("অনুগ্রহ করে প্রোডাক্টের নাম, দাম এবং ছবির লিংক দিন!"); return; }
-
-            const newProd = { id: Date.now(), name, price, image, details };
-            if (FIREBASE_DB_URL) {
-                await fetch(FIREBASE_DB_URL, { method: 'POST', body: JSON.stringify(newProd) });
-                await loadAllProducts();
-            } else {
-                products.unshift(newProd);
-                localStorage.setItem('chitro_products', JSON.stringify(products));
-                showProducts(products);
-            }
-            document.getElementById('pName').value = '';
-            document.getElementById('pPrice').value = '';
-            document.getElementById('pImage').value = '';
-            document.getElementById('pDetails').value = '';
-            alert("প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!");
-        }
-
-        async function deleteProduct(id, fbKey) {
-            if (!confirm("আপনি কি নিশ্চিত এই প্রোডাক্টটি ডিলিট করতে চান?")) return;
-            if (FIREBASE_DB_URL && fbKey) {
-                const baseUrl = FIREBASE_DB_URL.replace('.json', '');
-                await fetch(`${baseUrl}/${fbKey}.json`, { method: 'DELETE' });
-                await loadAllProducts();
-            } else {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('chitro_products', JSON.stringify(products));
-                showProducts(products);
-            }
-        }
-
-        function showProducts(list) {
-            const grid = document.getElementById('productGrid');
-            if (list.length === 0) {
-                grid.innerHTML = `<div class="empty-store-box"><div style="font-size:48px;margin-bottom:10px;">🛍️</div><h3 style="font-size:22px;margin-bottom:6px;">আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>`;
-                return;
-            }
-            grid.innerHTML = list.map(p => {
-                const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
-                return `<div class="product-card">${isAdmin ? `<button type="button" class="del-btn" onclick="deleteProduct(${p.id}, '${p.firebaseKey || ''}')">ডিলিট ✕</button>` : ''}<div><div class="img-box" onclick="openDetail(${p.id})"><img src="${p.image}" referrerpolicy="no-referrer" alt="${p.name}" onerror="this.src='https://placehold.co'"></div><div class="card-body"><div><h3 class="card-title" onclick="openDetail(${p.id})">${p.name}</h3><div class="card-price">৳ ${p.price}</div></div><div class="card-btns"><button type="button" class="btn-details" onclick="openDetail(${p.id})">বিস্তারিত</button><a href="https://wa.me?text=${msg}" target="_blank" class="btn-order">অর্ডার করুন</a></div></div></div></div>`;
-            }).join('');
-        }
-
-        function searchItems() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            showProducts(products.filter(p => p.name.toLowerCase().includes(q)));
-        }
-
-        function openDetail(id) {
-            const p = products.find(item => item.id === id);
-            if (!p) return;
-            const msg = encodeURIComponent(`আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\nপণ্য: ${p.name}\nদাম: ৳${p.price}`);
+function sendWa(n, pr){
+  let cn=document.getElementById('cName').value, cp=document.getElementById('cPhone').value, ca=document.getElementById('cAddr').value;
+  if(!cn||!cp||!ca){ alert("নাম, নম্বর ও ঠিকানা দিন!"); return; }
+  let txt = `অর্ডার:\nপণ্য: ${n}\nদাম: ৳${pr}\nনাম: ${cn}\nফোন: ${cp}\nঠিকানা: ${ca}`;
+  window.open(`https://wa.me?text=${encodeURIComponent(txt)}`,'_blank');
+}
+renderList();
+</script>
+</body>
+</html>
