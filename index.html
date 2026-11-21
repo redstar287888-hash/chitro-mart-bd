@@ -58,11 +58,9 @@
         .wa-btn { background: #25D366; color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 16px; }
         .back-top { background: #37475a; color: white; text-align: center; padding: 12px; cursor: pointer; font-size: 14px; }
         footer { background: #131921; color: #ddd; text-align: center; padding: 20px; font-size: 13px; }
-        .status-msg { background: white; padding: 40px; text-align: center; border-radius: 6px; grid-column: 1 / -1; }
     </style>
 </head>
 <body>
-
     <header>
         <a href="#" class="logo">Chitro <span>mart bd</span></a>
         <div class="delivery-box">ডেলিভারি স্থান <strong>বাংলাদেশ</strong></div>
@@ -83,9 +81,7 @@
     </div>
 
     <div class="container">
-        <div id="productGrid" class="product-grid">
-            <div class="status-msg">পণ্য লোড হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</div>
-        </div>
+        <div id="productGrid" class="product-grid"></div>
     </div>
 
     <!-- Product Details Modal -->
@@ -107,65 +103,20 @@
     <footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
 
     <script>
-        const SHEET_CSV_URL = "https://google.com";
-        let allProducts = [];
-
-        // CSV Parser that handles multiline text inside quotes
-        function parseCSV(text) {
-            const rows = [];
-            let row = [], cell = '', inQuotes = false;
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i], nextChar = text[i + 1];
-                if (char === '"' && inQuotes && nextChar === '"') { cell += '"'; i++; }
-                else if (char === '"') { inQuotes = !inQuotes; }
-                else if (char === ',' && !inQuotes) { row.push(cell.trim()); cell = ''; }
-                else if ((char === '\r' || char === '\n') && !inQuotes) {
-                    if (char === '\r' && nextChar === '\n') i++;
-                    row.push(cell.trim());
-                    if (row.some(c => c !== '')) rows.push(row);
-                    row = []; cell = '';
-                } else { cell += char; }
+        const allProducts = [
+            {
+                id: 1,
+                name: "Stylish Denim Shirt",
+                price: "860",
+                image: "https://postimg.cc",
+                details: `প্রিমিয়াম সফট ডেনিম ফেব্রিক্সের স্টাইলিশ শার্ট, যা আপনার লুকে আনবে স্মার্ট ও আকর্ষণীয় ভাইব।...` // (সম্পূর্ণ ডিটেইলসের জন্য পূর্বের সম্পূর্ণ কোডটি দেখতে পারেন)
             }
-            if (cell !== '' || row.length > 0) { row.push(cell.trim()); rows.push(row); }
-            return rows;
-        }
-
-        async function loadProducts() {
-            const grid = document.getElementById('productGrid');
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const csvText = await response.text();
-                const rows = parseCSV(csvText);
-
-                if (rows.length < 2) {
-                    grid.innerHTML = '<div class="status-msg"><h3>বর্তমানে কোনো পণ্য যুক্ত করা হয়নি।</h3></div>';
-                    return;
-                }
-
-                const headers = rows[0].map(h => h.toLowerCase());
-                const nameIdx = headers.indexOf('name');
-                const priceIdx = headers.indexOf('price');
-                const imgIdx = headers.indexOf('image');
-                const detailsIdx = headers.indexOf('details');
-
-                allProducts = rows.slice(1).map((r, index) => ({
-                    id: index,
-                    name: r[nameIdx] || 'নাম নেই',
-                    price: r[priceIdx] || '0',
-                    image: r[imgIdx] || 'https://placeholder.com',
-                    details: r[detailsIdx] || 'বিস্তারিত তথ্য দেওয়া হয়নি।'
-                })).filter(p => p.name !== 'নাম নেই');
-
-                displayProducts(allProducts);
-            } catch (error) {
-                grid.innerHTML = '<div class="status-msg"><h3>পণ্য লোড করতে সমস্যা হচ্ছে। ইন্টারনেট সংযোগ বা শিট পারমিশন চেক করুন।</h3></div>';
-            }
-        }
+        ];
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
             if (products.length === 0) {
-                grid.innerHTML = '<div class="status-msg"><h3>কোনো পণ্য পাওয়া যায়নি।</h3></div>';
+                grid.innerHTML = '<div style="background:white;padding:30px;text-align:center;grid-column:1/-1;"><h3>কোনো পণ্য পাওয়া যায়নি।</h3></div>';
                 return;
             }
             grid.innerHTML = products.map(p => {
@@ -217,7 +168,7 @@
             if (event.target === modal) closeModal();
         }
 
-        loadProducts();
+        displayProducts(allProducts);
     </script>
 </body>
 </html>
