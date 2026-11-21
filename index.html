@@ -195,9 +195,8 @@ function exitAdmin() {
   document.getElementById('adminBox').style.display = 'none';
   drawProducts();
 }
-
 function handlePhoto(input) {
-  if (!input.files || !input.files[0]) return;
+  if (!input.files || !input.files) return;
   var r = new FileReader();
   r.onload = function(e) {
     var img = new Image();
@@ -206,13 +205,12 @@ function handlePhoto(input) {
       c.width = 450;
       c.height = img.height * (450 / img.width);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-      base64Photo = c.toDataURL('image/jpeg', 0.75);
+      base64Photo = c.toDataURL('image/jpeg', 0.72);
     };
     img.src = e.target.result;
   };
-  r.readAsDataURL(input.files[0]);
+  r.readAsDataURL(input.files);
 }
-
 async function loadCloudItems() {
   try {
     var res = await fetch(DB_URL + '.json');
