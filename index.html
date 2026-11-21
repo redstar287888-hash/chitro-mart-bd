@@ -193,8 +193,9 @@ function exitAdmin() {
   document.getElementById('adminBox').style.display = 'none';
   drawProducts();
 }
-function handlePhoto(input) {
-  if (!input.files || !input.files) return;
+ function handlePhoto(input) {
+  var file = input.files.item(0);
+  if (!file) return;
   var r = new FileReader();
   r.onload = function(e) {
     var img = new Image();
@@ -207,7 +208,7 @@ function handlePhoto(input) {
     };
     img.src = e.target.result;
   };
-  r.readAsDataURL(input.files);
+  r.readAsDataURL(file);
 }
 async function loadCloudItems() {
   try {
