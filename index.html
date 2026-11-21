@@ -69,18 +69,16 @@
         </div>
 
         <div id="gridArea" class="grid"></div>
-    </main>
-    <!-- অ্যাডমিন পাসওয়ার্ড মডাল -->
-    <div id="loginModal" class="modal">
+    </main> 
+        <div id="loginModal" class="modal">
         <div class="modal-card" style="max-width:360px;text-align:center;">
             <span class="close-x" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
             <h3>🔐 অ্যাডমিন লগইন</h3>
-             <input type="password" id="passVal" placeholder="গোপন পাসওয়ার্ড দিন" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
+            <input type="password" id="passVal" placeholder="গোপন পাসওয়ার্ড দিন" style="width:100%;padding:12px;margin:15px 0;border:1px solid #cbd5e1;border-radius:8px;text-align:center;font-size:16px;">
             <button type="button" class="btn-main" style="width:100%;" onclick="verifyAdminLogin()">প্রবেশ করুন</button>
         </div>
     </div>
 
-    <!-- অর্ডার ও বিস্তারিত মডাল -->
     <div id="orderModal" class="modal">
         <div class="modal-card">
             <span class="close-x" onclick="document.getElementById('orderModal').style.display='none'">&times;</span>
@@ -91,11 +89,11 @@
     <section class="contact-sec">
         <h2>অর্ডার করতে যোগাযোগ করুন</h2>
         <div class="soc-btns">
-            <a href="https://wa.me" target="_blank" class="soc-pill" style="background:var(--wa);">
+            <a href="https://wa.me" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#25D366;">
                 <svg width="24" height="24" fill="currentColor" viewBox="0 0 32 32"><path d="M16 2.93c-7.21 0-13.07 5.86-13.07 13.07 0 2.3.6 4.55 1.74 6.53L2.8 29.2l6.85-1.8c1.91 1.04 4.07 1.59 6.35 1.59 7.21 0 13.07-5.86 13.07-13.07S23.21 2.93 16 2.93zm0 23.85c-1.97 0-3.9-.53-5.58-1.53l-.4-.24-4.14 1.09 1.11-4.03-.26-.41c-1.1-1.74-1.68-3.75-1.68-5.81 0-6.02 4.9-10.92 10.92-10.92s10.92 4.9 10.92 10.92-4.89 10.93-10.89 10.93zm5.99-8.18c-.33-.16-1.94-.96-2.24-1.07-.3-.11-.52-.16-.74.16-.22.33-.85 1.07-1.04 1.29-.19.22-.38.25-.71.08-.33-.16-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.14-.67.15-.15.33-.38.49-.57.16-.19.22-.33.33-.55.11-.22.05-.41-.03-.57-.08-.16-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.57.08-.87.41-.3.33-1.15 1.12-1.15 2.73s1.18 3.17 1.34 3.39c.16.22 2.32 3.54 5.62 4.96.79.34 1.4.54 1.88.69.79.25 1.51.21 2.08.13.63-.09 1.94-.79 2.21-1.56.27-.77.27-1.42.19-1.56-.08-.14-.3-.22-.63-.38z"/></svg>
                 <span>01767068529</span>
             </a>
-            <a href="https://facebook.com" target="_blank" class="soc-pill" style="background:var(--fb);">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="soc-pill" style="background:#1877F2;">
                 <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
                 <span>ফেসবুক পেজ</span>
             </a>
@@ -105,6 +103,119 @@
     <div class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">উপরে ফিরে যান ↑</div>
     <footer>&copy; ২০২৬ Chitro mart bd. সর্বস্বত্ব সংরক্ষিত।</footer>
 
-    <script src="app.js"></script>
-</body>
-</html>
+    <script>
+        var storeItems = JSON.parse(localStorage.getItem('cm_items_v5')) || [];
+        var cartItems = JSON.parse(localStorage.getItem('cm_cart_v5')) || [];
+        var activeCat = 'সব';
+        var adminActive = sessionStorage.getItem('cm_admin_v5') === 'yes';
+        var base64Photo = '';
+
+        if (adminActive) document.getElementById('adminBox').style.display = 'block';
+        document.getElementById('cartNum').innerText = cartItems.length;
+
+        function verifyAdminLogin() {
+            if (document.getElementById('passVal').value.trim() === 'redstar(())') {
+                adminActive = true;
+                sessionStorage.setItem('cm_admin_v5', 'yes');
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('passVal').value = '';
+                document.getElementById('adminBox').style.display = 'block';
+                drawProducts();
+            } else {
+                alert('ভুল পাসওয়ার্ড! আপনি অ্যাডমিন নন।');
+            }
+        }
+
+        function exitAdmin() {
+            adminActive = false;
+            sessionStorage.removeItem('cm_admin_v5');
+            document.getElementById('adminBox').style.display = 'none';
+            drawProducts();
+        }
+
+        function handlePhoto(input) {
+            if (!input.files || !input.files) return;
+            var r = new FileReader();
+            r.onload = function(e) {
+                var img = new Image();
+                img.onload = function() {
+                    var c = document.createElement('canvas');
+                    c.width = 450;
+                    c.height = img.height * (450 / img.width);
+                    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                    base64Photo = c.toDataURL('image/jpeg', 0.75);
+                };
+                img.src = e.target.result;
+            };
+            r.readAsDataURL(input.files);
+        }
+
+        function saveNewItem() {
+            var name = document.getElementById('pName').value.trim();
+            var cat = document.getElementById('pCat').value;
+            var price = Number(document.getElementById('pPrice').value);
+            var old = Number(document.getElementById('pOld').value) || 0;
+            var img = base64Photo || document.getElementById('pLink').value.trim();
+            var sizes = document.getElementById('pSizes').value.trim();
+            var desc = document.getElementById('pDesc').value.trim() || 'প্রিমিয়াম কোয়ালিটি পণ্য।';
+            if (!name || !price || !img) { alert('নাম, দাম এবং ছবি দিন!'); return; }
+            storeItems.unshift({ id: Date.now(), name: name, cat: cat, price: price, old: old, img: img, sizes: sizes, desc: desc });
+            localStorage.setItem('cm_items_v5', JSON.stringify(storeItems));
+            base64Photo = '';
+            document.getElementById('pName').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pOld').value = '';
+            document.getElementById('pFile').value = '';
+            document.getElementById('pLink').value = '';
+            document.getElementById('pSizes').value = '';
+            document.getElementById('pDesc').value = '';
+            drawProducts();
+            alert('প্রোডাক্ট সফলভাবে যুক্ত হয়েছে!');
+        }
+
+        function deleteItem(id) {
+            if (confirm('এই প্রোডাক্টটি ডিলিট করতে চান?')) {
+                storeItems = storeItems.filter(function(x) { return x.id !== id; });
+                localStorage.setItem('cm_items_v5', JSON.stringify(storeItems));
+                drawProducts();
+            }
+        }
+
+        function changeCategory(cat, btn) {
+            activeCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            drawProducts();
+        }
+
+        function drawProducts() {
+            var q = document.getElementById('searchInput').value.toLowerCase();
+            var list = storeItems.filter(function(x) { return (activeCat === 'সব' || x.cat === activeCat) && x.name.toLowerCase().indexOf(q) > -1; });
+            var grid = document.getElementById('gridArea');
+            if (list.length === 0) {
+                grid.innerHTML = '<div class="empty-box"><div style="font-size:48px;">🛍️</div><h3>আমাদের নতুন কালেকশন সাজানো হচ্ছে</h3><p style="color:#64748b;">খুব শীঘ্রই প্রিমিয়াম সব পণ্য এখানে যুক্ত করা হবে।</p></div>';
+                return;
+            }
+            grid.innerHTML = list.map(function(p) {
+                var del = adminActive ? '<button type="button" class="del-btn" onclick="deleteItem(' + p.id + ')">ডিলিট ✕</button>' : '';
+                var oldHtml = p.old > p.price ? ' <span style="font-size:14px;color:#94a3b8;text-decoration:line-through;">৳' + p.old + '</span>' : '';
+                return '<div class="card">' + del +
+                    '<div class="img-box" onclick="viewProduct(' + p.id + ')"><img src="' + p.img + '"></div>' +
+                    '<div class="card-body"><div style="font-size:12px;color:#64748b;font-weight:700;">' + p.cat + '</div>' +
+                    '<div class="card-title" onclick="viewProduct(' + p.id + ')">' + p.name + '</div>' +
+                    '<div class="card-price">৳' + p.price + oldHtml + '</div>' +
+                    '<div class="btn-row"><button type="button" class="btn-sub" onclick="pushCart(' + p.id + ')">+ কার্ট</button>' +
+                    '<button type="button" class="btn-buy" onclick="viewProduct(' + p.id + ')">অর্ডার করুন</button></div></div></div>';
+            }).join('');
+        }
+
+        function viewProduct(id) {
+            var p = storeItems.find(function(x) { return x.id === id; });
+            if (!p) return;
+            var sz = p.sizes ? '<select id="oSize" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">' + p.sizes.split(',').map(function(s) { return '<option>সাইজ: ' + s.trim() + '</option>'; }).join('') + '</select>' : '';
+            document.getElementById('modalBody').innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;">' +
+                '<img src="' + p.img + '" style="width:100%;max-height:260px;object-fit:contain;border:1px solid #eee;border-radius:10px;padding:8px;">' +
+                '<div><h2>' + p.name + '</h2><div class="card-price">৳' + p.price + '</div>' +
+                '<p style="background:#f8fafc;padding:10px;border-radius:8px;white-space:pre-line;font-size:14px;margin-bottom:10px;">' + p.desc + '</p>' + sz +
+                '<input id="cName" placeholder="আপনার নাম *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">' +
+                '<input id="cPhone" placeholder="মোবাইল নম্বর *" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #cbd5e1;border-radius:8px;">' +
