@@ -4,89 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chitro mart bd | প্রিমিয়াম অনলাইন শপিং</title>
-    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background-color: #f3f3f3; color: #111; }
-        
-        /* Top Bar & Header */
-        .top-notice { background: #232f3e; color: #ff9900; text-align: center; padding: 6px; font-size: 13px; font-weight: 600; }
+        .top-notice { background: #232f3e; color: #ff9900; text-align: center; padding: 6px; font-size: 13px; font-weight: bold; }
         header { background-color: #131921; color: white; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 24px; font-weight: 700; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; text-decoration: none; }
         .logo span { color: #ff9900; }
-        
-        .search-bar { display: flex; flex: 1; max-width: 550px; min-width: 240px; }
+        .search-bar { display: flex; flex: 1; max-width: 500px; min-width: 220px; }
         .search-bar input { width: 100%; padding: 9px 14px; border: none; border-radius: 4px 0 0 4px; font-size: 15px; outline: none; }
-        .search-bar button { background: #febd69; border: none; padding: 0 18px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: 700; color: #111; }
-        .search-bar button:hover { background: #f3a847; }
-        
-        .admin-btn { background: transparent; border: 1px solid #ff9900; color: #ff9900; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .search-bar button { background: #febd69; border: none; padding: 0 18px; border-radius: 0 4px 4px 0; cursor: pointer; font-weight: bold; color: #111; }
+        .admin-btn { background: transparent; border: 1px solid #ff9900; color: #ff9900; padding: 7px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .admin-btn:hover { background: #ff9900; color: #111; }
-
-        /* Hero Section */
-        .hero { background: linear-gradient(135deg, #131921 0%, #232f3e 100%); color: white; padding: 45px 20px; text-align: center; }
-        .badge { display: inline-block; background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid #ff9900; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 12px; }
-        .hero h1 { font-size: 32px; margin-bottom: 10px; }
+        .hero { background: linear-gradient(135deg, #131921 0%, #232f3e 100%); color: white; padding: 40px 20px; text-align: center; }
+        .badge { display: inline-block; background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid #ff9900; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+        .hero h1 { font-size: 30px; margin-bottom: 8px; }
         .hero h1 span { color: #ff9900; }
-        .hero p { color: #ddd; max-width: 600px; margin: 0 auto 20px; font-size: 16px; }
-        .features { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .feat-pill { background: #fff; color: #111; padding: 8px 16px; border-radius: 25px; font-size: 14px; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* Admin Panel Box */
-        #adminBox { display: none; max-width: 600px; margin: 25px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid #ff9900; }
-        #adminBox h3 { margin-bottom: 15px; color: #131921; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .btn-publish { background: #ff9900; color: #111; border: none; padding: 10px 20px; font-weight: 700; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
-        .btn-publish:hover { background: #e68a00; }
-
-        /* Products Grid */
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 15px; }
-        .section-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; border-left: 4px solid #ff9900; padding-left: 10px; color: #131921; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .product-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+        .hero p { color: #ddd; max-width: 600px; margin: 0 auto 18px; font-size: 15px; }
+        .features { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .feat-pill { background: #fff; color: #111; padding: 7px 15px; border-radius: 25px; font-size: 13px; font-weight: bold; }
+        #adminBox { display: none; max-width: 550px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-top: 4px solid #ff9900; }
+        #adminBox h3 { margin-bottom: 12px; color: #131921; }
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn-publish { background: #ff9900; color: #111; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
+        .container { max-width: 1200px; margin: 25px auto; padding: 0 15px; }
+        .section-title { font-size: 22px; font-weight: bold; margin-bottom: 18px; border-left: 4px solid #ff9900; padding-left: 10px; color: #131921; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+        .product-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: flex; flex-direction: column; justify-content: space-between; }
         .product-img { width: 100%; height: 220px; object-fit: cover; background: #eee; }
         .product-info { padding: 14px; }
-        .product-title { font-size: 17px; font-weight: 700; color: #0f1111; margin-bottom: 6px; }
-        .product-desc { font-size: 13px; color: #565959; margin-bottom: 10px; line-height: 1.4; }
-        .product-price { font-size: 20px; font-weight: 700; color: #B12704; margin-bottom: 12px; }
-        .btn-order { display: block; text-align: center; background: #25D366; color: #fff; text-decoration: none; padding: 9px; border-radius: 5px; font-weight: 700; font-size: 15px; transition: 0.2s; }
-        .btn-order:hover { background: #1ebe57; }
+        .product-title { font-size: 17px; font-weight: bold; color: #0f1111; margin-bottom: 5px; }
+        .product-desc { font-size: 13px; color: #565959; margin-bottom: 10px; }
+        .product-price { font-size: 20px; font-weight: bold; color: #B12704; margin-bottom: 12px; }
+        .btn-order { display: block; text-align: center; background: #25D366; color: #fff; text-decoration: none; padding: 9px; border-radius: 5px; font-weight: bold; font-size: 15px; }
         .btn-delete { background: #d9534f; color: white; border: none; padding: 6px; width: 100%; margin-top: 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
-
-        /* Contact & Footer */
-        .contact-section { background: #fff; padding: 30px 20px; text-align: center; margin-top: 40px; border-top: 1px solid #ddd; }
-        .wa-box { display: inline-block; background: #e8f8f0; border: 2px solid #25D366; padding: 15px 25px; border-radius: 10px; margin-bottom: 15px; }
-        .wa-box h4 { color: #128C7E; font-size: 18px; text-transform: uppercase; }
-        .wa-box p { font-size: 16px; font-weight: 600; color: #111; margin: 4px 0; }
-        .wa-num { display: inline-block; background: #25D366; color: #fff; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 18px; text-decoration: none; margin-top: 5px; }
-        .fb-btn { display: inline-block; background: #1877F2; color: #fff; padding: 10px 22px; border-radius: 25px; text-decoration: none; font-weight: 600; margin-top: 10px; }
-        footer { background: #131921; color: #ccc; text-align: center; padding: 15px; font-size: 14px; }
+        .contact-section { background: #fff; padding: 25px 15px; text-align: center; margin-top: 35px; border-top: 1px solid #ddd; }
+        .wa-box { display: inline-block; background: #e8f8f0; border: 2px solid #25D366; padding: 14px 24px; border-radius: 10px; margin-bottom: 12px; }
+        .wa-box h4 { color: #128C7E; font-size: 18px; }
+        .wa-box p { font-size: 15px; font-weight: bold; color: #111; margin: 4px 0; }
+        .wa-num { display: inline-block; background: #25D366; color: #fff; padding: 6px 18px; border-radius: 20px; font-weight: bold; font-size: 18px; text-decoration: none; margin-top: 5px; }
+        .fb-btn { display: inline-block; background: #1877F2; color: #fff; padding: 9px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; margin-top: 8px; }
+        footer { background: #131921; color: #ccc; text-align: center; padding: 14px; font-size: 14px; }
         footer a { color: #ff9900; text-decoration: none; }
-
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: #fff; padding: 25px; border-radius: 8px; width: 320px; text-align: center; }
+        .modal-content { background: #fff; padding: 22px; border-radius: 8px; width: 310px; text-align: center; }
         .modal-content input { width: 100%; padding: 9px; margin: 12px 0; border: 1px solid #ccc; border-radius: 4px; }
         .modal-btns { display: flex; gap: 10px; }
-        .modal-btns button { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .modal-btns button { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <div class="top-notice">🚚 সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা — পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন!</div>
-
     <header>
         <a href="#" class="logo">Chitro <span>mart bd</span></a>
         <div class="search-bar">
             <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="আপনার পছন্দের পণ্য খুঁজুন...">
             <button onclick="filterProducts()">খুঁজুন</button>
         </div>
-        <button class="admin-btn" onclick="openAdminModal()">🔒 অ্যাডমিন</button>
+        <button class="admin-btn" id="adminBtn">🔒 অ্যাডমিন</button>
     </header>
-
     <section class="hero">
         <div class="badge">✨ ১০০% অরিজিনাল ও প্রিমিয়াম কালেকশন</div>
         <h1>স্বাগতম <span>Chitro mart bd</span>-তে</h1>
@@ -97,7 +75,6 @@
             <div class="feat-pill">🎧 দ্রুত WhatsApp সাপোর্ট</div>
         </div>
     </section>
-
     <!-- Admin Product Upload Panel -->
     <div id="adminBox">
         <h3>➕ নতুন প্রোডাক্ট যোগ করুন (Cloud Store)</h3>
@@ -112,14 +89,15 @@
         <div class="form-group">
             <label>ছবির লিংক (URL) অথবা ফোন/ল্যাপটপ থেকে ছবি সিলেক্ট করুন:</label>
             <input type="text" id="pImgUrl" placeholder="ছবির ডাইরেক্ট লিংক দিন (অথবা নিচ থেকে ফাইল নিন)">
-            <input type="file" id="pImgFile" accept="image/*" onchange="handlePhoto(this)" style="margin-top:6px;">
+            <input type="file" id="pImgFile" accept="image/*" style="margin-top:6px;">
         </div>
         <div class="form-group">
             <label>সংক্ষিপ্ত বিবরণ:</label>
             <textarea id="pDesc" rows="2" placeholder="প্রোডাক্ট সম্পর্কে বিস্তারিত লিখুন..."></textarea>
         </div>
-        <button class="btn-publish" id="pubBtn" onclick="publishProduct()">পাবলিশ করুন</button>
+        <button class="btn-publish" id="pubBtn">পাবলিশ করুন</button>
     </div>
+
     <!-- Products Display Section -->
     <div class="container">
         <div class="section-title">🔥 আমাদের সেরা কালেকশন</div>
@@ -149,19 +127,17 @@
             <h3>অ্যাডমিন লগইন</h3>
             <input type="password" id="passVal" placeholder="পাসওয়ার্ড দিন (ডিফল্ট: 1234)">
             <div class="modal-btns">
-                <button style="background:#ff9900;" onclick="verifyAdminLogin()">লগইন</button>
-                <button style="background:#ccc;" onclick="closeAdminModal()">বাতিল</button>
+                <button style="background:#ff9900;" id="loginSubmitBtn">লগইন</button>
+                <button style="background:#ccc;" id="loginCancelBtn">বাতিল</button>
             </div>
         </div>
     </div>
 
     <script>
-        // আপনার JSONBin.io ডাটাবেস তথ্য
         var BIN_ID = "6b01efb9ac6210605a9a8909";
         var MASTER_KEY = "$2a$10$S30MqmbM63CxaURxbezmLuIf.878qOeBSoZMSuG3yhPBjol7A4bOe";
         var API_URL = "https://jsonbin.io" + BIN_ID;
 
-        // অ্যাডমিন পাসওয়ার্ড ও হোয়াটসঅ্যাপ নম্বর
         var ADMIN_PASS = "1234";
         var WA_NUMBER = "8801767068529";
 
@@ -173,43 +149,44 @@
             document.getElementById('adminBox').style.display = 'block';
         }
 
-        function openAdminModal() {
+        // অ্যাডমিন বাটন ও মডাল ইভেন্ট
+        document.getElementById('adminBtn').onclick = function() {
             if (adminActive) {
                 var box = document.getElementById('adminBox');
                 box.style.display = (box.style.display === 'block') ? 'none' : 'block';
             } else {
                 document.getElementById('loginModal').style.display = 'flex';
             }
-        }
+        };
 
-        function closeAdminModal() {
+        document.getElementById('loginCancelBtn').onclick = function() {
             document.getElementById('loginModal').style.display = 'none';
-        }
+        };
 
-        function verifyAdminLogin() {
+        document.getElementById('loginSubmitBtn').onclick = function() {
             var pass = document.getElementById('passVal').value;
             if (pass === ADMIN_PASS) {
                 adminActive = true;
                 sessionStorage.setItem('cm_admin_ok', 'true');
-                closeAdminModal();
+                document.getElementById('loginModal').style.display = 'none';
                 document.getElementById('passVal').value = '';
                 document.getElementById('adminBox').style.display = 'block';
                 drawProducts();
             } else {
                 alert('ভুল পাসওয়ার্ড!');
             }
-        }
+        };
 
-        // ছবি ছোট করে Base64-এ রূপান্তর
-        function handlePhoto(input) {
-            var file = input.files;
+        // ছবি প্রসেসিং (সঠিক ফাইল ইনপুটসহ)
+        document.getElementById('pImgFile').onchange = function(e) {
+            var file = e.target.files[0];
             if (!file) return;
             var btn = document.getElementById('pubBtn');
             btn.innerText = 'ছবি প্রসেস হচ্ছে...';
             btn.disabled = true;
 
             var reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function(ev) {
                 var img = new Image();
                 img.onload = function() {
                     var canvas = document.createElement('canvas');
@@ -223,13 +200,13 @@
                     btn.innerText = 'পাবলিশ করুন';
                     btn.disabled = false;
                 };
-                img.src = e.target.result;
+                img.src = ev.target.result;
             };
             reader.readAsDataURL(file);
-        }
+        };
 
-        // JSONBin-এ নতুন প্রোডাক্ট পাবলিশ করা
-        async function publishProduct() {
+        // প্রোডাক্ট পাবলিশ করা
+        document.getElementById('pubBtn').onclick = async function() {
             var name = document.getElementById('pName').value.trim();
             var price = document.getElementById('pPrice').value.trim();
             var urlInput = document.getElementById('pImgUrl').value.trim();
@@ -283,9 +260,9 @@
             }
             btn.innerText = 'পাবলিশ করুন';
             btn.disabled = false;
-        }
+        };
 
-        // JSONBin থেকে সব প্রোডাক্ট লোড করা (সবাই দেখতে পাবে)
+        // ডাটাবেস থেকে সব প্রোডাক্ট লোড করা
         async function loadCloudItems() {
             var grid = document.getElementById('productGrid');
             try {
@@ -306,7 +283,7 @@
             }
         }
 
-        // প্রোডাক্ট ডিলিট করা (শুধু অ্যাডমিনের জন্য)
+        // প্রোডাক্ট ডিলিট করা
         async function deleteProduct(id) {
             if (!confirm('আপনি কি নিশ্চিতভাবে এই প্রোডাক্টটি মুছে ফেলতে চান?')) return;
             var updatedList = storeItems.filter(function(item) {
@@ -344,24 +321,3 @@
 
             items.forEach(function(p) {
                 var waText = encodeURIComponent("আসসালামু আলাইকুম, আমি Chitro mart bd থেকে এই পণ্যটি অর্ডার করতে চাই:\n*পণ্য:* " + p.name + "\n*দাম:* " + p.price + " টাকা");
-                var delBtn = adminActive ? `<button class="btn-delete" onclick="deleteProduct(${p.id})">🗑️ ডিলিট করুন</button>` : '';
-
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.img}" class="product-img" alt="${p.name}">
-                        <div class="product-info">
-                            <div class="product-title">${p.name}</div>
-                            <div class="product-desc">${p.desc || ''}</div>
-                            <div class="product-price">৳ ${p.price}</div>
-                            <a href="https://wa.me{WA_NUMBER}?text=${waText}" target="_blank" class="btn-order">🛒 WhatsApp-এ অর্ডার করুন</a>
-                            ${delBtn}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // সার্চ ফিল্টার
-        function filterProducts() {
-            var q = document.getElementById('searchInput').value.toLowerCase();
-            var filtered = storeItems.filter(function(p) {
