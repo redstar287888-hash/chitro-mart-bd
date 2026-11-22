@@ -49,7 +49,6 @@
     <button type="button" onclick="uploadProduct()">🚀 Publish Product</button>
     <div id="status"></div>
   </div>
-
   <script>
     const repo = "redstar287888-hash/chitro-mart-bd";
     const savedToken = localStorage.getItem("cm_gh_token");
@@ -64,7 +63,7 @@
       const fileInput = document.getElementById("pImage");
       const status = document.getElementById("status");
 
-      if (!token || !title || !price || !fileInput.files[0]) {
+      if (!token || !title || !price || fileInput.files.length === 0) {
         status.style.color = "#f87171";
         status.innerText = "দয়া করে Token, নাম, দাম এবং ছবি সিলেক্ট করুন!";
         return;
@@ -75,15 +74,14 @@
       status.innerText = "⏳ ছবি ও প্রোডাক্ট আপলোড হচ্ছে...";
 
       try {
-        const file = fileInput.files[0];
+        const file = fileInput.files.item(0);
         const reader = new FileReader();
         reader.onload = async function() {
-          const base64Img = reader.result.split(",")[1];
+          const base64Img = reader.result.split(",").pop();
           const timestamp = Date.now();
           const imgExt = file.name.split(".").pop();
           const imgPath = `images/prod-${timestamp}.${imgExt}`;
 
-          // 1. Upload Image to GitHub
           const imgRes = await fetch(`https://github.com{repo}/contents/${imgPath}`, {
             method: "PUT",
             headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
@@ -91,7 +89,6 @@
           });
           if (!imgRes.ok) throw new Error("Token ভুল অথবা পারমিশন নেই!");
 
-          // 2. Save Product JSON
           const productData = { title, price, category, image: `/${imgPath}`, desc };
           const jsonContent = btoa(unescape(encodeURIComponent(JSON.stringify(productData, null, 2))));
           const jsonPath = `products/prod-${timestamp}.json`;
