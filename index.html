@@ -182,25 +182,56 @@
   </footer>
 
   <a href="https://wa.me" target="_blank" class="float-wa">💬 WhatsApp</a>
-
   <script>
+    async function loadAdminProducts() {
+      const grid = document.getElementById('productGrid');
+      const repoApi = 'https://github.com';
+
+      try {
+        const res = await fetch(repoApi);
+        if (!res.ok) return;
+        const files = await res.json();
+
+        grid.innerHTML = '';
+        for (const file of files) {
+          if (file.name.endsWith('.json')) {
+            const pRes = await fetch(file.download_url);
+            const item = await pRes.json();
+
+            const waMsg = `Assalamu Alaikum, ami Chitro Mart bd theke (${item.title} - ${item.price} TK) order korte chai.`;
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.setAttribute('data-category', item.category || 'all');
+            card.innerHTML = `
+              <img src="${item.image}" alt="${item.title}" class="product-img">
+              <div class="product-info">
+                <h3 class="product-title">${item.title}</h3>
+                <p class="product-desc">${item.desc || ''}</p>
+                <div class="product-price">৳ ${item.price}</div>
+                <a href="https://wa.me{encodeURIComponent(waMsg)}" target="_blank" class="order-btn">🛒 Order on WhatsApp</a>
+              </div>
+            `;
+            grid.appendChild(card);
+          }
+        }
+      } catch (err) {
+        console.log('No products yet');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadAdminProducts);
+
     function filterProducts() {
-      var input = document.getElementById('searchInput').value.toLowerCase();
-      var cards = document.querySelectorAll('.product-card');
-      cards.forEach(function(card) {
-        var title = card.querySelector('.product-title').innerText.toLowerCase();
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.product-card').forEach(card => {
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
         card.style.display = title.includes(input) ? 'flex' : 'none';
       });
     }
 
     function filterCategory(cat) {
-      var cards = document.querySelectorAll('.product-card');
-      cards.forEach(function(card) {
-        if (cat === 'all' || card.getAttribute('data-category') === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = (cat === 'all' || card.getAttribute('data-category') === cat) ? 'flex' : 'none';
       });
     }
   </script>
