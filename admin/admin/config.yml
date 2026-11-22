@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: আপনার_গিটহাব_ইউজারনেম/রিপোজিটরি_নাম
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "products"
+    label: "Products"
+    folder: "products"
+    create: true
+    slug: "{{slug}}"
+    format: "json"
+    fields:
+      - { label: "Product Name", name: "title", widget: "string" }
+      - { label: "Price (TK)", name: "price", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["fashion", "threepiece", "gadget", "watch", "accessories"] }
+      - { label: "Product Image", name: "image", widget: "image" }
+      - { label: "Description", name: "desc", widget: "text" }
