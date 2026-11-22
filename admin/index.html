@@ -54,6 +54,39 @@
     const savedToken = localStorage.getItem("cm_gh_token");
     if (savedToken) document.getElementById("ghToken").value = savedToken;
 
+    // Image Auto-Compressor (Prevents Failed to Fetch on large photos)
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement("canvas");
+            const maxDim = 800;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxDim) {
+              height *= maxDim / width;
+              width = maxDim;
+            } else if (height > maxDim) {
+              width *= maxDim / height;
+              height = maxDim;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.75);
+            resolve(dataUrl.split(",").pop());
+          };
+          img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function uploadProduct() {
       const token = document.getElementById("ghToken").value.trim();
       const title = document.getElementById("pTitle").value.trim();
@@ -71,79 +104,73 @@
 
       localStorage.setItem("cm_gh_token", token);
       status.style.color = "#fbbf24";
-      status.innerText = "⏳ ছবি ও প্রোডাক্ট আপলোড হচ্ছে...";
+      status.innerText = "⏳ ছবি অপ্টিমাইজ ও আপলোড হচ্ছে...";
 
-      const file = fileInput.files.item(0);
-      const reader = new FileReader();
+      try {
+        const file = fileInput.files.item(0);
+        const base64Img = await compressImage(file);
+        const timestamp = Date.now();
+        const imgPath = `images/prod-${timestamp}.jpg`;
 
-      reader.onload = async function() {
-        try {
-          const base64Img = reader.result.split(",").pop();
-          const timestamp = Date.now();
-          const imgExt = file.name.split(".").pop();
-          const imgPath = `images/prod-${timestamp}.${imgExt}`;
+        // 1. Upload Compressed Image
+        const imgRes = await fetch(`https://github.com{repo}/contents/${imgPath}`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github+json"
+          },
+          body: JSON.stringify({
+            message: `Add image ${imgPath}`,
+            content: base64Img
+          })
+        });
 
-          // 1. Upload Image directly to GitHub API
-          const imgRes = await fetch(`https://github.com{repo}/contents/${imgPath}`, {
-            method: "PUT",
-            headers: {
-              "Authorization": `token ${token}`,
-              "Accept": "application/vnd.github+json"
-            },
-            body: JSON.stringify({
-              message: `Add image ${imgPath}`,
-              content: base64Img
-            })
-          });
-
-          const imgData = await imgRes.json();
-          if (!imgRes.ok) {
-            throw new Error(imgData.message || "Token ভুল অথবা repo পারমিশন নেই!");
-          }
-
-          // 2. Save Product JSON directly to GitHub API
-          const productData = {
-            title: title,
-            price: price,
-            category: category,
-            image: imgData.content.download_url,
-            desc: desc
-          };
-          const jsonContent = btoa(unescape(encodeURIComponent(JSON.stringify(productData, null, 2))));
-          const jsonPath = `products/prod-${timestamp}.json`;
-
-          const prodRes = await fetch(`https://github.com{repo}/contents/${jsonPath}`, {
-            method: "PUT",
-            headers: {
-              "Authorization": `token ${token}`,
-              "Accept": "application/vnd.github+json"
-            },
-            body: JSON.stringify({
-              message: `Add product ${title}`,
-              content: jsonContent
-            })
-          });
-
-          const prodData = await prodRes.json();
-          if (!prodRes.ok) {
-            throw new Error(prodData.message || "প্রোডাক্ট সেভ হয়নি!");
-          }
-
-          status.style.color = "#4ade80";
-          status.innerText = "✅ সফলভাবে পাবলিশ হয়েছে! এখন মেইন সাইটে দেখা যাবে।";
-          document.getElementById("pTitle").value = "";
-          document.getElementById("pPrice").value = "";
-          document.getElementById("pDesc").value = "";
-          fileInput.value = "";
-        } catch (err) {
-          status.style.color = "#f87171";
-          status.innerText = "❌ ত্রুটি: " + err.message;
+        const imgData = await imgRes.json();
+        if (!imgRes.ok) {
+          throw new Error(imgData.message || "Token ভুল অথবা repo পারমিশন নেই!");
         }
-      };
 
-      reader.readAsDataURL(file);
+        // 2. Save Product JSON
+        const productData = {
+          title: title,
+          price: price,
+          category: category,
+          image: imgData.content.download_url,
+          desc: desc
+        };
+        const jsonContent = btoa(unescape(encodeURIComponent(JSON.stringify(productData, null, 2))));
+        const jsonPath = `products/prod-${timestamp}.json`;
+
+        const prodRes = await fetch(`https://github.com{repo}/contents/${jsonPath}`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github+json"
+          },
+          body: JSON.stringify({
+            message: `Add product ${title}`,
+            content: jsonContent
+          })
+        });
+
+        const prodData = await prodRes.json();
+        if (!prodRes.ok) {
+          throw new Error(prodData.message || "প্রোডাক্ট সেভ হয়নি!");
+        }
+
+        status.style.color = "#4ade80";
+        status.innerText = "✅ সফলভাবে পাবলিশ হয়েছে! এখন মেইন সাইটে দেখা যাবে।";
+        document.getElementById("pTitle").value = "";
+        document.getElementById("pPrice").value = "";
+        document.getElementById("pDesc").value = "";
+        fileInput.value = "";
+      } catch (err) {
+        status.style.color = "#f87171";
+        status.innerText = "❌ ত্রুটি: " + err.message;
+      }
     }
   </script>
- 
+
+
 </body>
 </html>
