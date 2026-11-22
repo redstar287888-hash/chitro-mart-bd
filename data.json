@@ -1,0 +1,60 @@
+{
+  "updatedAt": 0,
+  "settings": {
+    "whatsapp": "01767068529",
+    "facebook": "https://www.facebook.com/profile.php?id=61596351826814",
+    "topMsg": "আপনার বিশ্বাস, আমাদের প্রতিশ্রুতি",
+    "heroSub": "প্রিমিয়াম কোয়ালিটি পণ্য এখন আরও সহজে, আপনার হাতের নাগালে!"
+  },
+  "categories": [
+    {
+      "id": "c1",
+      "name": "Smartphone",
+      "image": "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=400&q=80",
+      "bg": "#eff6ff"
+    },
+    {
+      "id": "c2",
+      "name": "Laptop",
+      "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f8fafc"
+    },
+    {
+      "id": "c3",
+      "name": "Headphone",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f1f5f9"
+    },
+    {
+      "id": "c4",
+      "name": "Smart Watch",
+      "image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f8fafc"
+    },
+    {
+      "id": "c5",
+      "name": "Fashion",
+      "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f1f5f9"
+    },
+    {
+      "id": "c6",
+      "name": "Beauty",
+      "image": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=400&q=80",
+      "bg": "#fdf2f8"
+    },
+    {
+      "id": "c7",
+      "name": "Home & Living",
+      "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f0fdf4"
+    },
+    {
+      "id": "c8",
+      "name": "Accessories",
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
+      "bg": "#f8fafc"
+    }
+  ],
+  "products": []
+}
