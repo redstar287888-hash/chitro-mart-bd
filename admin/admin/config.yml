@@ -1,7 +1,9 @@
 backend:
   name: github
-  repo: আপনার_গিটহাব_ইউজারনেম/রিপোজিটরি_নাম
+  repo: redstar287888-hash/chitro-mart-bd
   branch: main
+  base_url: https://pages.dev
+  auth_endpoint: auth
 
 media_folder: "images"
 public_folder: "/images"
