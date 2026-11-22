@@ -581,7 +581,6 @@
         function esc(str) { return String(str || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
         function formatPrice(num) { return Number(num || 0).toLocaleString('en-IN'); }
 
-        /* Customer Sign Up & Login */
         function updateUserUI() {
             const lbl = document.getElementById('userLabel');
             if (currentUser) {
@@ -627,7 +626,6 @@
         }
         function logoutCustomer() { currentUser = null; localStorage.removeItem('chitro_current_user_v1'); updateUserUI(); closeAllOverlays(); showToast('লগআউট সম্পন্ন হয়েছে'); }
 
-        /* Storefront */
         function renderCategories() {
             const container = document.getElementById('categoryContainer');
             if (!storeData.categories.length) { container.innerHTML = `<div class="empty-state"><p>কোনো ক্যাটাগরি নেই।</p></div>`; return; }
@@ -697,7 +695,6 @@
             }).join('');
         }
 
-        /* Admin Panel */
         function openAdminLogin() {
             if (sessionStorage.getItem('chitro_adm_ok') === '1') { openAdminDash(); return; }
             document.getElementById('adminErr').style.display = 'none'; document.getElementById('adminPassInput').value = ''; openModal('adminLoginModal');
@@ -792,24 +789,17 @@
         }
         function utf8ToBase64(str) { const b = new TextEncoder().encode(str); let s = ''; b.forEach(x => s += String.fromCharCode(x)); return btoa(s); }
 
-        /* Fixed GitHub SHA Lookup (No Cache) + Directory Fallback */
         async function getExistingFileSha(owner, repo, token) {
             const headers = { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' };
-            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
-            const res = await fetch(fileUrl, { cache: 'no-store', headers });
-            if (res.ok) {
-                const info = await res.json();
-                if (info && info.sha) return info.sha;
-            }
-            const dirUrl = `https://api.github.com/repos/${owner}/${repo}/contents/`;
-            const dirRes = await fetch(dirUrl, { cache: 'no-store', headers });
-            if (dirRes.ok) {
-                const list = await dirRes.json();
-                if (Array.isArray(list)) {
-                    const found = list.find(item => item.name === 'data.json');
-                    if (found && found.sha) return found.sha;
-                }
-            }
+            const ts = Date.now();
+            try {
+                const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/data.json?t=${ts}`, { cache: 'no-store', headers });
+                if (res.ok) { const info = await res.json(); if (info && info.sha) return info.sha; }
+            } catch (e) {}
+            try {
+                const dirRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/?t=${ts}`, { cache: 'no-store', headers });
+                if (dirRes.ok) { const list = await dirRes.json(); if (Array.isArray(list)) { const found = list.find(i => i.name === 'data.json'); if (found && found.sha) return found.sha; } }
+            } catch (e) {}
             return null;
         }
 
@@ -819,17 +809,34 @@
             localStorage.setItem('chitro_gh_token', token);
             status.style.color = '#0284c7'; status.textContent = 'পাবলিশ হচ্ছে... অপেক্ষা করুন...';
             const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
+            const headers = { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' };
+            const contentB64 = utf8ToBase64(JSON.stringify(storeData, null, 2));
+
             try {
-                const sha = await getExistingFileSha(owner, repo, token);
-                const body = { message: 'Publish products live', content: utf8ToBase64(JSON.stringify(storeData, null, 2)) };
-                if (sha) body.sha = sha;
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                if (putRes.ok) { status.style.color = '#0ea646'; status.textContent = 'সফল! ৩০ সেকেন্ডের মধ্যে সবার ফোনে আপনার প্রোডাক্ট লাইভ হয়ে যাবে।'; showToast('লাইভ পাবলিশ সফল!'); }
-                else { const err = await putRes.json(); status.style.color = '#ef4444'; status.textContent = 'ভুল হয়েছে: ' + (err.message || 'Token চেক করুন'); }
+                let sha = await getExistingFileSha(owner, repo, token);
+                for (let attempt = 0; attempt < 3; attempt++) {
+                    const body = { message: 'Publish products live', content: contentB64 };
+                    if (sha) body.sha = sha;
+                    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+                    if (putRes.ok) {
+                        status.style.color = '#0ea646'; status.textContent = 'সফল! ৩০ সেকেন্ডের মধ্যে সবার ফোনে আপনার প্রোডাক্ট লাইভ হয়ে যাবে।';
+                        showToast('লাইভ পাবলিশ সফল!'); return;
+                    }
+                    const err = await putRes.json().catch(() => ({}));
+                    const msg = err.message || '';
+                    const match = msg.match(/is at ([0-9a-f]{40})/i);
+                    if (match && match[1]) { sha = match[1]; continue; }
+                    if (putRes.status === 422 && !sha) {
+                        const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?t=${Date.now()}`, { cache: 'no-store', headers });
+                        if (treeRes.ok) {
+                            const treeData = await treeRes.json();
+                            const node = (treeData.tree || []).find(t => t.path === 'data.json');
+                            if (node && node.sha) { sha = node.sha; continue; }
+                        }
+                    }
+                    status.style.color = '#ef4444'; status.textContent = 'ভুল হয়েছে: ' + (msg || 'Token চেক করুন'); return;
+                }
+                status.style.color = '#ef4444'; status.textContent = 'পাবলিশ ব্যর্থ হয়েছে! আবার চেষ্টা করুন।';
             } catch (e) { status.style.color = '#ef4444'; status.textContent = 'নেটওয়ার্ক সমস্যা!'; }
         }
         function downloadJson() {
