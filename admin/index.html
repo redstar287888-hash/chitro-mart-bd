@@ -1,12 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chitro Mart bd - Admin Panel</title>
-  <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHITRO MART BD - Admin Panel</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; margin: 0; }
+    .panel { background: #1e293b; padding: 30px; border-radius: 16px; width: 100%; max-width: 480px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid #334155; }
+    h2 { text-align: center; color: #22c55e; margin-top: 0; }
+    label { display: block; margin: 12px 0 5px; font-size: 13px; color: #cbd5e1; font-weight: 600; }
+    input, select, textarea { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #ffffff; font-size: 14px; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: #22c55e; }
+    button { width: 100%; padding: 14px; background: #10a34a; color: #ffffff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 18px; }
+    button:hover { background: #16a34a; }
+    .note { font-size: 12px; color: #94a3b8; margin-top: 6px; }
+    #status { margin-top: 15px; text-align: center; font-weight: bold; font-size: 14px; }
+  </style>
 </head>
 <body>
-  <script src="https://unpkg.com@^3.0.0/dist/decap-cms.js"></script>
+  <div class="panel">
+    <h2>🛍️ CHITRO MART BD Admin</h2>
+    <label>GitHub Personal Access Token (একবার দিলেই সেভ থাকবে)</label>
+    <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
+    <div class="note">টোকেন পেতে: GitHub Settings > Developer settings > Personal access tokens (Tokens classic) > Generate new token (repo টিক দিয়ে)</div>
+
+    <label>পণ্যের নাম (Product Name)</label>
+    <input type="text" id="pTitle" placeholder="যেমন: Premium Denim Shirt">
+
+    <label>দাম (Price in TK)</label>
+    <input type="number" id="pPrice" placeholder="যেমন: 880">
+
+    <label>ক্যাটাগরি (Category)</label>
+    <select id="pCat">
+      <option value="fashion">Fashion</option>
+      <option value="threepiece">Three-Piece</option>
+      <option value="gadget">Gadgets</option>
+      <option value="watch">Smart Watch</option>
+      <option value="accessories">Accessories</option>
+    </select>
+
+    <label>পণ্যের ছবি সিলেক্ট করুন (Gallery Image)</label>
+    <input type="file" id="pImage" accept="image/*">
+
+    <label>সংক্ষিপ্ত বিবরণ (Description)</label>
+    <textarea id="pDesc" rows="2" placeholder="যেমন: ১০০% কটন কাপড় | সাইজ: M, L, XL"></textarea>
+
+    <button type="button" onclick="uploadProduct()">🚀 Publish Product</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const repo = "redstar287888-hash/chitro-mart-bd";
+    const savedToken = localStorage.getItem("cm_gh_token");
+    if (savedToken) document.getElementById("ghToken").value = savedToken;
+
+    async function uploadProduct() {
+      const token = document.getElementById("ghToken").value.trim();
+      const title = document.getElementById("pTitle").value.trim();
+      const price = document.getElementById("pPrice").value.trim();
+      const category = document.getElementById("pCat").value;
+      const desc = document.getElementById("pDesc").value.trim();
+      const fileInput = document.getElementById("pImage");
+      const status = document.getElementById("status");
+
+      if (!token || !title || !price || !fileInput.files[0]) {
+        status.style.color = "#f87171";
+        status.innerText = "দয়া করে Token, নাম, দাম এবং ছবি সিলেক্ট করুন!";
+        return;
+      }
+
+      localStorage.setItem("cm_gh_token", token);
+      status.style.color = "#fbbf24";
+      status.innerText = "⏳ ছবি ও প্রোডাক্ট আপলোড হচ্ছে...";
+
+      try {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = async function() {
+          const base64Img = reader.result.split(",")[1];
+          const timestamp = Date.now();
+          const imgExt = file.name.split(".").pop();
+          const imgPath = `images/prod-${timestamp}.${imgExt}`;
+
+          // 1. Upload Image to GitHub
+          const imgRes = await fetch(`https://github.com{repo}/contents/${imgPath}`, {
+            method: "PUT",
+            headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ message: `Add image ${imgPath}`, content: base64Img })
+          });
+          if (!imgRes.ok) throw new Error("Token ভুল অথবা পারমিশন নেই!");
+
+          // 2. Save Product JSON
+          const productData = { title, price, category, image: `/${imgPath}`, desc };
+          const jsonContent = btoa(unescape(encodeURIComponent(JSON.stringify(productData, null, 2))));
+          const jsonPath = `products/prod-${timestamp}.json`;
+
+          const prodRes = await fetch(`https://github.com{repo}/contents/${jsonPath}`, {
+            method: "PUT",
+            headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ message: `Add product ${title}`, content: jsonContent })
+          });
+          if (!prodRes.ok) throw new Error("প্রোডাক্ট সেভ করতে সমস্যা হয়েছে!");
+
+          status.style.color = "#4ade80";
+          status.innerText = "✅ সফলভাবে পাবলিশ হয়েছে! ১ মিনিটের মধ্যে সাইটে দেখা যাবে।";
+          document.getElementById("pTitle").value = "";
+          document.getElementById("pPrice").value = "";
+          document.getElementById("pDesc").value = "";
+          fileInput.value = "";
+        };
+        reader.readAsDataURL(file);
+      } catch (e) {
+        status.style.color = "#f87171";
+        status.innerText = "❌ ত্রুটি: " + e.message;
+      }
+    }
+  </script>
 </body>
 </html>
