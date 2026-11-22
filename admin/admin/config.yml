@@ -2,7 +2,7 @@ backend:
   name: github
   repo: redstar287888-hash/chitro-mart-bd
   branch: main
-  base_url: https://pages.dev
+  base_url: https://chitro-mart-bd.pages.dev
   auth_endpoint: auth
 
 media_folder: "images"
