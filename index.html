@@ -18,7 +18,6 @@
         .text-yellow { color: #facc15; }
         .text-red { color: #ef4444; }
 
-        /* Top Bar & Header */
         .top-bar { background: var(--dark-navy); color: #e2e8f0; font-size: 12px; padding: 7px 0; }
         .top-bar-flex { display: flex; justify-content: space-between; align-items: center; }
         .top-left span { margin-right: 10px; }
@@ -44,7 +43,6 @@
         .action-info small { font-size: 10px; color: var(--text-muted); }
         .action-info span { font-weight: 600; font-size: 12px; }
 
-        /* Navbar */
         .navbar { background: #fff; border-bottom: 1px solid var(--border-color); padding: 10px 0; position: sticky; top: 0; z-index: 90; }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
         .nav-left { display: flex; align-items: center; gap: 28px; }
@@ -60,7 +58,6 @@
         .whatsapp-pill { background: #e6f7ec; color: var(--dark-green); padding: 7px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: 1px solid #bbf7d0; }
         .whatsapp-pill i { font-size: 16px; color: #16a34a; }
 
-        /* Hero Banner */
         .hero-banner { margin-top: 18px; background: radial-gradient(circle at 80% 50%, #107e3c 0%, #072d16 45%, #060e09 100%); border-radius: 18px; padding: 36px 48px; color: #fff; display: flex; justify-content: space-between; align-items: center; min-height: 360px; position: relative; overflow: hidden; }
         .hero-content { max-width: 500px; z-index: 3; }
         .welcome-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); padding: 5px 14px; border-radius: 50px; font-size: 12px; margin-bottom: 16px; }
@@ -80,7 +77,6 @@
         .hero-gadgets-collage { display: grid; grid-template-columns: repeat(2, 105px); gap: 12px; }
         .hg-item { width: 105px; height: 105px; object-fit: cover; border-radius: 16px; background: #fff; padding: 4px; box-shadow: 0 12px 25px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.2); }
 
-        /* Categories & Products */
         .section-block { margin-top: 38px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
         .section-header h3 { font-size: 21px; font-weight: 700; color: var(--dark-navy); }
@@ -108,7 +104,6 @@
         .add-cart-btn { width: 100%; background: var(--primary-green); color: #fff; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .add-cart-btn:hover { background: var(--dark-green); }
 
-        /* Promo Banners & Footer */
         .promo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 38px 0; }
         .promo-card { border-radius: 14px; padding: 18px 22px; height: 165px; display: flex; align-items: center; justify-content: space-between; overflow: hidden; gap: 14px; }
         .promo-dark { background: linear-gradient(135deg, #07291f, #0e4a38); color: #fff; }
@@ -144,7 +139,6 @@
         .footer-admin-btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 6px 14px; border-radius: 50px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
         .footer-admin-btn:hover { background: var(--primary-green); border-color: var(--primary-green); color: #fff; }
 
-        /* Modals, Drawers, Forms & Admin Panel */
         .empty-state { grid-column: 1 / -1; background: var(--bg-light); border: 2px dashed #cbd5e1; border-radius: 14px; padding: 45px 20px; text-align: center; color: var(--text-muted); }
         .empty-state i { font-size: 38px; color: #94a3b8; margin-bottom: 10px; }
         .empty-action-btn { margin-top: 12px; background: var(--primary-green); color: #fff; border: none; padding: 8px 18px; border-radius: 50px; cursor: pointer; }
@@ -367,10 +361,9 @@
         </div>
     </footer>
 
-    <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closeAllOverlays()"></div>
 
-    <!-- 1. Strict Customer Login / Sign Up Modal -->
+    <!-- 1. Customer Login / Sign Up Modal -->
     <div class="modal" id="authModal">
         <div class="modal-header">
             <h3><i class="fa-regular fa-user"></i> Customer Account</h3>
@@ -388,7 +381,6 @@
                 <button class="tab-btn" id="tabBtnSignup" onclick="switchAuthTab('signupPane', this)">Sign Up (Create Account)</button>
             </div>
             <div class="modal-body">
-                <!-- Login Pane -->
                 <form id="loginPane" class="tab-pane active" onsubmit="handleSignIn(event)">
                     <div class="err-box" id="loginErr"></div>
                     <div class="form-group"><label>Mobile Number *</label><input type="tel" id="loginPhone" placeholder="017XXXXXXXX" required></div>
@@ -396,7 +388,6 @@
                     <button type="submit" class="submit-primary-btn">Login</button>
                     <p style="font-size:12px; text-align:center; margin-top:12px; color:#64748b;">অ্যাকাউন্ট না থাকলে আগে <b>Sign Up</b> করুন।</p>
                 </form>
-                <!-- Sign Up Pane -->
                 <form id="signupPane" class="tab-pane" onsubmit="handleSignUp(event)">
                     <div class="err-box" id="signupErr"></div>
                     <div class="form-group"><label>Full Name *</label><input type="text" id="regName" placeholder="আপনার নাম লিখুন" required></div>
@@ -440,7 +431,6 @@
             <button class="tab-btn" id="aTabSet" onclick="switchAdminTab('admSetPane', this)">Settings</button>
         </div>
         <div class="modal-body">
-            <!-- Products Tab -->
             <div id="admProdPane" class="tab-pane active">
                 <div class="admin-grid">
                     <form onsubmit="saveProduct(event)">
@@ -469,7 +459,6 @@
                 </div>
             </div>
 
-            <!-- Categories Tab -->
             <div id="admCatPane" class="tab-pane">
                 <div class="admin-grid">
                     <form onsubmit="saveCategory(event)">
@@ -486,7 +475,6 @@
                 </div>
             </div>
 
-            <!-- Publish Live Tab -->
             <div id="admPubPane" class="tab-pane">
                 <div class="alert-info">
                     <b>সবাইকে প্রোডাক্ট দেখানোর নিয়ম:</b><br>
@@ -504,7 +492,6 @@
                 <div id="pubStatus" class="status-msg"></div>
             </div>
 
-            <!-- Settings Tab -->
             <div id="admSetPane" class="tab-pane">
                 <form onsubmit="saveSettings(event)">
                     <div class="form-group"><label>WhatsApp Number</label><input type="text" id="sWa" required></div>
@@ -518,7 +505,6 @@
         </div>
     </div>
 
-    <!-- Cart & Wishlist Drawers -->
     <div class="drawer" id="cartDrawer">
         <div class="drawer-header"><h3><i class="fa-solid fa-cart-shopping"></i> Shopping Cart</h3><button class="close-btn" onclick="closeAllOverlays()">&times;</button></div>
         <div class="drawer-body" id="cartItemsContainer"></div>
@@ -569,7 +555,7 @@
             const localData = JSON.parse(localStorage.getItem('chitro_store_v6') || 'null');
             if (localData) storeData = localData;
             try {
-                const res = await fetch('./data.json?t=' + Date.now());
+                const res = await fetch('./data.json?t=' + Date.now(), { cache: 'no-store' });
                 if (res.ok) {
                     const remoteData = await res.json();
                     if (!localData || (remoteData.updatedAt || 0) >= (localData.updatedAt || 0)) storeData = remoteData;
@@ -595,7 +581,7 @@
         function esc(str) { return String(str || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
         function formatPrice(num) { return Number(num || 0).toLocaleString('en-IN'); }
 
-        /* Strict Customer Sign Up & Login */
+        /* Customer Sign Up & Login */
         function updateUserUI() {
             const lbl = document.getElementById('userLabel');
             if (currentUser) {
@@ -612,61 +598,36 @@
                 document.getElementById('loggedInView').style.display = 'none';
             }
         }
-        function openAuthModal() {
-            document.getElementById('loginErr').style.display = 'none';
-            document.getElementById('signupErr').style.display = 'none';
-            openModal('authModal');
-        }
-        function switchAuthTab(paneId, btn) {
-            document.querySelectorAll('#guestAuthView .tab-pane, #guestAuthView .tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(paneId).classList.add('active');
-            btn.classList.add('active');
-        }
+        function openAuthModal() { document.getElementById('loginErr').style.display = 'none'; document.getElementById('signupErr').style.display = 'none'; openModal('authModal'); }
+        function switchAuthTab(paneId, btn) { document.querySelectorAll('#guestAuthView .tab-pane, #guestAuthView .tab-btn').forEach(el => el.classList.remove('active')); document.getElementById(paneId).classList.add('active'); btn.classList.add('active'); }
         function handleSignUp(e) {
             e.preventDefault();
             const err = document.getElementById('signupErr'); err.style.display = 'none';
-            const name = document.getElementById('regName').value.trim();
-            const phone = document.getElementById('regPhone').value.trim();
-            const pass = document.getElementById('regPass').value;
-            const pass2 = document.getElementById('regPass2').value;
+            const name = document.getElementById('regName').value.trim(), phone = document.getElementById('regPhone').value.trim(), pass = document.getElementById('regPass').value, pass2 = document.getElementById('regPass2').value;
             if (!/^01[0-9]{9}$/.test(phone)) { err.textContent = 'সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)'; err.style.display = 'block'; return; }
             if (pass.length < 4) { err.textContent = 'পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে!'; err.style.display = 'block'; return; }
             if (pass !== pass2) { err.textContent = 'দুইটি পাসওয়ার্ড মেলেনি!'; err.style.display = 'block'; return; }
             if (users.find(u => u.phone === phone)) { err.textContent = 'এই নম্বর দিয়ে আগেই অ্যাকাউন্ট খোলা আছে! Login করুন।'; err.style.display = 'block'; return; }
-            const newUser = { name, phone, pass };
-            users.push(newUser);
+            users.push({ name, phone, pass });
             localStorage.setItem('chitro_users_v1', JSON.stringify(users));
             currentUser = { name, phone };
             localStorage.setItem('chitro_current_user_v1', JSON.stringify(currentUser));
-            e.target.reset();
-            updateUserUI();
-            closeAllOverlays();
-            showToast(`অ্যাকাউন্ট তৈরি সফল! স্বাগতম ${name}`);
+            e.target.reset(); updateUserUI(); closeAllOverlays(); showToast(`অ্যাকাউন্ট তৈরি সফল! স্বাগতম ${name}`);
         }
         function handleSignIn(e) {
             e.preventDefault();
             const err = document.getElementById('loginErr'); err.style.display = 'none';
-            const phone = document.getElementById('loginPhone').value.trim();
-            const pass = document.getElementById('loginPass').value;
+            const phone = document.getElementById('loginPhone').value.trim(), pass = document.getElementById('loginPass').value;
             const found = users.find(u => u.phone === phone);
             if (!found) { err.textContent = 'এই নম্বরে কোনো অ্যাকাউন্ট নেই! আগে Sign Up করে অ্যাকাউন্ট খুলুন।'; err.style.display = 'block'; return; }
             if (found.pass !== pass) { err.textContent = 'ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।'; err.style.display = 'block'; return; }
             currentUser = { name: found.name, phone: found.phone };
             localStorage.setItem('chitro_current_user_v1', JSON.stringify(currentUser));
-            e.target.reset();
-            updateUserUI();
-            closeAllOverlays();
-            showToast(`স্বাগতম, ${found.name}!`);
+            e.target.reset(); updateUserUI(); closeAllOverlays(); showToast(`স্বাগতম, ${found.name}!`);
         }
-        function logoutCustomer() {
-            currentUser = null;
-            localStorage.removeItem('chitro_current_user_v1');
-            updateUserUI();
-            closeAllOverlays();
-            showToast('লগআউট সম্পন্ন হয়েছে');
-        }
+        function logoutCustomer() { currentUser = null; localStorage.removeItem('chitro_current_user_v1'); updateUserUI(); closeAllOverlays(); showToast('লগআউট সম্পন্ন হয়েছে'); }
 
-        /* Storefront Rendering */
+        /* Storefront */
         function renderCategories() {
             const container = document.getElementById('categoryContainer');
             if (!storeData.categories.length) { container.innerHTML = `<div class="empty-state"><p>কোনো ক্যাটাগরি নেই।</p></div>`; return; }
@@ -678,10 +639,7 @@
         function renderProducts() {
             const container = document.getElementById('productContainer');
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            if (!storeData.products.length) {
-                container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>এখনো কোনো প্রোডাক্ট পাবলিশ করা হয়নি। খুব শীঘ্রই নতুন পণ্য আসছে!</p></div>`;
-                return;
-            }
+            if (!storeData.products.length) { container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-box-open"></i><p>এখনো কোনো প্রোডাক্ট পাবলিশ করা হয়নি। খুব শীঘ্রই নতুন পণ্য আসছে!</p></div>`; return; }
             const filtered = storeData.products.filter(p => (activeCategory === 'ALL' || p.category === activeCategory) && (p.name.toLowerCase().includes(query) || (p.spec || '').toLowerCase().includes(query)));
             if (!filtered.length) { container.innerHTML = `<div class="empty-state"><p>কোনো পণ্য পাওয়া যায়নি।</p><button class="empty-action-btn" onclick="resetFilter()">সব পণ্য দেখুন</button></div>`; return; }
             container.innerHTML = filtered.map(p => {
@@ -695,7 +653,6 @@
             }).join('');
         }
 
-        /* Cart & Wishlist */
         function addToCart(prodId) { const ex = cart.find(i => i.id === prodId); if (ex) ex.qty += 1; else cart.push({ id: prodId, qty: 1 }); saveCart(); showToast('পণ্যটি কার্টে যোগ করা হয়েছে!'); }
         function updateQty(prodId, delta) { const item = cart.find(i => i.id === prodId); if (!item) return; item.qty += delta; if (item.qty <= 0) cart = cart.filter(i => i.id !== prodId); saveCart(); }
         function saveCart() { localStorage.setItem('chitro_cart_v6', JSON.stringify(cart)); renderCart(); }
@@ -740,52 +697,33 @@
             }).join('');
         }
 
-        /* Built-in Admin Panel Logic */
+        /* Admin Panel */
         function openAdminLogin() {
             if (sessionStorage.getItem('chitro_adm_ok') === '1') { openAdminDash(); return; }
-            document.getElementById('adminErr').style.display = 'none';
-            document.getElementById('adminPassInput').value = '';
-            openModal('adminLoginModal');
+            document.getElementById('adminErr').style.display = 'none'; document.getElementById('adminPassInput').value = ''; openModal('adminLoginModal');
         }
         function verifyAdminPass(e) {
             e.preventDefault();
-            if (document.getElementById('adminPassInput').value === ADMIN_PASS) {
-                sessionStorage.setItem('chitro_adm_ok', '1');
-                openAdminDash();
-            } else {
-                document.getElementById('adminErr').style.display = 'block';
-            }
+            if (document.getElementById('adminPassInput').value === ADMIN_PASS) { sessionStorage.setItem('chitro_adm_ok', '1'); openAdminDash(); }
+            else { document.getElementById('adminErr').style.display = 'block'; }
         }
         function openAdminDash() {
             document.getElementById('ghToken').value = localStorage.getItem('chitro_gh_token') || '';
             const s = storeData.settings || DEFAULT_STORE.settings;
-            document.getElementById('sWa').value = s.whatsapp;
-            document.getElementById('sFb').value = s.facebook;
-            document.getElementById('sTopMsg').value = s.topMsg;
-            document.getElementById('sHeroSub').value = s.heroSub;
-            renderAdminLists();
-            openModal('adminDashModal');
+            document.getElementById('sWa').value = s.whatsapp; document.getElementById('sFb').value = s.facebook;
+            document.getElementById('sTopMsg').value = s.topMsg; document.getElementById('sHeroSub').value = s.heroSub;
+            renderAdminLists(); openModal('adminDashModal');
         }
         function adminLogout() { sessionStorage.removeItem('chitro_adm_ok'); closeAllOverlays(); showToast('Admin লগআউট হয়েছে'); }
-        function switchAdminTab(paneId, btn) {
-            document.querySelectorAll('#adminDashModal .tab-pane, #adminDashModal .tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(paneId).classList.add('active');
-            btn.classList.add('active');
-        }
-        function persistAdminData() {
-            storeData.updatedAt = Date.now();
-            localStorage.setItem('chitro_store_v6', JSON.stringify(storeData));
-            applySettings();
-            renderAll();
-        }
+        function switchAdminTab(paneId, btn) { document.querySelectorAll('#adminDashModal .tab-pane, #adminDashModal .tab-btn').forEach(el => el.classList.remove('active')); document.getElementById(paneId).classList.add('active'); btn.classList.add('active'); }
+        function persistAdminData() { storeData.updatedAt = Date.now(); localStorage.setItem('chitro_store_v6', JSON.stringify(storeData)); applySettings(); renderAll(); }
         function compressImage(file, maxWidth = 420) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const img = new Image();
                     img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const scale = Math.min(1, maxWidth / img.width);
+                        const canvas = document.createElement('canvas'), scale = Math.min(1, maxWidth / img.width);
                         canvas.width = img.width * scale; canvas.height = img.height * scale;
                         canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                         resolve(canvas.toDataURL('image/webp', 0.84));
@@ -813,8 +751,7 @@
             e.preventDefault();
             const editId = document.getElementById('pEditId').value, name = document.getElementById('pName').value.trim(), spec = document.getElementById('pSpec').value.trim();
             const price = Number(document.getElementById('pPrice').value), oldPrice = document.getElementById('pOldPrice').value ? Number(document.getElementById('pOldPrice').value) : null;
-            const category = document.getElementById('pCat').value, isHot = document.getElementById('pHot').checked;
-            const file = document.getElementById('pFile').files[0];
+            const category = document.getElementById('pCat').value, isHot = document.getElementById('pHot').checked, file = document.getElementById('pFile').files[0];
             let image = document.getElementById('pUrl').value.trim();
             if (file) image = await compressImage(file, 420);
             if (editId) {
@@ -826,8 +763,7 @@
                 storeData.products.unshift({ id: 'p_' + Date.now(), name, spec, price, oldPrice, category, isHot, image });
                 showToast('প্রোডাক্ট সেভ হয়েছে! সবাইকে দেখাতে Publish Live করুন।');
             }
-            resetProdForm();
-            persistAdminData();
+            resetProdForm(); persistAdminData();
         }
         function editProduct(id) {
             const p = storeData.products.find(x => x.id === id);
@@ -855,6 +791,28 @@
             persistAdminData(); showToast('সেটিংস সেভ হয়েছে! সবাইকে দেখাতে Publish Live করুন।');
         }
         function utf8ToBase64(str) { const b = new TextEncoder().encode(str); let s = ''; b.forEach(x => s += String.fromCharCode(x)); return btoa(s); }
+
+        /* Fixed GitHub SHA Lookup (No Cache) + Directory Fallback */
+        async function getExistingFileSha(owner, repo, token) {
+            const headers = { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json' };
+            const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
+            const res = await fetch(fileUrl, { cache: 'no-store', headers });
+            if (res.ok) {
+                const info = await res.json();
+                if (info && info.sha) return info.sha;
+            }
+            const dirUrl = `https://api.github.com/repos/${owner}/${repo}/contents/`;
+            const dirRes = await fetch(dirUrl, { cache: 'no-store', headers });
+            if (dirRes.ok) {
+                const list = await dirRes.json();
+                if (Array.isArray(list)) {
+                    const found = list.find(item => item.name === 'data.json');
+                    if (found && found.sha) return found.sha;
+                }
+            }
+            return null;
+        }
+
         async function publishToGitHub() {
             const owner = document.getElementById('ghOwner').value.trim(), repo = document.getElementById('ghRepo').value.trim(), token = document.getElementById('ghToken').value.trim(), status = document.getElementById('pubStatus');
             if (!token) return showToast('আগে আপনার GitHub Token দিন!');
@@ -862,12 +820,14 @@
             status.style.color = '#0284c7'; status.textContent = 'পাবলিশ হচ্ছে... অপেক্ষা করুন...';
             const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
             try {
-                let sha = null;
-                const getRes = await fetch(apiUrl, { headers: { Authorization: `token ${token}` } });
-                if (getRes.ok) sha = (await getRes.json()).sha;
+                const sha = await getExistingFileSha(owner, repo, token);
                 const body = { message: 'Publish products live', content: utf8ToBase64(JSON.stringify(storeData, null, 2)) };
                 if (sha) body.sha = sha;
-                const putRes = await fetch(apiUrl, { method: 'PUT', headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
                 if (putRes.ok) { status.style.color = '#0ea646'; status.textContent = 'সফল! ৩০ সেকেন্ডের মধ্যে সবার ফোনে আপনার প্রোডাক্ট লাইভ হয়ে যাবে।'; showToast('লাইভ পাবলিশ সফল!'); }
                 else { const err = await putRes.json(); status.style.color = '#ef4444'; status.textContent = 'ভুল হয়েছে: ' + (err.message || 'Token চেক করুন'); }
             } catch (e) { status.style.color = '#ef4444'; status.textContent = 'নেটওয়ার্ক সমস্যা!'; }
@@ -878,7 +838,6 @@
             a.download = 'data.json'; a.click(); showToast('data.json ডাউনলোড হয়েছে!');
         }
 
-        /* Helpers */
         function filterByCategory(catName) { activeCategory = catName; document.getElementById('productSectionTitle').textContent = catName === 'ALL' ? 'Featured Products' : catName; document.getElementById('catDropdown').classList.remove('show'); renderCategories(); renderProducts(); document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' }); }
         function filterProducts() { renderProducts(); }
         function resetFilter() { activeCategory = 'ALL'; document.getElementById('searchInput').value = ''; document.getElementById('productSectionTitle').textContent = 'Featured Products'; renderCategories(); renderProducts(); }
