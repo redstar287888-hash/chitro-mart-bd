@@ -50,6 +50,7 @@
     <div id="status"></div>
   </div>
    <script>
+    const repo = "redstar287888-hash/chitro-mart-bd";
     const savedToken = localStorage.getItem("cm_gh_token");
     if (savedToken) document.getElementById("ghToken").value = savedToken;
 
@@ -82,21 +83,54 @@
           const imgExt = file.name.split(".").pop();
           const imgPath = `images/prod-${timestamp}.${imgExt}`;
 
-          const productData = { title, price, category, image: `/${imgPath}`, desc };
+          // 1. Upload Image directly to GitHub API
+          const imgRes = await fetch(`https://github.com{repo}/contents/${imgPath}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `token ${token}`,
+              "Accept": "application/vnd.github+json"
+            },
+            body: JSON.stringify({
+              message: `Add image ${imgPath}`,
+              content: base64Img
+            })
+          });
+
+          const imgData = await imgRes.json();
+          if (!imgRes.ok) {
+            throw new Error(imgData.message || "Token ভুল অথবা repo পারমিশন নেই!");
+          }
+
+          // 2. Save Product JSON directly to GitHub API
+          const productData = {
+            title: title,
+            price: price,
+            category: category,
+            image: imgData.content.download_url,
+            desc: desc
+          };
           const jsonContent = btoa(unescape(encodeURIComponent(JSON.stringify(productData, null, 2))));
           const jsonPath = `products/prod-${timestamp}.json`;
 
-          const res = await fetch("/upload", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token, title, imgPath, base64Img, jsonPath, jsonContent })
+          const prodRes = await fetch(`https://github.com{repo}/contents/${jsonPath}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `token ${token}`,
+              "Accept": "application/vnd.github+json"
+            },
+            body: JSON.stringify({
+              message: `Add product ${title}`,
+              content: jsonContent
+            })
           });
 
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || "আপলোড ব্যর্থ হয়েছে!");
+          const prodData = await prodRes.json();
+          if (!prodRes.ok) {
+            throw new Error(prodData.message || "প্রোডাক্ট সেভ হয়নি!");
+          }
 
           status.style.color = "#4ade80";
-          status.innerText = "✅ সফলভাবে পাবলিশ হয়েছে! ১ মিনিটের মধ্যে সাইটে দেখা যাবে।";
+          status.innerText = "✅ সফলভাবে পাবলিশ হয়েছে! এখন মেইন সাইটে দেখা যাবে।";
           document.getElementById("pTitle").value = "";
           document.getElementById("pPrice").value = "";
           document.getElementById("pDesc").value = "";
