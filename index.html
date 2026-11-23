@@ -930,7 +930,7 @@
                 if (!user) { err.textContent = 'এই Email বা মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই!'; err.style.display = 'block'; return; }
                 if (!user.email) { err.textContent = 'এই অ্যাকাউন্টে Email যোগ করা নেই। Live Chat বা WhatsApp-এ যোগাযোগ করুন।'; err.style.display = 'block'; return; }
                 const otp = String(Math.floor(100000 + Math.random()*900000));
-                await fetch(`${FB_URL}/resetRequests/${user.phone}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ phone:user.phone, name:user.name, email:user.email, code:otp, expiresAt:Date.now()+600000, createdAt:new Date().toLocaleString('bn-BD') }) });
+                await fetch(`${FB_URL}/resetRequests/${user.phone}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ phone:user.phone, name:user.name, email:user.email, code:otp, expiresAt:Date.now()+60000, createdAt:new Date().toLocaleString('bn-BD') }) });
                 pendingResetPhone = user.phone;
                 const s = getSettings(); let sentDirect = false;
                 if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
