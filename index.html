@@ -920,17 +920,64 @@
             } catch (ex) { err.textContent = 'নেটওয়ার্ক সমস্যা!'; err.style.display = 'block'; }
         }
 
-        function resetForgotUI() { $('forgotStep1').style.display='block'; $('forgotStep2').style.display='none'; $('forgotErr').style.display='none'; $('forgotOk').style.display='none'; }
+        let otpLockTimer = null;
+        function showOtpCooldown(until) {
+            clearInterval(otpLockTimer);
+            const err = $('forgotErr'), btn = $('fpSendBtn');
+            const tick = () => {
+                const rem = Math.ceil((until - Date.now()) / 1000);
+                if (rem <= 0) {
+                    clearInterval(otpLockTimer);
+                    err.style.display = 'none';
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Email-এ রিসেট কোড পাঠান'; }
+                    return;
+                }
+                const m = Math.floor(rem / 60), s = rem % 60;
+                err.textContent = `আপনি পরপর ২ বার কোড পাঠিয়েছেন! নিরাপত্তার জন্য ${m} মিনিট ${String(s).padStart(2,'0')} সেকেন্ড অপেক্ষা করুন।`;
+                err.style.display = 'block';
+                if (btn) { btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-clock"></i> অপেক্ষা করুন (${m}:${String(s).padStart(2,'0')})`; }
+            };
+            tick(); otpLockTimer = setInterval(tick, 1000);
+        }
+
+        function resetForgotUI() {
+            $('forgotStep1').style.display='block'; $('forgotStep2').style.display='none';
+            $('forgotErr').style.display='none'; $('forgotOk').style.display='none';
+            const lk = pendingResetPhone ? Number(localStorage.getItem('cm_otp_lock_' + pendingResetPhone) || 0) : 0;
+            if (lk > Date.now()) showOtpCooldown(lk);
+        }
 
         async function requestEmailOtp(e) {
-            e.preventDefault(); const err=$('forgotErr'), ok=$('forgotOk'), btn=$('fpSendBtn'); err.style.display='none'; ok.style.display='none';
+            e.preventDefault(); const err=$('forgotErr'), ok=$('forgotOk'), btn=$('fpSendBtn');
+            err.style.display='none'; ok.style.display='none';
+            let isLocked = false;
             btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> পাঠানো হচ্ছে...';
             try {
                 const user = await findUserByPhoneOrEmail($('fpIdentifier').value.trim());
                 if (!user) { err.textContent = 'এই Email বা মোবাইল নম্বরে কোনো অ্যাকাউন্ট নেই!'; err.style.display = 'block'; return; }
                 if (!user.email) { err.textContent = 'এই অ্যাকাউন্টে Email যোগ করা নেই। Live Chat বা WhatsApp-এ যোগাযোগ করুন।'; err.style.display = 'block'; return; }
+
+                const existing = await (await fetch(`${FB_URL}/resetRequests/${user.phone}.json`, { cache:'no-store' })).json();
+                const localLock = Number(localStorage.getItem('cm_otp_lock_' + user.phone) || 0);
+                const activeLock = Math.max(Number(existing?.lockedUntil || 0), localLock);
+                if (activeLock > Date.now()) {
+                    isLocked = true;
+                    pendingResetPhone = user.phone;
+                    showOtpCooldown(activeLock);
+                    return;
+                }
+
+                const prevAttempts = (existing && (!existing.lockedUntil || Date.now() > existing.lockedUntil)) ? Number(existing.attempts || 0) : 0;
+                const newAttempts = (existing && existing.lockedUntil && Date.now() > existing.lockedUntil) ? 1 : (prevAttempts + 1);
+                const newLock = newAttempts >= 2 ? (Date.now() + 5 * 60 * 1000) : 0;
+                if (newLock > 0) localStorage.setItem('cm_otp_lock_' + user.phone, String(newLock));
+                else localStorage.removeItem('cm_otp_lock_' + user.phone);
+
                 const otp = String(Math.floor(100000 + Math.random()*900000));
-                await fetch(`${FB_URL}/resetRequests/${user.phone}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ phone:user.phone, name:user.name, email:user.email, code:otp, expiresAt:Date.now()+60000, createdAt:new Date().toLocaleString('bn-BD') }) });
+                await fetch(`${FB_URL}/resetRequests/${user.phone}.json`, {
+                    method:'PUT', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({ phone:user.phone, name:user.name, email:user.email, code:otp, expiresAt:Date.now()+60000, attempts:newAttempts, lockedUntil:newLock, createdAt:new Date().toLocaleString('bn-BD') })
+                });
                 pendingResetPhone = user.phone;
                 const s = getSettings(); let sentDirect = false;
                 if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
@@ -940,12 +987,17 @@
                     });
                     if (ej.ok) sentDirect = true;
                 }
+                if (!sentDirect) {
+                    err.textContent = 'এই মুহূর্তে Email-এ কোড পাঠানো যাচ্ছে না! একটু পর আবার চেষ্টা করুন অথবা Live Chat / WhatsApp-এ যোগাযোগ করুন।';
+                    err.style.display = 'block';
+                    return;
+                }
                 $('forgotStep1').style.display = 'none'; $('forgotStep2').style.display = 'block';
-                ok.textContent = sentDirect ? `আপনার ${user.email} ঠিকানায় ৬-ডিজিটের OTP কোড পাঠানো হয়েছে! (Spam ফোল্ডারও চেক করবেন)` : `রিসেট রিকোয়েস্ট অ্যাডমিনে পাঠানো হয়েছে! কোডটি সংগ্রহ করে নিচে বসান।`;
+                ok.textContent = `আপনার ${user.email} ঠিকানায় ৬-ডিজিটের OTP কোড পাঠানো হয়েছে! (${newAttempts}/২ বার ব্যবহৃত)`;
                 ok.style.display = 'block';
             } catch (ex) { err.textContent = 'কোড পাঠাতে সমস্যা হয়েছে!'; err.style.display = 'block'; }
-            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Email-এ রিসেট কোড পাঠান'; }
-        }
+            finally { if (!isLocked) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Email-এ রিসেট কোড পাঠান'; } }
+        } 
 
         async function verifyOtpAndResetPass(e) {
             e.preventDefault(); const err=$('forgotErr'); err.style.display='none';
