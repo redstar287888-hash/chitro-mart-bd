@@ -1618,7 +1618,7 @@
             const s=getSettings(); let payInfo='Cash On Delivery';
             if(directPayMethod!=='COD'){ const sp=$('directPayPhone').value.trim(), trx=$('directTrxId').value.trim(); if(!sp||!trx)return showToast(`আপনার ${directPayMethod} নম্বর এবং TrxID দিন!`); payInfo=`${directPayMethod} (${directPayMethod==='bKash'?s.bkash:s.nagad}) | Sender: ${sp} | TrxID: ${trx}`; }
             const sub=activeOrderProd.price*activeOrderQty, disc=calcCouponDiscount(sub,directCoupon), del=isInside?Number(s.dhakaCharge):Number(s.outsideCharge), total=sub-disc+del, areaTxt=isInside?'ঢাকার ভেতরে':'ঢাকার বাইরে';
-            const ordId='CM-'+Math.floor(100000+Math.random()*900000), nowStr=new Date().toLocaleString('bn-BD'), itemTxt=`${activeOrderProd.name}${chosenSize?` [${chosenSize}]`:''} x${activeOrderQty}`;
+            const ordId='CM-'+Math.floor(100000+Math.random()*900000), nowStr=new Date().toLocaleString('bn-BD'), skuTag=(activeOrderProd.sku?' | SKU: '+activeOrderProd.sku:'')+' | ID: '+activeOrderProd.id, itemTxt=`${activeOrderProd.name}${chosenSize?` [${chosenSize}]`:''} x${activeOrderQty}${skuTag}`;
             const orderObj={ orderId:ordId, items:itemTxt, subtotal:sub, discount:disc, coupon:directCoupon?directCoupon.code:'', deliveryFee:del, total, area:areaTxt, district:dist, thana, payment:payInfo, customerName:name, customerPhone:phone, address, status:'Pending', time:nowStr, currentLocation:'অর্ডার গ্রহণ করা হয়েছে (ভেরিফিকেশন চলছে)', courier:'', trackingCode:'', trackingHistory:[{status:'Pending',location:'CHITRO MART BD Order Desk',note:'অর্ডার সফলভাবে জমা হয়েছে',time:nowStr}] };
             await saveOrderToFirebase(orderObj);
             const waMsg=`*নতুন অর্ডার (#${ordId})*\n\n🛍️ *পণ্য:* ${itemTxt}\n💵 দাম: ৳${formatPrice(sub)}${disc>0?`\n🎟️ কুপন (${directCoupon.code}): -৳${formatPrice(disc)}`:''}\n🚚 ডেলিভারি (${areaTxt}): ৳${formatPrice(del)}\n💰 *সর্বমোট: ৳${formatPrice(total)}*\n💳 *পেমেন্ট:* ${payInfo}\n\n👤 নাম: ${name}\n📞 ফোন: ${phone}\n📍 ঠিকানা: ${address}`;
@@ -1716,6 +1716,7 @@
     </script>
 </body>
 </html>
+
 
 
 
