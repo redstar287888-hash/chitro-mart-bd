@@ -1727,10 +1727,86 @@
         function showToast(m) { const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
     </script>
 </body>
+<!-- ================= PASSWORD SHOW/HIDE AUTO SCRIPT ================= -->
+<style>
+  .auto-pwd-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  .auto-pwd-wrapper input {
+    width: 100% !important;
+    padding-right: 40px !important;
+    box-sizing: border-box !important;
+  }
+  .auto-pwd-eye {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    cursor: pointer !important;
+    color: #718096 !important;
+    font-size: 16px !important;
+    z-index: 10 !important;
+    user-select: none !important;
+    transition: color 0.2s ease !important;
+  }
+  .auto-pwd-eye:hover {
+    color: #0b3b95 !important;
+  }
+</style>
+
+<script>
+  function applyPasswordToggles() {
+    // সব পাসওয়ার্ড ইনপুট খুঁজে বের করা
+    const pwdInputs = document.querySelectorAll('input[type="password"], input[data-toggle-active="true"]');
+    
+    pwdInputs.forEach(input => {
+      // যদি আগে থেকেই আইকন বসানো থাকে তবে বাদ দেবে
+      if (input.dataset.hasEyeIcon === "true") return;
+      input.dataset.hasEyeIcon = "true";
+
+      // নতুন র‍্যাপার তৈরি করা
+      const wrapper = document.createElement('div');
+      wrapper.className = 'auto-pwd-wrapper';
+
+      // ইনপুটটি র‍্যাপারের ভেতরে ঢুকানো
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+
+      // চোখের আইকন তৈরি
+      const eye = document.createElement('i');
+      eye.className = 'fa-solid fa-eye auto-pwd-eye';
+      eye.title = 'Show/Hide Password';
+
+      // আইকনে ক্লিক করলে শো/হাইড হবে
+      eye.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          input.dataset.toggleActive = 'true';
+          eye.className = 'fa-solid fa-eye-slash auto-pwd-eye'; // চোখ বন্ধ
+        } else {
+          input.type = 'password';
+          eye.className = 'fa-solid fa-eye auto-pwd-eye'; // চোখ খোলা
+        }
+      });
+
+      wrapper.appendChild(eye);
+    });
+  }
+
+  // পেজ লোড হলে চালু হবে
+  document.addEventListener('DOMContentLoaded', applyPasswordToggles);
+  applyPasswordToggles();
+
+  // যখনই মডাল বা কোনো ট্যাব ক্লিক হবে, এটি অটোমেটিক নতুন ফিল্ডগুলো আপডেট করে নেবে
+  document.addEventListener('click', function() {
+    setTimeout(applyPasswordToggles, 150);
+  });
+</script>
+<!-- ================= END AUTO SCRIPT ================= -->    
 </html>
-
-
-
-
-
-
