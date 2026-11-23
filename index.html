@@ -1535,7 +1535,7 @@
             const p = storeData.products.find(x=>x.id===id); if (!p) return;
             const sz = extractSizes(p), imgs = getProductImages(p), revs = p.reviews || []; activeDetailsSize = sz.length ? sz[0] : '';
             $('detailsModalBody').innerHTML = `<div class="details-layout"><div><div class="details-img-box"><img id="detMainImg" src="${imgs[0]||''}"></div>${imgs.length>1?`<div class="thumb-strip">${imgs.map((s,i)=>`<img src="${s}" class="thumb-item ${i===0?'active':''}" onclick="switchDetailImg(this)">`).join('')}</div>`:''}</div>
-                <div><span class="details-cat-pill">${esc(p.category)}</span><h3 class="details-title">${esc(p.name)}</h3><div class="details-price-row"><span class="current-price">৳ ${formatPrice(p.price)}</span>${p.oldPrice?`<span class="old-price">৳ ${formatPrice(p.oldPrice)}</span>`:''}</div>
+                <div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px"><span class="details-cat-pill" style="margin-bottom:0">${esc(p.category)}</span>${p.sku?`<span class="details-cat-pill" style="margin-bottom:0;background:#e0f2fe;color:#0369a1">SKU: ${esc(p.sku)}</span>`:''}<span class="details-cat-pill" style="margin-bottom:0;background:#f1f5f9;color:#475569">ID: ${esc(p.id)}</span></div><h3 class="details-title">${esc(p.name)}</h3><div class="details-price-row"><span class="current-price">৳ ${formatPrice(p.price)}</span>${p.oldPrice?`<span class="old-price">৳ ${formatPrice(p.oldPrice)}</span>`:''}</div>
                 ${sz.length?`<span class="size-picker-label">সাইজ পছন্দ করুন:</span><div class="size-pills" id="detSizePills">${sz.map((s,i)=>`<button type="button" class="size-pill-btn ${i===0?'active':''}" onclick="selectDetailsSize('${esc(s)}',this)">${esc(s)}</button>`).join('')}</div>`:''}
                 <span class="size-picker-label">📋 বিবরণ ও সাইজ চার্ট:</span><div class="spec-box">${formatDetailsHtml(p.spec||p.shortSpec)}</div>
                 <div class="details-actions"><button class="btn-details" onclick="addToCart('${p.id}',activeDetailsSize)"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button><button class="btn-order-now" onclick="openOrderModal('${p.id}',activeDetailsSize)"><i class="fa-solid fa-bolt"></i> Order Now</button></div></div></div>
@@ -1716,3 +1716,4 @@
     </script>
 </body>
 </html>
+
