@@ -1681,7 +1681,7 @@
 
             const s=getSettings(); let payInfo='Cash On Delivery';
             if(cartPayMethod!=='COD'){ const pp=$('cartPayPhone').value.trim(), trx=$('cartTrxId').value.trim(); if(!pp||!trx)return showToast('পেমেন্ট নম্বর ও TrxID দিন!'); payInfo=`${cartPayMethod} (${cartPayMethod==='bKash'?s.bkash:s.nagad}) | Sender: ${pp} | TrxID: ${trx}`; }
-            let sub=0, itemsArr=[]; cart.forEach(i=>{ const p=storeData.products.find(x=>x.id===i.id); if(p){ sub+=p.price*i.qty; itemsArr.push(`${p.name}${i.size?` [${i.size}]`:''} x${i.qty}`); } });
+             let sub=0, itemsArr=[]; cart.forEach(i=>{ const p=storeData.products.find(x=>x.id===i.id); if(p){ sub+=p.price*i.qty; itemsArr.push(`${p.name}${i.size?' ['+i.size+']':''} x${i.qty}${p.sku?' | SKU: '+p.sku:''} | ID: ${p.id}`); } });
             const disc=calcCouponDiscount(sub,cartCoupon), del=isInside?Number(s.dhakaCharge):Number(s.outsideCharge), total=sub-disc+del, areaTxt=isInside?'ঢাকার ভেতরে':'ঢাকার বাইরে', ordId='CM-'+Math.floor(100000+Math.random()*900000), nowStr=new Date().toLocaleString('bn-BD');
             const orderObj={ orderId:ordId, items:itemsArr.join(', '), subtotal:sub, discount:disc, coupon:cartCoupon?cartCoupon.code:'', deliveryFee:del, total, area:areaTxt, district:dist, thana, payment:payInfo, customerName:name, customerPhone:phone, address, status:'Pending', time:nowStr, currentLocation:'অর্ডার গ্রহণ করা হয়েছে (ভেরিফিকেশন চলছে)', courier:'', trackingCode:'', trackingHistory:[{status:'Pending',location:'CHITRO MART BD Order Desk',note:'কার্ট অর্ডার জমা হয়েছে',time:nowStr}] };
             await saveOrderToFirebase(orderObj); cart=[]; cartCoupon=null; saveCart();
@@ -1716,6 +1716,7 @@
     </script>
 </body>
 </html>
+
 
 
 
