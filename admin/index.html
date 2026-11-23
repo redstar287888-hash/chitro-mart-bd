@@ -3,668 +3,900 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - CHITRO MART BD</title>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>CHITRO MART BD — Master Admin Portal</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%230f172a'/><path d='M32 10L12 19v14c0 12.5 8.5 23 20 26 11.5-3 20-13.5 20-26V19L32 10z' fill='%23f59e0b'/><path d='M22 36l4-11 6 5 6-5 4 11H22z' fill='%230f172a'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; }
-        :root { --green: #0ea646; --dark-green: #087a31; --navy: #07131f; --bg: #f1f5f9; --border: #e2e8f0; }
-        body { background: var(--bg); color: #1e293b; min-height: 100vh; }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Hind Siliguri',sans-serif}
+        :root{--bg:#f1f5f9;--surface:#ffffff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#0ea646;--navy:#07131f;--gold:#f59e0b;--daraz:#f85606;--danger:#ef4444}
+        body.dark{--bg:#020617;--surface:#0f172a;--text:#f8fafc;--muted:#94a3b8;--border:#1e293b}
+        body{background:var(--bg);color:var(--text);min-height:100vh}
+        #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#0f172a,#020617);padding:20px}
+        .login-card{background:#fff;color:#0f172a;width:100%;max-width:410px;border-radius:22px;padding:30px 26px;box-shadow:0 25px 60px rgba(0,0,0,.45);text-align:center}
+        .shield-logo{width:68px;height:68px;border-radius:18px;background:linear-gradient(145deg,#0f172a,#1e293b);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 10px 24px rgba(245,158,11,.28)}
+        .login-card h2{font-size:20px;font-weight:800;letter-spacing:1px} .login-card p{font-size:12.5px;color:#64748b;margin-bottom:20px}
 
-        .login-wrap {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: radial-gradient(circle at top right, #0e6b32, #07131f 70%); padding: 20px;
-        }
-        .login-box {
-            background: #fff; width: 100%; max-width: 400px; border-radius: 18px;
-            padding: 35px 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.35); text-align: center;
-        }
-        .login-icon {
-            width: 60px; height: 60px; background: #e6f7ec; color: var(--green); border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 15px;
-        }
-        .login-box h2 { font-size: 22px; color: var(--navy); margin-bottom: 4px; }
-        .login-box p { font-size: 13px; color: #64748b; margin-bottom: 22px; }
-        .pass-wrap { position: relative; margin-bottom: 14px; }
-        .pass-wrap input {
-            width: 100%; padding: 12px 42px 12px 15px; border: 1.5px solid #cbd5e1;
-            border-radius: 10px; font-size: 14px; outline: none;
-        }
-        .pass-wrap input:focus { border-color: var(--green); }
-        .toggle-eye { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #64748b; }
-        .err-msg { color: #ef4444; font-size: 12px; margin-bottom: 12px; display: none; font-weight: 600; }
-        .btn-primary {
-            width: 100%; background: var(--green); color: #fff; border: none; padding: 12px;
-            border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s;
-        }
-        .btn-primary:hover { background: var(--dark-green); }
+        #appShell{display:none;min-height:100vh}
+        .sidebar{width:255px;background:#07131f;color:#cbd5e1;position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;transition:.25s}
+        .sb-head{padding:18px 20px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
+        .sb-head h3{font-size:15px;color:#fff;font-weight:800} .sb-head small{font-size:10.5px;color:var(--gold);display:block}
+        .sb-menu{flex:1;padding:12px 10px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+        .sb-btn{display:flex;align-items:center;gap:11px;width:100%;padding:10px 14px;border:none;background:transparent;color:#94a3b8;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;text-align:left;transition:.15s}
+        .sb-btn:hover{background:rgba(255,255,255,.06);color:#fff}
+        .sb-btn.active{background:linear-gradient(135deg,#0ea646,#059669);color:#fff;box-shadow:0 6px 16px rgba(14,166,70,.3)}
+        .sb-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;padding:1px 7px;border-radius:50px;display:none}
+        .sb-foot{padding:14px;border-top:1px solid #1e293b}
 
-        .dashboard { display: none; }
-        .admin-nav {
-            background: var(--navy); color: #fff; padding: 14px 25px;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-        }
-        .admin-brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
-        .admin-brand i { color: #1fd161; }
-        .nav-btns { display: flex; gap: 10px; }
-        .btn-sm {
-            padding: 8px 15px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
-            cursor: pointer; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-        }
-        .btn-view { background: var(--green); color: #fff; }
-        .btn-logout { background: #ef4444; color: #fff; }
+        .main-wrap{margin-left:255px;min-height:100vh;display:flex;flex-direction:column}
+        .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;gap:12px}
+        .topbar-left{display:flex;align-items:center;gap:12px}
+        .mob-menu-btn{display:none;background:var(--navy);color:#fff;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer}
+        .topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        .pill-btn{padding:7px 14px;border-radius:50px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+        .pill-btn.green{background:var(--primary);color:#fff;border-color:var(--primary)}
 
-        .container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
+        .content{padding:22px 24px;max-width:1360px;width:100%;margin:0 auto}
+        .page-pane{display:none} .page-pane.active{display:block}
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+        .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 14px rgba(0,0,0,.03)}
+        .st-ico{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+        .stat-card h4{font-size:22px;font-weight:800;line-height:1.1} .stat-card span{font-size:12px;color:var(--muted)}
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
-        .stat-card {
-            background: #fff; padding: 18px 20px; border-radius: 14px; border: 1px solid var(--border);
-            display: flex; align-items: center; gap: 15px;
-        }
-        .stat-icon {
-            width: 48px; height: 48px; border-radius: 12px; background: #e6f7ec; color: var(--green);
-            display: flex; align-items: center; justify-content: center; font-size: 20px;
-        }
-        .stat-card h3 { font-size: 22px; color: var(--navy); }
-        .stat-card p { font-size: 12px; color: #64748b; }
+        .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+        .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+        .card-head h3{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:8px}
 
-        .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-        .tab-btn {
-            background: #fff; border: 1px solid var(--border); padding: 10px 18px; border-radius: 10px;
-            font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px;
-        }
-        .tab-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
-        .panel { display: none; }
-        .panel.active { display: block; }
+        .grid-2{display:grid;grid-template-columns:1fr 1.15fr;gap:18px}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+        .fg{margin-bottom:11px} .fg label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted)}
+        .fg input,.fg select,.fg textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:var(--bg);color:var(--text);outline:none}
+        .btn-primary{width:100%;background:linear-gradient(135deg,#0ea646,#059669);color:#fff;border:none;padding:11px 16px;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1.3fr; gap: 20px; }
-        .card { background: #fff; border-radius: 14px; padding: 22px; border: 1px solid var(--border); }
-        .card h3 { font-size: 17px; margin-bottom: 16px; color: var(--navy); border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .list-stack{display:flex;flex-direction:column;gap:9px;max-height:520px;overflow-y:auto}
+        .item-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 13px;background:var(--bg);border:1px solid var(--border);border-radius:12px;font-size:12.5px}
+        .item-left{display:flex;align-items:center;gap:11px} .item-left img{width:46px;height:46px;object-fit:cover;border-radius:9px}
+        .btn-sm{border:none;padding:6px 10px;border-radius:7px;font-size:11.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+        .b-blue{background:#e0f2fe;color:#0284c7} .b-red{background:#fee2e2;color:#dc2626} .b-green{background:#dcfce7;color:#15803d} .b-amber{background:#fef3c7;color:#b45309} .b-orange{background:#ffedd5;color:#c2410c}
+        .status-pill{padding:3px 8px;border-radius:50px;font-size:10.5px;font-weight:700}
 
-        .form-group { margin-bottom: 13px; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #334155; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none;
-        }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .preview-img { max-height: 90px; border-radius: 8px; margin-top: 8px; display: none; border: 1px solid #e2e8f0; }
+        .chat-box{height:340px;overflow-y:auto;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+        .c-msg{max-width:78%;padding:8px 12px;border-radius:12px;font-size:12.5px}
+        .c-msg.cust{align-self:flex-start;background:var(--surface);border:1px solid var(--border)}
+        .c-msg.adm{align-self:flex-end;background:var(--primary);color:#fff}
+        .c-msg small{display:block;font-size:10px;opacity:.75;margin-top:2px}
+        .chat-send{display:flex;gap:8px} .chat-send input{flex:1;padding:9px 14px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+        .chat-send button{background:var(--primary);color:#fff;border:none;padding:0 18px;border-radius:50px;font-weight:700;cursor:pointer}
 
-        .item-list { display: flex; flex-direction: column; gap: 10px; max-height: 520px; overflow-y: auto; }
-        .item-row {
-            display: flex; align-items: center; justify-content: space-between; gap: 12px;
-            padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: #f8fafc;
-        }
-        .item-left { display: flex; align-items: center; gap: 12px; }
-        .item-left img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; background: #fff; }
-        .item-left h4 { font-size: 13.5px; color: var(--navy); }
-        .item-left small { font-size: 11.5px; color: #64748b; display: block; }
-        .item-actions { display: flex; gap: 8px; }
-        .btn-edit { background: #e0f2fe; color: #0284c7; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .btn-del { background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;backdrop-filter:blur(2px)} .overlay.active{display:block}
+        .modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--surface);width:94%;max-width:540px;border-radius:18px;z-index:950;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,.35)}
+        .modal.active{display:block}
+        .modal-h{background:#07131f;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+        .modal-b{padding:18px 20px;max-height:82vh;overflow-y:auto}
+        .quick-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+        .quick-chip{padding:4px 9px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;cursor:pointer}
+        .quick-chip:hover{border-color:var(--daraz);color:var(--daraz)}
 
-        .alert-info {
-            background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; padding: 14px;
-            border-radius: 10px; font-size: 13px; margin-bottom: 18px; line-height: 1.6;
-        }
-        .status-box { margin-top: 12px; font-size: 13px; font-weight: 600; }
-        .toast {
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: var(--navy); color: #fff; padding: 10px 24px; border-radius: 50px;
-            font-size: 13px; z-index: 2000; opacity: 0; transition: 0.3s;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        @media (max-width: 850px) { .grid-2 { grid-template-columns: 1fr; } }
+        .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#07131f;color:#fff;padding:10px 24px;border-radius:50px;font-size:13px;z-index:2000;opacity:0;transition:.3s}
+        .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+        @media(max-width:1050px){.stats-grid{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}}
+        @media(max-width:820px){.sidebar{left:-265px}.sidebar.open{left:0}.main-wrap{margin-left:0}.mob-menu-btn{display:inline-flex;align-items:center;justify-content:center}.form-row,.form-row-3{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
-
-    <div class="login-wrap" id="loginScreen">
-        <div class="login-box">
-            <div class="login-icon"><i class="fa-solid fa-lock"></i></div>
-            <h2>CHITRO MART BD</h2>
-            <p>অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন</p>
-            <form onsubmit="checkLogin(event)">
-                <div class="pass-wrap">
-                    <input type="password" id="passInput" placeholder="পাসওয়ার্ড লিখুন..." required>
-                    <i class="fa-regular fa-eye toggle-eye" onclick="togglePass()"></i>
-                </div>
-                <div class="err-msg" id="loginError">ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।</div>
-                <button type="submit" class="btn-primary">Login to Admin Panel</button>
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <div class="shield-logo">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L3.5 5.8V11.8C3.5 17.5 7.2 22.3 12 23.5C16.8 22.3 20.5 17.5 20.5 11.8V5.8L12 2Z" fill="url(#gGold)"/>
+                    <path d="M7.5 14.2L9.2 8.8L12 11.2L14.8 8.8L16.5 14.2H7.5Z" fill="#0f172a"/>
+                    <defs><linearGradient id="gGold" x1="3.5" y1="2" x2="20.5" y2="23.5" gradientUnits="userSpaceOnUse"><stop stop-color="#fde68a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs>
+                </svg>
+            </div>
+            <h2>MASTER ADMIN PORTAL</h2>
+            <p>CHITRO MART BD — Separate Control Center</p>
+            <form onsubmit="handleAdminLogin(event)">
+                <div id="admLoginErr" style="display:none;background:#fee2e2;color:#dc2626;padding:8px;border-radius:8px;font-size:12px;margin-bottom:10px">ভুল পাসওয়ার্ড!</div>
+                <div class="fg" style="text-align:left"><label>Admin Password *</label><input type="password" id="admPassInput" placeholder="পাসওয়ার্ড দিন..." required style="background:#f8fafc;color:#0f172a"></div>
+                <button type="submit" class="btn-primary" style="background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid #f59e0b;color:#fde68a"><i class="fa-solid fa-unlock-keyhole"></i> Unlock Admin Portal</button>
             </form>
         </div>
     </div>
 
-    <div class="dashboard" id="dashboard">
-        <nav class="admin-nav">
-            <div class="admin-brand">
-                <i class="fa-solid fa-bag-shopping"></i> CHITRO MART BD - Admin Panel
+    <!-- Separate Modern SaaS App Shell -->
+    <div id="appShell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sb-head">
+                <div class="shield-logo" style="width:40px;height:40px;margin:0;border-radius:11px"><i class="fa-solid fa-crown" style="color:#fde68a"></i></div>
+                <div><h3 id="sbBrand">CHITRO MART</h3><small>Master Control v2.0</small></div>
             </div>
-            <div class="nav-btns">
-                <a href="index.html" target="_blank" class="btn-sm btn-view"><i class="fa-solid fa-eye"></i> View Live Store</a>
-                <button onclick="logout()" class="btn-sm btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            <div class="sb-menu">
+                <button class="sb-btn active" onclick="openTab('tabOverview',this)"><i class="fa-solid fa-chart-pie"></i> Dashboard Overview</button>
+                <button class="sb-btn" onclick="openTab('tabOrders',this)"><i class="fa-solid fa-truck-fast"></i> Orders &amp; Tracking <span class="sb-badge" id="sbOrdBadge">0</span></button>
+                <button class="sb-btn" onclick="openTab('tabChat',this)"><i class="fa-solid fa-comments"></i> Live Chat Inbox <span class="sb-badge" id="sbChatBadge">0</span></button>
+                <button class="sb-btn" onclick="openTab('tabUsers',this)"><i class="fa-solid fa-users"></i> Users &amp; Resets <span class="sb-badge" id="sbResetBadge">0</span></button>
+                <button class="sb-btn" onclick="openTab('tabProducts',this)"><i class="fa-solid fa-box-open"></i> Products</button>
+                <button class="sb-btn" onclick="openTab('tabCats',this)"><i class="fa-solid fa-tags"></i> Categories, Coupons &amp; Reviews</button>
+                <button class="sb-btn" onclick="openTab('tabCms',this)"><i class="fa-solid fa-sliders"></i> Full Site CMS Control</button>
             </div>
-        </nav>
+            <div class="sb-foot">
+                <button class="sb-btn" style="color:#f87171" onclick="adminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout Portal</button>
+            </div>
+        </aside>
 
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
-                    <div><h3 id="statProds">0</h3><p>Total Products</p></div>
+        <div class="main-wrap">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mob-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+                    <h2 style="font-size:16px;font-weight:700" id="pageHeading">Dashboard Overview</h2>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    <div><h3 id="statCats">0</h3><p>Total Categories</p></div>
+                <div class="topbar-actions">
+                    <button class="pill-btn" onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i> Theme</button>
+                    <button class="pill-btn green" onclick="refreshAllLive()"><i class="fa-solid fa-rotate"></i> Sync Live</button>
+                    <a href="index.html" target="_blank" id="visitStoreLink" class="pill-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Store</a>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><i class="fa-brands fa-whatsapp"></i></div>
-                    <div><h3 id="statWa" style="font-size:16px;">01767068529</h3><p>Order WhatsApp</p></div>
-                </div>
-            </div>
+            </header>
 
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('prodPanel', this)"><i class="fa-solid fa-box-open"></i> Products</button>
-                <button class="tab-btn" onclick="switchTab('catPanel', this)"><i class="fa-solid fa-tags"></i> Categories</button>
-                <button class="tab-btn" onclick="switchTab('setPanel', this)"><i class="fa-solid fa-gear"></i> Store Settings</button>
-                <button class="tab-btn" onclick="switchTab('pubPanel', this)"><i class="fa-solid fa-cloud-arrow-up"></i> Publish Live (GitHub)</button>
-            </div>
+            <main class="content">
+                <!-- TAB 1: OVERVIEW -->
+                <section id="tabOverview" class="page-pane active">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="st-ico" style="background:#dcfce7;color:#15803d"><i class="fa-solid fa-sack-dollar"></i></div><div><h4 id="stRevenue">৳0</h4><span>Total Sales</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#ffedd5;color:#c2410c"><i class="fa-solid fa-cart-flatbed"></i></div><div><h4 id="stOrders">0</h4><span>Total Orders (<b id="stPending">0</b> Pending)</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#e0f2fe;color:#0369a1"><i class="fa-solid fa-users"></i></div><div><h4 id="stUsers">0</h4><span>Registered Customers</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#f3e8ff;color:#7e22ce"><i class="fa-solid fa-eye"></i></div><div><h4 id="stVisitors">0</h4><span>Total Visitors</span></div></div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-clock"></i> সাম্প্রতিক অর্ডারসমূহ</h3><button class="btn-sm b-blue" onclick="openTab('tabOrders',document.querySelectorAll('.sb-btn')[1])">সব দেখুন</button></div>
+                            <div class="list-stack" id="ovRecentOrders"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-key"></i> পাসওয়ার্ড রিসেট রিকোয়েস্ট</h3><button class="btn-sm b-amber" onclick="resetVisitors()">Reset Visitors</button></div>
+                            <div class="list-stack" id="ovResetRequests"></div>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- Panel 1: Products -->
-            <div class="panel active" id="prodPanel">
-                <div class="grid-2">
+                <!-- TAB 2: ORDERS & LIVE TRACKING -->
+                <section id="tabOrders" class="page-pane">
                     <div class="card">
-                        <h3 id="pFormTitle">নতুন প্রোডাক্ট যোগ করুন</h3>
-                        <form onsubmit="saveProduct(event)">
-                            <input type="hidden" id="pEditId">
-                            <div class="form-group">
-                                <label>Product Name *</label>
-                                <input type="text" id="pName" placeholder="যেমন: iPhone 15 Pro Max" required>
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-truck-fast"></i> সব অর্ডার ও লাইভ লোকেশন ট্র্যাকিং</h3>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                                <input type="text" id="ordSearch" placeholder="Order ID / Phone..." oninput="renderOrdersList()" style="padding:6px 11px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                                <select id="ordStatusFilter" onchange="renderOrdersList()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                                    <option value="ALL">All Status</option><option value="Pending">Pending</option><option value="Confirmed">Confirmed</option><option value="Shipped">Shipped</option><option value="Out for Delivery">Out for Delivery</option><option value="Delivered">Delivered</option><option value="Cancelled">Cancelled</option>
+                                </select>
                             </div>
-                            <div class="form-group">
-                                <label>Short Details / Spec</label>
-                                <input type="text" id="pSpec" placeholder="যেমন: 256GB | Natural Titanium">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Price (৳) *</label>
-                                    <input type="number" id="pPrice" placeholder="145000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Old Price (৳)</label>
-                                    <input type="number" id="pOldPrice" placeholder="160000">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <select id="pCat"></select>
-                                </div>
-                                <div class="form-group" style="display:flex;align-items:center;padding-top:18px;gap:8px;">
-                                    <input type="checkbox" id="pHot" checked style="width:auto;"> <label style="margin:0;">Hot Badge</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>ছবি আপলোড করুন (ফোন/পিসি থেকে)</label>
-                                <input type="file" id="pFile" accept="image/*" onchange="previewFile(this, 'pPreview')">
-                            </div>
-                            <div class="form-group">
-                                <label>অথবা ছবির লিংক দিন (URL)</label>
-                                <input type="url" id="pUrl" placeholder="https://...">
-                                <img id="pPreview" class="preview-img">
-                            </div>
-                            <div style="display:flex;gap:10px;">
-                                <button type="submit" class="btn-primary" id="pSaveBtn">Save Product</button>
-                                <button type="button" id="pCancelBtn" onclick="resetProdForm()" style="display:none;padding:10px 15px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;cursor:pointer;">Cancel</button>
-                            </div>
+                        </div>
+                        <div class="list-stack" id="admOrderList"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: LIVE CHAT -->
+                <section id="tabChat" class="page-pane">
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-inbox"></i> কাস্টমার ইনবক্স</h3><button class="btn-sm b-blue" onclick="refreshAllLive()">Refresh</button></div>
+                            <div class="list-stack" id="admChatThreads"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-head"><h3 id="admActiveChatName">কোনো চ্যাট সিলেক্ট করুন</h3></div>
+                            <div class="chat-box" id="admChatMessages"></div>
+                            <form class="chat-send" onsubmit="sendAdminChatReply(event)">
+                                <input type="text" id="admChatInput" placeholder="কাস্টমারকে রিপ্লাই লিখুন..." required>
+                                <button type="submit"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: USERS & PASSWORD RESETS -->
+                <section id="tabUsers" class="page-pane">
+                    <div class="card">
+                        <div class="card-head"><h3><i class="fa-solid fa-user-plus"></i> নতুন User তৈরি করুন</h3></div>
+                        <form onsubmit="adminCreateUser(event)" class="form-row-3">
+                            <div class="fg"><input type="text" id="admNewUName" placeholder="কাস্টমারের নাম *" required></div>
+                            <div class="fg"><input type="tel" id="admNewUPhone" placeholder="017XXXXXXXX *" required></div>
+                            <div class="fg" style="display:flex;gap:6px"><input type="email" id="admNewUEmail" placeholder="Email"><input type="text" id="admNewUPass" placeholder="Password *" required><button type="submit" class="btn-sm b-green">Create</button></div>
                         </form>
                     </div>
-
-                    <div class="card">
-                        <h3>সব প্রোডাক্টের তালিকা</h3>
-                        <div class="item-list" id="adminProdList"></div>
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-users"></i> সব কাস্টমার অ্যাকাউন্ট</h3></div>
+                            <div class="list-stack" id="admUserList"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-key"></i> Active Password Reset OTPs</h3></div>
+                            <div class="list-stack" id="admResetList"></div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Panel 2: Categories -->
-            <div class="panel" id="catPanel">
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>নতুন ক্যাটাগরি যোগ করুন</h3>
-                        <form onsubmit="saveCategory(event)">
-                            <div class="form-group">
-                                <label>Category Name *</label>
-                                <input type="text" id="cName" placeholder="যেমন: Smartphone" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Card Background Color</label>
-                                <input type="color" id="cBg" value="#f8fafc" style="height:42px;padding:3px;">
-                            </div>
-                            <div class="form-group">
-                                <label>ক্যাটাগরি ছবি আপলোড (ফোন/পিসি)</label>
-                                <input type="file" id="cFile" accept="image/*">
-                            </div>
-                            <div class="form-group">
-                                <label>অথবা ছবির লিংক দিন (URL)</label>
-                                <input type="url" id="cUrl" placeholder="https://...">
-                            </div>
-                            <button type="submit" class="btn-primary">Save Category</button>
-                        </form>
+                <!-- TAB 5: PRODUCTS -->
+                <section id="tabProducts" class="page-pane">
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-plus-circle"></i> Add / Edit Product</h3></div>
+                            <form onsubmit="saveProduct(event)">
+                                <input type="hidden" id="pEditId">
+                                <div class="fg"><label>Product Name *</label><input type="text" id="pName" required></div>
+                                <div class="form-row"><div class="fg"><label>Short Highlight</label><input type="text" id="pShort" placeholder="300 GSM Fleece"></div><div class="fg"><label>Sizes</label><input type="text" id="pSizes" placeholder="M, L, XL"></div></div>
+                                <div class="fg"><label>Full Details &amp; Size Chart</label><textarea id="pSpec" rows="3"></textarea></div>
+                                <div class="form-row"><div class="fg"><label>Price (৳) *</label><input type="number" id="pPrice" required></div><div class="fg"><label>Old Price (৳)</label><input type="number" id="pOldPrice"></div></div>
+                                <div class="form-row"><div class="fg"><label>Category</label><select id="pCat"></select></div><div class="fg" style="display:flex;align-items:center;padding-top:20px;gap:8px"><input type="checkbox" id="pHot" checked style="width:auto"><label style="margin:0">Hot Badge</label></div></div>
+                                <div class="fg"><label>ছবি আপলোড (১-৪টি)</label><input type="file" id="pFile" accept="image/*" multiple></div>
+                                <div class="fg"><label>অথবা ছবির লিংক (কমা দিয়ে)</label><input type="text" id="pUrl" placeholder="https://..."></div>
+                                <div style="display:flex;gap:8px"><button type="submit" class="btn-primary" id="pSaveBtn">Save &amp; Publish Live</button><button type="button" id="pCancelBtn" onclick="resetProdForm()" class="btn-sm b-amber" style="display:none">Cancel</button></div>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-boxes-stacked"></i> সব প্রোডাক্ট</h3></div>
+                            <div class="list-stack" id="admProdList"></div>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="card">
-                        <h3>সব ক্যাটাগরি</h3>
-                        <div class="item-list" id="adminCatList"></div>
+                <!-- TAB 6: CATEGORIES, COUPONS & REVIEWS -->
+                <section id="tabCats" class="page-pane">
+                    <div class="grid-2">
+                        <div>
+                            <div class="card">
+                                <div class="card-head"><h3>🏷️ Categories</h3></div>
+                                <form onsubmit="saveCategory(event)">
+                                    <div class="form-row"><div class="fg"><input type="text" id="cName" placeholder="Category Name *" required></div><div class="fg"><input type="color" id="cBg" value="#f8fafc" style="height:38px;padding:2px"></div></div>
+                                    <div class="fg"><input type="file" id="cFile" accept="image/*"></div>
+                                    <div class="fg"><input type="url" id="cUrl" placeholder="Image URL (https://...)"></div>
+                                    <button type="submit" class="btn-primary">Save Category</button>
+                                </form>
+                                <div class="list-stack" id="admCatList" style="margin-top:12px;max-height:180px"></div>
+                            </div>
+                            <div class="card">
+                                <div class="card-head"><h3>🎟️ Discount Coupons</h3></div>
+                                <form onsubmit="saveCoupon(event)" class="form-row-3">
+                                    <div class="fg"><input type="text" id="cpCode" placeholder="EID10" required style="text-transform:uppercase"></div>
+                                    <div class="fg"><select id="cpType"><option value="pct">% Percent</option><option value="flat">৳ Flat</option></select></div>
+                                    <div class="fg" style="display:flex;gap:5px"><input type="number" id="cpVal" placeholder="Value" required><button type="submit" class="btn-sm b-green">Add</button></div>
+                                </form>
+                                <div class="list-stack" id="admCouponList" style="max-height:150px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-head"><h3>⭐ Product Reviews</h3></div>
+                            <form onsubmit="saveReview(event)">
+                                <div class="fg"><select id="rProdId" required></select></div>
+                                <div class="form-row"><div class="fg"><input type="text" id="rName" placeholder="Customer Name *" required></div><div class="fg"><select id="rStars"><option value="5">5 Stars</option><option value="4">4 Stars</option><option value="3">3 Stars</option></select></div></div>
+                                <div class="fg"><textarea id="rText" rows="2" placeholder="Review comment *" required></textarea></div>
+                                <button type="submit" class="btn-primary">Add Review</button>
+                            </form>
+                            <div class="list-stack" id="admRevList" style="margin-top:12px;max-height:320px"></div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- Panel 3: Store Settings -->
-            <div class="panel" id="setPanel">
-                <div class="card" style="max-width:600px;">
-                    <h3>স্টোর সেটিংস পরিবর্তন করুন</h3>
-                    <form onsubmit="saveSettings(event)">
-                        <div class="form-group">
-                            <label>WhatsApp / Contact Number</label>
-                            <input type="text" id="sWa" required>
+                <!-- TAB 7: FULL SITE CMS CONTROL -->
+                <section id="tabCms" class="page-pane">
+                    <form onsubmit="saveAllCms(event)">
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-envelope-circle-check"></i> ১. EmailJS সেটআপ (সরাসরি Email-এ OTP পাঠাতে)</h3></div>
+                            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">
+                                <a href="https://www.emailjs.com" target="_blank" style="color:var(--primary);text-decoration:underline">emailjs.com</a>-এ ফ্রি অ্যাকাউন্ট খুলে Gmail কানেক্ট করুন। Template-এ এই ৪টি ভেরিয়েবল রাখুন: <code>{{to_email}}</code>, <code>{{to_name}}</code>, <code>{{otp_code}}</code>, <code>{{app_name}}</code>
+                            </p>
+                            <div class="form-row-3">
+                                <div class="fg"><label>EmailJS Public Key</label><input type="text" id="sEjPub" placeholder="Public Key"></div>
+                                <div class="fg"><label>EmailJS Service ID</label><input type="text" id="sEjSvc" placeholder="service_xxx"></div>
+                                <div class="fg"><label>EmailJS Template ID</label><input type="text" id="sEjTpl" placeholder="template_xxx"></div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Facebook Page / Profile Link</label>
-                            <input type="url" id="sFb" required>
+
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-toggle-on"></i> ২. ওয়েবসাইট মোড, সিকিউরিটি ও সেকশন অন/অফ</h3></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Storefront URL (View Store বাটন)</label><input type="text" id="sStoreUrl" placeholder="index.html বা https://..."></div>
+                                <div class="fg"><label>Login Gate</label><select id="sLoginGate"><option value="1">Locked (আগে Login লাগবে)</option><option value="0">Open Store (সবাই দেখবে)</option></select></div>
+                                <div class="fg"><label>Admin Portal Password (নতুন চাইলে)</label><input type="text" id="sAdmPass" placeholder="খালি রাখলে আগেরটাই থাকবে"></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Maintenance Mode</label><select id="sMaintOn"><option value="0">Live (সাইট চালু)</option><option value="1">Maintenance (বন্ধ)</option></select></div>
+                                <div class="fg"><label>Maintenance Message</label><input type="text" id="sMaintMsg"></div>
+                                <div class="fg"><label>Urgent Notice Banner</label><select id="sNoticeOn"><option value="0">Off</option><option value="1">Show Banner</option></select></div>
+                            </div>
+                            <div class="fg"><label>Notice Banner Text</label><input type="text" id="sNoticeTxt" placeholder="যেমন: ঈদ উপলক্ষে সারাদেশে ফ্রি ডেলিভারি চলছে!"></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Hero Slider Show</label><select id="sShowSlider"><option value="1">Show</option><option value="0">Hide</option></select></div>
+                                <div class="fg"><label>Categories &amp; Promo Show</label><select id="sShowCatsPromo"><option value="1">Show Both</option><option value="2">Only Categories</option><option value="0">Hide Both</option></select></div>
+                                <div class="fg"><label>Newsletter Footer</label><select id="sShowNews"><option value="1">Show</option><option value="0">Hide</option></select></div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Top Bar Message (ডান পাশের লেখা)</label>
-                            <input type="text" id="sTopMsg" required>
+
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-palette"></i> ৩. ব্র্যান্ড, থিম কালার ও Flash Sale</h3></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Brand Name</label><input type="text" id="sBrand" required></div>
+                                <div class="fg"><label>Tagline</label><input type="text" id="sTag" required></div>
+                                <div class="fg"><label>Browser Tab Title</label><input type="text" id="sPageTitle" required></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Primary Color</label><input type="color" id="sColor" style="height:38px;padding:2px"></div>
+                                <div class="fg"><label>Dark / Footer Color</label><input type="color" id="sNavy" style="height:38px;padding:2px"></div>
+                                <div class="fg"><label>Accent Button Color</label><input type="color" id="sBright" style="height:38px;padding:2px"></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Flash Sale Show</label><select id="sFlashOn"><option value="1">Show</option><option value="0">Hide</option></select></div>
+                                <div class="fg"><label>Flash Sale Text</label><input type="text" id="sFlash"></div>
+                                <div class="fg"><label>Flash Sale End Date-Time</label><input type="datetime-local" id="sFlashEnd"></div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Hero Banner Subtitle</label>
-                            <input type="text" id="sHeroSub" required>
+
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-gift"></i> ৪. স্পেশাল অফার পপআপ</h3></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Popup Status</label><select id="sPopOn"><option value="0">Off</option><option value="1">Active</option></select></div>
+                                <div class="fg"><label>Popup Title</label><input type="text" id="sPopTitle"></div>
+                                <div class="fg"><label>Coupon Badge</label><input type="text" id="sPopCoupon"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>Popup Subtitle</label><input type="text" id="sPopSub"></div>
+                                <div class="fg"><label>Popup Image URL</label><input type="text" id="sPopImg"></div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-primary">Save Settings</button>
+
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-wallet"></i> ৫. পেমেন্ট, ডেলিভারি ও সোশ্যাল</h3></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>WhatsApp Number</label><input type="text" id="sWa" required></div>
+                                <div class="fg"><label>bKash Number</label><input type="text" id="sBkash" required></div>
+                                <div class="fg"><label>Nagad Number</label><input type="text" id="sNagad" required></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>COD Enable</label><select id="sEnCOD"><option value="1">On</option><option value="0">Off</option></select></div>
+                                <div class="fg"><label>bKash Enable</label><select id="sEnBkash"><option value="1">On</option><option value="0">Off</option></select></div>
+                                <div class="fg"><label>Nagad Enable</label><select id="sEnNagad"><option value="1">On</option><option value="0">Off</option></select></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Delivery Dhaka (৳)</label><input type="number" id="sDhaka" required></div>
+                                <div class="fg"><label>Delivery Outside (৳)</label><input type="number" id="sOutside" required></div>
+                                <div class="fg"><label>Facebook Page URL</label><input type="url" id="sFb" required></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Instagram URL</label><input type="text" id="sIg"></div>
+                                <div class="fg"><label>YouTube URL</label><input type="text" id="sYt"></div>
+                                <div class="fg"><label>TikTok URL</label><input type="text" id="sTt"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-head">
+                                <h3><i class="fa-solid fa-images"></i> ৬. ডায়নামিক Hero Slider</h3>
+                                <div style="display:flex;gap:6px"><button type="button" class="btn-sm b-green" onclick="addNewSlide()">+ Add Slide</button><button type="button" class="btn-sm b-red" onclick="deleteCurrentSlide()">Delete Slide</button></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>Slide সিলেক্ট করুন</label><select id="sSlideIdx" onchange="loadSlideToEditor()"></select></div>
+                                <div class="fg"><label>Badge Text</label><input type="text" id="slBadge" oninput="syncSlideEditor()"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>Title ([word] দিলে হাইলাইট হবে)</label><input type="text" id="slTitle" oninput="syncSlideEditor()"></div>
+                                <div class="fg"><label>Button Text</label><input type="text" id="slBtn" oninput="syncSlideEditor()"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>Subtitle</label><input type="text" id="slSub" oninput="syncSlideEditor()"></div>
+                                <div class="fg"><label>Image URL অথবা সরাসরি আপলোড</label><input type="text" id="slImg" oninput="syncSlideEditor()" style="margin-bottom:5px"><input type="file" accept="image/*" onchange="uploadSlideImg(event)"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-head"><h3><i class="fa-solid fa-code"></i> ৭. Top Bar, Promo, Info Pages &amp; Custom CSS</h3></div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Top Bar Show</label><select id="sTopOn"><option value="1">Show</option><option value="0">Hide</option></select></div>
+                                <div class="fg"><label>Top Announcement</label><input type="text" id="sTopMsg"></div>
+                                <div class="fg"><label>Top Badges (কমা দিয়ে ৩টি)</label><input type="text" id="sTopBadges"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>Guest Gate Title</label><input type="text" id="sGateTitle"></div>
+                                <div class="fg"><label>Guest Gate Subtitle</label><input type="text" id="sGateSub"></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="fg"><label>Promo 1 Title &amp; Image</label><input type="text" id="sP1T" style="margin-bottom:4px"><input type="text" id="sP1I"></div>
+                                <div class="fg"><label>Promo 2 Title &amp; Image</label><input type="text" id="sP2T" style="margin-bottom:4px"><input type="text" id="sP2I"></div>
+                                <div class="fg"><label>Promo 3 Title &amp; Image</label><input type="text" id="sP3T" style="margin-bottom:4px"><input type="text" id="sP3I"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="fg"><label>About Us Text</label><textarea id="sAboutTxt" rows="2"></textarea></div>
+                                <div class="fg"><label>Return / Help Policy Text</label><textarea id="sPolicyTxt" rows="2"></textarea></div>
+                            </div>
+                            <div class="fg"><label>Custom CSS (HTML না ধরেই ডিজাইন বদলাতে)</label><textarea id="sCustomCss" rows="3" placeholder=".hero-content h2 { font-size: 38px; }"></textarea></div>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="padding:14px;font-size:15px"><i class="fa-solid fa-cloud-arrow-up"></i> Save &amp; Update Live Storefront</button>
                     </form>
-                    <hr style="margin:20px 0;border:none;border-top:1px solid #e2e8f0;">
-                    <div style="display:flex;gap:10px;">
-                        <button onclick="clearAllProducts()" class="btn-del" style="flex:1;padding:10px;font-weight:600;">সব প্রোডাক্ট খালি করুন</button>
-                        <button onclick="restoreDefaults()" class="btn-edit" style="flex:1;padding:10px;font-weight:600;">ডিফল্ট ডেমো ফিরিয়ে আনুন</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Panel 4: Publish Live -->
-            <div class="panel" id="pubPanel">
-                <div class="card" style="max-width:700px;">
-                    <h3>সারা দুনিয়ার সবার জন্য ওয়েবসাইটে লাইভ আপডেট করুন</h3>
-                    <div class="alert-info">
-                        <strong>নোট:</strong> প্রোডাক্ট যোগ করার পর কাস্টমারদের ফোনেও যেন সাথে সাথে দেখা যায়, তার জন্য নিচের <strong>GitHub Token</strong> দিয়ে ১ ক্লিকে পাবলিশ করুন—অথবা <code>data.json</code> ফাইলটি ডাউনলোড করে GitHub-এ আপলোড করুন।
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>GitHub Username</label>
-                            <input type="text" id="ghOwner" value="redstar287888-hash">
-                        </div>
-                        <div class="form-group">
-                            <label>Repository Name</label>
-                            <input type="text" id="ghRepo" value="chitro-mart-bd">
+                    <div class="card" style="margin-top:16px">
+                        <div class="card-head"><h3><i class="fa-solid fa-database"></i> Backup &amp; Restore</h3></div>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap">
+                            <button onclick="downloadJson()" class="btn-sm b-blue" style="padding:10px 18px">Export JSON Backup</button>
+                            <label class="btn-sm b-green" style="padding:10px 18px">Restore JSON<input type="file" accept=".json" style="display:none" onchange="restoreJson(event)"></label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>GitHub Personal Access Token</label>
-                        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
 
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
-                        <button onclick="publishToGitHub()" class="btn-primary" style="flex:1;">
-                            <i class="fa-solid fa-rocket"></i> Publish Live to GitHub
-                        </button>
-                        <button onclick="downloadJson()" class="btn-sm btn-edit" style="padding:12px 18px;">
-                            <i class="fa-solid fa-download"></i> Download data.json
-                        </button>
+    <!-- Order Location & Tracking Update Modal -->
+    <div class="overlay" id="overlay" onclick="closeTrackEditModal()"></div>
+    <div class="modal" id="trackEditModal">
+        <div class="modal-h"><h3><i class="fa-solid fa-location-dot"></i> Update Order &amp; Live Location</h3><button onclick="closeTrackEditModal()" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">&times;</button></div>
+        <div class="modal-b">
+            <form onsubmit="saveOrderTrackingUpdate(event)">
+                <input type="hidden" id="trEditOrdId">
+                <div class="form-row">
+                    <div class="fg"><label>Order Status *</label>
+                        <select id="trStatus">
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Out for Delivery">Out for Delivery</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
                     </div>
-                    <div id="publishStatus" class="status-box"></div>
+                    <div class="fg"><label>Courier Partner</label>
+                        <select id="trCourier">
+                            <option value="">Standard / Own</option>
+                            <option value="Steadfast">Steadfast</option>
+                            <option value="Pathao">Pathao</option>
+                            <option value="RedX">RedX</option>
+                            <option value="Sundarban">Sundarban</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="fg"><label>Courier Tracking ID / Consignment Code (ঐচ্ছিক)</label><input type="text" id="trCode" placeholder="যেমন: SF12345678"></div>
+                <div class="fg">
+                    <label>পণ্য এখন কোথায় আছে (Current Location) *</label>
+                    <input type="text" id="trLocation" placeholder="যেমন: ঢাকা সেন্ট্রাল হাব থেকে রওনা হয়েছে" required>
+                </div>
+                <div class="quick-chips">
+                    <button type="button" class="quick-chip" onclick="setQuickLoc('Confirmed','আমাদের ওয়্যারহাউজে প্যাকিং সম্পন্ন হয়েছে')">প্যাকিং সম্পন্ন</button>
+                    <button type="button" class="quick-chip" onclick="setQuickLoc('Shipped','ঢাকা সেন্ট্রাল কুরিয়ার হাবে পৌঁছেছে')">ঢাকা হাবে</button>
+                    <button type="button" class="quick-chip" onclick="setQuickLoc('Shipped','কাস্টমারের জেলার হাবের পথে আছে')">জেলার পথে</button>
+                    <button type="button" class="quick-chip" onclick="setQuickLoc('Out for Delivery','ডেলিভারি ম্যান আপনার এলাকায় রওনা দিয়েছে')">ডেলিভারি ম্যান</button>
+                    <button type="button" class="quick-chip" onclick="setQuickLoc('Delivered','সফলভাবে কাস্টমারের হাতে ডেলিভারি হয়েছে')">ডেলিভারি সম্পন্ন</button>
+                </div>
+                <div class="fg"><label>অতিরিক্ত নোট (কাস্টমার দেখবে - ঐচ্ছিক)</label><input type="text" id="trNote" placeholder="যেমন: কুরিয়ারের সাথে যোগাযোগ রাখুন"></div>
+                <button type="submit" class="btn-primary" style="background:var(--daraz)"><i class="fa-solid fa-paper-plane"></i> আপডেট ও লাইভ ট্র্যাকিং সেভ করুন</button>
+            </form>
         </div>
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
-        const ADMIN_PASS = "redstar(())";
+        const FB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
+        const DEFAULT_ADM_PASS = "redstar(())";
+        let storeData = { settings: {}, slides: [], categories: [], products: [], coupons: [] };
+        let adminUsers = {}, adminOrders = {}, adminChats = {}, adminResets = {}, visitorCount = 0;
+        let activeAdminChatId = '', pollTimer = null;
 
-        const DEFAULT_STORE = {
-            updatedAt: 0,
-            settings: {
-                whatsapp: "01767068529",
-                facebook: "https://www.facebook.com/profile.php?id=61596351826814",
-                topMsg: "আপনার বিশ্বাস, আমাদের প্রতিশ্রুতি",
-                heroSub: "প্রিমিয়াম কোয়ালিটি পণ্য এখন আরও সহজে, আপনার হাতের নাগালে!"
-            },
-            categories: [
-                { id: 'c1', name: 'Smartphone', image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=400&q=80', bg: '#eff6ff' },
-                { id: 'c2', name: 'Laptop', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=400&q=80', bg: '#f8fafc' },
-                { id: 'c3', name: 'Headphone', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80', bg: '#f1f5f9' },
-                { id: 'c4', name: 'Smart Watch', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=400&q=80', bg: '#f8fafc' },
-                { id: 'c5', name: 'Fashion', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=400&q=80', bg: '#f1f5f9' },
-                { id: 'c6', name: 'Beauty', image: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=400&q=80', bg: '#fdf2f8' },
-                { id: 'c7', name: 'Home & Living', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80', bg: '#f0fdf4' },
-                { id: 'c8', name: 'Accessories', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80', bg: '#f8fafc' }
-            ],
-            products: [
-                { id: 'p1', name: 'iPhone 15 Pro Max', spec: '256GB | Natural Titanium', price: 145000, oldPrice: 160000, category: 'Smartphone', isHot: true, image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80' },
-                { id: 'p2', name: 'MacBook Air M2', spec: '8GB | 256GB SSD', price: 105000, oldPrice: 125000, category: 'Laptop', isHot: true, image: 'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=500&q=80' },
-                { id: 'p3', name: 'AirPods Pro', spec: 'Active Noise Cancellation', price: 24999, oldPrice: 32000, category: 'Headphone', isHot: true, image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?auto=format&fit=crop&w=500&q=80' },
-                { id: 'p4', name: 'Apple Watch Series 9', spec: 'GPS | 45mm', price: 47999, oldPrice: 62000, category: 'Smart Watch', isHot: true, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=500&q=80' },
-                { id: 'p5', name: 'Laptop Backpack', spec: 'Waterproof | USB Port', price: 1299, oldPrice: 2000, category: 'Accessories', isHot: true, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80' },
-                { id: 'p6', name: 'Sneakers For Men', spec: 'Comfortable & Stylish', price: 2199, oldPrice: 3600, category: 'Fashion', isHot: true, image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=500&q=80' }
-            ]
-        };
+        const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+        const fmt = n => Number(n||0).toLocaleString('en-IN');
+        const getImgs = p => (Array.isArray(p.images)&&p.images.length)?p.images:(p.image?[p.image]:[]);
+        const showToast = m => { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); };
 
-        let storeData = structuredClone(DEFAULT_STORE);
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (localStorage.getItem('cm_adm_theme') === 'dark') document.body.classList.add('dark');
+            await loadStore();
+            if (sessionStorage.getItem('chitro_adm_ok') === '1') enterAdminPortal();
+        });
 
-        if (sessionStorage.getItem('chitro_admin_auth') === '1') showDashboard();
+        function toggleTheme() { document.body.classList.toggle('dark'); localStorage.setItem('cm_adm_theme', document.body.classList.contains('dark')?'dark':'light'); }
 
-        function checkLogin(e) {
-            e.preventDefault();
-            if (document.getElementById('passInput').value === ADMIN_PASS) {
-                sessionStorage.setItem('chitro_admin_auth', '1');
-                document.getElementById('loginError').style.display = 'none';
-                showDashboard();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
-        }
-
-        function togglePass() {
-            const inp = document.getElementById('passInput');
-            inp.type = inp.type === 'password' ? 'text' : 'password';
-        }
-
-        function logout() {
-            sessionStorage.removeItem('chitro_admin_auth');
-            location.reload();
-        }
-
-        async function showDashboard() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-
-            const localData = JSON.parse(localStorage.getItem('chitro_store_v5') || 'null');
-            if (localData) storeData = localData;
-
+        async function loadStore() {
             try {
-                const res = await fetch('./data.json?t=' + Date.now());
-                if (res.ok) {
-                    const remoteData = await res.json();
-                    if (!localData || (remoteData.updatedAt || 0) >= (localData.updatedAt || 0)) {
-                        storeData = remoteData;
-                    }
-                }
+                const r = await fetch(`${FB_URL}/store.json?t=${Date.now()}`, { cache:'no-store' });
+                const d = await r.json();
+                if (d && d.settings) storeData = d;
             } catch (e) {}
-
-            document.getElementById('ghToken').value = localStorage.getItem('chitro_gh_token') || '';
-            renderAdmin();
+            if (!storeData.settings) storeData.settings = {};
+            if (!Array.isArray(storeData.slides)) storeData.slides = [];
+            if (!Array.isArray(storeData.categories)) storeData.categories = [];
+            if (!Array.isArray(storeData.products)) storeData.products = [];
+            if (!Array.isArray(storeData.coupons)) storeData.coupons = [];
         }
 
-        function persistLocal() {
+        async function syncStoreToCloud() {
             storeData.updatedAt = Date.now();
-            localStorage.setItem('chitro_store_v5', JSON.stringify(storeData));
-            renderAdmin();
+            await fetch(`${FB_URL}/store.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify(storeData) });
+            populateCmsForm(); renderCatalogLists();
         }
 
-        function esc(str) {
-            return String(str || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+        async function handleAdminLogin(e) {
+            e.preventDefault();
+            await loadStore();
+            const validPass = (storeData.settings && storeData.settings.adminPass) ? storeData.settings.adminPass : DEFAULT_ADM_PASS;
+            if (document.getElementById('admPassInput').value === validPass) {
+                sessionStorage.setItem('chitro_adm_ok', '1');
+                document.getElementById('admLoginErr').style.display = 'none';
+                enterAdminPortal();
+            } else document.getElementById('admLoginErr').style.display = 'block';
         }
 
-        function compressImage(file, maxWidth = 450) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const scale = Math.min(1, maxWidth / img.width);
-                        canvas.width = img.width * scale;
-                        canvas.height = img.height * scale;
-                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/webp', 0.85));
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
+        function adminLogout() {
+            sessionStorage.removeItem('chitro_adm_ok');
+            clearInterval(pollTimer);
+            document.getElementById('appShell').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
         }
 
-        async function previewFile(input, previewId) {
-            if (input.files && input.files[0]) {
-                const url = await compressImage(input.files[0], 300);
-                const img = document.getElementById(previewId);
-                img.src = url; img.style.display = 'block';
-            }
+        async function enterAdminPortal() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appShell').style.display = 'block';
+            populateCmsForm(); renderCatalogLists();
+            await refreshAllLive();
+            clearInterval(pollTimer);
+            pollTimer = setInterval(refreshAllLive, 6000);
         }
 
-        function renderAdmin() {
-            document.getElementById('statProds').textContent = storeData.products.length;
-            document.getElementById('statCats').textContent = storeData.categories.length;
-            document.getElementById('statWa').textContent = storeData.settings.whatsapp;
+        function openTab(tabId, btn) {
+            document.querySelectorAll('.page-pane, .sb-btn').forEach(e=>e.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active'); btn.classList.add('active');
+            document.getElementById('pageHeading').textContent = btn.textContent.trim();
+            document.getElementById('sidebar').classList.remove('open');
+        }
 
-            document.getElementById('sWa').value = storeData.settings.whatsapp;
-            document.getElementById('sFb').value = storeData.settings.facebook || DEFAULT_STORE.settings.facebook;
-            document.getElementById('sTopMsg').value = storeData.settings.topMsg;
-            document.getElementById('sHeroSub').value = storeData.settings.heroSub;
+        async function refreshAllLive() {
+            try {
+                const [vR, uR, oR, cR, rR] = await Promise.all([
+                    fetch(`${FB_URL}/visitors.json`,{cache:'no-store'}),
+                    fetch(`${FB_URL}/users.json`,{cache:'no-store'}),
+                    fetch(`${FB_URL}/orders.json`,{cache:'no-store'}),
+                    fetch(`${FB_URL}/chats.json`,{cache:'no-store'}),
+                    fetch(`${FB_URL}/resetRequests.json`,{cache:'no-store'})
+                ]);
+                visitorCount = Number(await vR.json()) || 0;
+                adminUsers = (await uR.json()) || {};
+                adminOrders = (await oR.json()) || {};
+                adminChats = (await cR.json()) || {};
+                adminResets = (await rR.json()) || {};
+                renderLiveUI();
+            } catch (e) {}
+        }
 
-            document.getElementById('pCat').innerHTML = storeData.categories.map(c =>
-                `<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('') + '<option value="General">General</option>';
+        function renderLiveUI() {
+            const uArr = Object.values(adminUsers), oArr = Object.values(adminOrders).reverse(), cArr = Object.values(adminChats), rArr = Object.values(adminResets);
+            const sales = oArr.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+Number(o.total||0),0);
+            const penCnt = oArr.filter(o=>o.status==='Pending').length;
+            const unreadChats = cArr.filter(c=>c.unread).length;
 
-            document.getElementById('adminProdList').innerHTML = storeData.products.length ? storeData.products.map(p => `
+            document.getElementById('stRevenue').textContent = '৳' + fmt(sales);
+            document.getElementById('stOrders').textContent = oArr.length;
+            document.getElementById('stPending').textContent = penCnt;
+            document.getElementById('stUsers').textContent = uArr.length;
+            document.getElementById('stVisitors').textContent = visitorCount;
+
+            const ob=document.getElementById('sbOrdBadge'); ob.style.display=penCnt?'inline-block':'none'; ob.textContent=penCnt;
+            const cb=document.getElementById('sbChatBadge'); cb.style.display=unreadChats?'inline-block':'none'; cb.textContent=unreadChats;
+            const rb=document.getElementById('sbResetBadge'); rb.style.display=rArr.length?'inline-block':'none'; rb.textContent=rArr.length;
+
+            document.getElementById('ovRecentOrders').innerHTML = oArr.slice(0,5).map(o => `
                 <div class="item-row">
-                    <div class="item-left">
-                        <img src="${p.image}" alt="">
-                        <div>
-                            <h4>${esc(p.name)}</h4>
-                            <small>৳ ${Number(p.price).toLocaleString('en-IN')} • ${esc(p.category)}</small>
+                    <div><b>#${esc(o.orderId)}</b> • ৳${fmt(o.total)}<br><small style="color:var(--muted)">${esc(o.customerName)} (${esc(o.status)})</small></div>
+                    <button class="btn-sm b-orange" onclick="openTrackEditModal('${esc(o.orderId)}')"><i class="fa-solid fa-location-dot"></i> Track</button>
+                </div>`).join('') || '<small style="color:var(--muted)">কোনো অর্ডার নেই</small>';
+
+            const resetHtml = rArr.map(r => `
+                <div class="item-row">
+                    <div><b>${esc(r.name)} (${esc(r.phone)})</b><br><small style="color:var(--muted)">${esc(r.email||'')} • OTP Code: <b style="color:var(--daraz);font-size:13px">${esc(r.code)}</b></small></div>
+                    <div style="display:flex;gap:5px">
+                        <button class="btn-sm b-blue" onclick="navigator.clipboard?.writeText('${esc(r.code)}');showToast('OTP কপি হয়েছে: ${esc(r.code)}')">Copy</button>
+                        <button class="btn-sm b-red" onclick="deleteResetReq('${esc(r.phone)}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>`).join('') || '<small style="color:var(--muted)">কোনো রিসেট রিকোয়েস্ট নেই</small>';
+            document.getElementById('ovResetRequests').innerHTML = resetHtml;
+            document.getElementById('admResetList').innerHTML = resetHtml;
+
+            renderOrdersList();
+
+            document.getElementById('admUserList').innerHTML = uArr.map(u => {
+                const isBlk = u.status === 'blocked';
+                return `<div class="item-row">
+                    <div>
+                        <b>${esc(u.name)}</b> <span class="status-pill ${isBlk?'b-red':'b-green'}">${isBlk?'Blocked':'Active'}</span><br>
+                        <small style="color:var(--muted)">📱 ${esc(u.phone)} ${u.email?'• ✉️ '+esc(u.email):''} • Pass: ${esc(u.pass)}</small>
+                    </div>
+                    <div style="display:flex;gap:5px;flex-wrap:wrap">
+                        <button class="btn-sm b-blue" onclick="resetUserPass('${esc(u.phone)}')"><i class="fa-solid fa-key"></i></button>
+                        <button class="btn-sm ${isBlk?'b-green':'b-amber'}" onclick="toggleUserStatus('${esc(u.phone)}','${u.status||'active'}')">${isBlk?'Active':'Block'}</button>
+                        <button class="btn-sm b-red" onclick="deleteUser('${esc(u.phone)}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>`;
+            }).join('') || '<small style="color:var(--muted)">কোনো কাস্টমার নেই</small>';
+
+            document.getElementById('admChatThreads').innerHTML = cArr.map(c => `
+                <div class="item-row" style="cursor:pointer;${activeAdminChatId===c.id?'border-color:var(--primary)':''}" onclick="selectAdminChat('${esc(c.id)}')">
+                    <div><b>${esc(c.name||'Guest')}</b> ${c.unread?'<span class="status-pill b-red">New</span>':''}<br><small style="color:var(--muted)">${esc(c.phone||'')} • ${esc(c.lastMsg||'')}</small></div>
+                    <button class="btn-sm b-red" onclick="event.stopPropagation();deleteChat('${esc(c.id)}')"><i class="fa-solid fa-trash"></i></button>
+                </div>`).join('') || '<small style="color:var(--muted)">কোনো চ্যাট নেই</small>';
+            if (activeAdminChatId && adminChats[activeAdminChatId]) renderChatMsgs(adminChats[activeAdminChatId]);
+        }
+
+        function renderOrdersList() {
+            const q = (document.getElementById('ordSearch').value || '').trim().toLowerCase();
+            const sf = document.getElementById('ordStatusFilter').value;
+            let list = Object.values(adminOrders).reverse();
+            if (sf !== 'ALL') list = list.filter(o => o.status === sf);
+            if (q) list = list.filter(o => (o.orderId||'').toLowerCase().includes(q) || (o.customerPhone||'').includes(q) || (o.customerName||'').toLowerCase().includes(q));
+            document.getElementById('admOrderList').innerHTML = list.map(o => `
+                <div class="item-row" style="flex-direction:column;align-items:stretch;gap:6px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+                        <div><b>#${esc(o.orderId)}</b> • ৳${fmt(o.total)} <span class="status-pill b-amber">${esc(o.status||'Pending')}</span></div>
+                        <div style="display:flex;gap:6px">
+                            <button class="btn-sm b-orange" onclick="openTrackEditModal('${esc(o.orderId)}')"><i class="fa-solid fa-location-dot"></i> Update Location / Tracking</button>
+                            <button class="btn-sm b-red" onclick="deleteOrder('${esc(o.orderId)}')"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
-                    <div class="item-actions">
-                        <button class="btn-edit" onclick="editProduct('${p.id}')"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn-del" onclick="deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>`).join('') : '<p style="color:#64748b;font-size:13px;">কোনো প্রোডাক্ট নেই।</p>';
-
-            document.getElementById('adminCatList').innerHTML = storeData.categories.length ? storeData.categories.map(c => `
-                <div class="item-row">
-                    <div class="item-left">
-                        <img src="${c.image}" alt="">
-                        <div><h4>${esc(c.name)}</h4></div>
-                    </div>
-                    <button class="btn-del" onclick="deleteCategory('${c.id}')"><i class="fa-solid fa-trash"></i></button>
-                </div>`).join('') : '<p style="color:#64748b;font-size:13px;">কোনো ক্যাটাগরি নেই।</p>';
+                    <small>${esc(o.items)} | ${esc(o.payment)}</small>
+                    <small style="color:var(--muted)">👤 ${esc(o.customerName)} (${esc(o.customerPhone)}) • 📍 ${esc(o.address)}</small>
+                    <small style="color:var(--primary)">🚚 <b>বর্তমান অবস্থান:</b> ${esc(o.currentLocation||'নতুন অর্ডার')} ${o.courier?`(${esc(o.courier)} ${esc(o.trackingCode||'')})`:''}</small>
+                </div>`).join('') || '<small style="color:var(--muted)">কোনো অর্ডার পাওয়া যায়নি</small>';
         }
 
+        /* Order Location & Tracking Updater */
+        function openTrackEditModal(oid) {
+            const o = adminOrders[oid]; if (!o) return;
+            document.getElementById('trEditOrdId').value = oid;
+            document.getElementById('trStatus').value = o.status || 'Pending';
+            document.getElementById('trCourier').value = o.courier || '';
+            document.getElementById('trCode').value = o.trackingCode || '';
+            document.getElementById('trLocation').value = o.currentLocation || '';
+            document.getElementById('trNote').value = '';
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('trackEditModal').classList.add('active');
+        }
+        function closeTrackEditModal() { document.getElementById('overlay').classList.remove('active'); document.getElementById('trackEditModal').classList.remove('active'); }
+        function setQuickLoc(st, loc) { document.getElementById('trStatus').value = st; document.getElementById('trLocation').value = loc; }
+
+        async function saveOrderTrackingUpdate(e) {
+            e.preventDefault();
+            const oid = document.getElementById('trEditOrdId').value, o = adminOrders[oid];
+            if (!o) return;
+            const st = document.getElementById('trStatus').value, courier = document.getElementById('trCourier').value, code = document.getElementById('trCode').value.trim(), loc = document.getElementById('trLocation').value.trim(), note = document.getElementById('trNote').value.trim();
+            const hist = Array.isArray(o.trackingHistory) ? [...o.trackingHistory] : [];
+            hist.push({ status: st, location: loc, note: note || (courier ? `${courier} ${code}` : ''), time: new Date().toLocaleString('bn-BD') });
+            await fetch(`${FB_URL}/orders/${oid}.json`, {
+                method: 'PATCH', headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ status: st, courier, trackingCode: code, currentLocation: loc, trackingHistory: hist })
+            });
+            closeTrackEditModal(); showToast('অর্ডার লোকেশন ও ট্র্যাকিং লাইভ আপডেট হয়েছে!');
+            await refreshAllLive();
+        }
+        async function deleteOrder(oid) { if(!confirm('অর্ডারটি ডিলিট করবেন?'))return; await fetch(`${FB_URL}/orders/${oid}.json`,{method:'DELETE'}); showToast('অর্ডার ডিলিট হয়েছে'); refreshAllLive(); }
+
+        /* Live Chat */
+        async function selectAdminChat(cid) {
+            activeAdminChatId = cid; const c = adminChats[cid]; if (!c) return;
+            document.getElementById('admActiveChatName').textContent = `${c.name||'Guest'} (${c.phone||''})`;
+            renderChatMsgs(c);
+            if (c.unread) { c.unread = false; await fetch(`${FB_URL}/chats/${cid}/unread.json`, { method:'PUT', body:'false' }); renderLiveUI(); }
+        }
+        function renderChatMsgs(c) {
+            const box = document.getElementById('admChatMessages');
+            box.innerHTML = (c.messages ? Object.values(c.messages) : []).map(m => `<div class="c-msg ${m.sender==='admin'?'adm':'cust'}">${esc(m.text)}<small>${esc(m.time)}</small></div>`).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+        async function sendAdminChatReply(e) {
+            e.preventDefault(); if (!activeAdminChatId) return showToast('আগে চ্যাট সিলেক্ট করুন!');
+            const txt = document.getElementById('admChatInput').value.trim(); if (!txt) return;
+            const time = new Date().toLocaleTimeString('bn-BD', {hour:'2-digit', minute:'2-digit'});
+            document.getElementById('admChatInput').value = '';
+            await fetch(`${FB_URL}/chats/${activeAdminChatId}/messages.json`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({sender:'admin', text:txt, time}) });
+            await fetch(`${FB_URL}/chats/${activeAdminChatId}.json`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({unread:false, lastMsg:txt}) });
+            refreshAllLive();
+        }
+        async function deleteChat(cid) { if(!confirm('চ্যাট ডিলিট করবেন?'))return; await fetch(`${FB_URL}/chats/${cid}.json`,{method:'DELETE'}); if(activeAdminChatId===cid) activeAdminChatId=''; refreshAllLive(); }
+
+        /* Users & Resets */
+        async function resetVisitors() { if(!confirm('ভিজিটর ০ করবেন?'))return; await fetch(`${FB_URL}/visitors.json`,{method:'PUT',body:'0'}); refreshAllLive(); showToast('রিসেট হয়েছে'); }
+        async function deleteResetReq(p) { await fetch(`${FB_URL}/resetRequests/${p}.json`,{method:'DELETE'}); refreshAllLive(); }
+        async function adminCreateUser(e) {
+            e.preventDefault();
+            const name=document.getElementById('admNewUName').value.trim(), phone=document.getElementById('admNewUPhone').value.trim(), email=document.getElementById('admNewUEmail').value.trim().toLowerCase(), pass=document.getElementById('admNewUPass').value.trim();
+            if (!/^01[0-9]{9}$/.test(phone) || pass.length<4) return showToast('সঠিক ১১ ডিজিট নম্বর ও ৪+ অক্ষরের পাসওয়ার্ড দিন!');
+            await fetch(`${FB_URL}/users/${phone}.json`, { method:'PUT', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name,phone,email,pass,status:'active',createdAt:new Date().toLocaleDateString('bn-BD')}) });
+            e.target.reset(); showToast('নতুন User তৈরি হয়েছে!'); refreshAllLive();
+        }
+        async function resetUserPass(phone) {
+            const np = prompt(`${phone} এর নতুন পাসওয়ার্ড দিন (৪+ অক্ষর):`); if(!np||np.length<4) return showToast('কমপক্ষে ৪ অক্ষর দিন!');
+            await fetch(`${FB_URL}/users/${phone}.json`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pass:np, status:'active'}) });
+            showToast('পাসওয়ার্ড রিসেট হয়েছে!'); refreshAllLive();
+        }
+        async function toggleUserStatus(phone, cur) {
+            const next = cur==='blocked'?'active':'blocked';
+            await fetch(`${FB_URL}/users/${phone}.json`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({status:next}) });
+            showToast(`আইডি ${next==='active'?'Active':'Block'} হয়েছে!`); refreshAllLive();
+        }
+        async function deleteUser(phone) { if(!confirm('ইউজার ডিলিট করবেন?'))return; await fetch(`${FB_URL}/users/${phone}.json`,{method:'DELETE'}); refreshAllLive(); }
+
+        /* Catalog (Products, Cats, Coupons, Reviews) */
+        function compressImg(f,mw=420) { return new Promise(res=>{ const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ const c=document.createElement('canvas'), sc=Math.min(1,mw/i.width); c.width=i.width*sc; c.height=i.height*sc; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/webp',.84)); }; i.src=e.target.result; }; r.readAsDataURL(f); }); }
+        function renderCatalogLists() {
+            document.getElementById('pCat').innerHTML = storeData.categories.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('')+'<option value="General">General</option>';
+            document.getElementById('rProdId').innerHTML = storeData.products.length ? storeData.products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('') : '<option value="">প্রোডাক্ট নেই</option>';
+            document.getElementById('admProdList').innerHTML = storeData.products.map(p=>`<div class="item-row"><div class="item-left"><img src="${getImgs(p)[0]||''}"><div><b>${esc(p.name)}</b><br><small>৳${fmt(p.price)} • ${esc(p.category)}</small></div></div><div style="display:flex;gap:5px"><button class="btn-sm b-blue" onclick="editProduct('${p.id}')"><i class="fa-solid fa-pen"></i></button><button class="btn-sm b-red" onclick="deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button></div></div>`).join('') || '<small style="color:var(--muted)">কোনো প্রোডাক্ট নেই</small>';
+            document.getElementById('admCatList').innerHTML = storeData.categories.map(c=>`<div class="item-row"><div class="item-left"><img src="${c.image}"><b>${esc(c.name)}</b></div><button class="btn-sm b-red" onclick="deleteCategory('${c.id}')"><i class="fa-solid fa-trash"></i></button></div>`).join('');
+            document.getElementById('admCouponList').innerHTML = storeData.coupons.map(c=>`<div class="item-row"><span><b>${esc(c.code)}</b> (${c.type==='pct'?c.value+'%':'৳'+c.value} ছাড়)</span><button class="btn-sm b-red" onclick="deleteCoupon('${c.id}')"><i class="fa-solid fa-trash"></i></button></div>`).join('') || '<small style="color:var(--muted)">কোনো কুপন নেই</small>';
+            const revs=[]; storeData.products.forEach(p=>(p.reviews||[]).forEach((r,i)=>revs.push(`<div class="item-row"><div><b>${esc(r.name)} (${'★'.repeat(r.stars)})</b><br><small>${esc(p.name)}: ${esc(r.text)}</small></div><button class="btn-sm b-red" onclick="deleteReview('${p.id}',${i})"><i class="fa-solid fa-trash"></i></button></div>`)));
+            document.getElementById('admRevList').innerHTML = revs.join('') || '<small style="color:var(--muted)">কোনো রিভিউ নেই</small>';
+        }
         async function saveProduct(e) {
             e.preventDefault();
-            const editId = document.getElementById('pEditId').value;
-            const name = document.getElementById('pName').value.trim();
-            const spec = document.getElementById('pSpec').value.trim();
-            const price = Number(document.getElementById('pPrice').value);
-            const oldPrice = document.getElementById('pOldPrice').value ? Number(document.getElementById('pOldPrice').value) : null;
-            const category = document.getElementById('pCat').value;
-            const isHot = document.getElementById('pHot').checked;
-            const file = document.getElementById('pFile').files[0];
-            const url = document.getElementById('pUrl').value.trim();
+            const editId=document.getElementById('pEditId').value, name=document.getElementById('pName').value.trim(), shortSpec=document.getElementById('pShort').value.trim(), sizes=document.getElementById('pSizes').value.trim(), spec=document.getElementById('pSpec').value.trim();
+            const price=Number(document.getElementById('pPrice').value), oldPrice=document.getElementById('pOldPrice').value?Number(document.getElementById('pOldPrice').value):null, category=document.getElementById('pCat').value, isHot=document.getElementById('pHot').checked;
+            const files=Array.from(document.getElementById('pFile').files).slice(0,4), urls=document.getElementById('pUrl').value.split(',').map(u=>u.trim()).filter(u=>u.startsWith('http'));
+            let images=[]; for(const f of files) images.push(await compressImg(f,420)); images=images.concat(urls).slice(0,4);
+            if(editId){ const i=storeData.products.findIndex(p=>p.id===editId); if(i>-1){ const old=storeData.products[i]; if(!images.length)images=getImgs(old); storeData.products[i]={id:editId,name,shortSpec,sizes,spec,price,oldPrice,category,isHot,image:images[0],images,reviews:old.reviews||[]}; } }
+            else { if(!images.length) return showToast('ছবি দিন!'); storeData.products.unshift({id:'p_'+Date.now(),name,shortSpec,sizes,spec,price,oldPrice,category,isHot,image:images[0],images,reviews:[]}); }
+            resetProdForm(); await syncStoreToCloud(); showToast('প্রোডাক্ট লাইভ হয়েছে!');
+        }
+        function editProduct(id) { const p=storeData.products.find(x=>x.id===id); if(!p)return; document.getElementById('pEditId').value=p.id; document.getElementById('pName').value=p.name; document.getElementById('pShort').value=p.shortSpec||''; document.getElementById('pSizes').value=p.sizes||''; document.getElementById('pSpec').value=p.spec||''; document.getElementById('pPrice').value=p.price; document.getElementById('pOldPrice').value=p.oldPrice||''; document.getElementById('pCat').value=p.category; document.getElementById('pHot').checked=!!p.isHot; document.getElementById('pUrl').value=getImgs(p).filter(u=>u.startsWith('http')).join(', '); document.getElementById('pSaveBtn').textContent='Update Live'; document.getElementById('pCancelBtn').style.display='inline-block'; }
+        function resetProdForm() { document.getElementById('pEditId').value=''; document.querySelector('#tabProducts form').reset(); document.getElementById('pSaveBtn').textContent='Save & Publish Live'; document.getElementById('pCancelBtn').style.display='none'; }
+        async function deleteProduct(id) { storeData.products=storeData.products.filter(p=>p.id!==id); await syncStoreToCloud(); showToast('ডিলিট হয়েছে'); }
+        async function saveCategory(e) { e.preventDefault(); const name=document.getElementById('cName').value.trim(), bg=document.getElementById('cBg').value, file=document.getElementById('cFile').files[0]; let image=document.getElementById('cUrl').value.trim(); if(file)image=await compressImg(file,300); if(!image)return showToast('ছবি দিন!'); storeData.categories.push({id:'c_'+Date.now(),name,bg,image}); e.target.reset(); await syncStoreToCloud(); showToast('ক্যাটাগরি যোগ হয়েছে!'); }
+        async function deleteCategory(id) { storeData.categories=storeData.categories.filter(c=>c.id!==id); await syncStoreToCloud(); }
+        async function saveCoupon(e) { e.preventDefault(); storeData.coupons.push({id:'cp_'+Date.now(),code:document.getElementById('cpCode').value.trim().toUpperCase(),type:document.getElementById('cpType').value,value:Number(document.getElementById('cpVal').value)}); e.target.reset(); await syncStoreToCloud(); showToast('কুপন তৈরি হয়েছে!'); }
+        async function deleteCoupon(id) { storeData.coupons=storeData.coupons.filter(c=>c.id!==id); await syncStoreToCloud(); }
+        async function saveReview(e) { e.preventDefault(); const pid=document.getElementById('rProdId').value, p=storeData.products.find(x=>x.id===pid); if(!p)return; if(!Array.isArray(p.reviews))p.reviews=[]; p.reviews.unshift({name:document.getElementById('rName').value.trim(),stars:Number(document.getElementById('rStars').value),text:document.getElementById('rText').value.trim()}); e.target.reset(); await syncStoreToCloud(); showToast('রিভিউ যোগ হয়েছে!'); }
+        async function deleteReview(pid,idx) { const p=storeData.products.find(x=>x.id===pid); if(p&&p.reviews){p.reviews.splice(idx,1); await syncStoreToCloud();} }
 
-            let image = url;
-            if (file) image = await compressImage(file, 450);
-
-            if (editId) {
-                const idx = storeData.products.findIndex(p => p.id === editId);
-                if (idx > -1) {
-                    if (!image) image = storeData.products[idx].image;
-                    storeData.products[idx] = { id: editId, name, spec, price, oldPrice, category, isHot, image };
-                    showToast('প্রোডাক্ট আপডেট করা হয়েছে!');
-                }
-            } else {
-                if (!image) return showToast('দয়া করে একটি ছবি আপলোড বা লিংক দিন!');
-                storeData.products.unshift({ id: 'p_' + Date.now(), name, spec, price, oldPrice, category, isHot, image });
-                showToast('নতুন প্রোডাক্ট সেভ হয়েছে!');
-            }
-            resetProdForm();
-            persistLocal();
+        /* Full Master CMS */
+        function populateCmsForm() {
+            const s = storeData.settings || {};
+            document.getElementById('sbBrand').textContent = s.brand || 'CHITRO MART';
+            document.getElementById('visitStoreLink').href = s.storeUrl || 'index.html';
+            document.getElementById('sStoreUrl').value = s.storeUrl || 'index.html';
+            document.getElementById('sEjPub').value = s.emailjsPublicKey || '';
+            document.getElementById('sEjSvc').value = s.emailjsServiceId || '';
+            document.getElementById('sEjTpl').value = s.emailjsTemplateId || '';
+            document.getElementById('sLoginGate').value = s.loginGate || '1';
+            document.getElementById('sMaintOn').value = s.maintOn || '0';
+            document.getElementById('sMaintMsg').value = s.maintMsg || '';
+            document.getElementById('sNoticeOn').value = s.noticeOn || '0';
+            document.getElementById('sNoticeTxt').value = s.noticeText || '';
+            document.getElementById('sShowSlider').value = s.showSlider || '1';
+            document.getElementById('sShowCatsPromo').value = (s.showCats==='0'&&s.showPromo==='0')?'0':(s.showPromo==='0'?'2':'1');
+            document.getElementById('sShowNews').value = s.showNewsletter || '1';
+            document.getElementById('sBrand').value = s.brand || 'CHITRO MART BD';
+            document.getElementById('sTag').value = s.tagline || 'Shop Smart • Live Better';
+            document.getElementById('sPageTitle').value = s.pageTitle || 'CHITRO MART BD';
+            document.getElementById('sColor').value = s.themeColor || '#0ea646';
+            document.getElementById('sNavy').value = s.navyColor || '#07131f';
+            document.getElementById('sBright').value = s.brightColor || '#1fd161';
+            document.getElementById('sFlashOn').value = s.flashOn || '1';
+            document.getElementById('sFlash').value = s.flashText || '';
+            document.getElementById('sFlashEnd').value = s.flashEnd || '';
+            document.getElementById('sPopOn').value = s.popupOn || '0';
+            document.getElementById('sPopTitle').value = s.popupTitle || '';
+            document.getElementById('sPopCoupon').value = s.popupCoupon || '';
+            document.getElementById('sPopSub').value = s.popupSub || '';
+            document.getElementById('sPopImg').value = s.popupImg || '';
+            document.getElementById('sWa').value = s.whatsapp || '01767068529';
+            document.getElementById('sBkash').value = s.bkash || '01999928788';
+            document.getElementById('sNagad').value = s.nagad || '01999928788';
+            document.getElementById('sEnCOD').value = s.enableCOD || '1';
+            document.getElementById('sEnBkash').value = s.enableBkash || '1';
+            document.getElementById('sEnNagad').value = s.enableNagad || '1';
+            document.getElementById('sDhaka').value = s.dhakaCharge ?? 70;
+            document.getElementById('sOutside').value = s.outsideCharge ?? 130;
+            document.getElementById('sFb').value = s.facebook || 'https://www.facebook.com';
+            document.getElementById('sIg').value = s.instagram || '#';
+            document.getElementById('sYt').value = s.youtube || '#';
+            document.getElementById('sTt').value = s.tiktok || '#';
+            document.getElementById('sTopOn').value = s.topOn || '1';
+            document.getElementById('sTopMsg').value = s.topMsg || '';
+            document.getElementById('sTopBadges').value = s.topBadges || 'Premium Quality, Safe Shopping, Fast Delivery';
+            document.getElementById('sGateTitle').value = s.gateTitle || '';
+            document.getElementById('sGateSub').value = s.gateSub || '';
+            document.getElementById('sP1T').value = s.promo1Title || ''; document.getElementById('sP1I').value = s.promo1Img || '';
+            document.getElementById('sP2T').value = s.promo2Title || ''; document.getElementById('sP2I').value = s.promo2Img || '';
+            document.getElementById('sP3T').value = s.promo3Title || ''; document.getElementById('sP3I').value = s.promo3Img || '';
+            document.getElementById('sAboutTxt').value = s.aboutText || '';
+            document.getElementById('sPolicyTxt').value = s.policyText || '';
+            document.getElementById('sCustomCss').value = s.customCss || '';
+            renderSlideSelect();
         }
 
-        function editProduct(id) {
-            const p = storeData.products.find(x => x.id === id);
-            if (!p) return;
-            document.getElementById('pEditId').value = p.id;
-            document.getElementById('pName').value = p.name;
-            document.getElementById('pSpec').value = p.spec || '';
-            document.getElementById('pPrice').value = p.price;
-            document.getElementById('pOldPrice').value = p.oldPrice || '';
-            document.getElementById('pCat').value = p.category;
-            document.getElementById('pHot').checked = !!p.isHot;
-            document.getElementById('pUrl').value = p.image.startsWith('http') ? p.image : '';
-            document.getElementById('pPreview').src = p.image;
-            document.getElementById('pPreview').style.display = 'block';
-            document.getElementById('pFormTitle').textContent = 'প্রোডাক্ট এডিট করুন';
-            document.getElementById('pSaveBtn').textContent = 'Update Product';
-            document.getElementById('pCancelBtn').style.display = 'inline-block';
+        function renderSlideSelect() {
+            const sel = document.getElementById('sSlideIdx');
+            sel.innerHTML = storeData.slides.map((sl,i)=>`<option value="${i}">Slide ${i+1}: ${esc((sl.title||'').slice(0,22))}</option>`).join('') || '<option value="0">Slide 1</option>';
+            loadSlideToEditor();
+        }
+        function loadSlideToEditor() {
+            const i = Number(document.getElementById('sSlideIdx').value)||0, sl = storeData.slides[i] || {};
+            document.getElementById('slBadge').value = sl.badge||''; document.getElementById('slTitle').value = sl.title||'';
+            document.getElementById('slBtn').value = sl.btn||''; document.getElementById('slSub').value = sl.sub||''; document.getElementById('slImg').value = sl.img||'';
+        }
+        function syncSlideEditor() {
+            const i = Number(document.getElementById('sSlideIdx').value)||0;
+            storeData.slides[i] = { badge:document.getElementById('slBadge').value, title:document.getElementById('slTitle').value, btn:document.getElementById('slBtn').value, sub:document.getElementById('slSub').value, img:document.getElementById('slImg').value };
+        }
+        function addNewSlide() {
+            storeData.slides.push({ badge:'New Collection', title:'Special [Offer] Today', sub:'প্রিমিয়াম পণ্যে আকর্ষণীয় ছাড়!', btn:'Shop Now', img:'https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=600&q=80' });
+            renderSlideSelect(); document.getElementById('sSlideIdx').value = storeData.slides.length-1; loadSlideToEditor(); showToast('নতুন স্লাইড যোগ হয়েছে (Save বাটনে ক্লিক করুন)');
+        }
+        function deleteCurrentSlide() {
+            if(storeData.slides.length<=1) return showToast('কমপক্ষে ১টি স্লাইড রাখতে হবে!');
+            storeData.slides.splice(Number(document.getElementById('sSlideIdx').value)||0, 1);
+            renderSlideSelect(); showToast('স্লাইড মুছে ফেলা হয়েছে');
+        }
+        async function uploadSlideImg(e) { const f=e.target.files[0]; if(!f)return; const b64=await compressImg(f,600); document.getElementById('slImg').value=b64; syncSlideEditor(); showToast('ছবি আপলোড হয়েছে!'); }
+
+        async function saveAllCms(e) {
+            e.preventDefault(); syncSlideEditor();
+            const cp = document.getElementById('sShowCatsPromo').value;
+            const newPass = document.getElementById('sAdmPass').value.trim();
+            storeData.settings = Object.assign({}, storeData.settings, {
+                storeUrl: document.getElementById('sStoreUrl').value.trim() || 'index.html',
+                emailjsPublicKey: document.getElementById('sEjPub').value.trim(),
+                emailjsServiceId: document.getElementById('sEjSvc').value.trim(),
+                emailjsTemplateId: document.getElementById('sEjTpl').value.trim(),
+                loginGate: document.getElementById('sLoginGate').value,
+                maintOn: document.getElementById('sMaintOn').value,
+                maintMsg: document.getElementById('sMaintMsg').value.trim(),
+                noticeOn: document.getElementById('sNoticeOn').value,
+                noticeText: document.getElementById('sNoticeTxt').value.trim(),
+                showSlider: document.getElementById('sShowSlider').value,
+                showCats: cp==='0'?'0':'1',
+                showPromo: cp==='1'?'1':'0',
+                showNewsletter: document.getElementById('sShowNews').value,
+                brand: document.getElementById('sBrand').value.trim(),
+                tagline: document.getElementById('sTag').value.trim(),
+                pageTitle: document.getElementById('sPageTitle').value.trim(),
+                themeColor: document.getElementById('sColor').value,
+                navyColor: document.getElementById('sNavy').value,
+                brightColor: document.getElementById('sBright').value,
+                flashOn: document.getElementById('sFlashOn').value,
+                flashText: document.getElementById('sFlash').value.trim(),
+                flashEnd: document.getElementById('sFlashEnd').value,
+                popupOn: document.getElementById('sPopOn').value,
+                popupTitle: document.getElementById('sPopTitle').value.trim(),
+                popupCoupon: document.getElementById('sPopCoupon').value.trim(),
+                popupSub: document.getElementById('sPopSub').value.trim(),
+                popupImg: document.getElementById('sPopImg').value.trim(),
+                whatsapp: document.getElementById('sWa').value.trim(),
+                bkash: document.getElementById('sBkash').value.trim(),
+                nagad: document.getElementById('sNagad').value.trim(),
+                enableCOD: document.getElementById('sEnCOD').value,
+                enableBkash: document.getElementById('sEnBkash').value,
+                enableNagad: document.getElementById('sEnNagad').value,
+                dhakaCharge: Number(document.getElementById('sDhaka').value),
+                outsideCharge: Number(document.getElementById('sOutside').value),
+                facebook: document.getElementById('sFb').value.trim(),
+                instagram: document.getElementById('sIg').value.trim() || '#',
+                youtube: document.getElementById('sYt').value.trim() || '#',
+                tiktok: document.getElementById('sTt').value.trim() || '#',
+                topOn: document.getElementById('sTopOn').value,
+                topMsg: document.getElementById('sTopMsg').value.trim(),
+                topBadges: document.getElementById('sTopBadges').value.trim(),
+                gateTitle: document.getElementById('sGateTitle').value.trim(),
+                gateSub: document.getElementById('sGateSub').value.trim(),
+                promo1Title: document.getElementById('sP1T').value.trim(), promo1Img: document.getElementById('sP1I').value.trim(),
+                promo2Title: document.getElementById('sP2T').value.trim(), promo2Img: document.getElementById('sP2I').value.trim(),
+                promo3Title: document.getElementById('sP3T').value.trim(), promo3Img: document.getElementById('sP3I').value.trim(),
+                aboutText: document.getElementById('sAboutTxt').value.trim(),
+                policyText: document.getElementById('sPolicyTxt').value.trim(),
+                customCss: document.getElementById('sCustomCss').value
+            });
+            if (newPass) { storeData.settings.adminPass = newPass; document.getElementById('sAdmPass').value = ''; }
+            await syncStoreToCloud();
+            showToast('সব পরিবর্তন লাইভ ওয়েবসাইটে সেভ হয়েছে!');
         }
 
-        function resetProdForm() {
-            document.getElementById('pEditId').value = '';
-            document.querySelector('#prodPanel form').reset();
-            document.getElementById('pPreview').style.display = 'none';
-            document.getElementById('pFormTitle').textContent = 'নতুন প্রোডাক্ট যোগ করুন';
-            document.getElementById('pSaveBtn').textContent = 'Save Product';
-            document.getElementById('pCancelBtn').style.display = 'none';
-        }
-
-        function deleteProduct(id) {
-            storeData.products = storeData.products.filter(p => p.id !== id);
-            persistLocal();
-            showToast('প্রোডাক্ট মুছে ফেলা হয়েছে');
-        }
-
-        async function saveCategory(e) {
-            e.preventDefault();
-            const name = document.getElementById('cName').value.trim();
-            const bg = document.getElementById('cBg').value;
-            const file = document.getElementById('cFile').files[0];
-            let image = document.getElementById('cUrl').value.trim();
-            if (file) image = await compressImage(file, 300);
-            if (!image) return showToast('ক্যাটাগরির ছবি দিন!');
-
-            storeData.categories.push({ id: 'c_' + Date.now(), name, bg, image });
-            e.target.reset();
-            persistLocal();
-            showToast('ক্যাটাগরি যোগ হয়েছে!');
-        }
-
-        function deleteCategory(id) {
-            storeData.categories = storeData.categories.filter(c => c.id !== id);
-            persistLocal();
-            showToast('ক্যাটাগরি মুছে ফেলা হয়েছে');
-        }
-
-        function saveSettings(e) {
-            e.preventDefault();
-            storeData.settings.whatsapp = document.getElementById('sWa').value.trim();
-            storeData.settings.facebook = document.getElementById('sFb').value.trim();
-            storeData.settings.topMsg = document.getElementById('sTopMsg').value.trim();
-            storeData.settings.heroSub = document.getElementById('sHeroSub').value.trim();
-            persistLocal();
-            showToast('স্টোর সেটিংস আপডেট হয়েছে!');
-        }
-
-        function clearAllProducts() {
-            if (!confirm('আপনি কি সত্যিই সব প্রোডাক্ট মুছে ফেলতে চান?')) return;
-            storeData.products = [];
-            persistLocal();
-            showToast('সব প্রোডাক্ট খালি করা হয়েছে');
-        }
-
-        function restoreDefaults() {
-            storeData = structuredClone(DEFAULT_STORE);
-            persistLocal();
-            showToast('ডিফল্ট ডেমো রিস্টোর হয়েছে!');
-        }
-
-        function switchTab(panelId, btn) {
-            document.querySelectorAll('.panel, .tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(panelId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        function utf8ToBase64(str) {
-            const bytes = new TextEncoder().encode(str);
-            let bin = '';
-            bytes.forEach(b => bin += String.fromCharCode(b));
-            return btoa(bin);
-        }
-
-        async function publishToGitHub() {
-            const owner = document.getElementById('ghOwner').value.trim();
-            const repo = document.getElementById('ghRepo').value.trim();
-            const token = document.getElementById('ghToken').value.trim();
-            const status = document.getElementById('publishStatus');
-
-            if (!token) return showToast('আগে আপনার GitHub Token দিন!');
-            localStorage.setItem('chitro_gh_token', token);
-            status.style.color = '#0284c7';
-            status.textContent = 'GitHub-এ আপলোড হচ্ছে... অপেক্ষা করুন...';
-
-            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/data.json`;
-            try {
-                let sha = null;
-                const getRes = await fetch(apiUrl, { headers: { Authorization: `token ${token}` } });
-                if (getRes.ok) {
-                    const fileInfo = await getRes.json();
-                    sha = fileInfo.sha;
-                }
-
-                const body = {
-                    message: 'Update store products via Admin Panel',
-                    content: utf8ToBase64(JSON.stringify(storeData, null, 2))
-                };
-                if (sha) body.sha = sha;
-
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
-                });
-
-                if (putRes.ok) {
-                    status.style.color = '#0ea646';
-                    status.textContent = 'সফল! আপনার লাইভ ওয়েবসাইট ১ মিনিটের মধ্যে সব কাস্টমারের জন্য আপডেট হয়ে যাবে।';
-                    showToast('লাইভ ওয়েবসাইটে পাবলিশ হয়েছে!');
-                } else {
-                    const err = await putRes.json();
-                    status.style.color = '#ef4444';
-                    status.textContent = 'ভুল হয়েছে: ' + (err.message || 'Token চেক করুন');
-                }
-            } catch (e) {
-                status.style.color = '#ef4444';
-                status.textContent = 'নেটওয়ার্ক সমস্যা! ইন্টারনেট কানেকশন চেক করুন।';
-            }
-        }
-
-        function downloadJson() {
-            const blob = new Blob([JSON.stringify(storeData, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'data.json';
-            a.click();
-            showToast('data.json ডাউনলোড হয়েছে!');
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg; t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2600);
-        }
+        function downloadJson() { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(storeData,null,2)],{type:'application/json'})); a.download='chitro-mart-backup.json'; a.click(); }
+        function restoreJson(e) { const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=async ev=>{ try{ storeData=JSON.parse(ev.target.result); await syncStoreToCloud(); showToast('Backup রিস্টোর হয়েছে!'); }catch(err){showToast('সঠিক JSON নয়!');} }; r.readAsText(f); }
     </script>
 </body>
 </html>
