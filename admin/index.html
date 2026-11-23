@@ -234,9 +234,10 @@
                             <div class="card-head"><h3><i class="fa-solid fa-plus-circle"></i> Add / Edit Product &amp; SKU</h3></div>
                             <form onsubmit="saveProduct(event)">
                                 <input type="hidden" id="pEditId">
+                                 <div class="fg"><label>Product Name *</label><input type="text" id="pName" required></div>
                                 <div class="form-row">
-                                    <div class="fg"><label>Product Name *</label><input type="text" id="pName" required></div>
-                                    <div class="fg"><label>SKU ID / Product Code</label><input type="text" id="pSku" placeholder="যেমন: CM-101" style="text-transform:uppercase"></div>
+                                    <div class="fg"><label>Product ID (খালি রাখলে অটো হবে)</label><input type="text" id="pProdId" placeholder="যেমন: 1791104696"></div>
+                                    <div class="fg"><label>SKU Code</label><input type="text" id="pSku" placeholder="যেমন: 33573 বা CM-101" style="text-transform:uppercase"></div>
                                 </div>
                                 <div class="form-row"><div class="fg"><label>Short Highlight</label><input type="text" id="pShort" placeholder="300 GSM Fleece"></div><div class="fg"><label>Sizes</label><input type="text" id="pSizes" placeholder="M, L, XL"></div></div>
                                 <div class="fg"><label>Full Details &amp; Size Chart</label><textarea id="pSpec" rows="3"></textarea></div>
@@ -250,7 +251,7 @@
                         <div class="card">
                             <div class="card-head">
                                 <h3><i class="fa-solid fa-boxes-stacked"></i> সব প্রোডাক্ট</h3>
-                                <input type="text" id="prodSearch" placeholder="নাম বা SKU খুঁজুন..." oninput="renderCatalogLists()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                               <input type="text" id="prodSearch" placeholder="নাম, SKU বা ID খুঁজুন..." oninput="renderCatalogLists()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
                             </div>
                             <div class="list-stack" id="admProdList"></div>
                         </div>
