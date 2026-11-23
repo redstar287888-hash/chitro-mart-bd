@@ -1557,7 +1557,7 @@
             $('directArea').value = ''; $('directAddress').value = '';
 
             const sz = extractSizes(p), imgs = getProductImages(p); activeOrderSize = preSize || (sz.length ? sz[0] : '');
-            $('ordImg').src = imgs[0]||''; $('ordTitle').textContent = p.name; $('ordUnitPrice').textContent = `৳ ${formatPrice(p.price)}`;
+            $('ordImg').src = imgs[0]||''; $('ordTitle').textContent = p.name; $('ordUnitPrice').innerHTML = `৳ ${formatPrice(p.price)} <small style="color:#64748b;font-weight:500">${p.sku ? '• SKU: ' + esc(p.sku) + ' ' : ''}• ID: ${esc(p.id)}</small>`;
             const s = getSettings(); setDirectPay(s.enableCOD!=='0'?'COD':(s.enableBkash!=='0'?'bKash':'Nagad'));
             $('ordSizeSection').innerHTML = sz.length ? `<span class="size-picker-label">সাইজ *</span><div class="size-pills" id="ordSizePills">${sz.map(s=>`<button type="button" class="size-pill-btn ${s===activeOrderSize?'active':''}" onclick="selectOrderSize('${esc(s)}',this)">${esc(s)}</button>`).join('')}</div>` : `<div class="form-group"><label>সাইজ / কালার (ঐচ্ছিক)</label><input type="text" id="ordCustomSize" placeholder="M / L / XL বা Black"></div>`;
 
@@ -1716,5 +1716,6 @@
     </script>
 </body>
 </html>
+
 
 
