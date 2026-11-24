@@ -2310,7 +2310,410 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
+<!-- ================= PROFILE SYSTEM ADD-ON (paste before </body>) ================= -->
+<script>
+/* CHITRO MART BD — Profile System Add-on (standalone, no edits to main code) */
+(function () {
+  "use strict";
 
+  const FB = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
+  const USER_KEY = "chitro_user_v8";
+  const USERS_DB = FB + "/users";
+
+  let currentUser = null;
+  let allOrders = [];
+  let orderFilter = "ALL";
+
+  /* ---------- safe helpers ---------- */
+  const byId = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  const phoneKey = (p) => String(p || "").replace(/\D/g, "");
+
+  function toast(msg) {
+    const t = byId("toast");
+    if (!t) { alert(msg); return; }
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(window.__pToast);
+    window.__pToast = setTimeout(() => t.classList.remove("show"), 2500);
+  }
+
+  function getLocalUser() {
+    try { return JSON.parse(localStorage.getItem(USER_KEY) || "null"); }
+    catch (e) { return null; }
+  }
+  function setLocalUser(u) {
+    try { localStorage.setItem(USER_KEY, JSON.stringify(u)); } catch (e) {}
+  }
+
+  /* ---------- expose public API (main code already calls these) ---------- */
+  window.cmProfile = {
+    openAccountHub,
+    openProfileModal,
+    switchProfTab,
+    filterProfileOrders,
+    loadCustomerOrders,
+    saveUserAddress,
+    updateUserProfileInfo,
+    changeUserPassDirect,
+    logoutCustomer,
+    refresh: loadCustomerOrders
+  };
+
+  /* ---------- 1. Open Account Hub ---------- */
+  function openAccountHub() {
+    const u = getLocalUser();
+    if (u && (u.phone || u.email)) openProfileModal(u);
+    else {
+      if (typeof window.openAuthModal === "function") window.openAuthModal();
+      else {
+        const ov = byId("overlay"), m = byId("authModal");
+        if (ov) ov.classList.add("active");
+        if (m) m.classList.add("active");
+      }
+    }
+  }
+
+  /* ---------- 2. Open Profile Modal ---------- */
+  function openProfileModal(user) {
+    currentUser = user || getLocalUser();
+    if (!currentUser) return;
+
+    const ov = byId("overlay"), m = byId("profileModal");
+    if (ov) ov.classList.add("active");
+    if (m) m.classList.add("active");
+
+    const name = currentUser.name || "Customer";
+    const av = byId("profAvatar");
+    if (av) av.innerHTML = currentUser.avatar
+      ? `<img src="${esc(currentUser.avatar)}" alt="">`
+      : name.trim().charAt(0).toUpperCase() || "U";
+
+    const nm = byId("profName"); if (nm) nm.textContent = name;
+    const ct = byId("profContact");
+    if (ct) ct.textContent = [currentUser.phone, currentUser.email].filter(Boolean).join(" • ");
+
+    const stats = byId("profOrdersStatsBar");
+    if (stats) stats.style.display = "grid";
+
+    const en = byId("editProfName"); if (en) en.value = currentUser.name || "";
+    const ee = byId("editProfEmail"); if (ee) ee.value = currentUser.email || "";
+
+    fillAddressForm(currentUser.address || {});
+    loadCustomerOrders();
+  }
+
+  /* ---------- 3. Tabs ---------- */
+  function switchProfTab(paneId, btn) {
+    document.querySelectorAll("#profileModal .tab-pane").forEach(p => p.classList.remove("active"));
+    const p = byId(paneId); if (p) p.classList.add("active");
+    document.querySelectorAll("#profileModal .prof-nav-btn").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+  }
+
+  /* ---------- 4. Load orders (RTDB + local fallback) ---------- */
+  async function loadCustomerOrders() {
+    const list = byId("profOrdersList");
+    if (!list) return;
+    const u = currentUser || getLocalUser();
+    if (!u) return;
+
+    list.innerHTML = `<p style="text-align:center;color:#64748b;padding:14px;font-size:12.5px">অর্ডার লোড হচ্ছে...</p>`;
+
+    let orders = [];
+    try {
+      const key = phoneKey(u.phone || u.email);
+      const res = await fetch(`${USERS_DB}/${key}/orders.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === "object") {
+          orders = Object.keys(data).map(id => Object.assign({ id }, data[id]));
+        }
+      }
+    } catch (e) { /* silent */ }
+
+    if (!orders.length) {
+      try {
+        const local = JSON.parse(localStorage.getItem("chitro_orders_v8") || "[]");
+        orders = local.filter(o => phoneKey(o.phone) === phoneKey(u.phone));
+      } catch (e) {}
+    }
+
+    orders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    allOrders = orders;
+
+    const counts = { ALL: orders.length, Pending: 0, Confirmed: 0, Shipped: 0, Delivered: 0 };
+    orders.forEach(o => {
+      const st = o.status || "Pending";
+      if (counts[st] !== undefined) counts[st]++;
+    });
+    const map = { cntAll: "ALL", cntPen: "Pending", cntCon: "Confirmed", cntShp: "Shipped", cntDel: "Delivered" };
+    Object.keys(map).forEach(id => {
+      const el = byId(id);
+      if (el) el.textContent = counts[map[id]] || 0;
+    });
+
+    renderOrders();
+  }
+
+  /* ---------- 5. Render orders ---------- */
+  function renderOrders() {
+    const list = byId("profOrdersList");
+    if (!list) return;
+
+    let orders = allOrders;
+    if (orderFilter !== "ALL") {
+      orders = orders.filter(o => (o.status || "Pending") === orderFilter);
+    }
+
+    if (!orders.length) {
+      list.innerHTML = `<div class="empty-state">
+        <i class="fa-regular fa-folder-open" style="font-size:28px;margin-bottom:8px;color:#cbd5e1"></i>
+        <p style="font-size:13px">কোনো অর্ডার পাওয়া যায়নি।</p>
+      </div>`;
+      return;
+    }
+
+    list.innerHTML = orders.map(o => {
+      const st = o.status || "Pending";
+      const stClass = "st-" + st.replace(/\s/g, "");
+      const items = (o.items || []).map(i =>
+        `${esc(i.title || i.name || "Product")} × ${i.qty || 1}`
+      ).join(", ");
+      const oid = esc(o.id || o.orderId || "CM-XXXX");
+      return `
+        <div class="order-card-cm">
+          <div class="oc-head">
+            <div><b>${oid}</b><br>
+              <small style="color:#64748b">${esc(o.createdAtText || "")}</small>
+            </div>
+            <span class="oc-status ${stClass}">${esc(st)}</span>
+          </div>
+          <div style="font-size:12px;color:#334155">${items || "—"}</div>
+          <div class="oc-foot">
+            <b style="color:var(--primary)">৳ ${Number(o.total || 0).toLocaleString("en-BD")}</b>
+            <button class="btn-track-cm" onclick="cmProfile.trackOrder('${oid}')">
+              <i class="fa-solid fa-location-crosshairs"></i> Track
+            </button>
+          </div>
+        </div>`;
+    }).join("");
+  }
+
+  /* ---------- 6. Filter by status pill ---------- */
+  function filterProfileOrders(status, el) {
+    orderFilter = status;
+    document.querySelectorAll("#profOrdersStatsBar .cm-stat-pill").forEach(p => p.classList.remove("active"));
+    if (el) el.classList.add("active");
+    renderOrders();
+  }
+
+  /* ---------- 7. Track order (opens existing track modal) ---------- */
+  function trackOrder(orderId) {
+    if (!orderId) return;
+    const inp = byId("trackSearchInput");
+    if (inp) inp.value = orderId;
+    const pm = byId("profileModal"); if (pm) pm.classList.remove("active");
+    const tm = byId("trackModal");
+    if (tm) { tm.classList.add("active"); }
+    if (typeof window.searchOrderTracking === "function") {
+      try { window.searchOrderTracking(); } catch (e) {}
+    }
+  }
+  window.cmProfile.trackOrder = trackOrder;
+
+  /* ---------- 8. Save address ---------- */
+  async function saveUserAddress(e) {
+    if (e) e.preventDefault();
+    const u = currentUser || getLocalUser();
+    if (!u) return toast("আগে লগইন করুন");
+
+    const addr = {
+      district: (byId("addrDist") || {}).value || "",
+      thana: (byId("addrThana") || {}).value || "",
+      division: (byId("addrDiv") || {}).value || "",
+      areaType: (byId("addrType") || {}).value || "outside",
+      area: ((byId("addrArea") || {}).value || "").trim(),
+      addressLine: ((byId("addrFull") || {}).value || "").trim()
+    };
+    if (!addr.district || !addr.thana || !addr.area || !addr.addressLine) {
+      return toast("সব ঠিকানা ঘর পূরণ করুন");
+    }
+
+    u.address = addr;
+    setLocalUser(u);
+    currentUser = u;
+
+    try {
+      const key = phoneKey(u.phone || u.email);
+      await fetch(`${USERS_DB}/${key}/address.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(addr)
+      });
+    } catch (e) { /* offline OK */ }
+
+    toast("লোকেশন সেভ হয়েছে ✅");
+  }
+
+  /* ---------- 9. Update name/email ---------- */
+  async function updateUserProfileInfo(e) {
+    if (e) e.preventDefault();
+    const u = currentUser || getLocalUser();
+    if (!u) return toast("আগে লগইন করুন");
+
+    const name = ((byId("editProfName") || {}).value || "").trim();
+    const email = ((byId("editProfEmail") || {}).value || "").trim();
+    if (!name) return toast("নাম দিন");
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) return toast("সঠিক Email দিন");
+
+    u.name = name;
+    u.email = email;
+    setLocalUser(u);
+    currentUser = u;
+
+    const nm = byId("profName"); if (nm) nm.textContent = name;
+    const ct = byId("profContact");
+    if (ct) ct.textContent = [u.phone, u.email].filter(Boolean).join(" • ");
+
+    try {
+      const key = phoneKey(u.phone || u.email);
+      await fetch(`${USERS_DB}/${key}.json`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, email: email })
+      });
+    } catch (e) {}
+
+    toast("প্রোফাইল সেভ হয়েছে ✅");
+  }
+
+  /* ---------- 10. Change password ---------- */
+  async function changeUserPassDirect(e) {
+    if (e) e.preventDefault();
+    const u = currentUser || getLocalUser();
+    if (!u) return toast("আগে লগইন করুন");
+
+    const oldPass = ((byId("chOldPass") || {}).value || "");
+    const newPass = ((byId("chNewPass") || {}).value || "");
+    if (!oldPass || !newPass) return toast("দুইটি পাসওয়ার্ড দিন");
+    if (newPass.length < 4) return toast("নতুন পাসওয়ার্ড ৪+ অক্ষর হতে হবে");
+    if (oldPass !== u.password) return toast("বর্তমান পাসওয়ার্ড ভুল");
+
+    u.password = newPass;
+    setLocalUser(u);
+    currentUser = u;
+
+    try {
+      const key = phoneKey(u.phone || u.email);
+      await fetch(`${USERS_DB}/${key}/password.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPass)
+      });
+    } catch (e) {}
+
+    const o = byId("chOldPass"), n = byId("chNewPass");
+    if (o) o.value = ""; if (n) n.value = "";
+    toast("পাসওয়ার্ড আপডেট হয়েছে ✅");
+  }
+
+  /* ---------- 11. Logout ---------- */
+  function logoutCustomer() {
+    try {
+      localStorage.removeItem(USER_KEY);
+      document.cookie = "cm_user_v8=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    } catch (e) {}
+    currentUser = null;
+    allOrders = [];
+
+    const label = byId("userLabel");
+    if (label) label.textContent = "Login / Sign Up";
+
+    if (typeof window.closeAllOverlays === "function") {
+      try { window.closeAllOverlays(); } catch (e) {}
+    }
+    toast("লগআউট হয়েছে");
+  }
+
+  /* ---------- 12. Address form helpers ---------- */
+  const DISTRICTS = ["Dhaka","Chattogram","Rajshahi","Khulna","Sylhet","Barishal","Rangpur","Mymensingh","Bagerhat","Bandarban","Barguna","Bhola","Bogura","Brahmanbaria","Chandpur","Chapainawabganj","Chuadanga","Cox's Bazar","Cumilla","Dinajpur","Faridpur","Feni","Gaibandha","Gazipur","Gopalganj","Habiganj","Jamalpur","Jashore","Jhalokati","Jhenaidah","Joypurhat","Khagrachhari","Kishoreganj","Kurigram","Kushtia","Lakshmipur","Lalmonirhat","Madaripur","Magura","Manikganj","Meherpur","Moulvibazar","Munshiganj","Naogaon","Narail","Narayanganj","Narsingdi","Natore","Netrokona","Nilphamari","Noakhali","Pabna","Panchagarh","Patuakhali","Pirojpur","Rajbari","Rangamati","Satkhira","Shariatpur","Sherpur","Sirajganj","Sunamganj","Tangail","Thakurgaon"];
+
+  function fillDistrictSelect(sel) {
+    if (!sel || sel.dataset.filled === "1") return;
+    sel.innerHTML = `<option value="">-- জেলা সিলেক্ট করুন --</option>` +
+      DISTRICTS.map(d => `<option value="${d}">${d}</option>`).join("");
+    sel.dataset.filled = "1";
+  }
+
+  function fillAddressForm(addr) {
+    const dist = byId("addrDist");
+    if (dist) {
+      fillDistrictSelect(dist);
+      if (addr.district) {
+        dist.value = addr.district;
+        if (typeof window.onProfileDistChange === "function") {
+          try { window.onProfileDistChange(); } catch (e) {}
+        }
+      }
+    }
+    setTimeout(() => {
+      const thana = byId("addrThana");
+      if (thana && addr.thana) {
+        if (!thana.options.length || !thana.querySelector(`option[value="${addr.thana}"]`)) {
+          const opt = document.createElement("option");
+          opt.value = addr.thana; opt.textContent = addr.thana;
+          thana.appendChild(opt);
+        }
+        thana.value = addr.thana;
+      }
+      const div = byId("addrDiv"); if (div && addr.division) div.value = addr.division;
+      const type = byId("addrType"); if (type && addr.areaType) type.value = addr.areaType;
+      const area = byId("addrArea"); if (area) area.value = addr.area || "";
+      const full = byId("addrFull"); if (full) full.value = addr.addressLine || "";
+    }, 80);
+  }
+
+  /* ---------- 13. Re-bind buttons to our functions ---------- */
+  function rebind() {
+    // main-code function name override
+    window.openAccountHub = openAccountHub;
+    window.switchProfTab = switchProfTab;
+    window.filterProfileOrders = filterProfileOrders;
+    window.loadCustomerOrders = loadCustomerOrders;
+    window.saveUserAddress = saveUserAddress;
+    window.updateUserProfileInfo = updateUserProfileInfo;
+    window.changeUserPassDirect = changeUserPassDirect;
+    window.logoutCustomer = logoutCustomer;
+
+    // if user label shows empty, refresh once
+    const label = byId("userLabel");
+    const u = getLocalUser();
+    if (label && u && (u.name || u.phone)) {
+      label.textContent = u.name || u.phone;
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", rebind);
+  } else {
+    rebind();
+  }
+
+  // re-check when auth modal closes (login success)
+  document.addEventListener("click", function (e) {
+    const t = e.target;
+    if (!t) return;
+    if (t.closest("#authModal .close-btn") || t.closest("#overlay")) {
+      const u = getLocalUser();
+      if (u) rebind();
+    }
+  }, true);
+})();
+</script>
+<!-- ============== END PROFILE SYSTEM ADD-ON ============== -->
 </body>
 </html>
  
