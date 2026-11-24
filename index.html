@@ -4,6 +4,11 @@
     <meta name="google-site-verification" content="G6Ij275_wfGVELYObuitAcQe7KNK23YlvhW7aFuKLDc" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://chitro-mart-bd-default-rtdb.firebaseio.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     <title id="metaTitle">chitro mart bd - Shop Smart • Live Better</title>
     <meta name="description" content="chitro mart bd - বাংলাদেশের বিশ্বস্ত অনলাইন শপিং মার্কেট।">
     <meta name="robots" content="index, follow">
@@ -59,9 +64,10 @@
         .help-wa-pill:hover{transform:translateY(-1px);background:#10b981;color:#fff}
         .help-wa-pill i{font-size:16px;color:#16a34a} .help-wa-pill:hover i{color:#fff}
 
-        .hero-slider-wrap{margin-top:18px;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(7,19,31,.14)}
-        .hero-slide{display:none;padding:34px 52px;color:#fff;justify-content:space-between;align-items:center;min-height:360px;animation:fadeS .45s ease}
+        .hero-slider-wrap{margin-top:18px;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(7,19,31,.14);min-height:360px;background:linear-gradient(135deg,var(--navy),#0b3b24)}
+        .hero-slide{display:none;padding:34px 52px;color:#fff;justify-content:space-between;align-items:center;min-height:360px}
         .hero-slide.active{display:flex}
+        .hero-slide.anim-fade{animation:fadeS .45s ease}
         .slide-bg-0{background:radial-gradient(circle at 80% 50%,#107e3c 0%,#072d16 45%,#060e09 100%)}
         .slide-bg-1{background:radial-gradient(circle at 75% 50%,#0e7490 0%,#0f172a 55%,#060e09 100%)}
         .slide-bg-2{background:linear-gradient(125deg,#1e1b4b 0%,#312e81 55%,#0f172a 100%)}
@@ -109,7 +115,7 @@
         .category-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:14px}
         .category-card{border:1px solid var(--border);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:.2s}
         .category-card:hover,.category-card.active-cat{border-color:var(--primary);transform:translateY(-2px)}
-        .cat-img{height:82px;margin-bottom:8px;border-radius:10px;overflow:hidden;background:#fff} .cat-img img{width:100%;height:100%;object-fit:cover}
+        .cat-img{height:82px;margin-bottom:8px;border-radius:10px;overflow:hidden;background:#f1f5f9} .cat-img img{width:100%;height:100%;object-fit:cover;display:block}
         .category-card h4{font-size:13px;font-weight:600;color:var(--navy)}
 
         .product-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}
@@ -119,8 +125,8 @@
         .badge-disc{position:absolute;top:41px;right:16px;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;z-index:2}
         .wish-heart-btn{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.92);border:1px solid #e2e8f0;width:27px;height:27px;border-radius:50%;cursor:pointer;color:#64748b;display:flex;align-items:center;justify-content:center;z-index:2;font-size:12px}
         .wish-heart-btn.active{color:#ef4444}
-        .product-img{height:175px;margin-bottom:10px;border-radius:12px;overflow:hidden;background:#f8fafc;cursor:pointer;position:relative}
-        .product-img img{width:100%;height:100%;object-fit:cover}
+        .product-img{height:175px;margin-bottom:10px;border-radius:12px;overflow:hidden;background:#f1f5f9;cursor:pointer;position:relative}
+        .product-img img{width:100%;height:100%;object-fit:cover;display:block}
         .multi-img-badge{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);color:#fff;font-size:10px;padding:2px 7px;border-radius:50px}
         .product-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
         .product-short{font-size:11.5px;color:var(--muted);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -183,7 +189,6 @@
         .submit-primary-btn{width:100%;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:11px;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
         .link-btn{background:none;border:none;color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline}
 
-        /* CHITRO MART BD Original Profile & Order Hub */
         .cm-prof-hero{background:linear-gradient(135deg,#07131f 0%,#0b3b24 60%,#0ea646 100%);color:#fff;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
         .cm-prof-left{display:flex;align-items:center;gap:14px}
         .cm-avatar{width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,.15);border:2px solid rgba(31,209,97,.7);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff}
@@ -304,10 +309,82 @@
         .toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:#fff;padding:10px 24px;border-radius:50px;font-size:13px;z-index:2000;opacity:0;transition:.3s}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
+        /* 0-Flicker Instant Boot & Skeleton System */
+        html.cm-unlocked #guestLandingSection{display:none!important}
+        html.cm-unlocked #memberStoreArea{display:block!important}
+        html.cm-locked #guestLandingSection{display:block!important}
+        html.cm-locked #memberStoreArea{display:none!important}
+        html.cm-maint #maintOverlay{display:flex!important}
+        html.cm-no-top #topBarBox{display:none!important}
+        html.cm-no-slider #heroSliderSection{display:none!important}
+        html.cm-no-cats #categories-section{display:none!important}
+        html.cm-no-promo #promo-section{display:none!important}
+        html.cm-no-flash #flashBarBox{display:none!important}
+        html.cm-no-news #newsletterCol{display:none!important}
+        .cm-skel{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:cmSkel 1.2s infinite linear;border-radius:10px}
+        @keyframes cmSkel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .skel-card{border:1px solid var(--border);border-radius:16px;padding:12px;background:#fff}
+        .skel-img{height:175px;margin-bottom:10px}.skel-line{height:14px;margin-bottom:8px}.skel-line.sm{width:60%;height:11px}.skel-btn{height:34px;margin-top:10px}
+        .skel-cat{border:1px solid var(--border);border-radius:14px;padding:12px 8px;background:#fff}.skel-cat-img{height:82px;margin-bottom:8px}
+        .hero-skel{min-height:360px;display:flex;align-items:center;padding:34px 52px;background:linear-gradient(135deg,var(--navy) 0%,#0b3b24 100%);color:#fff}
+
         @media(max-width:1150px){.category-grid{grid-template-columns:repeat(4,1fr)}.product-grid{grid-template-columns:repeat(3,1fr)}.trust-grid{grid-template-columns:repeat(2,1fr)}.hero-right{display:none}.footer-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:768px){.top-bar-flex,.header-flex,.nav-flex,.bottom-flex,.partners-bar{flex-direction:column;text-align:center;gap:10px}.nav-left,.nav-links,.partner-group{flex-wrap:wrap;justify-content:center}.search-box{width:100%}.hero-slide{padding:26px 18px;text-align:center}.hero-content h2{font-size:26px}.hero-features{justify-content:center}.category-grid,.product-grid{grid-template-columns:repeat(2,1fr);gap:10px}.promo-grid,.footer-grid,.form-row,.details-layout,.trust-grid{grid-template-columns:1fr}.cm-order-stats{grid-template-columns:repeat(3,1fr)}.card-btn-row button{font-size:11px;padding:8px 4px}.float-chat span{display:none}.float-chat{padding:13px;border-radius:50%}}
+        @media(max-width:768px){.top-bar-flex,.header-flex,.nav-flex,.bottom-flex,.partners-bar{flex-direction:column;text-align:center;gap:10px}.nav-left,.nav-links,.partner-group{flex-wrap:wrap;justify-content:center}.search-box{width:100%}.hero-slider-wrap,.hero-skel{min-height:250px}.hero-slide{padding:26px 18px;text-align:center;min-height:250px}.hero-content h2{font-size:26px}.hero-features{justify-content:center}.category-grid,.product-grid{grid-template-columns:repeat(2,1fr);gap:10px}.promo-grid,.footer-grid,.form-row,.details-layout,.trust-grid{grid-template-columns:1fr}.cm-order-stats{grid-template-columns:repeat(3,1fr)}.card-btn-row button{font-size:11px;padding:8px 4px}.float-chat span{display:none}.float-chat{padding:13px;border-radius:50%}}
         @media(max-width:480px){.addr-grid-2{grid-template-columns:1fr}}
     </style>
+    <script>
+    (function(){
+        var docEl = document.documentElement;
+        window.__CM_STORE_RAW__ = null;
+        window.__CM_HAS_CACHE__ = false;
+        var hasUser = false;
+        try {
+            var uStr = localStorage.getItem('chitro_user_v8');
+            if (uStr) {
+                var uObj = JSON.parse(uStr);
+                if (uObj && uObj.phone) hasUser = true;
+            } else {
+                var cm = document.cookie.match(/(?:^|;\s*)cm_user_v8=([^;]+)/);
+                if (cm) {
+                    var cu = JSON.parse(decodeURIComponent(cm[1]));
+                    if (cu && cu.phone) {
+                        hasUser = true;
+                        localStorage.setItem('chitro_user_v8', JSON.stringify(cu));
+                    }
+                }
+            }
+        } catch(e){}
+        var gate = '1';
+        try {
+            var raw = localStorage.getItem('chitro_store_v8');
+            if (raw) {
+                var d = JSON.parse(raw);
+                if (d && typeof d === 'object') {
+                    window.__CM_STORE_RAW__ = d;
+                    window.__CM_HAS_CACHE__ = true;
+                    var s = d.settings || {};
+                    if (s.themeColor) docEl.style.setProperty('--primary', s.themeColor);
+                    if (s.navyColor) docEl.style.setProperty('--navy', s.navyColor);
+                    if (s.brightColor) docEl.style.setProperty('--bright', s.brightColor);
+                    var mt = document.getElementById('metaThemeColor');
+                    if (mt && s.themeColor) mt.content = s.themeColor;
+                    var dc = document.getElementById('dynamicCustomCss');
+                    if (dc && s.customCss) dc.textContent = s.customCss;
+                    if (s.pageTitle) document.title = s.pageTitle;
+                    if (s.loginGate !== undefined) gate = s.loginGate;
+                    if (s.maintOn === '1') docEl.classList.add('cm-maint');
+                    if (s.topOn === '0') docEl.classList.add('cm-no-top');
+                    if (s.showSlider === '0') docEl.classList.add('cm-no-slider');
+                    if (s.showCats === '0') docEl.classList.add('cm-no-cats');
+                    if (s.showPromo === '0') docEl.classList.add('cm-no-promo');
+                    if (s.flashOn === '0') docEl.classList.add('cm-no-flash');
+                    if (s.showNewsletter === '0') docEl.classList.add('cm-no-news');
+                }
+            }
+        } catch(e){}
+        docEl.classList.add((gate === '0' || hasUser) ? 'cm-unlocked' : 'cm-locked');
+    })();
+    </script>
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M36 28 C36 14 64 14 64 28' fill='none' stroke='%230047AB' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpolygon points='26,28 74,28 82,72 18,72' fill='%230B3B95'/%3E%3Cpath d='M43,46 L47,46 L52,58 L63,58 L66,49 L49,49' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='54' cy='61' r='1.5' fill='white'/%3E%3Ccircle cx='61' cy='61' r='1.5' fill='white'/%3E%3Cpath d='M15,73 C12,56 28,72 58,62 C78,55 92,36 86,28 C80,36 74,48 54,58 C34,68 18,74 15,73 Z' fill='%23FF6F00'/%3E%3Ccircle cx='88' cy='34' r='1.8' fill='%23FF6F00'/%3E%3Ccircle cx='91' cy='40' r='2' fill='%23FF6F00'/%3E%3Ccircle cx='86' cy='46' r='1.5' fill='%23FF6F00'/%3E%3C/svg%3E">
 
@@ -322,7 +399,7 @@
     </script>
 </head>
 <body>
-   <div id="maintOverlay" style="display: none;">
+    <div id="maintOverlay">
         <div style="width:76px;height:76px;border-radius:20px;background:rgba(245,158,11,.15);border:2px solid #f59e0b;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fbbf24;margin-bottom:16px"><i class="fa-solid fa-screwdriver-wrench"></i></div>
         <h2 style="font-size:26px;margin-bottom:10px" id="maintBrandTitle">CHITRO MART BD</h2>
         <p id="maintMsgView" style="max-width:480px;color:#cbd5e1;font-size:14.5px;margin-bottom:24px">সাইটটি সম্পূর্ণভাবে চালু আছে।</p>
@@ -422,9 +499,9 @@
                 <div class="product-grid" id="productContainer"></div>
             </section>
             <section class="promo-grid" id="promo-section">
-                <div class="promo-card promo-dark"><img id="pr1Img" src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=400&q=80" class="promo-img-left"><div class="promo-text"><small>Up to</small><h4 id="pr1Title">50% OFF</h4><p id="pr1Sub">on Selected Products</p><a href="#products-section" class="promo-btn btn-white">Shop Now →</a></div></div>
-                <div class="promo-card promo-pink"><div class="promo-text"><h4 id="pr2Title">Trendy Fashion <br>For Every You</h4><a href="#products-section" class="promo-btn btn-pink">Shop Now →</a></div><img id="pr2Img" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" class="promo-img-right"></div>
-                <div class="promo-card promo-blue"><div class="promo-text"><h4 id="pr3Title">Premium Quality <br>Accessories</h4><a href="#products-section" class="promo-btn btn-white">Shop Now →</a></div><img id="pr3Img" src="https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?auto=format&fit=crop&w=400&q=80" class="promo-img-right"></div>
+                <div class="promo-card promo-dark"><img id="pr1Img" src="https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=400&q=80" class="promo-img-left" loading="lazy" decoding="async"><div class="promo-text"><small>Up to</small><h4 id="pr1Title">50% OFF</h4><p id="pr1Sub">on Selected Products</p><a href="#products-section" class="promo-btn btn-white">Shop Now →</a></div></div>
+                <div class="promo-card promo-pink"><div class="promo-text"><h4 id="pr2Title">Trendy Fashion <br>For Every You</h4><a href="#products-section" class="promo-btn btn-pink">Shop Now →</a></div><img id="pr2Img" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" class="promo-img-right" loading="lazy" decoding="async"></div>
+                <div class="promo-card promo-blue"><div class="promo-text"><h4 id="pr3Title">Premium Quality <br>Accessories</h4><a href="#products-section" class="promo-btn btn-white">Shop Now →</a></div><img id="pr3Img" src="https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?auto=format&fit=crop&w=400&q=80" class="promo-img-right" loading="lazy" decoding="async"></div>
             </section>
         </div>
     </main>
@@ -607,8 +684,11 @@
     </div>
 
     <div class="drawer" id="wishlistDrawer"><div class="drawer-header"><h3><i class="fa-regular fa-heart"></i> My Wishlist</h3><button class="close-btn" onclick="closeAllOverlays()">&times;</button></div><div class="drawer-body" id="wishlistItemsContainer"></div></div>
-    <div id="toast" class="toast"></div>
-    
+    <div id="toast" class="toast"></div>এই হলো আপনার সম্পূর্ণ Part 2। Part 1-এর একদম শেষ লাইন (<div id="toast"
+class="toast"></div>)–এর ঠিক নিচে থেকে এটি কপি করে পেস্ট করুন।
+
+Part 2 (এটি Part 1-এর ঠিক নিচে পেস্ট করুন)
+
     <script>
         const FB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
         const $ = id => document.getElementById(id);
@@ -800,6 +880,9 @@
         ];
 
         let storeData = structuredClone(DEFAULT_STORE);
+        let hasCachedStore = !!window.__CM_HAS_CACHE__;
+        let hasCloudLoaded = false;
+        let _lastLogoKey = '';
         let cart = JSON.parse(localStorage.getItem('chitro_cart_v8') || '[]');
         let wishlist = JSON.parse(localStorage.getItem('chitro_wish_v8') || '[]');
         let currentUser = loadPersistentUser();
@@ -815,6 +898,9 @@
         }
 
         function generateShortcutLogo(brandName, themeColor) {
+            const key = `${brandName || 'CHITRO MART BD'}|${themeColor || '#0ea646'}`;
+            if (_lastLogoKey === key) return;
+            _lastLogoKey = key;
             try {
                 const makePng = (size) => {
                     const cv = document.createElement('canvas'); cv.width = size; cv.height = size;
@@ -1019,16 +1105,38 @@
             if (sa.full && !$(addrId).value) $(addrId).value = sa.full;
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        /* 0-Flicker Immediate Init */
+        (function bootStorefront() {
             populateDistSelect('directDist');
             populateDistSelect('cartDist');
             populateDistSelect('addrDist');
-            generateShortcutLogo('CHITRO MART BD', '#0ea646');
-            applySettings(); renderAll(); startSlider(); startFlashTimer(); trackVisitor();
-            await loadStoreFromCloud();
-            if (currentUser) await syncCurrentUserProfile();
-            setTimeout(checkOfferPopup, 1400);
-        });
+
+            if (window.__CM_STORE_RAW__) {
+                storeData = normalizeStore(window.__CM_STORE_RAW__);
+                window.__CM_STORE_RAW__ = null;
+                hasCachedStore = true;
+            } else {
+                try {
+                    const localData = JSON.parse(localStorage.getItem('chitro_store_v8') || 'null');
+                    if (localData && typeof localData === 'object') {
+                        storeData = normalizeStore(localData);
+                        hasCachedStore = true;
+                    }
+                } catch (e) {}
+            }
+
+            applySettings(false);
+            renderAll();
+            startSlider();
+            startFlashTimer();
+            setTimeout(() => generateShortcutLogo(getSettings().brand, getSettings().themeColor), 80);
+            setTimeout(trackVisitor, 1500);
+
+            loadStoreFromCloud().then(() => {
+                if (currentUser) syncCurrentUserProfile();
+                setTimeout(checkOfferPopup, 1200);
+            });
+        })();
 
         async function trackVisitor() {
             if (sessionStorage.getItem('cm_vis')) return;
@@ -1037,21 +1145,60 @@
         }
 
         async function loadStoreFromCloud() {
-            try {
-                const localData = JSON.parse(localStorage.getItem('chitro_store_v8') || 'null');
-                if (localData && typeof localData === 'object') storeData = normalizeStore(localData);
-            } catch (e) {}
+            const prevSettings = JSON.stringify(storeData.settings);
+            const prevSlides = JSON.stringify(storeData.slides);
+            const prevCats = JSON.stringify(storeData.categories);
+            const prevProds = JSON.stringify(storeData.products);
+            const prevCoupons = JSON.stringify(storeData.coupons);
+            let updatedFromCloud = false;
+
             try {
                 const r = await fetch(`${FB_URL}/store.json?t=${Date.now()}`, { cache: 'no-store' });
                 if (r.ok) {
                     const cloud = await r.json();
                     if (cloud && typeof cloud === 'object') {
-                        storeData = normalizeStore(cloud);
-                        localStorage.setItem('chitro_store_v8', JSON.stringify(storeData));
+                        const nextStore = normalizeStore(cloud);
+                        const nextSettings = JSON.stringify(nextStore.settings);
+                        const nextSlides = JSON.stringify(nextStore.slides);
+                        const nextCats = JSON.stringify(nextStore.categories);
+                        const nextProds = JSON.stringify(nextStore.products);
+                        const nextCoupons = JSON.stringify(nextStore.coupons);
+
+                        const settingsChanged = nextSettings !== prevSettings;
+                        const slidesChanged = nextSlides !== prevSlides;
+                        const catsChanged = nextCats !== prevCats;
+                        const prodsChanged = nextProds !== prevProds;
+                        const couponsChanged = nextCoupons !== prevCoupons;
+
+                        if (!hasCachedStore || settingsChanged || slidesChanged || catsChanged || prodsChanged || couponsChanged) {
+                            storeData = nextStore;
+                            localStorage.setItem('chitro_store_v8', JSON.stringify(storeData));
+                        }
+
+                        hasCloudLoaded = true;
+                        updatedFromCloud = true;
+
+                        if (!hasCachedStore) {
+                            hasCachedStore = true;
+                            applySettings(false);
+                            renderAll();
+                        } else {
+                            if (settingsChanged) applySettings(true);
+                            if (slidesChanged) renderSlides();
+                            if (catsChanged) { renderCategories(); updateCategoryDropdown(); }
+                            if (prodsChanged) { renderProducts(); renderCart(); renderWishlist(); }
+                        }
                     }
                 }
             } catch (e) {}
-            applySettings(); renderAll();
+
+            if (!updatedFromCloud) {
+                hasCloudLoaded = true;
+                if (!hasCachedStore) {
+                    applySettings(false);
+                    renderAll();
+                }
+            }
         }
 
         function normalizeStore(d) {
@@ -1066,29 +1213,47 @@
         }
 
         async function syncCurrentUserProfile() {
+            if (!currentUser) return;
             try {
                 const r = await fetch(`${FB_URL}/users/${currentUser.phone}.json`, { cache: 'no-store' });
                 if (!r.ok) return;
                 const u = await r.json();
-                if (!u || u.status === 'blocked') { currentUser = null; localStorage.removeItem('chitro_user_v8'); clearUserCookie(); updateStoreAccessUI(); showToast('আপনার অ্যাকাউন্টটি ব্লক বা মুছে ফেলা হয়েছে!'); }
-                else { savePersistentUser({ name: u.name, phone: u.phone, email: u.email || '', savedAddress: u.savedAddress || null }); updateStoreAccessUI(); }
+                if (!u || u.status === 'blocked') {
+                    currentUser = null; localStorage.removeItem('chitro_user_v8'); clearUserCookie();
+                    updateStoreAccessUI(); showToast('আপনার অ্যাকাউন্টটি ব্লক বা মুছে ফেলা হয়েছে!');
+                } else {
+                    const nextU = { name: u.name, phone: u.phone, email: u.email || '', savedAddress: u.savedAddress || null };
+                    if (JSON.stringify(nextU) !== JSON.stringify(currentUser)) {
+                        savePersistentUser(nextU);
+                        updateStoreAccessUI();
+                    }
+                }
             } catch (e) {}
         }
 
         function getSettings() { return Object.assign({}, DEFAULT_STORE.settings, storeData.settings || {}); }
         function getWaLink() { const s = getSettings(), wc = (s.whatsapp || "01767068529").replace(/[^0-9]/g, ''); return `https://wa.me/${wc.startsWith('88')?wc:'88'+wc}`; }
 
-        function applySettings() {
+        function applySettings(skipSlides = false) {
             try {
-                const s = getSettings(), waUrl = getWaLink();
+                const s = getSettings(), waUrl = getWaLink(), docEl = document.documentElement;
                 document.title = s.pageTitle || `${s.brand} - ${s.tagline}`;
                 if ($('metaAppTitle')) $('metaAppTitle').content = s.brand;
                 if ($('metaThemeColor')) $('metaThemeColor').content = s.themeColor || '#0ea646';
-                generateShortcutLogo(s.brand, s.themeColor || '#0ea646');
-                document.documentElement.style.setProperty('--primary', s.themeColor || '#0ea646');
-                document.documentElement.style.setProperty('--navy', s.navyColor || '#07131f');
-                document.documentElement.style.setProperty('--bright', s.brightColor || '#1fd161');
+                if (hasCloudLoaded) generateShortcutLogo(s.brand, s.themeColor || '#0ea646');
+
+                docEl.style.setProperty('--primary', s.themeColor || '#0ea646');
+                docEl.style.setProperty('--navy', s.navyColor || '#07131f');
+                docEl.style.setProperty('--bright', s.brightColor || '#1fd161');
                 if ($('dynamicCustomCss')) $('dynamicCustomCss').textContent = s.customCss || '';
+
+                docEl.classList.toggle('cm-maint', s.maintOn === '1');
+                docEl.classList.toggle('cm-no-top', s.topOn === '0');
+                docEl.classList.toggle('cm-no-slider', s.showSlider === '0');
+                docEl.classList.toggle('cm-no-cats', s.showCats === '0');
+                docEl.classList.toggle('cm-no-promo', s.showPromo === '0');
+                docEl.classList.toggle('cm-no-flash', s.flashOn === '0');
+                docEl.classList.toggle('cm-no-news', s.showNewsletter === '0');
 
                 if ($('customNoticeBanner')) {
                     if (s.noticeOn === '1' && s.noticeText) { $('customNoticeBanner').style.display = 'block'; $('customNoticeBanner').innerHTML = s.noticeText; }
@@ -1142,7 +1307,8 @@
                 }
 
                 if ($('maintOverlay')) $('maintOverlay').classList.toggle('active', s.maintOn === '1');
-                renderSlides(); updateStoreAccessUI();
+                if (!skipSlides) renderSlides();
+                updateStoreAccessUI();
             } catch (err) { console.error(err); }
         }
 
@@ -1158,6 +1324,11 @@
 
         function formatSlideTitle(t) { return esc(t).replace(/\[([^\]]+)\]/g, '<span>$1</span>'); }
         function renderSlides() {
+            const wrap = $('heroSliderSection'); if (!wrap) return;
+            if (!hasCachedStore && !hasCloudLoaded) {
+                wrap.innerHTML = `<div class="hero-skel"><div style="max-width:480px;width:100%"><div class="cm-skel" style="width:180px;height:24px;margin-bottom:16px;opacity:.2"></div><div class="cm-skel" style="width:90%;height:38px;margin-bottom:12px;opacity:.2"></div><div class="cm-skel" style="width:70%;height:18px;margin-bottom:22px;opacity:.2"></div><div class="cm-skel" style="width:140px;height:40px;border-radius:50px;opacity:.25"></div></div></div>`;
+                return;
+            }
             const slides = storeData.slides || DEFAULT_SLIDES;
             const collages = [
                 ['https://images.unsplash.com/photo-1521335629791-ce4aec67dd15?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=300&q=80'],
@@ -1167,8 +1338,12 @@
                 ['https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=300&q=80','https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=300&q=80']
             ];
             if (currentSlide >= slides.length) currentSlide = 0;
-            const html = slides.map((sl, idx) => `
-                <div class="hero-slide slide-bg-${idx%5} ${idx===currentSlide?'active':''}">
+            const html = slides.map((sl, idx) => {
+                const isFirst = idx === currentSlide;
+                const imgAttrs = isFirst ? 'loading="eager" fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
+                const colAttrs = isFirst ? 'loading="eager" decoding="async"' : 'loading="lazy" decoding="async"';
+                return `
+                <div class="hero-slide slide-bg-${idx%5} ${isFirst?'active':''}">
                     <div class="hero-content">
                         <div class="welcome-badge"><i class="fa-solid fa-crown" style="color:#facc15"></i> ${esc(sl.badge)}</div>
                         <h2>${formatSlideTitle(sl.title)}</h2><p>${esc(sl.sub)}</p>
@@ -1177,32 +1352,47 @@
                     </div>
                     <div class="hero-right">
                         <div class="hero-handwritten">Exclusive<br>Premium<br>Mart ♡</div>
-                        <div class="hero-model-box"><img src="${esc(sl.img)}" class="hero-model-img"></div>
-                        <div class="hero-gadgets-collage">${collages[idx%5].map(u=>`<img src="${u}" class="hg-item">`).join('')}</div>
+                        <div class="hero-model-box"><img src="${esc(sl.img)}" class="hero-model-img" ${imgAttrs}></div>
+                        <div class="hero-gadgets-collage">${collages[idx%5].map(u=>`<img src="${u}" class="hg-item" ${colAttrs}>`).join('')}</div>
                     </div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
             const dots = `<div class="slider-dots">${slides.map((_,i)=>`<button class="dot-btn ${i===currentSlide?'active':''}" onclick="goToSlide(${i})"></button>`).join('')}</div>`;
-            if ($('heroSliderSection')) $('heroSliderSection').innerHTML = html + `<button class="slider-arrow arrow-prev" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button><button class="slider-arrow arrow-next" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>` + dots;
+            wrap.innerHTML = html + `<button class="slider-arrow arrow-prev" onclick="moveSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button><button class="slider-arrow arrow-next" onclick="moveSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>` + dots;
         }
 
         function isStoreUnlocked() { return getSettings().loginGate === '0' || !!currentUser; }
         function updateStoreAccessUI() {
             if (currentUser) {
                 $('userLabel').textContent = currentUser.name;
-                $('orderName').value = currentUser.name; $('orderPhone').value = currentUser.phone;
-                $('directName').value = currentUser.name; $('directPhone').value = currentUser.phone;
+                if (!$('orderName').value) $('orderName').value = currentUser.name;
+                if (!$('orderPhone').value) $('orderPhone').value = currentUser.phone;
+                if (!$('directName').value) $('directName').value = currentUser.name;
+                if (!$('directPhone').value) $('directPhone').value = currentUser.phone;
                 applySavedAddressToForm('cart');
             } else $('userLabel').textContent = 'Login / Sign Up';
-            if (isStoreUnlocked()) { $('guestLandingSection').style.display = 'none'; $('memberStoreArea').classList.add('unlocked'); }
+
+            const unlocked = isStoreUnlocked();
+            const docEl = document.documentElement;
+            docEl.classList.toggle('cm-unlocked', unlocked);
+            docEl.classList.toggle('cm-locked', !unlocked);
+            if (unlocked) { $('guestLandingSection').style.display = 'none'; $('memberStoreArea').classList.add('unlocked'); }
             else { $('guestLandingSection').style.display = 'block'; $('memberStoreArea').classList.remove('unlocked'); }
         }
         function requireMemberAction(cb) { if (!isStoreUnlocked()) { showToast('আগে Login বা Sign Up করুন!'); openAuthTab('loginPane'); return; } cb(); }
         function handleHeroShopBtn() { if (!isStoreUnlocked()) { openAuthTab('signupPane'); showToast('আগে ১ বার অ্যাকাউন্ট খুলুন বা Login করুন!'); } else $('products-section').scrollIntoView({behavior:'smooth'}); }
         function handleSearchInput() { if (!isStoreUnlocked()) { $('searchInput').blur(); requireMemberAction(()=>{}); return; } renderProducts(); }
 
-        function startSlider() { slideTimer = setInterval(() => moveSlide(1), 5000); }
+        function startSlider() { clearInterval(slideTimer); slideTimer = setInterval(() => moveSlide(1), 5000); }
         function moveSlide(d) { const s = document.querySelectorAll('.hero-slide'); if(!s.length) return; goToSlide((currentSlide + d + s.length) % s.length); }
-        function goToSlide(i) { document.querySelectorAll('.hero-slide,.dot-btn').forEach(e => e.classList.remove('active')); currentSlide = i; const slides=document.querySelectorAll('.hero-slide'), dots=document.querySelectorAll('.dot-btn'); if(slides[i]) slides[i].classList.add('active'); if(dots[i]) dots[i].classList.add('active'); clearInterval(slideTimer); startSlider(); }
+        function goToSlide(i) {
+            document.querySelectorAll('.hero-slide,.dot-btn').forEach(e => e.classList.remove('active','anim-fade'));
+            currentSlide = i;
+            const slides=document.querySelectorAll('.hero-slide'), dots=document.querySelectorAll('.dot-btn');
+            if(slides[i]) slides[i].classList.add('active','anim-fade');
+            if(dots[i]) dots[i].classList.add('active');
+            startSlider();
+        }
         function startFlashTimer() {
             const tick = () => {
                 const s = getSettings(); let diff = s.flashEnd ? Math.max(0, Math.floor((new Date(s.flashEnd).getTime() - Date.now())/1000)) : (86400 - (new Date().getHours()*3600 + new Date().getMinutes()*60 + new Date().getSeconds()));
@@ -1519,22 +1709,31 @@
         /* Storefront Products & Categories */
         function renderCategories() {
             const c = $('categoryContainer'); if (!c) return;
-            c.innerHTML = storeData.categories.length ? storeData.categories.map(cat => `<div class="category-card ${activeCategory===cat.name?'active-cat':''}" style="background:${cat.bg||'#f8fafc'}" onclick="filterByCategory('${esc(cat.name)}')"><div class="cat-img"><img src="${cat.image}"></div><h4>${esc(cat.name)}</h4></div>`).join('') : '<div class="empty-state">কোনো ক্যাটাগরি নেই</div>';
+            if (!hasCachedStore && !hasCloudLoaded) {
+                c.innerHTML = Array.from({length:8}).map(() => `<div class="skel-cat"><div class="cm-skel skel-cat-img"></div><div class="cm-skel skel-line" style="height:12px;margin:0 auto;width:70%"></div></div>`).join('');
+                return;
+            }
+            c.innerHTML = storeData.categories.length ? storeData.categories.map(cat => `<div class="category-card ${activeCategory===cat.name?'active-cat':''}" style="background:${cat.bg||'#f8fafc'}" onclick="filterByCategory('${esc(cat.name)}')"><div class="cat-img"><img src="${cat.image}" loading="eager" decoding="async"></div><h4>${esc(cat.name)}</h4></div>`).join('') : '<div class="empty-state">কোনো ক্যাটাগরি নেই</div>';
         }
         function renderProducts() {
             const c = $('productContainer'); if (!c) return;
+            if (!hasCachedStore && !hasCloudLoaded && !storeData.products.length) {
+                c.innerHTML = Array.from({length:5}).map(() => `<div class="skel-card"><div class="cm-skel skel-img"></div><div class="cm-skel skel-line"></div><div class="cm-skel skel-line sm"></div><div class="cm-skel skel-btn"></div></div>`).join('');
+                return;
+            }
             const q = ($('searchInput')?.value || '').trim().toLowerCase();
             if (!storeData.products.length) { c.innerHTML = `<div class="empty-state"><i class="fa-solid fa-box-open" style="font-size:34px;margin-bottom:8px"></i><p>এখনো কোনো প্রোডাক্ট পাবলিশ করা হয়নি!</p></div>`; return; }
-             let list = storeData.products.filter(p => (activeCategory==='ALL'||p.category===activeCategory) && ((p.name||'').toLowerCase().includes(q)||(p.spec||'').toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)||(p.id||'').toLowerCase().includes(q)));
+            let list = storeData.products.filter(p => (activeCategory==='ALL'||p.category===activeCategory) && ((p.name||'').toLowerCase().includes(q)||(p.spec||'').toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)||(p.id||'').toLowerCase().includes(q)));
             const sv = $('sortSelect')?.value || 'newest';
             if (sv==='low') list=[...list].sort((a,b)=>a.price-b.price); else if (sv==='high') list=[...list].sort((a,b)=>b.price-a.price);
             if (!list.length) { c.innerHTML = `<div class="empty-state"><p>কোনো পণ্য পাওয়া যায়নি।</p><button class="empty-action-btn" onclick="resetFilter()">সব দেখুন</button></div>`; return; }
-            c.innerHTML = list.map(p => {
+            c.innerHTML = list.map((p, idx) => {
                 const isW = wishlist.includes(p.id), sz = extractSizes(p), imgs = getProductImages(p), disc = (p.oldPrice && p.oldPrice > p.price) ? Math.round(((p.oldPrice-p.price)/p.oldPrice)*100) : 0;
                 const revs = p.reviews || [], avg = revs.length ? (revs.reduce((s,r)=>s+Number(r.stars),0)/revs.length).toFixed(1) : null;
+                const imgAttrs = idx < 5 ? 'loading="eager" fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"';
                 return `<div class="product-card">${p.isHot?'<span class="badge-hot">Hot</span>':''}${disc>0?`<span class="badge-disc">-${disc}%</span>`:''}
                     <button class="wish-heart-btn ${isW?'active':''}" onclick="toggleWishlist('${p.id}')"><i class="fa-${isW?'solid':'regular'} fa-heart"></i></button>
-                    <div class="product-img" onclick="openDetailsModal('${p.id}')"><img src="${imgs[0]||''}">${imgs.length>1?`<span class="multi-img-badge">${imgs.length} ছবি</span>`:''}</div>
+                    <div class="product-img" onclick="openDetailsModal('${p.id}')"><img src="${imgs[0]||''}" ${imgAttrs}>${imgs.length>1?`<span class="multi-img-badge">${imgs.length} ছবি</span>`:''}</div>
                     <h4 class="product-title" onclick="openDetailsModal('${p.id}')">${esc(p.name)}</h4>
                     <p class="product-short">${esc(getShortHighlight(p))}</p>
                     ${avg?`<div class="card-rating">★ ${avg} <span>(${revs.length})</span></div>`:''}
@@ -1694,7 +1893,7 @@
 
             const s=getSettings(); let payInfo='Cash On Delivery';
             if(cartPayMethod!=='COD'){ const pp=$('cartPayPhone').value.trim(), trx=$('cartTrxId').value.trim(); if(!pp||!trx)return showToast('পেমেন্ট নম্বর ও TrxID দিন!'); payInfo=`${cartPayMethod} (${cartPayMethod==='bKash'?s.bkash:s.nagad}) | Sender: ${pp} | TrxID: ${trx}`; }
-             let sub=0, itemsArr=[]; cart.forEach(i=>{ const p=storeData.products.find(x=>x.id===i.id); if(p){ sub+=p.price*i.qty; itemsArr.push(`${p.name}${i.size?' ['+i.size+']':''} x${i.qty}${p.sku?' | SKU: '+p.sku:''} | ID: ${p.id}`); } });
+            let sub=0, itemsArr=[]; cart.forEach(i=>{ const p=storeData.products.find(x=>x.id===i.id); if(p){ sub+=p.price*i.qty; itemsArr.push(`${p.name}${i.size?' ['+i.size+']':''} x${i.qty}${p.sku?' | SKU: '+p.sku:''} | ID: ${p.id}`); } });
             const disc=calcCouponDiscount(sub,cartCoupon), del=isInside?Number(s.dhakaCharge):Number(s.outsideCharge), total=sub-disc+del, areaTxt=isInside?'ঢাকার ভেতরে':'ঢাকার বাইরে', ordId='CM-'+Math.floor(100000+Math.random()*900000), nowStr=new Date().toLocaleString('bn-BD');
             const orderObj={ orderId:ordId, items:itemsArr.join(', '), subtotal:sub, discount:disc, coupon:cartCoupon?cartCoupon.code:'', deliveryFee:del, total, area:areaTxt, district:dist, thana, payment:payInfo, customerName:name, customerPhone:phone, address, status:'Pending', time:nowStr, currentLocation:'অর্ডার গ্রহণ করা হয়েছে (ভেরিফিকেশন চলছে)', courier:'', trackingCode:'', trackingHistory:[{status:'Pending',location:'CHITRO MART BD Order Desk',note:'কার্ট অর্ডার জমা হয়েছে',time:nowStr}] };
             await saveOrderToFirebase(orderObj); cart=[]; cartCoupon=null; saveCart();
@@ -1727,7 +1926,7 @@
         function subscribeNewsletter(e) { e.preventDefault(); $('newsEmail').value=''; showToast('ধন্যবাদ!'); }
         function showToast(m) { const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
     </script>
-</body>
+
 <!-- ================= PASSWORD SHOW/HIDE AUTO SCRIPT ================= -->
 <style>
   .auto-pwd-wrapper {
@@ -1760,28 +1959,21 @@
 
 <script>
   function applyPasswordToggles() {
-    // সব পাসওয়ার্ড ইনপুট খুঁজে বের করা
     const pwdInputs = document.querySelectorAll('input[type="password"], input[data-toggle-active="true"]');
-    
     pwdInputs.forEach(input => {
-      // যদি আগে থেকেই আইকন বসানো থাকে তবে বাদ দেবে
       if (input.dataset.hasEyeIcon === "true") return;
       input.dataset.hasEyeIcon = "true";
 
-      // নতুন র‍্যাপার তৈরি করা
       const wrapper = document.createElement('div');
       wrapper.className = 'auto-pwd-wrapper';
 
-      // ইনপুটটি র‍্যাপারের ভেতরে ঢুকানো
       input.parentNode.insertBefore(wrapper, input);
       wrapper.appendChild(input);
 
-      // চোখের আইকন তৈরি
       const eye = document.createElement('i');
       eye.className = 'fa-solid fa-eye auto-pwd-eye';
       eye.title = 'Show/Hide Password';
 
-      // আইকনে ক্লিক করলে শো/হাইড হবে
       eye.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1789,10 +1981,10 @@
         if (input.type === 'password') {
           input.type = 'text';
           input.dataset.toggleActive = 'true';
-          eye.className = 'fa-solid fa-eye-slash auto-pwd-eye'; // চোখ বন্ধ
+          eye.className = 'fa-solid fa-eye-slash auto-pwd-eye';
         } else {
           input.type = 'password';
-          eye.className = 'fa-solid fa-eye auto-pwd-eye'; // চোখ খোলা
+          eye.className = 'fa-solid fa-eye auto-pwd-eye';
         }
       });
 
@@ -1800,17 +1992,13 @@
     });
   }
 
-  // পেজ লোড হলে চালু হবে
   document.addEventListener('DOMContentLoaded', applyPasswordToggles);
   applyPasswordToggles();
 
-  // যখনই মডাল বা কোনো ট্যাব ক্লিক হবে, এটি অটোমেটিক নতুন ফিল্ডগুলো আপডেট করে নেবে
   document.addEventListener('click', function() {
     setTimeout(applyPasswordToggles, 150);
   });
 </script>
-<!-- ================= END AUTO SCRIPT ================= -->    
+<!-- ================= END AUTO SCRIPT ================= -->
+</body>
 </html>
-
-
-
