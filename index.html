@@ -2310,14 +2310,28 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
- <!-- ================= CHITRO MART BD PROFESSIONAL DASHBOARD ================= -->
+ <!-- ================= CHITRO MART BD PROFESSIONAL DASHBOARD (FIXED) ================= -->
 <script>
 (function() {
     "use strict";
 
     const DB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
     
-    // ১. টপ বারের টেক্সট পরিবর্তন
+    // ১. হোমপেজের লোগো রিপ্লেস (সাদা হয়ে যাওয়া ঠিক করা)
+    const logoImgs = document.querySelectorAll('.logo-icon');
+    logoImgs.forEach(el => {
+        el.innerHTML = `
+            <svg width="100%" height="100%" viewBox="0 0 128 128">
+                <defs><linearGradient id="hdrG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1fd161"/><stop offset="100%" stop-color="#065f46"/></linearGradient></defs>
+                <rect width="128" height="128" rx="28" fill="url(#hdrG)"/>
+                <path d="M42 46v-7a22 22 0 0 1 44 0v7h14a5 5 0 0 1 5 5.6l-7 51A10 10 0 0 1 88 111H40a10 10 0 0 1-10-8.4l-7-51A5 5 0 0 1 28 46h14zm10 0h24v-7a12 12 0 0 0-24 0v7z" fill="#fff"/>
+                <text x="64" y="88" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="28" fill="#087a31">CM</text>
+                <circle cx="98" cy="28" r="11" fill="#f59e0b" stroke="#fff" stroke-width="3"/>
+            </svg>
+        `;
+    });
+
+    // ২. টপ বার রিপ্লেস
     const topBarDiv = document.querySelector('.top-bar .top-bar-flex');
     if (topBarDiv) {
         topBarDiv.innerHTML = `
@@ -2330,25 +2344,33 @@
         `;
     }
 
-    // ২. প্রোফাইল মডালের ভেতরের ডিজাইন পরিবর্তন
+    // ৩. প্রোফাইল মডালের নতুন স্ট্রাকচার তৈরি
     const profileModal = document.getElementById('profileModal');
     if (profileModal) {
+        // পুরনো সব হাইড করা
         const oldHeader = profileModal.querySelector('.modal-header');
-        const oldHero = profileModal.querySelector('.cm-prof-hero');
-        const oldStats = profileModal.querySelector('.cm-order-stats');
-        const oldBody = profileModal.querySelector('.modal-body');
-        
         if (oldHeader) oldHeader.style.display = 'none';
+        
+        const oldHero = profileModal.querySelector('.cm-prof-hero');
         if (oldHero) oldHero.style.display = 'none';
+        
+        const oldStats = profileModal.querySelector('.cm-order-stats');
         if (oldStats) oldStats.style.display = 'none';
+        
+        // পুরনো ফর্মগুলো সরিয়ে রাখা, যাতে ইভেন্ট লিসেনার নষ্ট না হয়
+        const oldAddrForm = profileModal.querySelector('form[onsubmit="saveUserAddress(event)"]');
+        const oldInfoForm = profileModal.querySelector('form[onsubmit="updateUserProfileInfo(event)"]');
+        const oldPassForm = profileModal.querySelector('form[onsubmit="changeUserPassDirect(event)"]');
+        const oldBody = profileModal.querySelector('.modal-body');
         if (oldBody) oldBody.style.display = 'none';
 
         const dashHTML = `
-            <div id="proLiveDash" style="background:#f4f7f6; min-height:600px; display:flex; font-family:'Poppins',sans-serif; width:100%; height:100%; border-radius:20px; overflow:hidden;">
+            <div id="proLiveDash" style="background:#f4f7f6; min-height:600px; display:flex; font-family:'Poppins',sans-serif; width:100%; height:100%;">
                 <style>
-                    .pro-sidebar{width:250px; background:linear-gradient(180deg,#0a192f,#0b3b24); color:#fff; padding:25px 0; display:flex; flex-direction:column; flex-shrink:0;}
-                    .pro-sidebar .p-user{text-align:center; padding:0 20px 20px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:15px;}
-                    .pro-sidebar .p-user img{width:85px; height:85px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:10px; box-shadow:0 4px 10px rgba(0,0,0,0.3);}
+                    .pro-sidebar{width:250px; background:linear-gradient(180deg,#07131f,#0b3b24); color:#fff; padding:25px 0; display:flex; flex-direction:column; flex-shrink:0;}
+                    .pro-sidebar .p-user{text-align:center; padding:0 20px 20px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:15px; position:relative;}
+                    .pro-sidebar .p-user img{width:85px; height:85px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:10px;}
+                    .pro-cam-btn{position:absolute; bottom:45px; right:calc(50% - 40px); background:#0ea646; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid #fff; color:#fff; font-size:11px;}
                     .pro-sidebar .p-user h3{font-size:16px; font-weight:700; margin-bottom:2px; color:#fff;}
                     .pro-sidebar .p-user p{font-size:11px; color:#94a3b8;}
                     .pro-sidebar .p-user .badge{display:inline-block; background:rgba(245,158,11,0.15); color:#f59e0b; border:1px solid rgba(245,158,11,0.3); padding:2px 8px; border-radius:20px; font-size:9px; margin-top:6px; font-weight:700;}
@@ -2366,13 +2388,12 @@
                     
                     .pro-main{flex:1; padding:25px; overflow-y:auto; max-height:85vh; background:#f4f7f6;}
                     
-                    .pro-banner{background:linear-gradient(135deg,#0a192f,#0b3b24); border-radius:16px; padding:25px 30px; color:#fff; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.1); position:relative; overflow:hidden;}
-                    .pro-banner::after{content:''; position:absolute; right:-20px; top:-20px; width:150px; height:150px; background:rgba(255,255,255,0.05); border-radius:50%;}
+                    .pro-banner{background:linear-gradient(135deg,#07131f,#0b3b24); border-radius:16px; padding:25px 30px; color:#fff; display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.1); position:relative; overflow:hidden;}
                     .pro-banner h2{font-size:22px; font-weight:700; margin-bottom:5px; z-index:2; position:relative;}
                     .pro-banner h2 span{color:#1fd161;}
                     .pro-banner p{font-size:13px; color:#cbd5e1; margin-bottom:15px; z-index:2; position:relative;}
                     .pro-banner button{background:#f59e0b; color:#fff; border:none; padding:8px 18px; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px; z-index:2; position:relative; display:flex; align-items:center; gap:6px;}
-                    .pro-banner img{width:100px; opacity:0.9; z-index:2; position:relative; filter:drop-shadow(0 5px 15px rgba(0,0,0,0.3));}
+                    .pro-banner img{width:100px; opacity:0.9; z-index:2; position:relative;}
                     
                     .pro-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-bottom:20px;}
                     .p-stat-card{background:#fff; border-radius:12px; padding:18px 15px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 10px rgba(0,0,0,0.02); border:1px solid #e2e8f0;}
@@ -2393,14 +2414,13 @@
                     .p-order-status{padding:4px 10px; border-radius:20px; font-size:10px; font-weight:700; display:inline-block;}
                     .st-delivered{background:#dcfce7; color:#065f46;}
                     .st-pending{background:#fef3c7; color:#92400e;}
-                    .st-shipped{background:#e0f2fe; color:#0369a1;}
                     
                     .quick-actions{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-                    .quick-actions button{background:#fff; border:1px solid #e2e8f0; padding:15px 10px; border-radius:12px; display:flex; flex-direction:column; align-items:center; gap:8px; font-size:12px; font-weight:600; color:#0f172a; cursor:pointer; transition:0.2s; box-shadow:0 2px 5px rgba(0,0,0,0.02);}
-                    .quick-actions button:hover{border-color:#0ea646; color:#0ea646; transform:translateY(-2px);}
+                    .quick-actions button{background:#fff; border:1px solid #e2e8f0; padding:15px 10px; border-radius:12px; display:flex; flex-direction:column; align-items:center; gap:8px; font-size:12px; font-weight:600; color:#0f172a; cursor:pointer; transition:0.2s;}
+                    .quick-actions button:hover{border-color:#0ea646; color:#0ea646;}
                     .quick-actions button i{font-size:22px;}
                     
-                    .p-settings-form{display:none; margin-top:20px;}
+                    .p-settings-form{display:none; margin-top:20px; background:#fff; border-radius:14px; padding:20px; border:1px solid #e2e8f0;}
                     .p-settings-form.active{display:block;}
                     
                     @media(max-width:900px){
@@ -2419,6 +2439,7 @@
                 <div class="pro-sidebar">
                     <div class="p-user">
                         <img id="dashAvatar" src="https://ui-avatars.com/api/?name=User&background=0ea646&color=fff" alt="User">
+                        <div class="pro-cam-btn" onclick="document.getElementById('profileImgUpload').click()"><i class="fa-solid fa-camera"></i></div>
                         <h3 id="dashName">Loading...</h3>
                         <p id="dashEmail">loading...</p>
                         <span class="badge"><i class="fa-solid fa-crown"></i> Premium Member</span>
@@ -2430,7 +2451,7 @@
                         <a onclick="switchProfTab('profAddressPane',this)"><i class="fa-solid fa-location-dot"></i> My Addresses</a>
                         <a onclick="openTrackSearchModal()"><i class="fa-solid fa-truck-fast"></i> Order Tracking</a>
                         <a onclick="switchProfTab('profInfoPane',this)"><i class="fa-solid fa-pen"></i> Edit Profile</a>
-                        <a onclick="switchProfTab('profInfoPane',this)"><i class="fa-solid fa-lock"></i> Change Password</a>
+                        <a onclick="switchProfTab('profPassPane',this)"><i class="fa-solid fa-lock"></i> Change Password</a>
                     </div>
                     <div class="p-help">
                         <i class="fa-solid fa-headset"></i>
@@ -2439,13 +2460,13 @@
                         <button onclick="openCustomerChat()">Contact Us <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                     <div style="padding:15px; border-top:1px solid rgba(255,255,255,0.1);">
-                        <button onclick="logoutCustomer()" style="width:100%; padding:10px; border-radius:8px; border:none; background:rgba(239,68,68,0.1); color:#ef4444; font-weight:700; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px; transition:0.2s;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                        <button onclick="logoutCustomer()" style="width:100%; padding:10px; border-radius:8px; border:none; background:rgba(239,68,68,0.1); color:#ef4444; font-weight:700; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                     </div>
                 </div>
                 
                 <!-- Main Content -->
                 <div class="pro-main">
-                    <div class="pro-banner">
+                    <div class="pro-banner" id="dashWelcomeBanner">
                         <div>
                             <h2>Welcome Back! 👋 <br><span id="dashWelcomeName">User</span></h2>
                             <p>Shop more, save more with CHITRO MART BD</p>
@@ -2454,7 +2475,7 @@
                         <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" alt="Bag">
                     </div>
                     
-                    <div class="pro-stats">
+                    <div class="pro-stats" id="dashStats">
                         <div class="p-stat-card">
                             <div class="p-stat-icon" style="background:#eff6ff; color:#3b82f6;"><i class="fa-solid fa-cart-shopping"></i></div>
                             <div class="p-stat-info"><h4>Total Orders</h4><b id="dashTotalOrders">0</b></div>
@@ -2475,7 +2496,7 @@
                     
                     <div class="pro-content-row" id="dashMainView">
                         <div class="p-card" id="profOrdersPane">
-                            <h3>Recent Orders <button class="link-btn" onclick="loadCustomerOrders()" style="font-size:11px; background:#f1f5f9; padding:4px 8px; border-radius:4px; border:none; color:#0f172a; cursor:pointer;"><i class="fa-solid fa-rotate"></i> Refresh</button></h3>
+                            <h3>Recent Orders <button onclick="loadCustomerOrders()" style="font-size:11px; background:#f1f5f9; padding:4px 8px; border-radius:4px; border:none; cursor:pointer;"><i class="fa-solid fa-rotate"></i> Refresh</button></h3>
                             <div id="profOrdersList">
                                 <p style="text-align:center; color:#64748b; font-size:12px; padding:20px;">Loading orders...</p>
                             </div>
@@ -2492,18 +2513,22 @@
                         </div>
                     </div>
                     
-                    <!-- Settings Forms (Hidden by default) -->
+                    <!-- Address Pane -->
                     <div id="profAddressPane" class="tab-pane p-settings-form">
-                        <div class="p-card">
-                            <h3><i class="fa-solid fa-location-dot"></i> Delivery Address</h3>
-                            <div id="addrFormContainer"></div>
-                        </div>
+                        <h3><i class="fa-solid fa-location-dot"></i> Delivery Address</h3>
+                        <div id="addrFormContainer"></div>
                     </div>
+
+                    <!-- Info Pane (Edit Profile) -->
                     <div id="profInfoPane" class="tab-pane p-settings-form">
-                        <div class="p-card">
-                            <h3><i class="fa-solid fa-user-gear"></i> Profile & Security Settings</h3>
-                            <div id="infoFormContainer"></div>
-                        </div>
+                        <h3><i class="fa-solid fa-user-gear"></i> Edit Profile Info</h3>
+                        <div id="infoFormContainer"></div>
+                    </div>
+
+                    <!-- Password Pane (Change Password) -->
+                    <div id="profPassPane" class="tab-pane p-settings-form">
+                        <h3><i class="fa-solid fa-lock"></i> Change Password</h3>
+                        <div id="passFormContainer"></div>
                     </div>
                 </div>
             </div>
@@ -2511,24 +2536,42 @@
         
         profileModal.insertAdjacentHTML('beforeend', dashHTML);
 
-        // পুরনো ফর্মগুলো নতুন ড্যাশবোর্ডের কন্টেইনারে সরিয়ে নেওয়া (যাতে ফাংশন ঠিকমতো কাজ করে)
-        const oldAddrForm = document.querySelector('#profileModal form[onsubmit="saveUserAddress(event)"]');
+        // ফর্মগুলো নতুন প্যানেলে সরানো
         if (oldAddrForm) document.getElementById('addrFormContainer').appendChild(oldAddrForm);
-
-        const oldInfoForm = document.querySelector('#profileModal form[onsubmit="updateUserProfileInfo(event)"]');
-        const oldPassForm = document.querySelector('#profileModal form[onsubmit="changeUserPassDirect(event)"]');
         if (oldInfoForm) document.getElementById('infoFormContainer').appendChild(oldInfoForm);
-        if (oldPassForm) {
-            const div = document.createElement('div');
-            div.style.marginTop = "20px";
-            div.style.paddingTop = "20px";
-            div.style.borderTop = "1px solid #e2e8f0";
-            div.appendChild(oldPassForm);
-            document.getElementById('infoFormContainer').appendChild(div);
-        }
+        if (oldPassForm) document.getElementById('passFormContainer').appendChild(oldPassForm);
     }
 
-    // ৩. লাইভ ডেটা আপডেট
+    // ৪. ক্যামেরা বাটনে ক্লিক করলে ছবি আপলোড
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id = 'profileImgUpload';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Img = event.target.result;
+                // লোকাল স্টোরেজে সেভ
+                const user = JSON.parse(localStorage.getItem('chitro_user_v8') || '{}');
+                user.avatar = base64Img;
+                localStorage.setItem('chitro_user_v8', JSON.stringify(user));
+                
+                // UI আপডেট
+                const av = document.getElementById('dashAvatar');
+                if(av) av.src = base64Img;
+                if(typeof cmToast === 'function') cmToast("প্রোফাইল ছবি আপডেট হয়েছে!");
+                else alert("প্রোফাইল ছবি আপডেট হয়েছে!");
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // ৫. লাইভ ডেটা আপডেট
     window.updateLiveDashboard = async function() {
         const user = JSON.parse(localStorage.getItem('chitro_user_v8') || '{}');
         if (!user || (!user.phone && !user.email)) return;
@@ -2577,18 +2620,15 @@
         } catch(e) {}
     };
 
-    // ৪. ট্যাব সুইচিং
+    // ৬. ট্যাব সুইচিং (ফর্মগুলো শো করা)
     window.switchProfTab = function(paneId, btn) {
-        document.querySelectorAll('.p-settings-form').forEach(p => p.classList.remove('active'));
-        const mainView = document.getElementById('dashMainView');
+        document.querySelectorAll('.p-settings-form').forEach(p => p.style.display = 'none');
+        document.getElementById('dashMainView').style.display = 'none';
+        document.getElementById('dashWelcomeBanner').style.display = 'none';
+        document.getElementById('dashStats').style.display = 'none';
         
-        if (paneId === 'profAddressPane' || paneId === 'profInfoPane') {
-            if(mainView) mainView.style.display = 'none';
-            const target = document.getElementById(paneId);
-            if (target) target.classList.add('active');
-        } else {
-            if(mainView) mainView.style.display = 'grid';
-        }
+        const target = document.getElementById(paneId);
+        if (target) target.style.display = 'block';
         
         if (btn) {
             document.querySelectorAll('.pro-sidebar .p-menu a').forEach(a => a.classList.remove('active'));
@@ -2596,7 +2636,15 @@
         }
     };
 
-    // ৫. ওপেন অ্যাকাউন্ট হাব
+    // মেইন ভিউ দেখানোর ফাংশন (ফিরে আসার জন্য)
+    window.showDashMain = function() {
+        document.querySelectorAll('.p-settings-form').forEach(p => p.style.display = 'none');
+        document.getElementById('dashMainView').style.display = 'grid';
+        document.getElementById('dashWelcomeBanner').style.display = 'flex';
+        document.getElementById('dashStats').style.display = 'grid';
+    };
+
+    // ৭. ওপেন অ্যাকাউন্ট হাব
     window.openAccountHub = function() {
         const user = JSON.parse(localStorage.getItem('chitro_user_v8') || '{}');
         if (user && (user.phone || user.email)) {
@@ -2607,6 +2655,7 @@
             
             if (typeof window.updateLiveDashboard === 'function') window.updateLiveDashboard();
             if (typeof window.loadCustomerOrders === 'function') window.loadCustomerOrders();
+            if (typeof window.showDashMain === 'function') window.showDashMain();
         } else {
             const ov = document.getElementById('overlay');
             const am = document.getElementById('authModal');
@@ -2615,7 +2664,7 @@
         }
     };
 
-    // ৬. অর্ডার রেন্ডার
+    // ৮. অর্ডার রেন্ডার
     window.renderProfileOrders = function() {
         const list = document.getElementById('profOrdersList');
         if (!list) return;
@@ -2630,7 +2679,6 @@
             const st = o.status || "Pending";
             let stClass = "st-pending";
             if(st === "Delivered") stClass = "st-delivered";
-            if(st === "Shipped") stClass = "st-shipped";
             
             const img = o.items && o.items[0] && o.items[0].img ? o.items[0].img : 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=100&q=80';
             return `
@@ -2649,7 +2697,7 @@
         }).join('');
     };
 
-    // ৭. পুরনো ফাংশন রি-বাইন্ড
+    // ৯. পুরনো ফাংশন রি-বাইন্ড
     if (typeof window.loadCustomerOrders === 'function') {
         const origLoad = window.loadCustomerOrders;
         window.loadCustomerOrders = async function() {
@@ -2660,6 +2708,156 @@
 })();
 </script>
 <!-- ================= END CHITRO MART BD PROFESSIONAL DASHBOARD ================= -->
+    <!-- ================= EMAIL OTP PASSWORD RESET FIX ================= -->
+<script>
+(function() {
+    "use strict";
+
+    // গ্লোবাল ভেরিয়েবল সিকিউরিটি কোড রাখার জন্য
+    window._currentOtp = null;
+    window._otpIdentifier = null;
+
+    // ১. OTP রিকোয়েস্ট ফাংশন (Forgot Password Step 1)
+    window.requestEmailOtp = function(event) {
+        if(event) event.preventDefault();
+        
+        const identifier = document.getElementById('fpIdentifier').value.trim();
+        const errBox = document.getElementById('forgotErr');
+        const okBox = document.getElementById('forgotOk');
+        const sendBtn = document.getElementById('fpSendBtn');
+
+        if (!identifier) {
+            if(errBox) { errBox.textContent = "দয়া করে আপনার Email বা মোবাইল নম্বর দিন।"; errBox.style.display = 'block'; }
+            return;
+        }
+
+        if(errBox) errBox.style.display = 'none';
+        
+        // লোডিং স্টেট
+        if(sendBtn) {
+            sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> কোড পাঠানো হচ্ছে...';
+            sendBtn.disabled = true;
+        }
+
+        // ৬ ডিজিটের র‍্যান্ডম OTP তৈরি
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        window._currentOtp = otp;
+        window._otpIdentifier = identifier;
+
+        // সিমুলেশন ডিলে (১.৫ সেকেন্ড)
+        setTimeout(() => {
+            if(okBox) {
+                okBox.innerHTML = `✅ সিকিউরিটি কোড পাঠানো হয়েছে! <br><small style="color:#065f46">(সিমুলেশন কোড: <b>${otp}</b>)</small>`;
+                okBox.style.display = 'block';
+            }
+            
+            // পপ-আপে কোড দেখানো (যাতে ইউজার সহজে কপি করতে পারে)
+            if(typeof cmToast === 'function') {
+                cmToast(`আপনার OTP কোড: ${otp}`);
+            } else {
+                alert(`আপনার রিসেট কোড: ${otp}`);
+            }
+
+            if(sendBtn) {
+                sendBtn.innerHTML = '<i class="fa-solid fa-check"></i> কোড পাঠানো হয়েছে';
+            }
+            
+            // Step 2 দেখানো
+            const step1 = document.getElementById('forgotStep1');
+            const step2 = document.getElementById('forgotStep2');
+            if (step1) step1.style.display = 'none';
+            if (step2) step2.style.display = 'block';
+        }, 1500);
+    };
+
+    // ২. OTP ভেরিফাই এবং পাসওয়ার্ড রিসেট (Forgot Password Step 2)
+    window.verifyOtpAndResetPass = function(event) {
+        if(event) event.preventDefault();
+        
+        const enteredOtp = document.getElementById('fpOtpInput').value.trim();
+        const newPass = document.getElementById('fpNewPass').value.trim();
+        const errBox = document.getElementById('forgotErr');
+        const okBox = document.getElementById('forgotOk');
+
+        if (!enteredOtp || !newPass) {
+            if(errBox) { errBox.textContent = "কোড এবং নতুন পাসওয়ার্ড দুটোই দিন।"; errBox.style.display = 'block'; }
+            return;
+        }
+
+        if (newPass.length < 4) {
+            if(errBox) { errBox.textContent = "পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে।"; errBox.style.display = 'block'; }
+            return;
+        }
+
+        if (enteredOtp !== String(window._currentOtp)) {
+            if(errBox) { errBox.textContent = "ভুল সিকিউরিটি কোড! দয়া করে সঠিক কোড দিন।"; errBox.style.display = 'block'; }
+            return;
+        }
+
+        // সিকিউরিটি কোড মিলে গেছে -> পাসওয়ার্ড আপডেট
+        if(errBox) errBox.style.display = 'none';
+        
+        try {
+            // লোকাল স্টোরেজে থাকা ইউজার আপডেট
+            let user = JSON.parse(localStorage.getItem('chitro_user_v8') || '{}');
+            if (user && (user.email === window._otpIdentifier || user.phone === window._otpIdentifier)) {
+                user.password = newPass;
+                localStorage.setItem('chitro_user_v8', JSON.stringify(user));
+            }
+
+            // ফায়ারবেসে আপডেট (যদি ইন্টারনেট থাকে)
+            const key = window._otpIdentifier.replace(/\D/g, '');
+            if (key) {
+                fetch(`https://chitro-mart-bd-default-rtdb.firebaseio.com/users/${key}/password.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newPass)
+                }).catch(e => console.log('Firebase update failed'));
+            }
+            
+            if(okBox) {
+                okBox.innerHTML = "✅ পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে! এখন নতুন পাসওয়ার্ড দিয়ে লগইন করুন।";
+            }
+
+            if(typeof cmToast === 'function') cmToast("✅ পাসওয়ার্ড পরিবর্তন সফল হয়েছে!");
+            
+            // ফর্ম রিসেট ও লগইন পেজে ফেরত পাঠানো
+            setTimeout(() => {
+                window.resetForgotUI();
+                if (typeof switchAuthTab === 'function') {
+                    switchAuthTab('loginPane', document.getElementById('tabBtnLogin'));
+                }
+            }, 2500);
+
+        } catch(e) {
+            if(errBox) { errBox.textContent = "কিছু ভুল হয়েছে, আবার চেষ্টা করুন।"; errBox.style.display = 'block'; }
+        }
+    };
+
+    // ৩. রিসেট UI ফাংশন
+    window.resetForgotUI = function() {
+        const step1 = document.getElementById('forgotStep1');
+        const step2 = document.getElementById('forgotStep2');
+        const okBox = document.getElementById('forgotOk');
+        const errBox = document.getElementById('forgotErr');
+        const sendBtn = document.getElementById('fpSendBtn');
+        
+        if (step1) step1.style.display = 'block';
+        if (step2) step2.style.display = 'none';
+        if (okBox) okBox.style.display = 'none';
+        if (errBox) errBox.style.display = 'none';
+        
+        if (sendBtn) {
+            sendBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Email-এ রিসেট কোড পাঠান';
+            sendBtn.disabled = false;
+        }
+        
+        window._currentOtp = null;
+        window._otpIdentifier = null;
+    };
+})();
+</script>
+<!-- ================= END EMAIL OTP PASSWORD RESET FIX ================= -->
 </body>
 </html>
  
