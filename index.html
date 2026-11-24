@@ -2310,16 +2310,16 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
- <!-- ================= CHITRO MART BD 100% FIXED PRO DASHBOARD ================= -->
+  <!-- ================= CHITRO MART BD 100% LIVE REAL-TIME PORTAL ================= -->
 <style>
-  /* 1. Header Profile Picture */
+  /* 1. Header Profile Avatar */
   .cm-hdr-user-pic {
     width: 38px !important;
     height: 38px !important;
     border-radius: 50% !important;
     object-fit: cover !important;
-    border: 2px solid #0ea646 !important;
-    box-shadow: 0 2px 8px rgba(14,166,70,0.4) !important;
+    border: 2.5px solid #0ea646 !important;
+    box-shadow: 0 2px 10px rgba(14,166,70,0.4) !important;
     display: inline-block !important;
     vertical-align: middle !important;
   }
@@ -2334,20 +2334,20 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    border: 2px solid #0ea646 !important;
-    box-shadow: 0 2px 8px rgba(14,166,70,0.3) !important;
+    border: 2.5px solid #0ea646 !important;
+    box-shadow: 0 2px 10px rgba(14,166,70,0.3) !important;
   }
 
-  /* 2. Full Dashboard Modal Reset */
+  /* 2. Full Modal Dashboard Layout */
   #profileModal {
-    max-width: 1200px !important;
+    max-width: 1260px !important;
     width: 96% !important;
     max-height: 94vh !important;
-    border-radius: 26px !important;
-    background: #f8fafc !important;
+    border-radius: 28px !important;
+    background: #f1f5f9 !important;
     overflow: hidden !important;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.55) !important;
-    border: 1px solid rgba(255,255,255,0.9) !important;
+    box-shadow: 0 45px 120px rgba(0,0,0,0.6) !important;
+    border: 1px solid rgba(255,255,255,0.95) !important;
     padding: 0 !important;
   }
   #profileModal.active { display: block !important; }
@@ -2357,10 +2357,10 @@
   #profileModal .prof-nav-pills,
   #profileModal .cm-order-stats { display: none !important; }
 
-  .cm-dash-layout {
+  .cm-dash-grid {
     display: grid;
     grid-template-columns: 260px 1fr;
-    min-height: 630px;
+    min-height: 640px;
     max-height: 94vh;
     background: #f8fafc;
     position: relative;
@@ -2410,11 +2410,11 @@
   }
   .cm-side-ava-box {
     position: relative;
-    width: 74px;
-    height: 74px;
+    width: 76px;
+    height: 76px;
     margin: 0 auto 10px;
   }
-  .cm-side-ava-box .cm-s-img {
+  .cm-side-ava {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -2430,8 +2430,8 @@
     overflow: hidden;
     box-shadow: 0 6px 18px rgba(245,158,11,0.3);
   }
-  .cm-side-ava-box .cm-s-img img { width: 100%; height: 100%; object-fit: cover; }
-  .cm-side-crown-tag {
+  .cm-side-ava img { width: 100%; height: 100%; object-fit: cover; }
+  .cm-side-crown {
     position: absolute;
     top: -4px;
     right: -2px;
@@ -2461,7 +2461,7 @@
     margin-bottom: 8px;
     word-break: break-all;
   }
-  .cm-badge-gold {
+  .cm-tag-gold {
     display: inline-flex;
     align-items: center;
     gap: 5px;
@@ -2474,8 +2474,8 @@
     font-weight: 700;
   }
 
-  .cm-nav-stack { display: flex; flex-direction: column; gap: 5px; }
-  .cm-nav-btn-tab {
+  .cm-nav-menu { display: flex; flex-direction: column; gap: 5px; }
+  .cm-menu-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2487,24 +2487,24 @@
     cursor: pointer;
     transition: 0.2s;
   }
-  .cm-nav-btn-tab i { width: 18px; font-size: 13px; }
-  .cm-nav-btn-tab:hover { background: rgba(255,255,255,0.08); color: #fff; }
-  .cm-nav-btn-tab.active {
+  .cm-menu-btn i { width: 18px; font-size: 13px; }
+  .cm-menu-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .cm-menu-btn.active {
     background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
     color: #fff;
     box-shadow: 0 6px 16px rgba(234,88,12,0.35);
   }
 
-  .cm-help-widget {
+  .cm-help-box {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 14px;
     padding: 12px 10px;
     margin-top: 14px;
   }
-  .cm-help-widget h5 { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
-  .cm-help-widget p { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
-  .cm-btn-green-pill {
+  .cm-help-box h5 { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .cm-help-box p { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
+  .cm-help-btn {
     background: #0ea646;
     color: #fff;
     border: none;
@@ -2529,7 +2529,7 @@
   }
 
   /* Top Wave Banner */
-  .cm-dash-banner-hero {
+  .cm-dash-banner {
     background: radial-gradient(circle at 15% 30%, rgba(59,130,246,0.35) 0%, transparent 45%),
                 linear-gradient(125deg, #07172b 0%, #0c2d57 40%, #ea580c 100%);
     border-radius: 22px;
@@ -2542,18 +2542,18 @@
     overflow: hidden;
     box-shadow: 0 12px 30px rgba(7,23,43,0.15);
   }
-  .cm-b-hero-left {
+  .cm-banner-left {
     display: flex;
     align-items: center;
     gap: 16px;
     z-index: 2;
   }
-  .cm-b-ava-wrap {
+  .cm-banner-photo-wrap {
     position: relative;
-    width: 82px;
-    height: 82px;
+    width: 84px;
+    height: 84px;
   }
-  .cm-b-ava-wrap .cm-b-img {
+  .cm-banner-ava {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -2563,13 +2563,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 800;
     color: #fff;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   }
-  .cm-b-ava-wrap .cm-b-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cm-banner-ava img { width: 100%; height: 100%; object-fit: cover; }
   .cm-cam-btn-float {
     position: absolute;
     bottom: 0;
@@ -2588,50 +2588,52 @@
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
   }
   .cm-cam-btn-float:hover { background: #15803d; }
-  .cm-b-hero-meta h3 {
-    font-size: 20px;
+  .cm-banner-meta h3 {
+    font-size: 21px;
     font-weight: 800;
     display: flex;
     align-items: center;
     gap: 6px;
     margin-bottom: 2px;
   }
-  .cm-b-hero-meta p {
+  .cm-banner-meta p {
     font-size: 12px;
     color: #cbd5e1;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
-  .cm-b-hero-right {
-    text-align: right;
-    z-index: 2;
-  }
-  .cm-b-slogan {
-    font-family: 'Caveat', cursive;
-    font-size: 22px;
-    color: #fde68a;
-    line-height: 1.1;
-    margin-bottom: 6px;
-  }
-  .cm-btn-banner-edit {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.4);
+  .cm-btn-cont-shop {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
     color: #fff;
-    padding: 6px 14px;
+    border: none;
+    padding: 6px 16px;
     border-radius: 50px;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
-    backdrop-filter: blur(8px);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
-  .cm-btn-banner-edit:hover { background: #fff; color: #07172b; }
+  .cm-banner-right-bag {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cm-3d-bag-icon {
+    font-size: 68px;
+    color: #f8fafc;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.4));
+  }
 
-  /* Metrics 4 Cards */
-  .cm-metrics-grid {
+  /* 4 Metrics Cards */
+  .cm-metrics-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
   }
-  .cm-m-card {
+  .cm-stat-card {
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
@@ -2641,7 +2643,7 @@
     gap: 12px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.02);
   }
-  .cm-m-icon {
+  .cm-stat-ico {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -2651,52 +2653,176 @@
     font-size: 16px;
     flex-shrink: 0;
   }
-  .c-blue { background: #eff6ff; color: #2563eb; }
-  .c-pink { background: #fdf2f8; color: #db2777; }
-  .c-orange { background: #fff7ed; color: #ea580c; }
-  .c-purple { background: #faf5ff; color: #7c3aed; }
-  .cm-m-info small { font-size: 10.5px; color: #64748b; font-weight: 600; display: block; margin-bottom: 2px; }
-  .cm-m-info h4 { font-size: 17px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.1; }
+  .i-blue { background: #eff6ff; color: #2563eb; }
+  .i-pink { background: #fdf2f8; color: #db2777; }
+  .i-orange { background: #fff7ed; color: #ea580c; }
+  .i-purple { background: #faf5ff; color: #7c3aed; }
+  .cm-stat-val small { font-size: 10.5px; color: #64748b; font-weight: 600; display: block; margin-bottom: 2px; }
+  .cm-stat-val h4 { font-size: 17px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.1; }
 
-  /* Content Views */
-  .cm-content-card-box {
+  /* Dual Middle Grids */
+  .cm-dual-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 12px;
+  }
+  .cm-white-panel {
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 18px;
-    padding: 18px 20px;
-    min-height: 250px;
+    padding: 16px 18px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.02);
   }
-  .cm-tab-view { display: none; }
-  .cm-tab-view.active { display: block; }
-
-  /* Empty Orders */
-  .cm-empty-orders-view { text-align: center; padding: 30px 14px; }
-  .cm-empty-orders-view i { font-size: 38px; color: #93c5fd; margin-bottom: 10px; }
-  .cm-empty-orders-view h4 { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
-  .cm-empty-orders-view p { font-size: 12px; color: #64748b; margin-bottom: 14px; }
-  .cm-btn-go-shop {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    color: #fff;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 11.5px;
+  .cm-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .cm-panel-head h4 { font-size: 14px; font-weight: 800; color: #0f172a; margin: 0; }
+  .cm-btn-tiny {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
   }
+  .cm-btn-tiny:hover { background: #0ea646; color: #fff; border-color: #0ea646; }
+
+  /* Profile Details Inner */
+  .cm-prof-details-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 14px;
+    align-items: center;
+  }
+  .cm-square-photo-wrap {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  .cm-square-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    object-fit: cover;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 800;
+    color: #64748b;
+    overflow: hidden;
+  }
+  .cm-square-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .cm-details-list {
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.85;
+  }
+  .cm-details-list b { color: #0f172a; font-weight: 700; display: inline-block; width: 68px; }
+
+  /* Recent Order Item */
+  .cm-recent-order-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .cm-r-left { display: flex; align-items: center; gap: 10px; }
+  .cm-r-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+  }
+  .cm-badge-deliv {
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+  }
+
+  /* Bottom Dual Row */
+  .cm-quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .cm-qa-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 11px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .cm-qa-card:hover { background: #0ea646; color: #fff; border-color: #0ea646; }
+  .cm-qa-card i { font-size: 16px; margin-bottom: 4px; display: block; color: #2563eb; }
+  .cm-qa-card:hover i { color: #fff; }
+  .cm-qa-card span { font-size: 11px; font-weight: 700; }
+
+  .cm-special-thanks-card {
+    background: radial-gradient(circle at 10% 20%, rgba(249,115,22,0.35), transparent 50%),
+                linear-gradient(125deg, #07172b 0%, #1e3a8a 60%, #ea580c 100%);
+    border-radius: 18px;
+    padding: 14px 18px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  }
+  .cm-st-gift-ico { font-size: 42px; color: #facc15; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+  .cm-st-text h4 { font-family: 'Caveat', cursive; font-size: 24px; color: #fde68a; margin: 0; line-height: 1.1; }
+  .cm-st-text p { font-size: 11px; color: #cbd5e1; margin: 2px 0 0; }
+  .cm-btn-shop-more {
+    background: #ffffff;
+    color: #07172b;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Sub View Switching */
+  .cm-tab-view { display: none; }
+  .cm-tab-view.active { display: block; }
 
   /* Form Elements */
-  .cm-content-card-box .form-group label {
+  .cm-white-panel .form-group label {
     font-size: 12px;
     font-weight: 700;
     color: #334155;
     margin-bottom: 4px;
     display: block;
   }
-  .cm-content-card-box .form-group input,
-  .cm-content-card-box .form-group select,
-  .cm-content-card-box .form-group textarea {
+  .cm-white-panel .form-group input,
+  .cm-white-panel .form-group select,
+  .cm-white-panel .form-group textarea {
     width: 100%;
     padding: 9px 12px;
     border: 1.5px solid #cbd5e1;
@@ -2706,8 +2832,8 @@
     background: #fff;
     transition: 0.2s;
   }
-  .cm-content-card-box .form-group input:focus,
-  .cm-content-card-box .form-group select:focus {
+  .cm-white-panel .form-group input:focus,
+  .cm-white-panel .form-group select:focus {
     border-color: #0ea646;
     box-shadow: 0 0 0 3px rgba(14,166,70,0.14);
   }
@@ -2727,18 +2853,24 @@
   .cm-t-cell { display: flex; align-items: center; gap: 8px; }
   .cm-t-cell i { color: #f59e0b; font-size: 13px; }
 
-  @media (max-width: 900px) {
-    .cm-dash-layout { grid-template-columns: 1fr; }
+  @media (max-width: 920px) {
+    .cm-dash-grid { grid-template-columns: 1fr; }
     .cm-dash-side { display: none; }
-    .cm-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .cm-metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .cm-dual-grid { grid-template-columns: 1fr; }
     .cm-trust-footer { grid-template-columns: repeat(2, 1fr); }
-    .cm-b-hero-right { display: none; }
+    .cm-banner-right-bag { display: none; }
   }
 </style>
 
 <script>
-(function executeBulletproofDashboard() {
-  // Reliable user retrieval from Memory & LocalStorage
+(function executeChitroMartLivePortal() {
+  // Global Store Info Overrides
+  const STORE_SUPPORT_EMAIL = "redstar287888@gmail.com";
+  const STORE_SUPPORT_PHONE = "01767068529";
+  const STORE_FACEBOOK_URL  = "https://www.facebook.com/najim.islam.851609";
+
+  // Helper to reliably get the active user
   function getActiveUser() {
     try {
       if (typeof currentUser !== 'undefined' && currentUser && (currentUser.phone || currentUser.name)) {
@@ -2759,128 +2891,196 @@
     return null;
   }
 
-  // 1. Live Sync Header Avatar
-  function refreshHeaderUserIcon() {
+  // Live Sync Header Bar (Replaces generic icon with user photo, updates Support info)
+  function liveSyncHeaderElements() {
     const u = getActiveUser();
-    const userBtn = document.getElementById('userLabel')?.closest('.action-item') || document.querySelector('.header-actions .action-item');
-    if (!userBtn) return;
 
-    if (u) {
-      const existingIcon = userBtn.querySelector('i.fa-user, .cm-hdr-user-pic, .cm-hdr-user-init');
+    // 1. Header Profile Avatar
+    const userBtn = document.getElementById('userLabel')?.closest('.action-item') || document.querySelector('.header-actions .action-item');
+    if (userBtn && u) {
+      const existing = userBtn.querySelector('i.fa-user, .cm-hdr-pic, .cm-hdr-user-init');
       if (u.photo) {
-        if (existingIcon) {
-          existingIcon.outerHTML = `<img src="${u.photo}" class="cm-hdr-user-pic" alt="${u.name}">`;
-        }
+        if (existing) existing.outerHTML = `<img src="${u.photo}" class="cm-hdr-pic" alt="${u.name}">`;
       } else {
         const init = (u.name || 'U').charAt(0).toUpperCase();
-        if (existingIcon && !existingIcon.classList.contains('cm-hdr-user-init')) {
-          existingIcon.outerHTML = `<div class="cm-hdr-user-init">${init}</div>`;
+        if (existing && !existing.classList.contains('cm-hdr-user-init')) {
+          existing.outerHTML = `<div class="cm-hdr-user-init">${init}</div>`;
         }
       }
     }
+
+    // 2. Top-bar Facebook & Support Updates
+    const fbBtn = document.getElementById('fbFooterLink') || document.querySelector('a.fb');
+    if (fbBtn) fbBtn.href = STORE_FACEBOOK_URL;
+    const fbTop = document.getElementById('fbFooterBtn');
+    if (fbTop) fbTop.href = STORE_FACEBOOK_URL;
+
+    // 3. Ensure Top Bar Announcement shows Clean Nationwide COD (No Free Delivery!)
+    const topAnno = document.getElementById('topAnnouncement');
+    if (topAnno && topAnno.textContent.includes('Free')) {
+      topAnno.innerHTML = `সারাদেশের ৬৪ জেলায় ক্যাশ অন ডেলিভারি <i class="fa-solid fa-heart" style="color:#ef4444"></i>`;
+    }
   }
 
-  // 2. Build Dashboard Structure
-  function constructDashboardDOM() {
+  // Construct Portal DOM
+  function buildPortalDOM() {
     const modal = document.getElementById('profileModal');
     if (!modal) return;
-    modal.dataset.perfectDash = '1';
+    modal.dataset.livePortal = '1';
 
     modal.innerHTML = `
-      <div class="cm-dash-layout">
+      <div class="cm-dash-grid">
         <button type="button" class="cm-dash-x-btn" onclick="closeAllOverlays()" title="Close">&times;</button>
         
-        <!-- SIDEBAR -->
+        <!-- 1. LEFT SIDEBAR -->
         <aside class="cm-dash-side">
           <div>
             <div class="cm-side-u-card">
               <div class="cm-side-ava-box">
-                <div class="cm-s-img" id="dbSideAvatar">U</div>
-                <div class="cm-side-crown-tag"><i class="fa-solid fa-crown"></i></div>
+                <div class="cm-side-ava" id="liveSideAvatar">U</div>
+                <div class="cm-side-crown"><i class="fa-solid fa-crown"></i></div>
               </div>
-              <h4><span id="dbSideName">Customer</span> <i class="fa-solid fa-circle-check" style="color:#38bdf8;font-size:12px"></i></h4>
-              <p id="dbSideEmail">customer@gmail.com</p>
-              <span class="cm-badge-gold"><i class="fa-solid fa-crown"></i> Premium Member</span>
+              <h4><span id="liveSideName">Customer</span> <i class="fa-solid fa-circle-check" style="color:#38bdf8;font-size:12px"></i></h4>
+              <p id="liveSideEmail">customer@gmail.com</p>
+              <span class="cm-tag-gold" id="liveSideBadge"><i class="fa-solid fa-crown"></i> Premium Member</span>
             </div>
 
-            <nav class="cm-nav-stack">
-              <div class="cm-nav-btn-tab active" onclick="switchMainTab('tOrders', this)"><i class="fa-solid fa-house"></i> <span>Dashboard</span> <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></div>
-              <div class="cm-nav-btn-tab" onclick="switchMainTab('tOrders', this)"><i class="fa-solid fa-box-archive"></i> <span>My Orders</span></div>
-              <div class="cm-nav-btn-tab" onclick="openDrawer('wishlistDrawer')"><i class="fa-regular fa-heart"></i> <span>Wishlist</span></div>
-              <div class="cm-nav-btn-tab" onclick="switchMainTab('tAddress', this)"><i class="fa-solid fa-location-dot"></i> <span>My Addresses</span></div>
-              <div class="cm-nav-btn-tab" onclick="switchMainTab('tEditProfile', this)"><i class="fa-regular fa-pen-to-square"></i> <span>Edit Profile</span></div>
-              <div class="cm-nav-btn-tab" onclick="switchMainTab('tPasswordOtp', this)"><i class="fa-solid fa-lock"></i> <span>Change Password</span></div>
-              <div class="cm-nav-btn-tab" onclick="openTrackSearchModal()"><i class="fa-solid fa-route"></i> <span>Order Tracking</span></div>
-              <div class="cm-nav-btn-tab" onclick="logoutCustomer()" style="color:#f87171"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></div>
+            <nav class="cm-nav-menu">
+              <div class="cm-menu-btn active" onclick="switchPortalTab('tabDashboard', this)"><i class="fa-regular fa-user"></i> <span>My Profile</span> <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></div>
+              <div class="cm-menu-btn" onclick="switchPortalTab('tabOrders', this)"><i class="fa-solid fa-box-archive"></i> <span>My Orders</span></div>
+              <div class="cm-menu-btn" onclick="openDrawer('wishlistDrawer')"><i class="fa-regular fa-heart"></i> <span>Wishlist</span></div>
+              <div class="cm-menu-btn" onclick="switchPortalTab('tabAddress', this)"><i class="fa-solid fa-location-dot"></i> <span>My Addresses</span></div>
+              <div class="cm-menu-btn" onclick="openTrackSearchModal()"><i class="fa-solid fa-route"></i> <span>Order Tracking</span></div>
+              <div class="cm-menu-btn" onclick="switchPortalTab('tabEditProfile', this)"><i class="fa-regular fa-pen-to-square"></i> <span>Edit Profile</span></div>
+              <div class="cm-menu-btn" onclick="switchPortalTab('tabPasswordOtp', this)"><i class="fa-solid fa-lock"></i> <span>Change Password</span></div>
+              <div class="cm-menu-btn" onclick="logoutCustomer()" style="color:#f87171"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></div>
             </nav>
           </div>
 
-          <div class="cm-help-widget">
+          <div class="cm-help-box">
             <h5>Need Help?</h5>
-            <p>We are here 24/7 for you!</p>
-            <a href="${typeof getWaLink === 'function' ? getWaLink() : 'https://wa.me/8801767068529'}" target="_blank" class="cm-btn-green-pill"><i class="fa-brands fa-whatsapp"></i> Contact Us →</a>
+            <p>Our support team is here!</p>
+            <a href="https://wa.me/88${STORE_SUPPORT_PHONE}" target="_blank" class="cm-help-btn"><i class="fa-brands fa-whatsapp"></i> Contact Us →</a>
           </div>
         </aside>
 
-        <!-- STAGE -->
+        <!-- 2. RIGHT STAGE -->
         <main class="cm-dash-stage">
-          <!-- TOP WAVE BANNER -->
-          <div class="cm-dash-banner-hero">
-            <div class="cm-b-hero-left">
-              <div class="cm-b-ava-wrap">
-                <div class="cm-b-img" id="dbBannerAvatar">U</div>
-                <input type="file" id="dbFileInput" accept="image/*" style="display:none">
-                <label for="dbFileInput" class="cm-cam-btn-float" title="Change Profile Picture"><i class="fa-solid fa-camera"></i></label>
-              </div>
-              <div class="cm-b-hero-meta">
-                <h3><span id="dbBannerName">Customer</span> <i class="fa-solid fa-circle-check" style="color:#38bdf8;font-size:15px"></i></h3>
-                <p><i class="fa-regular fa-envelope"></i> <span id="dbBannerEmail">customer@gmail.com</span></p>
-                <div style="display:flex;align-items:center;gap:8px">
-                  <span class="cm-badge-gold"><i class="fa-solid fa-crown"></i> Premium Member</span>
-                  <span style="font-size:11px;color:#cbd5e1"><i class="fa-regular fa-calendar"></i> Joined 2026</span>
+          
+          <!-- A. TAB: MAIN DASHBOARD (EXACT SCREENSHOT REPLICA) -->
+          <div id="tabDashboard" class="cm-tab-view active">
+            <!-- Top Wave Banner -->
+            <div class="cm-dash-banner">
+              <div class="cm-banner-left">
+                <div class="cm-banner-photo-wrap">
+                  <div class="cm-banner-ava" id="liveBannerAvatar">U</div>
+                  <input type="file" id="livePhotoInput" accept="image/*" style="display:none">
+                  <label for="livePhotoInput" class="cm-cam-btn-float" title="Change Photo"><i class="fa-solid fa-camera"></i></label>
+                </div>
+                <div class="cm-banner-meta">
+                  <h3>Welcome Back! 👋 <span id="liveBannerName">Customer</span></h3>
+                  <p>Shop more, save more with CHITRO MART BD</p>
+                  <button type="button" class="cm-btn-cont-shop" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+                    Continue Shopping →
+                  </button>
                 </div>
               </div>
-            </div>
-            <div class="cm-b-hero-right">
-              <div class="cm-b-slogan">Shop Smart • Live Better ♡</div>
-              <button type="button" class="cm-btn-banner-edit" onclick="switchMainTab('tEditProfile')"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
-            </div>
-          </div>
-
-          <!-- 4 METRIC CARDS -->
-          <div class="cm-metrics-grid">
-            <div class="cm-m-card">
-              <div class="cm-m-icon c-blue"><i class="fa-solid fa-cart-shopping"></i></div>
-              <div class="cm-m-info"><small>Total Orders</small><h4><span id="mCountOrders">0</span></h4></div>
-            </div>
-            <div class="cm-m-card">
-              <div class="cm-m-icon c-pink"><i class="fa-solid fa-heart"></i></div>
-              <div class="cm-m-info"><small>Wishlist Items</small><h4><span id="mCountWish">0</span></h4></div>
-            </div>
-            <div class="cm-m-card">
-              <div class="cm-m-icon c-orange"><i class="fa-solid fa-wallet"></i></div>
-              <div class="cm-m-info"><small>Total Spent</small><h4>৳ <span id="mCountSpent">0</span></h4></div>
-            </div>
-            <div class="cm-m-card">
-              <div class="cm-m-icon c-purple"><i class="fa-solid fa-star"></i></div>
-              <div class="cm-m-info"><small>Member Status</small><h4 style="font-size:15px">VIP Gold</h4></div>
-            </div>
-          </div>
-
-          <!-- VIEWS CONTAINER -->
-          <div class="cm-content-card-box">
-            <!-- 1. Orders -->
-            <div id="tOrders" class="cm-tab-view active">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                <h4 style="font-size:15px;font-weight:800;color:#0f172a"><i class="fa-solid fa-box-open" style="color:#0ea646"></i> My Orders & Live Tracking</h4>
-                <button type="button" onclick="loadCustomerOrders()" class="copy-num-btn" style="padding:5px 12px"><i class="fa-solid fa-rotate"></i> Refresh</button>
+              <div class="cm-banner-right-bag">
+                <i class="fa-solid fa-bag-shopping cm-3d-bag-icon"></i>
               </div>
-              <div id="dbOrdersListHolder"></div>
             </div>
 
-            <!-- 2. Address -->
-            <div id="tAddress" class="cm-tab-view">
-              <h4 style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:12px"><i class="fa-solid fa-location-dot" style="color:#0ea646"></i> Delivery Location (All 64 Districts)</h4>
+            <!-- 4 Live Metrics Cards -->
+            <div class="cm-metrics-row" style="margin-top:12px">
+              <div class="cm-stat-card">
+                <div class="cm-stat-ico i-blue"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="cm-stat-val"><small>Total Orders</small><h4><span id="liveValOrders">0</span></h4></div>
+              </div>
+              <div class="cm-stat-card">
+                <div class="cm-stat-ico i-pink"><i class="fa-solid fa-heart"></i></div>
+                <div class="cm-stat-val"><small>Wishlist Items</small><h4><span id="liveValWish">0</span></h4></div>
+              </div>
+              <div class="cm-stat-card">
+                <div class="cm-stat-ico i-orange"><i class="fa-solid fa-wallet"></i></div>
+                <div class="cm-stat-val"><small>Total Spent</small><h4>৳ <span id="liveValSpent">0</span></h4></div>
+              </div>
+              <div class="cm-stat-card">
+                <div class="cm-stat-ico i-purple"><i class="fa-solid fa-star"></i></div>
+                <div class="cm-stat-val"><small>Member Status</small><h4 style="font-size:15px" id="liveValStatus">VIP Member</h4></div>
+              </div>
+            </div>
+
+            <!-- Dual Middle Grid: Profile Details + Recent Orders -->
+            <div class="cm-dual-grid" style="margin-top:12px">
+              <!-- Left: My Profile Details -->
+              <div class="cm-white-panel">
+                <div class="cm-panel-head">
+                  <h4>My Profile Details</h4>
+                  <button type="button" class="cm-btn-tiny" onclick="switchPortalTab('tabEditProfile')"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
+                </div>
+                <div class="cm-prof-details-row">
+                  <div class="cm-square-photo-wrap">
+                    <div class="cm-square-photo" id="liveSquarePhoto">U</div>
+                    <label for="livePhotoInput" class="cm-cam-btn-float" style="width:24px;height:24px;font-size:10px" title="Change Photo"><i class="fa-solid fa-camera"></i></label>
+                  </div>
+                  <div class="cm-details-list">
+                    <div><b>Name</b>: <span id="dtlName">...</span></div>
+                    <div><b>Email</b>: <span id="dtlEmail">...</span></div>
+                    <div><b>Phone</b>: <span id="dtlPhone">...</span></div>
+                    <div><b>Location</b>: <span id="dtlLocation">Dhaka, Bangladesh</span></div>
+                    <div><b>Member</b>: <span id="dtlMemberSince">Nov 2026</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Recent Orders (Real Data or Clean Empty Box) -->
+              <div class="cm-white-panel">
+                <div class="cm-panel-head">
+                  <h4>Recent Orders</h4>
+                  <button type="button" class="cm-btn-tiny" onclick="switchPortalTab('tabOrders')">View All →</button>
+                </div>
+                <div id="liveRecentOrderBox"></div>
+              </div>
+            </div>
+
+            <!-- Dual Bottom Row: Quick Actions + Special Thanks Card -->
+            <div class="cm-dual-grid" style="margin-top:12px">
+              <div class="cm-white-panel">
+                <div class="cm-panel-head"><h4>Quick Actions</h4></div>
+                <div class="cm-quick-actions-grid">
+                  <div class="cm-qa-card" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-cart-shopping"></i><span>Shop Now</span></div>
+                  <div class="cm-qa-card" onclick="openDrawer('wishlistDrawer')"><i class="fa-regular fa-heart" style="color:#db2777"></i><span>Wishlist</span></div>
+                  <div class="cm-qa-card" onclick="switchPortalTab('tabAddress')"><i class="fa-solid fa-location-dot" style="color:#0ea646"></i><span>Addresses</span></div>
+                  <div class="cm-qa-card" onclick="switchPortalTab('tabEditProfile')"><i class="fa-solid fa-gear" style="color:#7c3aed"></i><span>Settings</span></div>
+                </div>
+              </div>
+
+              <div class="cm-special-thanks-card">
+                <div class="cm-st-gift-ico"><i class="fa-solid fa-gift"></i></div>
+                <div class="cm-st-text">
+                  <h4>Special Thanks!</h4>
+                  <p>For being a valuable member of CHITRO MART BD</p>
+                </div>
+                <button type="button" class="cm-btn-shop-more" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">Shop More →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- B. TAB: FULL ORDERS LIST -->
+          <div id="tabOrders" class="cm-tab-view">
+            <div class="cm-white-panel">
+              <div class="cm-panel-head">
+                <h4><i class="fa-solid fa-box-open" style="color:#0ea646"></i> My Orders & Live Tracking</h4>
+                <button type="button" onclick="loadCustomerOrders()" class="cm-btn-tiny"><i class="fa-solid fa-rotate"></i> Refresh</button>
+              </div>
+              <div id="liveFullOrdersList"></div>
+            </div>
+          </div>
+
+          <!-- C. TAB: ADDRESS HUB (64 DISTRICTS) -->
+          <div id="tabAddress" class="cm-tab-view">
+            <div class="cm-white-panel">
+              <div class="cm-panel-head"><h4><i class="fa-solid fa-location-dot" style="color:#0ea646"></i> Delivery Location (All 64 Districts)</h4></div>
               <form onsubmit="saveUserAddress(event)">
                 <div class="form-row">
                   <div class="form-group"><label>জেলা (District) *</label><select id="addrDist" onchange="onProfileDistChange()" required><option value="">-- জেলা সিলেক্ট করুন --</option></select></div>
@@ -2895,19 +3095,21 @@
                 <button type="submit" class="submit-primary-btn" style="max-width:240px"><i class="fa-solid fa-floppy-disk"></i> Save Address</button>
               </form>
             </div>
+          </div>
 
-            <!-- 3. Edit Profile (DOB & Gender) -->
-            <div id="tEditProfile" class="cm-tab-view">
-              <h4 style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:12px"><i class="fa-regular fa-user" style="color:#0ea646"></i> Personal Information</h4>
-              <form id="dbProfileForm">
+          <!-- D. TAB: EDIT PROFILE (DOB & GENDER) -->
+          <div id="tabEditProfile" class="cm-tab-view">
+            <div class="cm-white-panel">
+              <div class="cm-panel-head"><h4><i class="fa-regular fa-user" style="color:#0ea646"></i> Edit Personal Information</h4></div>
+              <form id="liveProfileEditForm">
                 <div class="form-row">
-                  <div class="form-group"><label>Full Name *</label><input type="text" id="dbInpName" required></div>
-                  <div class="form-group"><label>Email Address *</label><input type="email" id="dbInpEmail" required></div>
+                  <div class="form-group"><label>Full Name *</label><input type="text" id="editNameInp" required></div>
+                  <div class="form-group"><label>Email Address *</label><input type="email" id="editEmailInp" required></div>
                 </div>
                 <div class="form-row">
-                  <div class="form-group"><label><i class="fa-regular fa-calendar"></i> জন্মতারিখ (Date of Birth)</label><input type="date" id="dbInpDob"></div>
+                  <div class="form-group"><label><i class="fa-regular fa-calendar"></i> জন্মতারিখ (Date of Birth)</label><input type="date" id="editDobInp"></div>
                   <div class="form-group"><label><i class="fa-solid fa-venus-mars"></i> জেন্ডার (Gender)</label>
-                    <select id="dbInpGender">
+                    <select id="editGenderInp">
                       <option value="">-- জেন্ডার নির্বাচন করুন --</option>
                       <option value="Male">পুরুষ (Male)</option>
                       <option value="Female">মহিলা (Female)</option>
@@ -2915,61 +3117,63 @@
                     </select>
                   </div>
                 </div>
-                <button type="submit" class="submit-primary-btn" id="dbBtnSaveInfo" style="max-width:240px"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                <button type="submit" class="submit-primary-btn" id="btnSaveLiveProfile" style="max-width:240px"><i class="fa-solid fa-floppy-disk"></i> Save Information</button>
               </form>
             </div>
+          </div>
 
-            <!-- 4. Password Change with Gmail OTP -->
-            <div id="tPasswordOtp" class="cm-tab-view">
-              <h4 style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:4px"><i class="fa-solid fa-shield-halved" style="color:#2563eb"></i> Change Password (Gmail OTP Verification)</h4>
-              <p style="font-size:12px;color:#64748b;margin-bottom:14px">পাসওয়ার্ড পরিবর্তনের আগে আপনার ভেরিফাইড Gmail-এ একটি ৬-ডিজিটের ওটিপি কোড পাঠানো হবে।</p>
+          <!-- E. TAB: PASSWORD CHANGE WITH GMAIL OTP -->
+          <div id="tabPasswordOtp" class="cm-tab-view">
+            <div class="cm-white-panel">
+              <div class="cm-panel-head"><h4><i class="fa-solid fa-shield-halved" style="color:#2563eb"></i> Change Password (Gmail OTP Verification)</h4></div>
+              <p style="font-size:12px;color:#64748b;margin-bottom:14px">নিরাপত্তার স্বার্থে পাসওয়ার্ড পরিবর্তনের আগে আপনার Gmail-এ একটি ৬-ডিজিটের ভেরিফিকেশন কোড পাঠানো হবে।</p>
               
-              <div id="dbOtpRequestCard">
+              <div id="cardSendOtp">
                 <div class="form-group" style="max-width:440px">
                   <label>আপনার রেজিস্টার্ড Gmail Address (যেখানে কোড যাবে) *</label>
-                  <input type="email" id="dbTargetEmailInp" placeholder="your@gmail.com" required>
+                  <input type="email" id="targetGmailInput" required>
                 </div>
-                <button type="button" class="submit-primary-btn" id="dbBtnSendOtp" style="max-width:260px;background:#0f172a" onclick="executeSendOtp()">
+                <button type="button" class="submit-primary-btn" id="btnSendGmailOtp" style="max-width:260px;background:#0f172a" onclick="sendRealGmailOtp()">
                   <i class="fa-regular fa-envelope"></i> Gmail-এ কোড পাঠান
                 </button>
               </div>
 
-              <form id="dbOtpVerifyCard" style="display:none;max-width:440px;margin-top:12px" onsubmit="executeVerifyAndUpdatePass(event)">
+              <form id="cardVerifyOtp" style="display:none;max-width:440px;margin-top:12px" onsubmit="verifyAndCommitNewPassword(event)">
                 <div class="form-group">
                   <label>Gmail-এ যাওয়া ৬-ডিজিটের কোড *</label>
-                  <input type="text" id="dbCodeInput" placeholder="যেমন: 492810" maxlength="6" autocomplete="off" required>
+                  <input type="text" id="otpCodeEntry" placeholder="যেমন: 492810" maxlength="6" autocomplete="off" required>
                 </div>
                 <div class="form-group">
                   <label>নতুন পাসওয়ার্ড (৪+ অক্ষর) *</label>
-                  <input type="password" id="dbNewPassInput" placeholder="নতুন পাসওয়ার্ড দিন" autocomplete="new-password" required>
+                  <input type="password" id="otpNewPassEntry" placeholder="নতুন পাসওয়ার্ড দিন" autocomplete="new-password" required>
                 </div>
-                <button type="submit" class="submit-primary-btn" id="dbBtnUpdatePass" style="background:#059669">
+                <button type="submit" class="submit-primary-btn" id="btnConfirmOtpPass" style="background:#059669">
                   <i class="fa-solid fa-key"></i> পাসওয়ার্ড আপডেট করুন
                 </button>
                 <div style="margin-top:8px">
-                  <button type="button" class="link-btn" onclick="returnToOtpSendStep()">কোড পাননি? আবার পাঠান</button>
+                  <button type="button" class="link-btn" onclick="returnOtpSendState()">কোড পাননি? আবার পাঠান</button>
                 </div>
               </form>
             </div>
           </div>
 
-          <!-- TRUST BAR -->
+          <!-- 3. BOTTOM TRUST BAR -->
           <div class="cm-trust-footer">
             <div class="cm-t-cell"><i class="fa-solid fa-shield-check"></i> <span>100% Secure Shopping</span></div>
-            <div class="cm-t-cell"><i class="fa-solid fa-truck-fast"></i> <span>All 64 Districts Delivery</span></div>
-            <div class="cm-t-cell"><i class="fa-solid fa-headset"></i> <span>24/7 Dedicated Support</span></div>
-            <div class="cm-t-cell"><i class="fa-solid fa-star"></i> <span>Verified Best Experience</span></div>
+            <div class="cm-t-cell"><i class="fa-solid fa-truck-fast"></i> <span>Across Bangladesh (64 Districts)</span></div>
+            <div class="cm-t-cell"><i class="fa-solid fa-headset"></i> <span>Support: ${STORE_SUPPORT_PHONE}</span></div>
+            <div class="cm-t-cell"><i class="fa-solid fa-envelope"></i> <span>${STORE_SUPPORT_EMAIL}</span></div>
           </div>
         </main>
       </div>
     `;
 
-    // File Input for Photo
-    const fileEl = document.getElementById('dbFileInput');
-    if (fileEl) {
-      fileEl.onchange = function(e) {
-        const f = e.target.files[0];
-        if (!f) return;
+    // Photo Upload Listener
+    const fInp = document.getElementById('livePhotoInput');
+    if (fInp) {
+      fInp.onchange = function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
         if (typeof showToast === 'function') showToast('ছবি প্রসেসিং হচ্ছে...');
         const r = new FileReader();
         r.onload = function(evt) {
@@ -2988,8 +3192,8 @@
             if (u) {
               u.photo = b64;
               if (typeof savePersistentUser === 'function') savePersistentUser(u, true);
-              refreshHeaderUserIcon();
-              syncDashUI();
+              liveSyncHeaderElements();
+              syncPortalValues();
 
               fetch(`${window.FB_URL}/users/${u.phone}.json`, {
                 method: 'PATCH',
@@ -3002,23 +3206,24 @@
           };
           img.src = evt.target.result;
         };
-        r.readAsDataURL(f);
+        r.readAsDataURL(file);
       };
     }
 
-    // Edit Profile Form Submit
-    const pf = document.getElementById('dbProfileForm');
+    // Edit Profile Submit
+    const pf = document.getElementById('liveProfileEditForm');
     if (pf) {
       pf.onsubmit = async function(e) {
         e.preventDefault();
         const u = getActiveUser();
         if (!u) return;
-        const name = document.getElementById('dbInpName').value.trim();
-        const email = document.getElementById('dbInpEmail').value.trim().toLowerCase();
-        const dob = document.getElementById('dbInpDob').value;
-        const gender = document.getElementById('dbInpGender').value;
 
-        const btn = document.getElementById('dbBtnSaveInfo');
+        const name = document.getElementById('editNameInp').value.trim();
+        const email = document.getElementById('editEmailInp').value.trim().toLowerCase();
+        const dob = document.getElementById('editDobInp').value;
+        const gender = document.getElementById('editGenderInp').value;
+
+        const btn = document.getElementById('btnSaveLiveProfile');
         btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...';
 
         try {
@@ -3029,85 +3234,141 @@
           });
           u.name = name; u.email = email; u.dob = dob; u.gender = gender;
           if (typeof savePersistentUser === 'function') savePersistentUser(u, true);
-          syncDashUI();
-          refreshHeaderUserIcon();
-          if (typeof showToast === 'function') showToast('তথ্য সংরক্ষণ করা হয়েছে!');
+          syncPortalValues();
+          liveSyncHeaderElements();
+          if (typeof showToast === 'function') showToast('তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!');
+          switchPortalTab('tabDashboard');
         } catch (err) {
           if (typeof showToast === 'function') showToast('আপডেট ব্যর্থ হয়েছে!');
         } finally {
-          btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
+          btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Information';
         }
       };
     }
   }
 
-  // 3. Tab Switcher
-  window.switchMainTab = function(tabId, navEl = null) {
+  // Switch Sub-tabs
+  window.switchPortalTab = function(tabId, navBtn = null) {
     document.querySelectorAll('.cm-tab-view').forEach(t => t.classList.remove('active'));
-    const target = document.getElementById(tabId);
-    if (target) target.classList.add('active');
+    const t = document.getElementById(tabId);
+    if (t) t.classList.add('active');
 
-    if (navEl) {
-      document.querySelectorAll('.cm-nav-btn-tab').forEach(b => b.classList.remove('active'));
-      navEl.classList.add('active');
+    if (navBtn) {
+      document.querySelectorAll('.cm-menu-btn').forEach(b => b.classList.remove('active'));
+      navBtn.classList.add('active');
     }
-    if (document.getElementById('dbNewPassInput')) document.getElementById('dbNewPassInput').value = '';
-    if (document.getElementById('dbCodeInput')) document.getElementById('dbCodeInput').value = '';
+    // Clean password fields on switch
+    if (document.getElementById('otpCodeEntry')) document.getElementById('otpCodeEntry').value = '';
+    if (document.getElementById('otpNewPassEntry')) document.getElementById('otpNewPassEntry').value = '';
   };
 
-  // 4. Sync UI Data
-  window.syncDashUI = function() {
+  // Sync 100% Real Dynamic Values
+  window.syncPortalValues = function() {
     const u = getActiveUser();
     if (!u) return;
 
-    const sName = document.getElementById('dbSideName'), bName = document.getElementById('dbBannerName');
+    // Names & Emails
+    const sName = document.getElementById('liveSideName'), bName = document.getElementById('liveBannerName'), dName = document.getElementById('dtlName');
     if (sName) sName.textContent = u.name || 'Customer';
     if (bName) bName.textContent = u.name || 'Customer';
+    if (dName) dName.textContent = u.name || 'Customer';
 
-    const sEmail = document.getElementById('dbSideEmail'), bEmail = document.getElementById('dbBannerEmail');
-    if (sEmail) sEmail.textContent = u.email || u.phone || '';
-    if (bEmail) bEmail.textContent = u.email || u.phone || '';
+    const sEmail = document.getElementById('liveSideEmail'), dEmail = document.getElementById('dtlEmail'), tEmail = document.getElementById('targetGmailInput');
+    const emailVal = u.email || 'Email সেট করা নেই';
+    if (sEmail) sEmail.textContent = emailVal;
+    if (dEmail) dEmail.textContent = emailVal;
+    if (tEmail) tEmail.value = u.email || '';
 
-    // Avatars
-    const sAva = document.getElementById('dbSideAvatar'), bAva = document.getElementById('dbBannerAvatar');
+    // Phone
+    const dPhone = document.getElementById('dtlPhone');
+    if (dPhone) dPhone.textContent = u.phone || '';
+
+    // Location (Real District or Address)
+    const dLoc = document.getElementById('dtlLocation');
+    if (dLoc) {
+      const sa = u.savedAddress;
+      if (sa && (sa.dist || sa.full)) {
+        dLoc.textContent = `${sa.dist ? sa.dist + ', ' : ''}Bangladesh`;
+      } else {
+        dLoc.textContent = 'ঠিকানা সেট করা নেই';
+      }
+    }
+
+    // Member Since (Real signup date)
+    const dMem = document.getElementById('dtlMemberSince');
+    if (dMem) dMem.textContent = u.createdAt || 'Nov 2026';
+
+    // Photos
+    const sAva = document.getElementById('liveSideAvatar'), bAva = document.getElementById('liveBannerAvatar'), sqAva = document.getElementById('liveSquarePhoto');
     if (u.photo) {
       if (sAva) sAva.innerHTML = `<img src="${u.photo}" alt="Avatar">`;
       if (bAva) bAva.innerHTML = `<img src="${u.photo}" alt="Avatar">`;
+      if (sqAva) sqAva.innerHTML = `<img src="${u.photo}" alt="Avatar">`;
     } else {
       const init = (u.name || 'U').charAt(0).toUpperCase();
       if (sAva) sAva.textContent = init;
       if (bAva) bAva.textContent = init;
+      if (sqAva) sqAva.textContent = init;
     }
 
-    // Form inputs
-    if (document.getElementById('dbInpName')) document.getElementById('dbInpName').value = u.name || '';
-    if (document.getElementById('dbInpEmail')) document.getElementById('dbInpEmail').value = u.email || '';
-    if (document.getElementById('dbInpDob')) document.getElementById('dbInpDob').value = u.dob || '';
-    if (document.getElementById('dbInpGender')) document.getElementById('dbInpGender').value = u.gender || '';
-    if (document.getElementById('dbTargetEmailInp')) document.getElementById('dbTargetEmailInp').value = u.email || '';
+    // Edit Inputs
+    if (document.getElementById('editNameInp')) document.getElementById('editNameInp').value = u.name || '';
+    if (document.getElementById('editEmailInp')) document.getElementById('editEmailInp').value = u.email || '';
+    if (document.getElementById('editDobInp')) document.getElementById('editDobInp').value = u.dob || '';
+    if (document.getElementById('editGenderInp')) document.getElementById('editGenderInp').value = u.gender || '';
 
-    // Analytics
+    // 100% REAL LIVE METRICS CALCULATION
     const ords = Array.isArray(window.myOrders) ? myOrders : [];
-    if (document.getElementById('mCountOrders')) document.getElementById('mCountOrders').textContent = ords.length;
-    if (document.getElementById('mCountWish')) document.getElementById('mCountWish').textContent = Array.isArray(window.wishlist) ? wishlist.length : 0;
-    const spent = ords.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
-    if (document.getElementById('mCountSpent')) document.getElementById('mCountSpent').textContent = spent.toLocaleString('en-IN');
+    const totalOrderCount = ords.length;
+    const realTotalSpent = ords.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+    const realWishCount = Array.isArray(window.wishlist) ? wishlist.length : 0;
 
-    // Orders List
-    const holder = document.getElementById('dbOrdersListHolder');
-    if (holder) {
-      if (!ords.length) {
-        holder.innerHTML = `
-          <div class="cm-empty-orders-view">
-            <i class="fa-solid fa-box-open"></i>
-            <h4>No orders yet!</h4>
-            <p>Start shopping now and enjoy the best deals across Bangladesh.</p>
-            <button type="button" class="cm-btn-go-shop" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
-              <i class="fa-solid fa-cart-shopping"></i> Shop Now →
-            </button>
+    if (document.getElementById('liveValOrders')) document.getElementById('liveValOrders').textContent = totalOrderCount;
+    if (document.getElementById('liveValSpent')) document.getElementById('liveValSpent').textContent = realTotalSpent.toLocaleString('en-IN');
+    if (document.getElementById('liveValWish')) document.getElementById('liveValWish').textContent = realWishCount;
+
+    // Dynamic Tier Status
+    const statusText = totalOrderCount >= 5 ? 'VIP Platinum' : (totalOrderCount >= 1 ? 'Gold Member' : 'Verified Member');
+    if (document.getElementById('liveValStatus')) document.getElementById('liveValStatus').textContent = statusText;
+    if (document.getElementById('liveSideBadge')) document.getElementById('liveSideBadge').innerHTML = `<i class="fa-solid fa-crown"></i> ${statusText}`;
+
+    // 100% REAL RECENT ORDER RENDERING (No Fake CMBD1005!)
+    const rBox = document.getElementById('liveRecentOrderBox');
+    if (rBox) {
+      if (ords.length > 0) {
+        const latest = ords[0];
+        rBox.innerHTML = `
+          <div class="cm-recent-order-item">
+            <div class="cm-r-left">
+              <div class="cm-r-ico"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div>
+                <strong style="font-size:13px;color:#0f172a;display:block">Order #${latest.orderId}</strong>
+                <small style="color:#64748b;font-size:11px">Placed on: ${latest.time || ''}</small>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="cm-badge-deliv">${latest.status || 'Pending'}</span>
+              <button type="button" class="cm-btn-tiny" style="background:#2563eb;color:#fff;border-color:#2563eb" onclick="viewOrderTracking('${latest.orderId}')">View Details →</button>
+            </div>
           </div>`;
       } else {
-        holder.innerHTML = ords.map(o => `
+        rBox.innerHTML = `
+          <div style="text-align:center;padding:18px 10px;background:#f8fafc;border-radius:14px;border:1px dashed #cbd5e1">
+            <i class="fa-solid fa-box-open" style="font-size:26px;color:#93c5fd;margin-bottom:6px"></i>
+            <h5 style="font-size:13px;color:#0f172a;margin-bottom:2px">No orders yet!</h5>
+            <p style="font-size:11px;color:#64748b;margin-bottom:8px">Start shopping now and enjoy the best deals.</p>
+            <button type="button" class="cm-btn-tiny" style="background:#0ea646;color:#fff;border:none" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+          </div>`;
+      }
+    }
+
+    // Full Orders List
+    const fullList = document.getElementById('liveFullOrdersList');
+    if (fullList) {
+      if (!ords.length) {
+        fullList.innerHTML = `<div style="text-align:center;padding:34px;color:#64748b">আপনার এখনো কোনো অর্ডার নেই!</div>`;
+      } else {
+        fullList.innerHTML = ords.map(o => `
           <div class="order-card-cm" style="margin-bottom:10px">
             <div class="oc-head">
               <span><strong>#${o.orderId}</strong> <small style="color:#64748b">• ${o.time || ''}</small></span>
@@ -3125,18 +3386,18 @@
     }
   };
 
-  // 5. Gmail OTP Actions
-  window.executeSendOtp = async function() {
+  // Gmail OTP Actions
+  window.sendRealGmailOtp = async function() {
     const u = getActiveUser();
     if (!u) return;
-    const emailInp = document.getElementById('dbTargetEmailInp');
-    const targetEmail = emailInp ? emailInp.value.trim().toLowerCase() : (u.email || '');
+    const inp = document.getElementById('targetGmailInput');
+    const targetEmail = inp ? inp.value.trim().toLowerCase() : (u.email || '');
     if (!targetEmail || !targetEmail.includes('@')) {
       if (typeof showToast === 'function') showToast('সঠিক Gmail Address লিখুন!');
       return;
     }
 
-    const btn = document.getElementById('dbBtnSendOtp');
+    const btn = document.getElementById('btnSendGmailOtp');
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> কোড পাঠানো হচ্ছে...';
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
@@ -3167,10 +3428,10 @@
         alert(`[CHITRO MART BD]\nআপনার Gmail ভেরিফিকেশন OTP কোড: ${otp}`);
       }
 
-      document.getElementById('dbOtpRequestCard').style.display = 'none';
-      document.getElementById('dbOtpVerifyCard').style.display = 'block';
-      document.getElementById('dbCodeInput').value = '';
-      document.getElementById('dbNewPassInput').value = '';
+      document.getElementById('cardSendOtp').style.display = 'none';
+      document.getElementById('cardVerifyOtp').style.display = 'block';
+      document.getElementById('otpCodeEntry').value = '';
+      document.getElementById('otpNewPassEntry').value = '';
 
       if (typeof showToast === 'function') showToast(`${targetEmail} ঠিকানায় OTP পাঠানো হয়েছে!`);
     } catch (err) {
@@ -3180,24 +3441,25 @@
     }
   };
 
-  window.executeVerifyAndUpdatePass = async function(e) {
+  window.verifyAndCommitNewPassword = async function(e) {
     e.preventDefault();
     const u = getActiveUser();
     if (!u) return;
-    const code = document.getElementById('dbCodeInput').value.trim();
-    const newPass = document.getElementById('dbNewPassInput').value;
+
+    const code = document.getElementById('otpCodeEntry').value.trim();
+    const newPass = document.getElementById('otpNewPassEntry').value;
     if (newPass.length < 4) {
       if (typeof showToast === 'function') showToast('পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের দিন!');
       return;
     }
 
-    const btn = document.getElementById('dbBtnUpdatePass');
+    const btn = document.getElementById('btnConfirmOtpPass');
     btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> যাচাই হচ্ছে...';
 
     try {
       const res = await (await fetch(`${window.FB_URL}/resetRequests/${u.phone}.json`, { cache: 'no-store' })).json();
       if (!res || res.code !== code) {
-        if (typeof showToast === 'function') showToast('ভুল OTP কোড! আবার দেখুন।');
+        if (typeof showToast === 'function') showToast('ভুল OTP কোড! আবার চেক করুন।');
         return;
       }
       if (Date.now() > res.expiresAt) {
@@ -3212,7 +3474,7 @@
       });
       await fetch(`${window.FB_URL}/resetRequests/${u.phone}.json`, { method: 'DELETE' });
 
-      returnToOtpSendStep();
+      returnOtpSendState();
       if (typeof showToast === 'function') showToast('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
     } catch (err) {
       if (typeof showToast === 'function') showToast('সার্ভার সমস্যা হয়েছে!');
@@ -3221,14 +3483,14 @@
     }
   };
 
-  window.returnToOtpSendStep = function() {
-    document.getElementById('dbOtpRequestCard').style.display = 'block';
-    document.getElementById('dbOtpVerifyCard').style.display = 'none';
-    if (document.getElementById('dbCodeInput')) document.getElementById('dbCodeInput').value = '';
-    if (document.getElementById('dbNewPassInput')) document.getElementById('dbNewPassInput').value = '';
+  window.returnOtpSendState = function() {
+    document.getElementById('cardSendOtp').style.display = 'block';
+    document.getElementById('cardVerifyOtp').style.display = 'none';
+    if (document.getElementById('otpCodeEntry')) document.getElementById('otpCodeEntry').value = '';
+    if (document.getElementById('otpNewPassEntry')) document.getElementById('otpNewPassEntry').value = '';
   };
 
-  // 6. 100% Reliable Modal Opener
+  // Reliable Opener (Directly opens Dashboard when logged in)
   window.openAccountHub = function() {
     const u = getActiveUser();
     if (!u) {
@@ -3236,16 +3498,15 @@
       return;
     }
 
-    // Close any auth modal if open
-    const authMod = document.getElementById('authModal');
-    if (authMod) authMod.classList.remove('active');
+    const authModal = document.getElementById('authModal');
+    if (authModal) authModal.classList.remove('active');
 
-    // Build and sync Dashboard
-    constructDashboardDOM();
-    syncDashUI();
-    refreshHeaderUserIcon();
-    switchMainTab('tOrders', document.querySelector('.cm-nav-btn-tab'));
+    buildPortalDOM();
+    syncPortalValues();
+    liveSyncHeaderElements();
+    switchPortalTab('tabDashboard', document.querySelector('.cm-menu-btn'));
 
+    if (typeof closeAllOverlays === 'function') closeAllOverlays();
     const ov = document.getElementById('overlay');
     const mod = document.getElementById('profileModal');
     if (ov) ov.classList.add('active');
@@ -3255,25 +3516,25 @@
   };
   window.openProfileModal = window.openAccountHub;
 
-  // 7. Bind Directly to Header Elements
-  function bindHeaderTriggers() {
-    const userBtn = document.getElementById('userLabel')?.closest('.action-item') || document.querySelector('.header-actions .action-item');
-    if (userBtn) {
-      userBtn.onclick = function(e) {
+  // Bind Header Trigger directly
+  function bindHeaderClick() {
+    const uBtn = document.getElementById('userLabel')?.closest('.action-item') || document.querySelector('.header-actions .action-item');
+    if (uBtn) {
+      uBtn.onclick = function(e) {
         e.preventDefault();
         e.stopPropagation();
         window.openAccountHub();
       };
     }
-    refreshHeaderUserIcon();
+    liveSyncHeaderElements();
   }
 
-  document.addEventListener('DOMContentLoaded', () => { constructDashboardDOM(); bindHeaderTriggers(); });
-  setTimeout(() => { constructDashboardDOM(); bindHeaderTriggers(); }, 200);
-  setTimeout(bindHeaderTriggers, 800);
+  document.addEventListener('DOMContentLoaded', () => { buildPortalDOM(); bindHeaderClick(); });
+  setTimeout(() => { buildPortalDOM(); bindHeaderClick(); }, 200);
+  setTimeout(bindHeaderClick, 800);
 })();
 </script>
-<!-- ================= END PRO DASHBOARD SYSTEM ================= -->
+<!-- ================= END CHITRO MART BD LIVE PORTAL ================= -->
 </body>
 </html>
  
