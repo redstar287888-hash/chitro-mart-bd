@@ -2310,7 +2310,70 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
- 
+ <!-- Dashboard Update Script -->
+<style>
+    /* ড্যাশবোর্ড স্টাইল */
+    #topBarBox { display: none !important; }
+    .dash-wrapper { padding: 0; background: #f8fafc; }
+    .dash-header { background: linear-gradient(90deg, #07131f, #0ea646); color: #fff; padding: 25px; border-radius: 15px; margin-bottom: 20px; }
+    .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; }
+    .stat-card h4 { font-size: 12px; color: #64748b; margin-bottom: 5px; }
+    .stat-card p { font-size: 18px; font-weight: 700; color: #07131f; }
+    .dash-recent { background: #fff; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; }
+</style>
+
+<script>
+    // প্রোফাইল মোডাল ওভাররাইড
+    window.openProfileModal = async function() {
+        if (!currentUser) return openAuthTab('loginPane');
+        
+        // ডাটা ক্যালকুলেশন
+        await loadCustomerOrders();
+        const totalOrders = myOrders.length;
+        const totalSpent = myOrders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+        const wishlistCount = wishlist ? wishlist.length : 0;
+        const lastOrder = myOrders[0];
+
+        // মোডাল বডি ডিজাইন
+        const modalBody = document.querySelector('#profileModal .modal-body');
+        modalBody.innerHTML = `
+            <div class="dash-wrapper">
+                <div class="dash-header">
+                    <h2 style="font-size:20px">Welcome Back, ${currentUser.name}!</h2>
+                    <p style="font-size:13px;opacity:0.9">Shop more, save more with CHITRO MART BD</p>
+                </div>
+                
+                <div class="dash-stats">
+                    <div class="stat-card"><h4>Orders</h4><p>${totalOrders}</p></div>
+                    <div class="stat-card"><h4>Wishlist</h4><p>${wishlistCount}</p></div>
+                    <div class="stat-card"><h4>Spent</h4><p>৳${formatPrice(totalSpent)}</p></div>
+                    <div class="stat-card"><h4>Status</h4><p style="color:var(--primary)">Premium</p></div>
+                </div>
+
+                <div class="dash-recent">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                        <h3 style="font-size:16px">Recent Orders</h3>
+                        <button class="link-btn" onclick="switchProfTab('profOrdersPane', document.getElementById('pNavOrders'))">View All</button>
+                    </div>
+                    ${lastOrder ? `
+                        <div style="border:1px solid #e2e8f0; padding:12px; border-radius:10px; display:flex; justify-content:space-between">
+                            <div><strong>Order #${lastOrder.orderId}</strong><br><small>${lastOrder.time}</small></div>
+                            <div style="background:#dcfce7; color:#166534; padding:5px 10px; border-radius:20px; font-size:12px; font-weight:700">${lastOrder.status}</div>
+                        </div>
+                    ` : '<p>No recent orders found.</p>'}
+                </div>
+                
+                <div style="margin-top:20px; text-align:center">
+                    <button class="cm-pill-logout" onclick="logoutCustomer()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                </div>
+            </div>
+        `;
+        
+        openModal('profileModal');
+    };
+</script>
+<!-- End Dashboard Update -->
 </body>
 </html>
  
