@@ -2310,251 +2310,652 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
- <!-- ================= CHITRO MART BD LUXURY ACCOUNT & EMAIL OTP OVERHAUL ================= -->
+ <!-- ================= CHITRO MART BD PRO DASHBOARD SYSTEM ================= -->
 <style>
-  /* 1. Modal Container & Dialog */
+  /* 1. Modal Reset to Full Ultra-Luxury Dashboard */
   #profileModal {
-    border-radius: 24px !important;
+    max-width: 1200px !important;
+    width: 96% !important;
+    max-height: 94vh !important;
+    border-radius: 28px !important;
+    background: #f1f5f9 !important;
     overflow: hidden !important;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.35) !important;
-    border: 1px solid rgba(226,232,240,0.8) !important;
-    background: #f8fafc !important;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.45) !important;
+    border: 1px solid rgba(255,255,255,0.8) !important;
+    padding: 0 !important;
   }
-  #profileModal .modal-header { display: none !important; }
+  #profileModal .modal-header,
+  #profileModal .modal-body,
+  #profileModal .cm-prof-hero,
+  #profileModal .prof-nav-pills,
+  #profileModal .cm-order-stats { display: none !important; }
 
-  /* 2. Ultra-Luxury Hero Bar */
-  #profileModal .cm-prof-hero {
-    position: relative !important;
-    background: radial-gradient(circle at 88% 20%, rgba(31,209,97,0.32) 0%, transparent 55%),
-                linear-gradient(135deg, #021a12 0%, #064e3b 50%, #07131f 100%) !important;
-    padding: 24px 26px !important;
-    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+  /* 2. Main Dashboard Split Layout */
+  .cm-dash-wrapper {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 640px;
+    max-height: 94vh;
+    background: #f8fafc;
+    position: relative;
+    font-family: 'Poppins', 'Hind Siliguri', sans-serif;
   }
-  .cm-hero-close-x {
+  .cm-dash-close-btn {
     position: absolute;
-    top: 14px;
-    right: 16px;
-    width: 32px;
-    height: 32px;
+    top: 16px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.25);
-    background: rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: 0.2s;
+  }
+  .cm-dash-close-btn:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+
+  /* 3. Left Royal Blue / Navy Sidebar */
+  .cm-dash-sidebar {
+    background: radial-gradient(circle at 10% 10%, rgba(245,158,11,0.15) 0%, transparent 40%),
+                linear-gradient(180deg, #07172b 0%, #030d1a 100%);
+    color: #fff;
+    padding: 24px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .cm-side-user-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 18px 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+  .cm-side-avatar-wrap {
+    position: relative;
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 10px;
+  }
+  .cm-side-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2.5px solid #f59e0b;
+    object-fit: cover;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(245,158,11,0.3);
+  }
+  .cm-side-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .cm-side-crown {
+    position: absolute;
+    top: -4px;
+    right: -2px;
+    width: 24px;
+    height: 24px;
+    background: #f59e0b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #fff;
+    border: 2px solid #07172b;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  }
+  .cm-side-user-card h4 {
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .cm-side-user-card p {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    word-break: break-all;
+  }
+  .cm-side-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(245,158,11,0.18);
+    border: 1px solid rgba(245,158,11,0.5);
+    color: #fde68a;
+    font-size: 10.5px;
+    padding: 3px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+  }
+
+  /* Sidebar Nav List */
+  .cm-dash-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cm-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: #cbd5e1;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .cm-nav-item i { width: 20px; font-size: 13.5px; }
+  .cm-nav-item:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+  .cm-nav-item.active {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(234,88,12,0.35);
+  }
+
+  /* Need Help Box */
+  .cm-side-help {
+    background: radial-gradient(circle at 10% 10%, rgba(31,209,97,0.2), transparent 50%),
+                rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 14px 12px;
+    margin-top: 16px;
+  }
+  .cm-side-help h5 { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; }
+  .cm-side-help p { font-size: 10.5px; color: #94a3b8; margin-bottom: 8px; }
+  .cm-help-btn {
+    background: #0ea646;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* 4. Right Main Stage */
+  .cm-dash-main {
+    padding: 18px 22px 18px 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Top Wave Banner */
+  .cm-dash-banner {
+    background: radial-gradient(circle at 15% 30%, rgba(59,130,246,0.3) 0%, transparent 40%),
+                linear-gradient(125deg, #07172b 0%, #0c2d57 40%, #ea580c 100%);
+    border-radius: 22px;
+    padding: 22px 26px;
     color: #fff;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
-    backdrop-filter: blur(6px);
-    transition: 0.2s ease;
-  }
-  .cm-hero-close-x:hover {
-    background: #ef4444;
-    border-color: #ef4444;
-  }
-
-  /* 3D Glowing Avatar */
-  .cm-prof-avatar-wrap {
-    position: relative !important;
-    display: inline-block !important;
-    padding: 3px;
-    background: linear-gradient(135deg, #34d399, #10b981, #f59e0b);
-    border-radius: 22px;
-    box-shadow: 0 0 20px rgba(16,185,129,0.4);
-  }
-  #profileModal .cm-avatar {
-    width: 66px !important;
-    height: 66px !important;
-    border-radius: 19px !important;
-    border: 2px solid #064e3b !important;
-    background: #0f172a !important;
-    overflow: hidden !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  #profileModal .cm-avatar img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
-  .cm-cam-badge-btn {
-    position: absolute !important;
-    bottom: -4px !important;
-    right: -4px !important;
-    width: 26px !important;
-    height: 26px !important;
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    border: 2px solid #fff !important;
-    border-radius: 50% !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 11px !important;
-    cursor: pointer !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.3) !important;
-    transition: 0.2s !important;
-  }
-  .cm-cam-badge-btn:hover {
-    transform: scale(1.15) !important;
-    background: #047857 !important;
-  }
-  .cm-luxury-tier {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-    background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(217,119,6,0.15)) !important;
-    border: 1px solid rgba(245,158,11,0.6) !important;
-    color: #fef08a !important;
-    font-size: 10px !important;
-    padding: 2px 9px !important;
-    border-radius: 50px !important;
-    font-weight: 800 !important;
-  }
-
-  /* 3. Segmented Navigation Tabs */
-  #profileModal .prof-nav-pills {
-    background: #e2e8f0 !important;
-    padding: 5px !important;
-    border-radius: 14px !important;
-    margin-bottom: 18px !important;
-  }
-  #profileModal .prof-nav-btn {
-    border-radius: 10px !important;
-    font-size: 12.5px !important;
-    font-weight: 700 !important;
-    padding: 9px 12px !important;
-    transition: 0.2s ease !important;
-  }
-  #profileModal .prof-nav-btn.active {
-    background: #fff !important;
-    color: #064e3b !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
-  }
-
-  /* 4. Elevated Luxury Section Cards */
-  .cm-pro-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.03);
-  }
-  .cm-pro-card-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #f1f5f9;
-  }
-  .cm-pro-card-header h4 {
-    font-size: 14px;
-    font-weight: 800;
-    color: #0f172a;
-    margin: 0;
-  }
-  .cm-pro-ico {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
-    background: #ecfdf5;
-    color: #0ea646;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-
-  /* Shipping Address Card */
-  .cm-lux-address-banner {
-    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-    border: 1.5px solid #a7f3d0;
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 15px;
-    display: flex;
     justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(7,23,43,0.15);
+  }
+  .cm-dash-banner::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    bottom: -40px;
+    width: 220px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(249,115,22,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cm-banner-left {
+    display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 18px;
+    z-index: 2;
   }
-  .cm-lux-address-banner p {
-    font-size: 12px;
-    color: #065f46;
-    line-height: 1.4;
-    margin: 0;
+  .cm-banner-avatar-wrap {
+    position: relative;
+    width: 86px;
+    height: 86px;
   }
-
-  /* Luxury Form Inputs */
-  #profInfoPane .form-group input,
-  #profInfoPane .form-group select {
-    border: 1.5px solid #cbd5e1 !important;
-    border-radius: 10px !important;
-    padding: 10px 12px !important;
-    font-size: 13px !important;
-    background: #fff !important;
-    transition: 0.2s !important;
+  .cm-banner-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    object-fit: cover;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
   }
-  #profInfoPane .form-group input:focus,
-  #profInfoPane .form-group select:focus {
-    border-color: #0ea646 !important;
-    box-shadow: 0 0 0 3px rgba(14,166,70,0.14) !important;
+  .cm-banner-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .cm-banner-cam-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0ea646;
+    color: #fff;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    transition: 0.2s;
   }
-
-  /* Gmail OTP Password Step */
-  .cm-otp-badge-note {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    color: #1e40af;
-    padding: 9px 12px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 12px;
+  .cm-banner-cam-btn:hover { transform: scale(1.15); background: #15803d; }
+  .cm-banner-meta h3 {
+    font-size: 21px;
+    font-weight: 800;
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-bottom: 4px;
+  }
+  .cm-banner-meta p {
+    font-size: 12px;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .cm-banner-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cm-joined-tag {
+    font-size: 11px;
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .cm-banner-right {
+    text-align: right;
+    z-index: 2;
+  }
+  .cm-banner-slogan {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: #fde68a;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  .cm-btn-edit-head {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+  }
+  .cm-btn-edit-head:hover { background: #fff; color: #07172b; }
+
+  /* 5. Four Live Metrics Cards */
+  .cm-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .cm-metric-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    transition: 0.2s;
+  }
+  .cm-metric-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+  .cm-metric-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .cm-ico-blue { background: #eff6ff; color: #2563eb; }
+  .cm-ico-pink { background: #fdf2f8; color: #db2777; }
+  .cm-ico-orange { background: #fff7ed; color: #ea580c; }
+  .cm-ico-purple { background: #faf5ff; color: #7c3aed; }
+  .cm-metric-text small { font-size: 11px; color: #64748b; font-weight: 600; display: block; margin-bottom: 2px; }
+  .cm-metric-text h4 { font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1.1; margin: 0; }
+  .cm-metric-text span { font-size: 10px; color: #16a34a; font-weight: 700; margin-left: 4px; }
+
+  /* 6. Dynamic Content Stage */
+  .cm-dash-content-stage {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 20px 22px;
+    min-height: 270px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+  }
+  .cm-dash-view { display: none; animation: cmViewIn 0.25s ease; }
+  .cm-dash-view.active { display: block; }
+  @keyframes cmViewIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Clean Empty State */
+  .cm-clean-empty-box {
+    text-align: center;
+    padding: 34px 18px;
+  }
+  .cm-clean-empty-box i { font-size: 42px; color: #93c5fd; margin-bottom: 12px; }
+  .cm-clean-empty-box h4 { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+  .cm-clean-empty-box p { font-size: 12px; color: #64748b; margin-bottom: 16px; }
+  .cm-btn-empty-shop {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #fff;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Forms Luxury Styling */
+  .cm-dash-content-stage .form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .cm-dash-content-stage .form-group input,
+  .cm-dash-content-stage .form-group select,
+  .cm-dash-content-stage .form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 11px;
+    font-size: 13px;
+    outline: none;
+    background: #fff;
+    transition: 0.2s;
+  }
+  .cm-dash-content-stage .form-group input:focus,
+  .cm-dash-content-stage .form-group select:focus {
+    border-color: #0ea646;
+    box-shadow: 0 0 0 3px rgba(14,166,70,0.14);
+  }
+
+  /* 7. Bottom Trust Bar */
+  .cm-dash-trust-bar {
+    background: #0f172a;
+    border-radius: 16px;
+    padding: 13px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    color: #cbd5e1;
+    font-size: 11.5px;
+  }
+  .cm-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+  }
+  .cm-trust-item i { color: #f59e0b; font-size: 14px; }
+
+  @media (max-width: 900px) {
+    .cm-dash-wrapper { grid-template-columns: 1fr; }
+    .cm-dash-sidebar { display: none; }
+    .cm-metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .cm-dash-trust-bar { grid-template-columns: repeat(2, 1fr); }
+    .cm-banner-right { display: none; }
   }
 </style>
 
 <script>
-(function initLuxuryProfileOverhaul() {
-  // 1. Upgrade Avatar with Glow Ring & Camera
-  function setupLuxuryAvatar() {
-    const avatar = document.getElementById('profAvatar');
-    if (!avatar || avatar.closest('.cm-prof-avatar-wrap')) return;
+(function buildFullCustomPortal() {
+  const modal = document.getElementById('profileModal');
+  if (!modal || modal.dataset.fullDashboard === '1') return;
+  modal.dataset.fullDashboard = '1';
 
-    const wrap = document.createElement('div');
-    wrap.className = 'cm-prof-avatar-wrap';
-    avatar.parentNode.insertBefore(wrap, avatar);
-    wrap.appendChild(avatar);
+  modal.innerHTML = `
+    <div class="cm-dash-wrapper">
+      <button type="button" class="cm-dash-close-btn" onclick="closeAllOverlays()" title="Close">&times;</button>
+      
+      <!-- LEFT SIDEBAR -->
+      <aside class="cm-dash-sidebar">
+        <div>
+          <div class="cm-side-user-card">
+            <div class="cm-side-avatar-wrap">
+              <div class="cm-side-avatar" id="dashSideAvatar">U</div>
+              <div class="cm-side-crown"><i class="fa-solid fa-crown"></i></div>
+            </div>
+            <h4><span id="dashSideName">Customer</span> <i class="fa-solid fa-circle-check" style="color:#38bdf8;font-size:12px"></i></h4>
+            <p id="dashSideEmail">customer@gmail.com</p>
+            <span class="cm-side-badge"><i class="fa-solid fa-crown"></i> Premium Member</span>
+          </div>
 
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.id = 'cmPhotoFileInput';
-    fileInput.accept = 'image/*';
-    fileInput.style.display = 'none';
+          <nav class="cm-dash-nav">
+            <div class="cm-nav-item active" onclick="switchDashView('viewOrders', this)"><i class="fa-solid fa-house"></i> <span>Dashboard</span> <i class="fa-solid fa-chevron-right" style="font-size:10px"></i></div>
+            <div class="cm-nav-item" onclick="switchDashView('viewOrders', this)"><i class="fa-solid fa-box-archive"></i> <span>My Orders</span></div>
+            <div class="cm-nav-item" onclick="openDrawer('wishlistDrawer')"><i class="fa-regular fa-heart"></i> <span>Wishlist</span></div>
+            <div class="cm-nav-item" onclick="switchDashView('viewAddress', this)"><i class="fa-solid fa-location-dot"></i> <span>My Addresses</span></div>
+            <div class="cm-nav-item" onclick="switchDashView('viewEditProfile', this)"><i class="fa-regular fa-pen-to-square"></i> <span>Edit Profile</span></div>
+            <div class="cm-nav-item" onclick="switchDashView('viewPasswordOtp', this)"><i class="fa-solid fa-lock"></i> <span>Change Password</span></div>
+            <div class="cm-nav-item" onclick="openTrackSearchModal()"><i class="fa-solid fa-route"></i> <span>Order Tracking</span></div>
+            <div class="cm-nav-item" onclick="logoutCustomer()" style="color:#f87171"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></div>
+          </nav>
+        </div>
 
-    const camBtn = document.createElement('label');
-    camBtn.htmlFor = 'cmPhotoFileInput';
-    camBtn.className = 'cm-cam-badge-btn';
-    camBtn.title = 'প্রোফাইল ছবি পরিবর্তন করুন';
-    camBtn.innerHTML = '<i class="fa-solid fa-camera"></i>';
+        <div class="cm-side-help">
+          <h5>Need Help?</h5>
+          <p>We are here to help you 24/7!</p>
+          <a href="${typeof getWaLink === 'function' ? getWaLink() : 'https://wa.me/8801767068529'}" target="_blank" class="cm-help-btn"><i class="fa-brands fa-whatsapp"></i> Contact Us →</a>
+        </div>
+      </aside>
 
-    wrap.appendChild(fileInput);
-    wrap.appendChild(camBtn);
+      <!-- RIGHT MAIN AREA -->
+      <main class="cm-dash-main">
+        <!-- TOP WAVE BANNER -->
+        <div class="cm-dash-banner">
+          <div class="cm-banner-left">
+            <div class="cm-banner-avatar-wrap">
+              <div class="cm-banner-avatar" id="dashBannerAvatar">U</div>
+              <input type="file" id="dashPhotoInput" accept="image/*" style="display:none">
+              <label for="dashPhotoInput" class="cm-banner-cam-btn" title="Change Profile Picture"><i class="fa-solid fa-camera"></i></label>
+            </div>
+            <div class="cm-banner-meta">
+              <h3><span id="dashBannerName">Customer</span> <i class="fa-solid fa-circle-check" style="color:#38bdf8;font-size:15px"></i></h3>
+              <p><i class="fa-regular fa-envelope"></i> <span id="dashBannerEmail">email@gmail.com</span></p>
+              <div class="cm-banner-tags">
+                <span class="cm-side-badge"><i class="fa-solid fa-crown"></i> Premium Member</span>
+                <span class="cm-joined-tag"><i class="fa-regular fa-calendar"></i> <span id="dashJoinedDate">Member Since 2026</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="cm-banner-right">
+            <div class="cm-banner-slogan">Shop Smart • Live Better ♡</div>
+            <button type="button" class="cm-btn-edit-head" onclick="switchDashView('viewEditProfile')"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
+          </div>
+        </div>
 
+        <!-- FOUR LIVE METRIC CARDS -->
+        <div class="cm-metrics-row">
+          <div class="cm-metric-card">
+            <div class="cm-metric-icon cm-ico-blue"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="cm-metric-text"><small>Total Orders</small><h4><span id="statOrderCount">0</span> <span>↑ 100%</span></h4></div>
+          </div>
+          <div class="cm-metric-card">
+            <div class="cm-metric-icon cm-ico-pink"><i class="fa-solid fa-heart"></i></div>
+            <div class="cm-metric-text"><small>Wishlist Items</small><h4><span id="statWishCount">0</span> <span>Active</span></h4></div>
+          </div>
+          <div class="cm-metric-card">
+            <div class="cm-metric-icon cm-ico-orange"><i class="fa-solid fa-wallet"></i></div>
+            <div class="cm-metric-text"><small>Total Spent</small><h4>৳ <span id="statTotalSpent">0</span> <span>Verified</span></h4></div>
+          </div>
+          <div class="cm-metric-card">
+            <div class="cm-metric-icon cm-ico-purple"><i class="fa-solid fa-star"></i></div>
+            <div class="cm-metric-text"><small>Member Status</small><h4 style="font-size:15px">VIP Gold</h4></div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC CONTENT STAGE -->
+        <div class="cm-dash-content-stage">
+          <!-- 1. Orders View -->
+          <div id="viewOrders" class="cm-dash-view active">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <h4 style="font-size:16px;font-weight:800;color:#0f172a"><i class="fa-solid fa-box-open" style="color:#0ea646"></i> My Orders</h4>
+              <button onclick="loadCustomerOrders()" class="copy-num-btn" style="padding:6px 14px"><i class="fa-solid fa-rotate"></i> Refresh</button>
+            </div>
+            <div id="dashOrdersContainer"></div>
+          </div>
+
+          <!-- 2. Address Management View -->
+          <div id="viewAddress" class="cm-dash-view">
+            <h4 style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:14px"><i class="fa-solid fa-location-dot" style="color:#0ea646"></i> My Shipping Address (All 64 Districts)</h4>
+            <form onsubmit="saveUserAddress(event)">
+              <div class="form-row">
+                <div class="form-group"><label>জেলা (District) *</label><select id="addrDist" onchange="onProfileDistChange()" required><option value="">-- জেলা সিলেক্ট করুন --</option></select></div>
+                <div class="form-group"><label>থানা / উপজেলা *</label><select id="addrThana" required><option value="">-- আগে জেলা দিন --</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>বিভাগ</label><select id="addrDiv" required><option value="Dhaka">Dhaka</option><option value="Chattogram">Chattogram</option><option value="Rajshahi">Rajshahi</option><option value="Khulna">Khulna</option><option value="Sylhet">Sylhet</option><option value="Barishal">Barishal</option><option value="Rangpur">Rangpur</option><option value="Mymensingh">Mymensingh</option></select></div>
+                <div class="form-group"><label>ডেলিভারি এরিয়া</label><select id="addrType" onchange="syncProfileAddrType()"><option value="dhaka">ঢাকার ভেতরে</option><option value="outside">ঢাকার বাইরে</option></select></div>
+              </div>
+              <div class="form-group"><label>এলাকা / বাজার / মহল্লা *</label><input type="text" id="addrArea" placeholder="যেমন: মিরপুর-১০ / জিইসি মোড়" required></div>
+              <div class="form-group"><label>বিস্তারিত বাসা / রোড নম্বর *</label><textarea id="addrFull" rows="2" placeholder="বাড়ি নং, রোড নং, ফ্ল্যাট..." required></textarea></div>
+              <button type="submit" class="submit-primary-btn" style="max-width:240px"><i class="fa-solid fa-floppy-disk"></i> Save Address</button>
+            </form>
+          </div>
+
+          <!-- 3. Edit Profile View (With DOB & Gender) -->
+          <div id="viewEditProfile" class="cm-dash-view">
+            <h4 style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:14px"><i class="fa-regular fa-user" style="color:#0ea646"></i> Edit Profile Information</h4>
+            <form id="dashEditProfileForm">
+              <div class="form-row">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="dashInpName" required></div>
+                <div class="form-group"><label>Email Address *</label><input type="email" id="dashInpEmail" required></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label><i class="fa-regular fa-calendar"></i> জন্মতারিখ (Date of Birth)</label><input type="date" id="dashInpDob"></div>
+                <div class="form-group"><label><i class="fa-solid fa-venus-mars"></i> জেন্ডার (Gender)</label>
+                  <select id="dashInpGender">
+                    <option value="">-- জেন্ডার সিলেক্ট করুন --</option>
+                    <option value="Male">পুরুষ (Male)</option>
+                    <option value="Female">মহিলা (Female)</option>
+                    <option value="Other">অন্যান্য (Other)</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="submit-primary-btn" id="dashSaveProfileBtn" style="max-width:240px"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+            </form>
+          </div>
+
+          <!-- 4. Change Password via Gmail OTP View -->
+          <div id="viewPasswordOtp" class="cm-dash-view">
+            <h4 style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px"><i class="fa-solid fa-shield-halved" style="color:#2563eb"></i> Change Password (Gmail OTP Verification)</h4>
+            <p style="font-size:12px;color:#64748b;margin-bottom:16px">নিরাপত্তার জন্য পাসওয়ার্ড পরিবর্তনের আগে আপনার Gmail-এ ৬-ডিজিটের ভেরিফিকেশন কোড পাঠানো হবে।</p>
+            
+            <div id="otpReqStep">
+              <div class="form-group" style="max-width:480px">
+                <label>আপনার রেজিস্টার্ড Gmail Address (যেখানে কোড যাবে) *</label>
+                <input type="email" id="otpSendEmailInput" placeholder="your@gmail.com" required>
+              </div>
+              <button type="button" class="submit-primary-btn" id="btnDashSendOtp" style="max-width:280px;background:#0f172a" onclick="dispatchPasswordOtp()">
+                <i class="fa-regular fa-envelope"></i> Gmail-এ কোড পাঠান
+              </button>
+            </div>
+
+            <form id="otpVerifyStep" style="display:none;max-width:480px;margin-top:12px" onsubmit="confirmPasswordChangeWithOtp(event)">
+              <div class="form-group">
+                <label>Gmail-এ যাওয়া ৬-ডিজিটের কোড *</label>
+                <input type="text" id="dashOtpCodeInput" placeholder="যেমন: 582914" maxlength="6" autocomplete="off" required>
+              </div>
+              <div class="form-group">
+                <label>নতুন পাসওয়ার্ড (৪+ অক্ষর) *</label>
+                <input type="password" id="dashNewPassInput" placeholder="নতুন পাসওয়ার্ড লিখুন" autocomplete="new-password" required>
+              </div>
+              <button type="submit" class="submit-primary-btn" id="btnDashConfirmPass" style="background:#059669">
+                <i class="fa-solid fa-key"></i> পাসওয়ার্ড আপডেট করুন
+              </button>
+              <div style="margin-top:8px">
+                <button type="button" class="link-btn" onclick="resetOtpStep()">কোড পাননি? আবার পাঠান</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- BOTTOM TRUST BAR -->
+        <div class="cm-dash-trust-bar">
+          <div class="cm-trust-item"><i class="fa-solid fa-shield-check"></i> <span>100% Secure Shopping</span></div>
+          <div class="cm-trust-item"><i class="fa-solid fa-truck-fast"></i> <span>All 64 Districts Delivery</span></div>
+          <div class="cm-trust-item"><i class="fa-solid fa-headset"></i> <span>24/7 Dedicated Support</span></div>
+          <div class="cm-trust-item"><i class="fa-solid fa-star"></i> <span>Verified Best Experience</span></div>
+        </div>
+      </main>
+    </div>
+  `;
+
+  // Photo Upload Handler (Canvas Compression)
+  const fileInput = document.getElementById('dashPhotoInput');
+  if (fileInput) {
     fileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
-      if (file.size > 8 * 1024 * 1024) {
-        if (typeof showToast === 'function') showToast('ছবির সাইজ ৮ MB এর কম দিন!');
-        return;
-      }
       if (typeof showToast === 'function') showToast('ছবি প্রসেসিং হচ্ছে...');
-
       const reader = new FileReader();
       reader.onload = function(evt) {
         const img = new Image();
@@ -2565,21 +2966,21 @@
           if (w > h) { if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; } }
           else { if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; } }
           cv.width = w; cv.height = h;
-          const ctx = cv.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          const base64Url = cv.toDataURL('image/jpeg', 0.82);
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+          const base64 = cv.toDataURL('image/jpeg', 0.82);
 
-          avatar.innerHTML = `<img src="${base64Url}" alt="Customer Profile">`;
+          document.getElementById('dashSideAvatar').innerHTML = `<img src="${base64}" alt="User">`;
+          document.getElementById('dashBannerAvatar').innerHTML = `<img src="${base64}" alt="User">`;
 
           if (window.currentUser && currentUser.phone) {
-            currentUser.photo = base64Url;
+            currentUser.photo = base64;
             if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
             fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ photo: base64Url })
+              body: JSON.stringify({ photo: base64 })
             }).then(() => {
-              if (typeof showToast === 'function') showToast('প্রোফাইল ছবি সফলভাবে আপডেট হয়েছে!');
+              if (typeof showToast === 'function') showToast('প্রোফাইল ছবি সফলভাবে সেভ হয়েছে!');
             });
           }
         };
@@ -2589,105 +2990,19 @@
     });
   }
 
-  // 2. Overhaul Form Layout & Add Gmail OTP Password System
-  function rebuildProfileCards() {
-    const pane = document.getElementById('profInfoPane');
-    if (!pane || pane.dataset.overhauled === '1') return;
-    pane.dataset.overhauled = '1';
-
-    // Add close button to hero
-    const hero = document.querySelector('#profileModal .cm-prof-hero');
-    if (hero && !hero.querySelector('.cm-hero-close-x')) {
-      const x = document.createElement('button');
-      x.type = 'button';
-      x.className = 'cm-hero-close-x';
-      x.innerHTML = '&times;';
-      x.onclick = function() { if (typeof closeAllOverlays === 'function') closeAllOverlays(); };
-      hero.appendChild(x);
-    }
-
-    pane.innerHTML = `
-      <!-- Card 1: Address Summary Banner -->
-      <div id="cmActiveAddrBanner" class="cm-lux-address-banner"></div>
-
-      <!-- Card 2: Personal Information -->
-      <div class="cm-pro-card">
-        <div class="cm-pro-card-header">
-          <div class="cm-pro-ico"><i class="fa-regular fa-user"></i></div>
-          <h4>ব্যক্তিগত তথ্য (Personal Info)</h4>
-        </div>
-        <form id="cmPersonalForm">
-          <div class="form-row">
-            <div class="form-group"><label>আপনার পূর্ণ নাম *</label><input type="text" id="editProfName" required></div>
-            <div class="form-group"><label>Email Address *</label><input type="email" id="editProfEmail" required></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label><i class="fa-regular fa-calendar-days" style="color:#0ea646"></i> জন্মতারিখ (Date of Birth)</label><input type="date" id="editProfDob"></div>
-            <div class="form-group"><label><i class="fa-solid fa-venus-mars" style="color:#0ea646"></i> জেন্ডার (Gender)</label>
-              <select id="editProfGender">
-                <option value="">-- নির্বাচন করুন --</option>
-                <option value="Male">পুরুষ (Male)</option>
-                <option value="Female">মহিলা (Female)</option>
-                <option value="Other">অন্যান্য (Other)</option>
-              </select>
-            </div>
-          </div>
-          <button type="submit" class="submit-primary-btn" id="btnSavePersonal" style="margin-top:6px">
-            <i class="fa-solid fa-floppy-disk"></i> তথ্য সংরক্ষণ করুন
-          </button>
-        </form>
-      </div>
-
-      <!-- Card 3: Two-Factor Password Change with Gmail OTP -->
-      <div class="cm-pro-card">
-        <div class="cm-pro-card-header">
-          <div class="cm-pro-ico" style="background:#eff6ff;color:#2563eb"><i class="fa-solid fa-shield-halved"></i></div>
-          <h4>পাসওয়ার্ড ও নিরাপত্তা (Gmail OTP Verification)</h4>
-        </div>
-
-        <div class="cm-otp-badge-note">
-          <i class="fa-solid fa-lock"></i>
-          <span>নিরাপত্তার স্বার্থে পাসওয়ার্ড পরিবর্তনের আগে আপনার Gmail-এ ৬-ডিজিটের কোড পাঠানো হবে।</span>
-        </div>
-
-        <!-- Step A: Request OTP -->
-        <div id="cmPassStep1">
-          <p style="font-size:12.5px;color:#475569;margin-bottom:12px">
-            আপনার রেজিস্টার্ড ইমেইল: <strong id="cmOtpTargetEmail" style="color:#0ea646">...</strong>
-          </p>
-          <button type="button" class="submit-primary-btn" id="btnSendPassOtp" style="background:#07131f" onclick="window.sendProfilePasswordOtp()">
-            <i class="fa-regular fa-envelope"></i> Gmail-এ ভেরিফিকেশন কোড পাঠান
-          </button>
-        </div>
-
-        <!-- Step B: Verify OTP & Change Password -->
-        <form id="cmPassStep2" style="display:none;margin-top:10px" onsubmit="window.verifyProfilePassOtp(event)">
-          <div class="form-row">
-            <div class="form-group"><label>Gmail-এ যাওয়া ৬-ডিজিটের কোড *</label><input type="text" id="profPassOtpInput" placeholder="যেমন: 582914" maxlength="6" required></div>
-            <div class="form-group"><label>নতুন পাসওয়ার্ড (৪+ অক্ষর) *</label><input type="password" id="profNewPassInput" placeholder="নতুন পাসওয়ার্ড দিন" required></div>
-          </div>
-          <button type="submit" class="submit-primary-btn" id="btnConfirmNewPass" style="background:#059669">
-            <i class="fa-solid fa-key"></i> পাসওয়ার্ড পরিবর্তন নিশ্চিত করুন
-          </button>
-          <div style="text-align:center;margin-top:8px">
-            <button type="button" class="link-btn" onclick="window.resetProfilePassStep()">কোড পাননি? আবার পাঠান</button>
-          </div>
-        </form>
-      </div>
-    `;
-
-    // Handle Personal Form Submit
-    document.getElementById('cmPersonalForm').onsubmit = async function(e) {
+  // Edit Profile Form Submit
+  const pForm = document.getElementById('dashEditProfileForm');
+  if (pForm) {
+    pForm.onsubmit = async function(e) {
       e.preventDefault();
       if (!window.currentUser || !currentUser.phone) return;
-      const name = document.getElementById('editProfName').value.trim();
-      const email = document.getElementById('editProfEmail').value.trim().toLowerCase();
-      const dob = document.getElementById('editProfDob').value;
-      const gender = document.getElementById('editProfGender').value;
+      const name = document.getElementById('dashInpName').value.trim();
+      const email = document.getElementById('dashInpEmail').value.trim().toLowerCase();
+      const dob = document.getElementById('dashInpDob').value;
+      const gender = document.getElementById('dashInpGender').value;
 
-      const btn = document.getElementById('btnSavePersonal');
+      const btn = document.getElementById('dashSaveProfileBtn');
       btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...';
-
       try {
         await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
           method: 'PATCH',
@@ -2696,207 +3011,210 @@
         });
         currentUser.name = name; currentUser.email = email; currentUser.dob = dob; currentUser.gender = gender;
         if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
-
-        if (document.getElementById('profName')) document.getElementById('profName').textContent = name;
-        if (document.getElementById('profContact')) document.getElementById('profContact').textContent = `${currentUser.phone} • ${email}`;
-        if (document.getElementById('userLabel')) document.getElementById('userLabel').textContent = name;
-        if (document.getElementById('cmOtpTargetEmail')) document.getElementById('cmOtpTargetEmail').textContent = email;
-
-        if (typeof showToast === 'function') showToast('তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!');
+        syncDashboardData();
+        if (typeof showToast === 'function') showToast('প্রোফাইল তথ্য সফলভাবে সেভ হয়েছে!');
       } catch (err) {
         if (typeof showToast === 'function') showToast('আপডেট করতে সমস্যা হয়েছে!');
       } finally {
-        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> তথ্য সংরক্ষণ করুন';
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
       }
     };
   }
+})();
 
-  // 3. Gmail OTP Password Change Logic
-  window.sendProfilePasswordOtp = async function() {
-    if (!window.currentUser || !currentUser.email) {
-      if (typeof showToast === 'function') showToast('আগে প্রোফাইলে সঠিক Email দিন!');
-      return;
-    }
-    const btn = document.getElementById('btnSendPassOtp');
-    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> কোড পাঠানো হচ্ছে...';
+// Tab Switcher
+function switchDashView(viewId, navBtn = null) {
+  document.querySelectorAll('.cm-dash-view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById(viewId);
+  if (target) target.classList.add('active');
 
-    const otp = String(Math.floor(100000 + Math.random() * 900000));
-    try {
-      await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone: currentUser.phone,
-          email: currentUser.email,
-          code: otp,
-          expiresAt: Date.now() + 180000 // 3 mins valid
-        })
-      });
+  if (navBtn) {
+    document.querySelectorAll('.cm-nav-item').forEach(b => b.classList.remove('active'));
+    navBtn.classList.add('active');
+  }
+  // Clear any passwords whenever switching views
+  if (document.getElementById('dashNewPassInput')) document.getElementById('dashNewPassInput').value = '';
+  if (document.getElementById('dashOtpCodeInput')) document.getElementById('dashOtpCodeInput').value = '';
+}
 
-      const s = typeof getSettings === 'function' ? getSettings() : {};
-      let sent = false;
-      if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
-        const ej = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            service_id: s.emailjsServiceId.trim(),
-            template_id: s.emailjsTemplateId.trim(),
-            user_id: s.emailjsPublicKey.trim(),
-            template_params: {
-              to_email: currentUser.email,
-              to_name: currentUser.name,
-              otp_code: otp,
-              app_name: s.brand || 'CHITRO MART BD'
-            }
-          })
-        });
-        if (ej.ok) sent = true;
-      }
+// Synchronize all live data
+function syncDashboardData() {
+  if (!window.currentUser) return;
+  const u = currentUser;
 
-      if (!sent) {
-        // Fallback alert for testing/dev if EmailJS not active
-        alert(`[CHITRO MART BD সিকিউরিটি]\nআপনার ভেরিফিকেশন OTP কোড: ${otp}\n(ইমেইল এপিআই কানেক্ট থাকলে এটি সরাসরি জিমেইলে চলে যাবে)`);
-      }
+  // Name & Email
+  ['dashSideName', 'dashBannerName'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = u.name || 'Customer'; });
+  ['dashSideEmail', 'dashBannerEmail'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = u.email || u.phone || ''; });
 
-      document.getElementById('cmPassStep1').style.display = 'none';
-      document.getElementById('cmPassStep2').style.display = 'block';
-      if (typeof showToast === 'function') showToast(`আপনার ${currentUser.email} ঠিকানায় কোড পাঠানো হয়েছে!`);
-    } catch (e) {
-      if (typeof showToast === 'function') showToast('কোড পাঠাতে সমস্যা হয়েছে!');
-    } finally {
-      btn.disabled = false; btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Gmail-এ ভেরিফিকেশন কোড পাঠান';
-    }
-  };
-
-  window.verifyProfilePassOtp = async function(e) {
-    e.preventDefault();
-    if (!window.currentUser) return;
-    const code = document.getElementById('profPassOtpInput').value.trim();
-    const newPass = document.getElementById('profNewPassInput').value;
-    if (newPass.length < 4) {
-      if (typeof showToast === 'function') showToast('পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের দিন!');
-      return;
-    }
-
-    const btn = document.getElementById('btnConfirmNewPass');
-    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> যাচাই হচ্ছে...';
-
-    try {
-      const res = await (await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { cache: 'no-store' })).json();
-      if (!res || res.code !== code) {
-        if (typeof showToast === 'function') showToast('ভুল OTP কোড! আবার চেক করুন।');
-        return;
-      }
-      if (Date.now() > res.expiresAt) {
-        if (typeof showToast === 'function') showToast('কোডের মেয়াদ শেষ! আবার নতুন কোড নিন।');
-        return;
-      }
-
-      await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pass: newPass })
-      });
-      await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' });
-
-      window.resetProfilePassStep();
-      if (typeof showToast === 'function') showToast('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
-    } catch (err) {
-      if (typeof showToast === 'function') showToast('সার্ভার সমস্যা হয়েছে!');
-    } finally {
-      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> পাসওয়ার্ড পরিবর্তন নিশ্চিত করুন';
-    }
-  };
-
-  window.resetProfilePassStep = function() {
-    const s1 = document.getElementById('cmPassStep1');
-    const s2 = document.getElementById('cmPassStep2');
-    if (s1 && s2) {
-      s1.style.display = 'block';
-      s2.style.display = 'none';
-      if (document.getElementById('profPassOtpInput')) document.getElementById('profPassOtpInput').value = '';
-      if (document.getElementById('profNewPassInput')) document.getElementById('profNewPassInput').value = '';
-    }
-  };
-
-  // 4. Synchronize Modal Data on Open
-  function syncAllLuxuryData() {
-    setupLuxuryAvatar();
-    rebuildProfileCards();
-
-    if (!window.currentUser) return;
-
-    // Set Avatar Image
-    const avatar = document.getElementById('profAvatar');
-    if (avatar) {
-      if (currentUser.photo) avatar.innerHTML = `<img src="${currentUser.photo}" alt="${currentUser.name}">`;
-      else avatar.textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
-    }
-
-    // Set Tier Badge
-    const badge = document.querySelector('#profileModal .cm-member-tag');
-    if (badge) {
-      badge.className = 'cm-luxury-tier';
-      const orderCount = Array.isArray(window.myOrders) ? myOrders.length : 0;
-      if (orderCount >= 5) badge.innerHTML = '<i class="fa-solid fa-crown" style="color:#fbbf24"></i> VIP Platinum Member';
-      else if (orderCount >= 1) badge.innerHTML = '<i class="fa-solid fa-gem" style="color:#67e8f9"></i> Gold Member';
-      else badge.innerHTML = '<i class="fa-solid fa-shield-check" style="color:#4ade80"></i> Verified Member';
-    }
-
-    // Populate Info Fields
-    if (document.getElementById('editProfName')) document.getElementById('editProfName').value = currentUser.name || '';
-    if (document.getElementById('editProfEmail')) document.getElementById('editProfEmail').value = currentUser.email || '';
-    if (document.getElementById('editProfDob')) document.getElementById('editProfDob').value = currentUser.dob || '';
-    if (document.getElementById('editProfGender')) document.getElementById('editProfGender').value = currentUser.gender || '';
-    if (document.getElementById('cmOtpTargetEmail')) document.getElementById('cmOtpTargetEmail').textContent = currentUser.email || 'Email সেট করা নেই';
-
-    // Populate Clean Address Summary
-    const banner = document.getElementById('cmActiveAddrBanner');
-    if (banner) {
-      const sa = currentUser.savedAddress;
-      if (sa && (sa.dist || sa.full)) {
-        banner.innerHTML = `
-          <div style="display:flex;align-items:center;gap:10px">
-            <i class="fa-solid fa-location-dot" style="font-size:18px;color:#0ea646"></i>
-            <div>
-              <strong style="font-size:12px;color:#064e3b;display:block">ডিফল্ট ডেলিভারি লোকেশন</strong>
-              <p>${sa.full ? sa.full + ', ' : ''}${sa.area ? sa.area + ', ' : ''}<b>${sa.dist || ''}</b></p>
-            </div>
-          </div>
-          <button type="button" class="link-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))" style="font-size:11.5px;white-space:nowrap">
-            এডিট করুন →
-          </button>
-        `;
-      } else {
-        banner.innerHTML = `
-          <div style="display:flex;align-items:center;gap:10px">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size:18px;color:#f59e0b"></i>
-            <div>
-              <strong style="font-size:12px;color:#92400e;display:block">ঠিকানা যুক্ত করা নেই</strong>
-              <p style="color:#78350f">দ্রুত ডেলিভারি পেতে আপনার ঠিকানা যুক্ত করুন।</p>
-            </div>
-          </div>
-          <button type="button" class="link-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))" style="font-size:11.5px;color:#b45309;white-space:nowrap">
-            + ঠিকানা দিন
-          </button>
-        `;
-      }
-    }
+  // Photo
+  if (u.photo) {
+    const sAva = document.getElementById('dashSideAvatar'), bAva = document.getElementById('dashBannerAvatar');
+    if (sAva) sAva.innerHTML = `<img src="${u.photo}" alt="${u.name}">`;
+    if (bAva) bAva.innerHTML = `<img src="${u.photo}" alt="${u.name}">`;
   }
 
-  // Hook into openProfileModal
-  const origOpen = window.openProfileModal;
-  window.openProfileModal = async function() {
-    if (typeof origOpen === 'function') await origOpen.apply(this, arguments);
-    syncAllLuxuryData();
-  };
+  // Inputs
+  if (document.getElementById('dashInpName')) document.getElementById('dashInpName').value = u.name || '';
+  if (document.getElementById('dashInpEmail')) document.getElementById('dashInpEmail').value = u.email || '';
+  if (document.getElementById('dashInpDob')) document.getElementById('dashInpDob').value = u.dob || '';
+  if (document.getElementById('dashInpGender')) document.getElementById('dashInpGender').value = u.gender || '';
+  if (document.getElementById('otpSendEmailInput')) document.getElementById('otpSendEmailInput').value = u.email || '';
 
-  document.addEventListener('DOMContentLoaded', syncAllLuxuryData);
-  setTimeout(syncAllLuxuryData, 400);
-})();
+  // Stats
+  const orders = Array.isArray(window.myOrders) ? myOrders : [];
+  if (document.getElementById('statOrderCount')) document.getElementById('statOrderCount').textContent = orders.length;
+  if (document.getElementById('statWishCount')) document.getElementById('statWishCount').textContent = Array.isArray(window.wishlist) ? wishlist.length : 0;
+  
+  const spent = orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+  if (document.getElementById('statTotalSpent')) document.getElementById('statTotalSpent').textContent = spent.toLocaleString('en-IN');
+
+  // Render Orders or Empty State
+  const container = document.getElementById('dashOrdersContainer');
+  if (container) {
+    if (!orders.length) {
+      container.innerHTML = `
+        <div class="cm-clean-empty-box">
+          <i class="fa-solid fa-box-open"></i>
+          <h4>No orders yet!</h4>
+          <p>Start shopping now and enjoy the best deals across Bangladesh.</p>
+          <button type="button" class="cm-btn-empty-shop" onclick="closeAllOverlays();document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+            <i class="fa-solid fa-cart-shopping"></i> Shop Now →
+          </button>
+        </div>`;
+    } else {
+      container.innerHTML = orders.map(o => {
+        const loc = o.currentLocation || 'Processing';
+        return `
+          <div class="order-card-cm" style="margin-bottom:10px">
+            <div class="oc-head">
+              <span><strong>#${o.orderId}</strong> <small style="color:#64748b">• ${o.time || ''}</small></span>
+              <span class="oc-status st-${(o.status || 'Pending').replace(/\s+/g,'')}">${o.status || 'Pending'}</span>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:#0f172a">${o.items}</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px">Total: <b style="color:#0ea646">৳${Number(o.total||0).toLocaleString('en-IN')}</b> • ${o.payment}</div>
+            <div class="oc-loc-bar"><i class="fa-solid fa-location-dot" style="color:#0ea646"></i> <span><b>Location:</b> ${loc}</span></div>
+            <div class="oc-foot">
+              <small style="color:#64748b">${o.courier ? o.courier : 'CHITRO MART Delivery'}</small>
+              <button class="btn-track-cm" onclick="viewOrderTracking('${o.orderId}')"><i class="fa-solid fa-route"></i> Live Track</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+  }
+}
+
+// Gmail OTP Workflow
+async function dispatchPasswordOtp() {
+  const emailInput = document.getElementById('otpSendEmailInput');
+  const targetEmail = emailInput ? emailInput.value.trim().toLowerCase() : (currentUser.email || '');
+  if (!targetEmail || !targetEmail.includes('@')) {
+    if (typeof showToast === 'function') showToast('সঠিক Gmail Address লিখুন!');
+    return;
+  }
+
+  const btn = document.getElementById('btnDashSendOtp');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> কোড পাঠানো হচ্ছে...';
+
+  const otp = String(Math.floor(100000 + Math.random() * 900000));
+  try {
+    await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: currentUser.phone, email: targetEmail, code: otp, expiresAt: Date.now() + 180000 })
+    });
+
+    const s = typeof getSettings === 'function' ? getSettings() : {};
+    let sent = false;
+    if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
+      const ej = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: s.emailjsServiceId.trim(),
+          template_id: s.emailjsTemplateId.trim(),
+          user_id: s.emailjsPublicKey.trim(),
+          template_params: { to_email: targetEmail, to_name: currentUser.name, otp_code: otp, app_name: 'CHITRO MART BD' }
+        })
+      });
+      if (ej.ok) sent = true;
+    }
+
+    if (!sent) {
+      alert(`[CHITRO MART BD]\nআপনার Gmail ভেরিফিকেশন OTP কোড: ${otp}`);
+    }
+
+    document.getElementById('otpReqStep').style.display = 'none';
+    document.getElementById('otpVerifyStep').style.display = 'block';
+    // Clear inputs immediately
+    document.getElementById('dashOtpCodeInput').value = '';
+    document.getElementById('dashNewPassInput').value = '';
+
+    if (typeof showToast === 'function') showToast(`${targetEmail} ঠিকানায় OTP কোড পাঠানো হয়েছে!`);
+  } catch (err) {
+    if (typeof showToast === 'function') showToast('কোড পাঠাতে সমস্যা হয়েছে!');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Gmail-এ কোড পাঠান';
+  }
+}
+
+async function confirmPasswordChangeWithOtp(e) {
+  e.preventDefault();
+  const code = document.getElementById('dashOtpCodeInput').value.trim();
+  const newPass = document.getElementById('dashNewPassInput').value;
+  if (newPass.length < 4) {
+    if (typeof showToast === 'function') showToast('পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের দিন!');
+    return;
+  }
+
+  const btn = document.getElementById('btnDashConfirmPass');
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> যাচাই হচ্ছে...';
+
+  try {
+    const res = await (await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { cache: 'no-store' })).json();
+    if (!res || res.code !== code) {
+      if (typeof showToast === 'function') showToast('ভুল OTP কোড! আবার দেখুন।');
+      return;
+    }
+    if (Date.now() > res.expiresAt) {
+      if (typeof showToast === 'function') showToast('কোডের মেয়াদ শেষ! নতুন কোড নিন।');
+      return;
+    }
+
+    await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pass: newPass })
+    });
+    await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' });
+
+    resetOtpStep();
+    if (typeof showToast === 'function') showToast('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+  } catch (err) {
+    if (typeof showToast === 'function') showToast('সার্ভার সমস্যা হয়েছে!');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> পাসওয়ার্ড আপডেট করুন';
+  }
+}
+
+function resetOtpStep() {
+  document.getElementById('otpReqStep').style.display = 'block';
+  document.getElementById('otpVerifyStep').style.display = 'none';
+  if (document.getElementById('dashOtpCodeInput')) document.getElementById('dashOtpCodeInput').value = '';
+  if (document.getElementById('dashNewPassInput')) document.getElementById('dashNewPassInput').value = '';
+}
+
+// Hook into openProfileModal
+const origOpenProf = window.openProfileModal;
+window.openProfileModal = async function() {
+  if (typeof origOpenProf === 'function') await origOpenProf.apply(this, arguments);
+  syncDashboardData();
+  switchDashView('viewOrders', document.querySelector('.cm-nav-item'));
+};
+
+document.addEventListener('DOMContentLoaded', syncDashboardData);
+setTimeout(syncDashboardData, 500);
 </script>
-<!-- ================= END LUXURY ACCOUNT & EMAIL OTP OVERHAUL ================= -->
+<!-- ================= END PRO DASHBOARD SYSTEM ================= -->
 </body>
 </html>
  
