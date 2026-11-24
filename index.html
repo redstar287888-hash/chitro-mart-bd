@@ -2310,6 +2310,379 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
+<!-- ================= CHITRO MART BD ULTRA-PREMIUM PROFILE ADD-ON ================= -->
+<style>
+  /* Ultra-Premium Glassmorphism Profile Modal */
+  #profileModal .cm-prof-hero {
+    position: relative;
+    background: radial-gradient(circle at 85% 20%, rgba(31,209,97,0.35) 0%, transparent 50%),
+                linear-gradient(135deg, #021a12 0%, #064e3b 50%, #042f2e 100%) !important;
+    padding: 24px 26px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow: inset 0 -10px 25px rgba(0,0,0,0.2) !important;
+  }
+  .cm-prof-avatar-wrap {
+    position: relative;
+    display: inline-block;
+  }
+  #profileModal .cm-avatar {
+    width: 68px !important;
+    height: 68px !important;
+    border-radius: 20px !important;
+    border: 2.5px solid #34d399 !important;
+    box-shadow: 0 0 20px rgba(52,211,153,0.45), 0 8px 18px rgba(0,0,0,0.3) !important;
+    background: linear-gradient(135deg, #0f172a, #064e3b) !important;
+    overflow: hidden !important;
+    transition: transform 0.3s ease !important;
+  }
+  #profileModal .cm-avatar:hover {
+    transform: scale(1.03);
+  }
+  #profileModal .cm-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  .cm-cam-btn-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: 2.5px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    transition: all 0.2s ease;
+    z-index: 5;
+  }
+  .cm-cam-btn-badge:hover {
+    transform: scale(1.15);
+    background: #047857;
+  }
+
+  /* VIP Luxury Member Badges */
+  .cm-luxury-tier {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(217,119,6,0.15)) !important;
+    border: 1px solid rgba(245,158,11,0.6) !important;
+    color: #fef08a !important;
+    font-size: 10.5px !important;
+    padding: 3px 10px !important;
+    border-radius: 50px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 8px rgba(245,158,11,0.2);
+  }
+
+  /* Live Shipping Address Card inside Profile */
+  .cm-active-address-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1.5px solid #86efac;
+    border-radius: 14px;
+    padding: 13px 15px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(16,185,129,0.08);
+  }
+  .cm-addr-info-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .cm-addr-ico-box {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #0ea646;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(14,166,70,0.3);
+  }
+  .cm-addr-quick-edit-btn {
+    background: #fff;
+    border: 1.5px solid #10b981;
+    color: #047857;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .cm-addr-quick-edit-btn:hover {
+    background: #10b981;
+    color: #fff;
+  }
+
+  /* Form Inputs Styling */
+  #profInfoPane .form-group input, 
+  #profInfoPane .form-group select {
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    padding: 10px 13px !important;
+    font-size: 13px !important;
+    transition: all 0.2s ease !important;
+    background: #f8fafc !important;
+  }
+  #profInfoPane .form-group input:focus, 
+  #profInfoPane .form-group select:focus {
+    background: #fff !important;
+    border-color: #0ea646 !important;
+    box-shadow: 0 0 0 3.5px rgba(14,166,70,0.15) !important;
+  }
+</style>
+
+<script>
+(function initPremiumProfileAddon() {
+  // 1. Upgrade Avatar with Floating Camera Button
+  function setupAvatarCamera() {
+    const avatar = document.getElementById('profAvatar');
+    if (!avatar || avatar.closest('.cm-prof-avatar-wrap')) return;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cm-prof-avatar-wrap';
+    avatar.parentNode.insertBefore(wrap, avatar);
+    wrap.appendChild(avatar);
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id = 'cmPhotoFileInput';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+
+    const camBtn = document.createElement('label');
+    camBtn.htmlFor = 'cmPhotoFileInput';
+    camBtn.className = 'cm-cam-btn-badge';
+    camBtn.title = 'প্রোফাইল ছবি পরিবর্তন করুন';
+    camBtn.innerHTML = '<i class="fa-solid fa-camera"></i>';
+
+    wrap.appendChild(fileInput);
+    wrap.appendChild(camBtn);
+
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 8 * 1024 * 1024) {
+        if (typeof showToast === 'function') showToast('ছবির সাইজ ৮ MB এর কম দিন!');
+        return;
+      }
+      
+      if (typeof showToast === 'function') showToast('ছবি প্রসেসিং হচ্ছে...');
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const img = new Image();
+        img.onload = function() {
+          const cv = document.createElement('canvas');
+          const maxDim = 220; // 220x220 ultra-crisp compressed avatar
+          let w = img.width, h = img.height;
+          if (w > h) {
+            if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
+          } else {
+            if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          cv.width = w; cv.height = h;
+          const ctx = cv.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const base64Url = cv.toDataURL('image/jpeg', 0.82);
+
+          // Update UI immediately
+          avatar.innerHTML = `<img src="${base64Url}" alt="Customer Profile">`;
+
+          if (window.currentUser && currentUser.phone) {
+            currentUser.photo = base64Url;
+            if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
+
+            fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ photo: base64Url })
+            }).then(() => {
+              if (typeof showToast === 'function') showToast('প্রোফাইল ছবি সফলভাবে সেভ হয়েছে!');
+            }).catch(() => {
+              if (typeof showToast === 'function') showToast('ছবি সেভ হতে সাময়িক সমস্যা হয়েছে!');
+            });
+          }
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // 2. Inject Date of Birth, Gender & Live Address Card
+  function injectProfileFields() {
+    const infoPane = document.getElementById('profInfoPane');
+    if (!infoPane || infoPane.dataset.upgraded === '1') return;
+    infoPane.dataset.upgraded = '1';
+
+    const firstForm = infoPane.querySelector('form');
+    if (!firstForm) return;
+
+    // Address Card Container
+    const addrCard = document.createElement('div');
+    addrCard.id = 'cmProfileLiveAddrCard';
+    addrCard.className = 'cm-active-address-card';
+    firstForm.parentNode.insertBefore(addrCard, firstForm);
+
+    // Date of Birth & Gender Fields Row
+    const dobRow = document.createElement('div');
+    dobRow.className = 'form-row';
+    dobRow.innerHTML = `
+      <div class="form-group">
+        <label><i class="fa-regular fa-calendar-days" style="color:#0ea646"></i> জন্মতারিখ (Date of Birth)</label>
+        <input type="date" id="editProfDob">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-venus-mars" style="color:#0ea646"></i> জেন্ডার (Gender)</label>
+        <select id="editProfGender">
+          <option value="">-- নির্বাচন করুন --</option>
+          <option value="Male">পুরুষ (Male)</option>
+          <option value="Female">মহিলা (Female)</option>
+          <option value="Other">অন্যান্য (Other)</option>
+        </select>
+      </div>
+    `;
+
+    const btn = firstForm.querySelector('button[type="submit"]');
+    if (btn) firstForm.insertBefore(dobRow, btn);
+
+    // Override Profile Save Handler
+    firstForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!window.currentUser || !currentUser.phone) return;
+
+      const name = document.getElementById('editProfName')?.value.trim() || currentUser.name;
+      const email = document.getElementById('editProfEmail')?.value.trim().toLowerCase() || currentUser.email;
+      const dob = document.getElementById('editProfDob')?.value || '';
+      const gender = document.getElementById('editProfGender')?.value || '';
+
+      const submitBtn = firstForm.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...'; }
+
+      try {
+        await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, dob, gender })
+        });
+
+        currentUser.name = name;
+        currentUser.email = email;
+        currentUser.dob = dob;
+        currentUser.gender = gender;
+        if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
+
+        if (document.getElementById('profName')) document.getElementById('profName').textContent = name;
+        if (document.getElementById('profContact')) document.getElementById('profContact').textContent = `${currentUser.phone} • ${email}`;
+        if (document.getElementById('userLabel')) document.getElementById('userLabel').textContent = name;
+
+        if (typeof showToast === 'function') showToast('প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!');
+      } catch (err) {
+        if (typeof showToast === 'function') showToast('আপডেট করতে সমস্যা হয়েছে!');
+      } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'প্রোফাইল সেভ করুন'; }
+      }
+    }, true);
+  }
+
+  // 3. Sync Modal Data on Open
+  function syncPremiumProfileUI() {
+    setupAvatarCamera();
+    injectProfileFields();
+
+    if (!window.currentUser) return;
+
+    // Set Photo
+    const avatar = document.getElementById('profAvatar');
+    if (avatar) {
+      if (currentUser.photo) avatar.innerHTML = `<img src="${currentUser.photo}" alt="${currentUser.name}">`;
+      else avatar.textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+    }
+
+    // Set Tier Badge
+    const badge = document.querySelector('#profileModal .cm-member-tag');
+    if (badge) {
+      badge.className = 'cm-luxury-tier';
+      const orderCount = Array.isArray(window.myOrders) ? myOrders.length : 0;
+      if (orderCount >= 5) badge.innerHTML = '<i class="fa-solid fa-crown" style="color:#fbbf24"></i> VIP Platinum Member';
+      else if (orderCount >= 1) badge.innerHTML = '<i class="fa-solid fa-gem" style="color:#67e8f9"></i> Gold Member';
+      else badge.innerHTML = '<i class="fa-solid fa-shield-check" style="color:#4ade80"></i> Verified Member';
+    }
+
+    // Populate Fields
+    const dobInput = document.getElementById('editProfDob');
+    if (dobInput) dobInput.value = currentUser.dob || '';
+
+    const genderSelect = document.getElementById('editProfGender');
+    if (genderSelect) genderSelect.value = currentUser.gender || '';
+
+    // Render Live Address Card
+    const addrCard = document.getElementById('cmProfileLiveAddrCard');
+    if (addrCard) {
+      const sa = currentUser.savedAddress;
+      if (sa && (sa.dist || sa.full)) {
+        addrCard.innerHTML = `
+          <div class="cm-addr-info-left">
+            <div class="cm-addr-ico-box"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <strong style="font-size:12.5px;color:var(--navy);display:block">ডিফল্ট ডেলিভারি ঠিকানা</strong>
+              <p style="font-size:11.5px;color:#065f46;margin-top:2px;line-height:1.4">
+                ${sa.full ? sa.full + ', ' : ''}${sa.area ? sa.area + ', ' : ''}${sa.thana ? sa.thana + ', ' : ''}<b>${sa.dist || ''}</b>
+              </p>
+            </div>
+          </div>
+          <button type="button" class="cm-addr-quick-edit-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))">
+            <i class="fa-solid fa-pen-to-square"></i> পরিবর্তন করুন
+          </button>
+        `;
+      } else {
+        addrCard.innerHTML = `
+          <div class="cm-addr-info-left">
+            <div class="cm-addr-ico-box" style="background:#f59e0b"><i class="fa-solid fa-map-pin"></i></div>
+            <div>
+              <strong style="font-size:12.5px;color:var(--navy);display:block">কোনো ঠিকানা সেভ করা নেই</strong>
+              <p style="font-size:11.5px;color:#92400e;margin-top:2px">দ্রুত চেকআউট করতে আপনার জেলা ও ডেলিভারি ঠিকানা যুক্ত করুন।</p>
+            </div>
+          </div>
+          <button type="button" class="cm-addr-quick-edit-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))">
+            + ঠিকানা দিন
+          </button>
+        `;
+      }
+    }
+  }
+
+  // Hook into openProfileModal
+  const origOpenProf = window.openProfileModal;
+  window.openProfileModal = async function() {
+    if (typeof origOpenProf === 'function') await origOpenProf.apply(this, arguments);
+    syncPremiumProfileUI();
+  };
+
+  document.addEventListener('DOMContentLoaded', syncPremiumProfileUI);
+  setTimeout(syncPremiumProfileUI, 500);
+})();
+</script>
+<!-- ================= END PREMIUM PROFILE ADD-ON ================= -->
 </body>
 </html>
  
