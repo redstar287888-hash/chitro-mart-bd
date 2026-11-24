@@ -2310,150 +2310,219 @@
   applyPasswordToggles();
   document.addEventListener('click', function() { setTimeout(applyPasswordToggles, 150); });
 </script>
-<!-- ================= CHITRO MART BD ULTRA-PREMIUM PROFILE ADD-ON ================= -->
+ <!-- ================= CHITRO MART BD LUXURY ACCOUNT & EMAIL OTP OVERHAUL ================= -->
 <style>
-  /* Ultra-Premium Glassmorphism Profile Modal */
+  /* 1. Modal Container & Dialog */
+  #profileModal {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35) !important;
+    border: 1px solid rgba(226,232,240,0.8) !important;
+    background: #f8fafc !important;
+  }
+  #profileModal .modal-header { display: none !important; }
+
+  /* 2. Ultra-Luxury Hero Bar */
   #profileModal .cm-prof-hero {
-    position: relative;
-    background: radial-gradient(circle at 85% 20%, rgba(31,209,97,0.35) 0%, transparent 50%),
-                linear-gradient(135deg, #021a12 0%, #064e3b 50%, #042f2e 100%) !important;
+    position: relative !important;
+    background: radial-gradient(circle at 88% 20%, rgba(31,209,97,0.32) 0%, transparent 55%),
+                linear-gradient(135deg, #021a12 0%, #064e3b 50%, #07131f 100%) !important;
     padding: 24px 26px !important;
     border-bottom: 1px solid rgba(255,255,255,0.12) !important;
-    box-shadow: inset 0 -10px 25px rgba(0,0,0,0.2) !important;
   }
+  .cm-hero-close-x {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: 0.2s ease;
+  }
+  .cm-hero-close-x:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+  }
+
+  /* 3D Glowing Avatar */
   .cm-prof-avatar-wrap {
-    position: relative;
-    display: inline-block;
+    position: relative !important;
+    display: inline-block !important;
+    padding: 3px;
+    background: linear-gradient(135deg, #34d399, #10b981, #f59e0b);
+    border-radius: 22px;
+    box-shadow: 0 0 20px rgba(16,185,129,0.4);
   }
   #profileModal .cm-avatar {
-    width: 68px !important;
-    height: 68px !important;
-    border-radius: 20px !important;
-    border: 2.5px solid #34d399 !important;
-    box-shadow: 0 0 20px rgba(52,211,153,0.45), 0 8px 18px rgba(0,0,0,0.3) !important;
-    background: linear-gradient(135deg, #0f172a, #064e3b) !important;
+    width: 66px !important;
+    height: 66px !important;
+    border-radius: 19px !important;
+    border: 2px solid #064e3b !important;
+    background: #0f172a !important;
     overflow: hidden !important;
-    transition: transform 0.3s ease !important;
-  }
-  #profileModal .cm-avatar:hover {
-    transform: scale(1.03);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   #profileModal .cm-avatar img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
-  .cm-cam-btn-badge {
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    border: 2.5px solid #fff;
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
-    transition: all 0.2s ease;
-    z-index: 5;
+  .cm-cam-badge-btn {
+    position: absolute !important;
+    bottom: -4px !important;
+    right: -4px !important;
+    width: 26px !important;
+    height: 26px !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: 2px solid #fff !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+    cursor: pointer !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3) !important;
+    transition: 0.2s !important;
   }
-  .cm-cam-btn-badge:hover {
-    transform: scale(1.15);
-    background: #047857;
+  .cm-cam-badge-btn:hover {
+    transform: scale(1.15) !important;
+    background: #047857 !important;
   }
-
-  /* VIP Luxury Member Badges */
   .cm-luxury-tier {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
     background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(217,119,6,0.15)) !important;
     border: 1px solid rgba(245,158,11,0.6) !important;
     color: #fef08a !important;
-    font-size: 10.5px !important;
-    padding: 3px 10px !important;
+    font-size: 10px !important;
+    padding: 2px 9px !important;
     border-radius: 50px !important;
     font-weight: 800 !important;
-    letter-spacing: 0.3px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-    box-shadow: 0 2px 8px rgba(245,158,11,0.2);
   }
 
-  /* Live Shipping Address Card inside Profile */
-  .cm-active-address-card {
-    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-    border: 1.5px solid #86efac;
-    border-radius: 14px;
-    padding: 13px 15px;
+  /* 3. Segmented Navigation Tabs */
+  #profileModal .prof-nav-pills {
+    background: #e2e8f0 !important;
+    padding: 5px !important;
+    border-radius: 14px !important;
+    margin-bottom: 18px !important;
+  }
+  #profileModal .prof-nav-btn {
+    border-radius: 10px !important;
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    padding: 9px 12px !important;
+    transition: 0.2s ease !important;
+  }
+  #profileModal .prof-nav-btn.active {
+    background: #fff !important;
+    color: #064e3b !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
+  }
+
+  /* 4. Elevated Luxury Section Cards */
+  .cm-pro-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 18px 20px;
     margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+  }
+  .cm-pro-card-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    box-shadow: 0 4px 14px rgba(16,185,129,0.08);
-  }
-  .cm-addr-info-left {
-    display: flex;
-    align-items: flex-start;
     gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
   }
-  .cm-addr-ico-box {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: #0ea646;
-    color: #fff;
+  .cm-pro-card-header h4 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+  }
+  .cm-pro-ico {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #ecfdf5;
+    color: #0ea646;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    flex-shrink: 0;
-    box-shadow: 0 3px 8px rgba(14,166,70,0.3);
-  }
-  .cm-addr-quick-edit-btn {
-    background: #fff;
-    border: 1.5px solid #10b981;
-    color: #047857;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-  .cm-addr-quick-edit-btn:hover {
-    background: #10b981;
-    color: #fff;
   }
 
-  /* Form Inputs Styling */
-  #profInfoPane .form-group input, 
+  /* Shipping Address Card */
+  .cm-lux-address-banner {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1.5px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .cm-lux-address-banner p {
+    font-size: 12px;
+    color: #065f46;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Luxury Form Inputs */
+  #profInfoPane .form-group input,
   #profInfoPane .form-group select {
     border: 1.5px solid #cbd5e1 !important;
     border-radius: 10px !important;
-    padding: 10px 13px !important;
+    padding: 10px 12px !important;
     font-size: 13px !important;
-    transition: all 0.2s ease !important;
-    background: #f8fafc !important;
-  }
-  #profInfoPane .form-group input:focus, 
-  #profInfoPane .form-group select:focus {
     background: #fff !important;
+    transition: 0.2s !important;
+  }
+  #profInfoPane .form-group input:focus,
+  #profInfoPane .form-group select:focus {
     border-color: #0ea646 !important;
-    box-shadow: 0 0 0 3.5px rgba(14,166,70,0.15) !important;
+    box-shadow: 0 0 0 3px rgba(14,166,70,0.14) !important;
+  }
+
+  /* Gmail OTP Password Step */
+  .cm-otp-badge-note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1e40af;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 </style>
 
 <script>
-(function initPremiumProfileAddon() {
-  // 1. Upgrade Avatar with Floating Camera Button
-  function setupAvatarCamera() {
+(function initLuxuryProfileOverhaul() {
+  // 1. Upgrade Avatar with Glow Ring & Camera
+  function setupLuxuryAvatar() {
     const avatar = document.getElementById('profAvatar');
     if (!avatar || avatar.closest('.cm-prof-avatar-wrap')) return;
 
@@ -2470,7 +2539,7 @@
 
     const camBtn = document.createElement('label');
     camBtn.htmlFor = 'cmPhotoFileInput';
-    camBtn.className = 'cm-cam-btn-badge';
+    camBtn.className = 'cm-cam-badge-btn';
     camBtn.title = 'প্রোফাইল ছবি পরিবর্তন করুন';
     camBtn.innerHTML = '<i class="fa-solid fa-camera"></i>';
 
@@ -2484,7 +2553,6 @@
         if (typeof showToast === 'function') showToast('ছবির সাইজ ৮ MB এর কম দিন!');
         return;
       }
-      
       if (typeof showToast === 'function') showToast('ছবি প্রসেসিং হচ্ছে...');
 
       const reader = new FileReader();
@@ -2492,33 +2560,26 @@
         const img = new Image();
         img.onload = function() {
           const cv = document.createElement('canvas');
-          const maxDim = 220; // 220x220 ultra-crisp compressed avatar
+          const maxDim = 220;
           let w = img.width, h = img.height;
-          if (w > h) {
-            if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; }
-          } else {
-            if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; }
-          }
+          if (w > h) { if (w > maxDim) { h = Math.round((h * maxDim) / w); w = maxDim; } }
+          else { if (h > maxDim) { w = Math.round((w * maxDim) / h); h = maxDim; } }
           cv.width = w; cv.height = h;
           const ctx = cv.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
           const base64Url = cv.toDataURL('image/jpeg', 0.82);
 
-          // Update UI immediately
           avatar.innerHTML = `<img src="${base64Url}" alt="Customer Profile">`;
 
           if (window.currentUser && currentUser.phone) {
             currentUser.photo = base64Url;
             if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
-
             fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ photo: base64Url })
             }).then(() => {
-              if (typeof showToast === 'function') showToast('প্রোফাইল ছবি সফলভাবে সেভ হয়েছে!');
-            }).catch(() => {
-              if (typeof showToast === 'function') showToast('ছবি সেভ হতে সাময়িক সমস্যা হয়েছে!');
+              if (typeof showToast === 'function') showToast('প্রোফাইল ছবি সফলভাবে আপডেট হয়েছে!');
             });
           }
         };
@@ -2528,55 +2589,104 @@
     });
   }
 
-  // 2. Inject Date of Birth, Gender & Live Address Card
-  function injectProfileFields() {
-    const infoPane = document.getElementById('profInfoPane');
-    if (!infoPane || infoPane.dataset.upgraded === '1') return;
-    infoPane.dataset.upgraded = '1';
+  // 2. Overhaul Form Layout & Add Gmail OTP Password System
+  function rebuildProfileCards() {
+    const pane = document.getElementById('profInfoPane');
+    if (!pane || pane.dataset.overhauled === '1') return;
+    pane.dataset.overhauled = '1';
 
-    const firstForm = infoPane.querySelector('form');
-    if (!firstForm) return;
+    // Add close button to hero
+    const hero = document.querySelector('#profileModal .cm-prof-hero');
+    if (hero && !hero.querySelector('.cm-hero-close-x')) {
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'cm-hero-close-x';
+      x.innerHTML = '&times;';
+      x.onclick = function() { if (typeof closeAllOverlays === 'function') closeAllOverlays(); };
+      hero.appendChild(x);
+    }
 
-    // Address Card Container
-    const addrCard = document.createElement('div');
-    addrCard.id = 'cmProfileLiveAddrCard';
-    addrCard.className = 'cm-active-address-card';
-    firstForm.parentNode.insertBefore(addrCard, firstForm);
+    pane.innerHTML = `
+      <!-- Card 1: Address Summary Banner -->
+      <div id="cmActiveAddrBanner" class="cm-lux-address-banner"></div>
 
-    // Date of Birth & Gender Fields Row
-    const dobRow = document.createElement('div');
-    dobRow.className = 'form-row';
-    dobRow.innerHTML = `
-      <div class="form-group">
-        <label><i class="fa-regular fa-calendar-days" style="color:#0ea646"></i> জন্মতারিখ (Date of Birth)</label>
-        <input type="date" id="editProfDob">
+      <!-- Card 2: Personal Information -->
+      <div class="cm-pro-card">
+        <div class="cm-pro-card-header">
+          <div class="cm-pro-ico"><i class="fa-regular fa-user"></i></div>
+          <h4>ব্যক্তিগত তথ্য (Personal Info)</h4>
+        </div>
+        <form id="cmPersonalForm">
+          <div class="form-row">
+            <div class="form-group"><label>আপনার পূর্ণ নাম *</label><input type="text" id="editProfName" required></div>
+            <div class="form-group"><label>Email Address *</label><input type="email" id="editProfEmail" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label><i class="fa-regular fa-calendar-days" style="color:#0ea646"></i> জন্মতারিখ (Date of Birth)</label><input type="date" id="editProfDob"></div>
+            <div class="form-group"><label><i class="fa-solid fa-venus-mars" style="color:#0ea646"></i> জেন্ডার (Gender)</label>
+              <select id="editProfGender">
+                <option value="">-- নির্বাচন করুন --</option>
+                <option value="Male">পুরুষ (Male)</option>
+                <option value="Female">মহিলা (Female)</option>
+                <option value="Other">অন্যান্য (Other)</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="submit-primary-btn" id="btnSavePersonal" style="margin-top:6px">
+            <i class="fa-solid fa-floppy-disk"></i> তথ্য সংরক্ষণ করুন
+          </button>
+        </form>
       </div>
-      <div class="form-group">
-        <label><i class="fa-solid fa-venus-mars" style="color:#0ea646"></i> জেন্ডার (Gender)</label>
-        <select id="editProfGender">
-          <option value="">-- নির্বাচন করুন --</option>
-          <option value="Male">পুরুষ (Male)</option>
-          <option value="Female">মহিলা (Female)</option>
-          <option value="Other">অন্যান্য (Other)</option>
-        </select>
+
+      <!-- Card 3: Two-Factor Password Change with Gmail OTP -->
+      <div class="cm-pro-card">
+        <div class="cm-pro-card-header">
+          <div class="cm-pro-ico" style="background:#eff6ff;color:#2563eb"><i class="fa-solid fa-shield-halved"></i></div>
+          <h4>পাসওয়ার্ড ও নিরাপত্তা (Gmail OTP Verification)</h4>
+        </div>
+
+        <div class="cm-otp-badge-note">
+          <i class="fa-solid fa-lock"></i>
+          <span>নিরাপত্তার স্বার্থে পাসওয়ার্ড পরিবর্তনের আগে আপনার Gmail-এ ৬-ডিজিটের কোড পাঠানো হবে।</span>
+        </div>
+
+        <!-- Step A: Request OTP -->
+        <div id="cmPassStep1">
+          <p style="font-size:12.5px;color:#475569;margin-bottom:12px">
+            আপনার রেজিস্টার্ড ইমেইল: <strong id="cmOtpTargetEmail" style="color:#0ea646">...</strong>
+          </p>
+          <button type="button" class="submit-primary-btn" id="btnSendPassOtp" style="background:#07131f" onclick="window.sendProfilePasswordOtp()">
+            <i class="fa-regular fa-envelope"></i> Gmail-এ ভেরিফিকেশন কোড পাঠান
+          </button>
+        </div>
+
+        <!-- Step B: Verify OTP & Change Password -->
+        <form id="cmPassStep2" style="display:none;margin-top:10px" onsubmit="window.verifyProfilePassOtp(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Gmail-এ যাওয়া ৬-ডিজিটের কোড *</label><input type="text" id="profPassOtpInput" placeholder="যেমন: 582914" maxlength="6" required></div>
+            <div class="form-group"><label>নতুন পাসওয়ার্ড (৪+ অক্ষর) *</label><input type="password" id="profNewPassInput" placeholder="নতুন পাসওয়ার্ড দিন" required></div>
+          </div>
+          <button type="submit" class="submit-primary-btn" id="btnConfirmNewPass" style="background:#059669">
+            <i class="fa-solid fa-key"></i> পাসওয়ার্ড পরিবর্তন নিশ্চিত করুন
+          </button>
+          <div style="text-align:center;margin-top:8px">
+            <button type="button" class="link-btn" onclick="window.resetProfilePassStep()">কোড পাননি? আবার পাঠান</button>
+          </div>
+        </form>
       </div>
     `;
 
-    const btn = firstForm.querySelector('button[type="submit"]');
-    if (btn) firstForm.insertBefore(dobRow, btn);
-
-    // Override Profile Save Handler
-    firstForm.addEventListener('submit', async function(e) {
+    // Handle Personal Form Submit
+    document.getElementById('cmPersonalForm').onsubmit = async function(e) {
       e.preventDefault();
       if (!window.currentUser || !currentUser.phone) return;
+      const name = document.getElementById('editProfName').value.trim();
+      const email = document.getElementById('editProfEmail').value.trim().toLowerCase();
+      const dob = document.getElementById('editProfDob').value;
+      const gender = document.getElementById('editProfGender').value;
 
-      const name = document.getElementById('editProfName')?.value.trim() || currentUser.name;
-      const email = document.getElementById('editProfEmail')?.value.trim().toLowerCase() || currentUser.email;
-      const dob = document.getElementById('editProfDob')?.value || '';
-      const gender = document.getElementById('editProfGender')?.value || '';
-
-      const submitBtn = firstForm.querySelector('button[type="submit"]');
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...'; }
+      const btn = document.getElementById('btnSavePersonal');
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সেভ হচ্ছে...';
 
       try {
         await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
@@ -2584,34 +2694,140 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, dob, gender })
         });
-
-        currentUser.name = name;
-        currentUser.email = email;
-        currentUser.dob = dob;
-        currentUser.gender = gender;
+        currentUser.name = name; currentUser.email = email; currentUser.dob = dob; currentUser.gender = gender;
         if (typeof savePersistentUser === 'function') savePersistentUser(currentUser, true);
 
         if (document.getElementById('profName')) document.getElementById('profName').textContent = name;
         if (document.getElementById('profContact')) document.getElementById('profContact').textContent = `${currentUser.phone} • ${email}`;
         if (document.getElementById('userLabel')) document.getElementById('userLabel').textContent = name;
+        if (document.getElementById('cmOtpTargetEmail')) document.getElementById('cmOtpTargetEmail').textContent = email;
 
-        if (typeof showToast === 'function') showToast('প্রোফাইল তথ্য সফলভাবে আপডেট হয়েছে!');
+        if (typeof showToast === 'function') showToast('তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!');
       } catch (err) {
         if (typeof showToast === 'function') showToast('আপডেট করতে সমস্যা হয়েছে!');
       } finally {
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'প্রোফাইল সেভ করুন'; }
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> তথ্য সংরক্ষণ করুন';
       }
-    }, true);
+    };
   }
 
-  // 3. Sync Modal Data on Open
-  function syncPremiumProfileUI() {
-    setupAvatarCamera();
-    injectProfileFields();
+  // 3. Gmail OTP Password Change Logic
+  window.sendProfilePasswordOtp = async function() {
+    if (!window.currentUser || !currentUser.email) {
+      if (typeof showToast === 'function') showToast('আগে প্রোফাইলে সঠিক Email দিন!');
+      return;
+    }
+    const btn = document.getElementById('btnSendPassOtp');
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> কোড পাঠানো হচ্ছে...';
+
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+    try {
+      await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: currentUser.phone,
+          email: currentUser.email,
+          code: otp,
+          expiresAt: Date.now() + 180000 // 3 mins valid
+        })
+      });
+
+      const s = typeof getSettings === 'function' ? getSettings() : {};
+      let sent = false;
+      if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
+        const ej = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: s.emailjsServiceId.trim(),
+            template_id: s.emailjsTemplateId.trim(),
+            user_id: s.emailjsPublicKey.trim(),
+            template_params: {
+              to_email: currentUser.email,
+              to_name: currentUser.name,
+              otp_code: otp,
+              app_name: s.brand || 'CHITRO MART BD'
+            }
+          })
+        });
+        if (ej.ok) sent = true;
+      }
+
+      if (!sent) {
+        // Fallback alert for testing/dev if EmailJS not active
+        alert(`[CHITRO MART BD সিকিউরিটি]\nআপনার ভেরিফিকেশন OTP কোড: ${otp}\n(ইমেইল এপিআই কানেক্ট থাকলে এটি সরাসরি জিমেইলে চলে যাবে)`);
+      }
+
+      document.getElementById('cmPassStep1').style.display = 'none';
+      document.getElementById('cmPassStep2').style.display = 'block';
+      if (typeof showToast === 'function') showToast(`আপনার ${currentUser.email} ঠিকানায় কোড পাঠানো হয়েছে!`);
+    } catch (e) {
+      if (typeof showToast === 'function') showToast('কোড পাঠাতে সমস্যা হয়েছে!');
+    } finally {
+      btn.disabled = false; btn.innerHTML = '<i class="fa-regular fa-envelope"></i> Gmail-এ ভেরিফিকেশন কোড পাঠান';
+    }
+  };
+
+  window.verifyProfilePassOtp = async function(e) {
+    e.preventDefault();
+    if (!window.currentUser) return;
+    const code = document.getElementById('profPassOtpInput').value.trim();
+    const newPass = document.getElementById('profNewPassInput').value;
+    if (newPass.length < 4) {
+      if (typeof showToast === 'function') showToast('পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের দিন!');
+      return;
+    }
+
+    const btn = document.getElementById('btnConfirmNewPass');
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> যাচাই হচ্ছে...';
+
+    try {
+      const res = await (await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { cache: 'no-store' })).json();
+      if (!res || res.code !== code) {
+        if (typeof showToast === 'function') showToast('ভুল OTP কোড! আবার চেক করুন।');
+        return;
+      }
+      if (Date.now() > res.expiresAt) {
+        if (typeof showToast === 'function') showToast('কোডের মেয়াদ শেষ! আবার নতুন কোড নিন।');
+        return;
+      }
+
+      await fetch(`${window.FB_URL}/users/${currentUser.phone}.json`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pass: newPass })
+      });
+      await fetch(`${window.FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' });
+
+      window.resetProfilePassStep();
+      if (typeof showToast === 'function') showToast('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+    } catch (err) {
+      if (typeof showToast === 'function') showToast('সার্ভার সমস্যা হয়েছে!');
+    } finally {
+      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-key"></i> পাসওয়ার্ড পরিবর্তন নিশ্চিত করুন';
+    }
+  };
+
+  window.resetProfilePassStep = function() {
+    const s1 = document.getElementById('cmPassStep1');
+    const s2 = document.getElementById('cmPassStep2');
+    if (s1 && s2) {
+      s1.style.display = 'block';
+      s2.style.display = 'none';
+      if (document.getElementById('profPassOtpInput')) document.getElementById('profPassOtpInput').value = '';
+      if (document.getElementById('profNewPassInput')) document.getElementById('profNewPassInput').value = '';
+    }
+  };
+
+  // 4. Synchronize Modal Data on Open
+  function syncAllLuxuryData() {
+    setupLuxuryAvatar();
+    rebuildProfileCards();
 
     if (!window.currentUser) return;
 
-    // Set Photo
+    // Set Avatar Image
     const avatar = document.getElementById('profAvatar');
     if (avatar) {
       if (currentUser.photo) avatar.innerHTML = `<img src="${currentUser.photo}" alt="${currentUser.name}">`;
@@ -2628,42 +2844,40 @@
       else badge.innerHTML = '<i class="fa-solid fa-shield-check" style="color:#4ade80"></i> Verified Member';
     }
 
-    // Populate Fields
-    const dobInput = document.getElementById('editProfDob');
-    if (dobInput) dobInput.value = currentUser.dob || '';
+    // Populate Info Fields
+    if (document.getElementById('editProfName')) document.getElementById('editProfName').value = currentUser.name || '';
+    if (document.getElementById('editProfEmail')) document.getElementById('editProfEmail').value = currentUser.email || '';
+    if (document.getElementById('editProfDob')) document.getElementById('editProfDob').value = currentUser.dob || '';
+    if (document.getElementById('editProfGender')) document.getElementById('editProfGender').value = currentUser.gender || '';
+    if (document.getElementById('cmOtpTargetEmail')) document.getElementById('cmOtpTargetEmail').textContent = currentUser.email || 'Email সেট করা নেই';
 
-    const genderSelect = document.getElementById('editProfGender');
-    if (genderSelect) genderSelect.value = currentUser.gender || '';
-
-    // Render Live Address Card
-    const addrCard = document.getElementById('cmProfileLiveAddrCard');
-    if (addrCard) {
+    // Populate Clean Address Summary
+    const banner = document.getElementById('cmActiveAddrBanner');
+    if (banner) {
       const sa = currentUser.savedAddress;
       if (sa && (sa.dist || sa.full)) {
-        addrCard.innerHTML = `
-          <div class="cm-addr-info-left">
-            <div class="cm-addr-ico-box"><i class="fa-solid fa-location-dot"></i></div>
+        banner.innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px">
+            <i class="fa-solid fa-location-dot" style="font-size:18px;color:#0ea646"></i>
             <div>
-              <strong style="font-size:12.5px;color:var(--navy);display:block">ডিফল্ট ডেলিভারি ঠিকানা</strong>
-              <p style="font-size:11.5px;color:#065f46;margin-top:2px;line-height:1.4">
-                ${sa.full ? sa.full + ', ' : ''}${sa.area ? sa.area + ', ' : ''}${sa.thana ? sa.thana + ', ' : ''}<b>${sa.dist || ''}</b>
-              </p>
+              <strong style="font-size:12px;color:#064e3b;display:block">ডিফল্ট ডেলিভারি লোকেশন</strong>
+              <p>${sa.full ? sa.full + ', ' : ''}${sa.area ? sa.area + ', ' : ''}<b>${sa.dist || ''}</b></p>
             </div>
           </div>
-          <button type="button" class="cm-addr-quick-edit-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))">
-            <i class="fa-solid fa-pen-to-square"></i> পরিবর্তন করুন
+          <button type="button" class="link-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))" style="font-size:11.5px;white-space:nowrap">
+            এডিট করুন →
           </button>
         `;
       } else {
-        addrCard.innerHTML = `
-          <div class="cm-addr-info-left">
-            <div class="cm-addr-ico-box" style="background:#f59e0b"><i class="fa-solid fa-map-pin"></i></div>
+        banner.innerHTML = `
+          <div style="display:flex;align-items:center;gap:10px">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size:18px;color:#f59e0b"></i>
             <div>
-              <strong style="font-size:12.5px;color:var(--navy);display:block">কোনো ঠিকানা সেভ করা নেই</strong>
-              <p style="font-size:11.5px;color:#92400e;margin-top:2px">দ্রুত চেকআউট করতে আপনার জেলা ও ডেলিভারি ঠিকানা যুক্ত করুন।</p>
+              <strong style="font-size:12px;color:#92400e;display:block">ঠিকানা যুক্ত করা নেই</strong>
+              <p style="color:#78350f">দ্রুত ডেলিভারি পেতে আপনার ঠিকানা যুক্ত করুন।</p>
             </div>
           </div>
-          <button type="button" class="cm-addr-quick-edit-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))">
+          <button type="button" class="link-btn" onclick="switchProfTab('profAddressPane', document.getElementById('pNavAddress'))" style="font-size:11.5px;color:#b45309;white-space:nowrap">
             + ঠিকানা দিন
           </button>
         `;
@@ -2672,17 +2886,17 @@
   }
 
   // Hook into openProfileModal
-  const origOpenProf = window.openProfileModal;
+  const origOpen = window.openProfileModal;
   window.openProfileModal = async function() {
-    if (typeof origOpenProf === 'function') await origOpenProf.apply(this, arguments);
-    syncPremiumProfileUI();
+    if (typeof origOpen === 'function') await origOpen.apply(this, arguments);
+    syncAllLuxuryData();
   };
 
-  document.addEventListener('DOMContentLoaded', syncPremiumProfileUI);
-  setTimeout(syncPremiumProfileUI, 500);
+  document.addEventListener('DOMContentLoaded', syncAllLuxuryData);
+  setTimeout(syncAllLuxuryData, 400);
 })();
 </script>
-<!-- ================= END PREMIUM PROFILE ADD-ON ================= -->
+<!-- ================= END LUXURY ACCOUNT & EMAIL OTP OVERHAUL ================= -->
 </body>
 </html>
  
