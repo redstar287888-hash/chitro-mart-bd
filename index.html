@@ -3991,6 +3991,975 @@
 })();
 </script>
 <!-- ================= END CHITRO MART BD PRO PROFILE UPGRADE ================= -->
+    <!-- ================= CHITRO MART BD PRO THEME, OTP SECURITY & EXTRA PROFILE UPGRADE ================= -->
+<style>
+  /* Clean Sidebar Scrollbar & Layout Polish */
+  .cm-dash-side { overflow-x: hidden !important; scrollbar-width: none !important; }
+  .cm-dash-side::-webkit-scrollbar { display: none !important; }
+  .cm-dash-main { scrollbar-width: thin; scrollbar-color: rgba(59, 130, 246, 0.45) transparent; }
+
+  /* Theme Switcher Pill Next to Close Button */
+  .cm-theme-toggle-btn {
+    position: absolute; top: 10px; right: 52px; z-index: 20;
+    height: 32px; padding: 0 12px; border-radius: 50px;
+    border: 1px solid rgba(96, 165, 250, 0.45);
+    background: rgba(15, 34, 82, 0.9); color: #fde68a;
+    font-size: 11.5px; font-weight: 700; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); transition: 0.2s;
+  }
+  .cm-theme-toggle-btn:hover { background: #1d4ed8; color: #fff; }
+
+  /* THEME 1: Midnight Royal Dark (Default — Replaces Plain White) */
+  #profileModal.cm-dash-modal.cm-theme-dark,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-dash-wrap,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-dash-main {
+    background: linear-gradient(145deg, #06122e 0%, #0a1b45 55%, #071436 100%) !important;
+    color: #e2e8f0 !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-white-card,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-tab-panel {
+    background: rgba(13, 31, 74, 0.88) !important;
+    border: 1px solid rgba(96, 165, 250, 0.22) !important;
+    box-shadow: 0 12px 30px rgba(2, 8, 28, 0.45) !important;
+    color: #f1f5f9 !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-stat-card {
+    background: rgba(14, 34, 82, 0.92) !important;
+    border: 1px solid rgba(96, 165, 250, 0.24) !important;
+    box-shadow: 0 8px 20px rgba(2, 8, 28, 0.35) !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-stat-card:hover { border-color: #f97316 !important; }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-stat-info strong,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-card-head h4,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-tab-title-bar h3,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-det-val,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-rec-meta h5,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-qa-tile span,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-wish-card h5 {
+    color: #f8fafc !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-stat-info small,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-det-lbl,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-rec-meta p {
+    color: #94a3b8 !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-recent-item,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-qa-tile,
+  #profileModal.cm-dash-modal.cm-theme-dark .order-card-cm,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-wish-card {
+    background: rgba(8, 21, 54, 0.86) !important;
+    border: 1px solid rgba(96, 165, 250, 0.2) !important;
+    color: #e2e8f0 !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-tab-title-bar,
+  #profileModal.cm-dash-modal.cm-theme-dark .oc-head {
+    border-color: rgba(148, 163, 184, 0.2) !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-pill-link,
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-flt-btn {
+    background: rgba(30, 58, 138, 0.45) !important;
+    border-color: rgba(96, 165, 250, 0.35) !important;
+    color: #dbeafe !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-flt-btn.active {
+    background: linear-gradient(90deg, #f97316, #ea580c) !important;
+    border-color: #f97316 !important; color: #fff !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .form-group label { color: #cbd5e1 !important; }
+  #profileModal.cm-dash-modal.cm-theme-dark input,
+  #profileModal.cm-dash-modal.cm-theme-dark select,
+  #profileModal.cm-dash-modal.cm-theme-dark textarea {
+    background: #06112b !important;
+    border: 1px solid rgba(96, 165, 250, 0.32) !important;
+    color: #f8fafc !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark input::placeholder,
+  #profileModal.cm-dash-modal.cm-theme-dark textarea::placeholder { color: #64748b !important; }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-dash-close-btn {
+    background: rgba(15, 34, 82, 0.92); color: #fff; border-color: rgba(96, 165, 250, 0.4);
+  }
+  #profileModal.cm-dash-modal.cm-theme-dark .cm-dash-close-btn:hover { background: #ef4444; border-color: #ef4444; }
+
+  /* THEME 2: Royal Soft-Blue Glass (Alternate Toggle) */
+  #profileModal.cm-dash-modal.cm-theme-glass .cm-dash-main {
+    background: linear-gradient(145deg, #dbeafe 0%, #c7d9fa 100%) !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-glass .cm-white-card,
+  #profileModal.cm-dash-modal.cm-theme-glass .cm-tab-panel,
+  #profileModal.cm-dash-modal.cm-theme-glass .cm-stat-card {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(147, 197, 253, 0.55) !important;
+  }
+  #profileModal.cm-dash-modal.cm-theme-glass .cm-theme-toggle-btn {
+    background: #fff; color: #0f172a; border-color: #93c5fd;
+  }
+
+  /* Edit Profile Premium Sub-Cards & Widgets */
+  .cm-edit-banner {
+    border-radius: 15px; padding: 16px 20px; margin-bottom: 14px; color: #fff;
+    background: radial-gradient(circle at 100% 0%, rgba(249, 115, 22, 0.42) 0%, transparent 45%),
+                linear-gradient(125deg, #0d47b8 0%, #07266f 65%, #041954 100%);
+    display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+  }
+  .cm-comp-wrap { min-width: 220px; flex: 1; max-width: 300px; }
+  .cm-comp-head { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; margin-bottom: 5px; color: #e0f2fe; }
+  .cm-comp-bar { height: 8px; background: rgba(255, 255, 255, 0.18); border-radius: 50px; overflow: hidden; }
+  .cm-comp-fill { height: 100%; background: linear-gradient(90deg, #fbbf24, #f97316); border-radius: 50px; transition: width 0.4s ease; }
+
+  .cm-edit-grid { display: grid; grid-template-columns: 1.25fr 0.95fr; gap: 14px; }
+  .cm-sub-card {
+    border-radius: 15px; padding: 16px 18px; margin-bottom: 14px;
+    background: rgba(13, 31, 74, 0.88); border: 1px solid rgba(96, 165, 250, 0.22);
+  }
+  #profileModal.cm-theme-glass .cm-sub-card {
+    background: rgba(255, 255, 255, 0.92); border-color: #cbd5e1; color: #0f172a;
+  }
+  .cm-sub-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  .cm-sub-card-head h4 { font-size: 14.5px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .cm-sec-badge {
+    font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 50px;
+    background: rgba(249, 115, 22, 0.16); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.35);
+  }
+  #profileModal.cm-theme-glass .cm-sec-badge { background: #fff7ed; color: #c2410c; }
+
+  /* Gender & Size Pills */
+  .cm-pill-group { display: flex; gap: 7px; flex-wrap: wrap; }
+  .cm-opt-pill {
+    flex: 1; min-width: 72px; padding: 8px 10px; border-radius: 9px;
+    border: 1px solid rgba(96, 165, 250, 0.32); background: rgba(6, 17, 43, 0.7);
+    color: #cbd5e1; font-size: 12px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: 0.18s;
+  }
+  .cm-opt-pill.active {
+    background: linear-gradient(90deg, #f97316, #ea580c);
+    border-color: #f97316; color: #fff; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  }
+  #profileModal.cm-theme-glass .cm-opt-pill { background: #f8fafc; color: #334155; border-color: #cbd5e1; }
+  #profileModal.cm-theme-glass .cm-opt-pill.active { color: #fff; border-color: #f97316; }
+
+  /* Inline OTP Verification Box */
+  .cm-otp-gate-box {
+    margin-top: 10px; padding: 12px; border-radius: 12px;
+    background: rgba(29, 78, 216, 0.14); border: 1px dashed rgba(96, 165, 250, 0.45);
+  }
+  #profileModal.cm-theme-glass .cm-otp-gate-box { background: #eff6ff; border-color: #93c5fd; }
+  .cm-otp-row { display: flex; gap: 8px; align-items: center; }
+  .cm-otp-row input { flex: 1; min-width: 0; }
+  .cm-otp-send-btn {
+    background: linear-gradient(90deg, #f97316, #ea580c); color: #fff;
+    border: none; padding: 9px 14px; border-radius: 9px; font-size: 12px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .cm-otp-send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Preferences Switch & Activity Rows */
+  .cm-pref-row {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px dashed rgba(148, 163, 184, 0.18); font-size: 12.5px;
+  }
+  .cm-pref-row:last-child { border-bottom: none; }
+  .cm-switch { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+  .cm-switch input { opacity: 0; width: 0; height: 0; }
+  .cm-slider {
+    position: absolute; inset: 0; background: #334155; border-radius: 50px; cursor: pointer; transition: 0.25s;
+  }
+  .cm-slider::before {
+    content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px;
+    background: #fff; border-radius: 50%; transition: 0.25s;
+  }
+  .cm-switch input:checked + .cm-slider { background: #10b981; }
+  .cm-switch input:checked + .cm-slider::before { transform: translateX(18px); }
+
+  .cm-bday-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(90deg, #fbbf24, #f97316); color: #0f172a;
+    padding: 3px 11px; border-radius: 50px; font-size: 11px; font-weight: 800;
+    margin-bottom: 5px; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+  }
+
+  @media (max-width: 960px) {
+    .cm-edit-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .cm-otp-row { flex-direction: column; align-items: stretch; }
+    .cm-theme-toggle-btn { padding: 0 9px; font-size: 10.5px; right: 48px; }
+  }
+</style>
+
+<script>
+(function initProThemeAndOtpSecurity() {
+  const pm = $('profileModal');
+  if (!pm) return;
+
+  /* 1. Default Theme = Midnight Royal Dark (with Live Switcher) */
+  let savedTheme = localStorage.getItem('cm_dash_theme_v1') || 'dark';
+  function applyDashTheme(mode) {
+    savedTheme = mode === 'glass' ? 'glass' : 'dark';
+    localStorage.setItem('cm_dash_theme_v1', savedTheme);
+    pm.classList.toggle('cm-theme-dark', savedTheme === 'dark');
+    pm.classList.toggle('cm-theme-glass', savedTheme === 'glass');
+    const tb = $('cmThemeToggleBtn');
+    if (tb) {
+      tb.innerHTML = savedTheme === 'dark'
+        ? '<i class="fa-solid fa-sun"></i> <span>Royal Glass</span>'
+        : '<i class="fa-solid fa-moon"></i> <span>Midnight Dark</span>';
+    }
+  }
+
+  const dashMain = pm.querySelector('.cm-dash-main');
+  if (dashMain && !$('cmThemeToggleBtn')) {
+    const tBtn = document.createElement('button');
+    tBtn.type = 'button';
+    tBtn.id = 'cmThemeToggleBtn';
+    tBtn.className = 'cm-theme-toggle-btn';
+    tBtn.onclick = () => applyDashTheme(savedTheme === 'dark' ? 'glass' : 'dark');
+    dashMain.insertBefore(tBtn, dashMain.firstChild);
+  }
+  applyDashTheme(savedTheme);
+
+  /* 2. Inject Gender & Date of Birth Rows into Overview "My Profile Details" */
+  const detRows = pm.querySelector('#cmTabOverview .cm-det-rows');
+  if (detRows && !$('cmDetGender')) {
+    detRows.insertAdjacentHTML('beforeend', `
+      <div class="cm-det-row"><span class="cm-det-lbl"><i class="fa-solid fa-venus-mars"></i> Gender :</span><span class="cm-det-val" id="cmDetGender">সেট করা নেই</span></div>
+      <div class="cm-det-row"><span class="cm-det-lbl"><i class="fa-solid fa-cake-candles"></i> Date of Birth :</span><span class="cm-det-val" id="cmDetDob">সেট করা নেই</span></div>
+    `);
+  }
+
+  /* 3. Build Upgraded Edit Profile, Email Change, Number Change & Preferences Inside #cmTabEdit */
+  const editTab = $('cmTabEdit');
+  if (editTab) {
+    editTab.innerHTML = `
+      <div class="cm-edit-banner">
+        <div>
+          <h3 style="font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-user-shield" style="color:#fbbf24"></i> Edit Profile &amp; Account Security</h3>
+          <p style="font-size:12px;color:#cbd5e1;margin-top:2px">সুরক্ষার জন্য যেকোনো তথ্য পরিবর্তনে আপনার Gmail-এ OTP কোড পাঠানো হবে</p>
+        </div>
+        <div class="cm-comp-wrap">
+          <div class="cm-comp-head"><span>Profile Completion</span><span id="cmCompPct">0%</span></div>
+          <div class="cm-comp-bar"><div class="cm-comp-fill" id="cmCompFill" style="width:0%"></div></div>
+          <small id="cmCompHint" style="display:block;font-size:10.5px;color:#fde68a;margin-top:4px"></small>
+        </div>
+      </div>
+
+      <div class="cm-edit-grid">
+        <div>
+          <!-- Photo Card -->
+          <div class="cm-sub-card">
+            <div class="cm-sub-card-head">
+              <h4><i class="fa-solid fa-camera-retro" style="color:#38bdf8"></i> প্রোফাইল ছবি</h4>
+              <span class="cm-sec-badge">Instant Sync</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+              <div class="cm-side-avatar" id="cmEditAvatar" style="width:66px;height:66px;font-size:24px;border-width:2px">U</div>
+              <div style="flex:1;min-width:170px">
+                <p style="font-size:12px;opacity:0.85;margin-bottom:8px">পরিষ্কার ও সুন্দর একটি প্রোফাইল ছবি আপলোড করুন</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button type="button" class="cm-pill-link" onclick="document.getElementById('cmPhotoFileInput').click()"><i class="fa-solid fa-upload"></i> ছবি আপলোড</button>
+                  <button type="button" class="cm-btn-cancel" id="cmRemovePhotoBtn" onclick="removeProfilePhoto()" style="display:none"><i class="fa-solid fa-trash-can"></i> Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Details Card (OTP Required) -->
+          <div class="cm-sub-card">
+            <div class="cm-sub-card-head">
+              <h4><i class="fa-solid fa-id-card" style="color:#fb923c"></i> ব্যক্তিগত তথ্য (Personal Info)</h4>
+              <span class="cm-sec-badge"><i class="fa-solid fa-lock"></i> OTP Protected</span>
+            </div>
+            <div class="err-box" id="cmEdErr"></div>
+            <div class="ok-box" id="cmEdOk"></div>
+            <form onsubmit="submitPersonalInfoWithOtp(event)" autocomplete="off">
+              <div class="form-row">
+                <div class="form-group"><label>আপনার পূর্ণ নাম *</label><input type="text" id="editProfName" required></div>
+                <div class="form-group"><label>বিকল্প ফোন নম্বর (ঐচ্ছিক)</label><input type="tel" id="cmEditAltPhone" placeholder="018XXXXXXXX"></div>
+              </div>
+
+              <div class="form-group">
+                <label>Gender (লিঙ্গ) *</label>
+                <div class="cm-pill-group" id="cmGenderPills">
+                  <button type="button" class="cm-opt-pill" data-val="Male" onclick="selectCmGender('Male',this)"><i class="fa-solid fa-mars"></i> Male</button>
+                  <button type="button" class="cm-opt-pill" data-val="Female" onclick="selectCmGender('Female',this)"><i class="fa-solid fa-venus"></i> Female</button>
+                  <button type="button" class="cm-opt-pill" data-val="Other" onclick="selectCmGender('Other',this)"><i class="fa-solid fa-genderless"></i> Other</button>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Date of Birth (জন্ম তারিখ) <small id="cmAgePreview" style="color:#fbbf24"></small></label>
+                  <input type="date" id="cmEditDob" max="${new Date().toISOString().split('T')[0]}" onchange="updateAgePreview()">
+                </div>
+                <div class="form-group">
+                  <label>পছন্দের সাইজ (Preferred Size)</label>
+                  <select id="cmEditPrefSize">
+                    <option value="">সিলেক্ট করুন</option>
+                    <option value="S">S</option><option value="M">M</option><option value="L">L</option>
+                    <option value="XL">XL</option><option value="XXL">XXL</option><option value="Free Size">Free Size</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>ডিফল্ট ডেলিভারি নোট (ঐচ্ছিক)</label>
+                <input type="text" id="cmEditDelNote" placeholder="যেমন: বাসায় না থাকলে কল দেবেন / অফিস টাইমে ডেলিভারি">
+              </div>
+
+              <div class="cm-otp-gate-box">
+                <label style="display:block;font-size:11.5px;font-weight:700;margin-bottom:6px"><i class="fa-solid fa-shield-halved" style="color:#fb923c"></i> সেভ করতে আপনার অ্যাকাউন্টের Gmail লিখে OTP ভেরিফাই করুন *</label>
+                <div class="cm-otp-row">
+                  <input type="email" id="cmEdVerifyEmail" placeholder="আপনার বর্তমান Gmail লিখুন" autocomplete="off">
+                  <button type="button" class="cm-otp-send-btn" id="cmEdSendBtn" onclick="sendUniversalProfileOtp('cmEdVerifyEmail','profile_info','cmEdOtpWrap','cmEdErr','cmEdOk','cmEdSendBtn')"><i class="fa-solid fa-paper-plane"></i> Send OTP</button>
+                </div>
+                <div id="cmEdOtpWrap" style="display:none;margin-top:9px">
+                  <input type="text" id="cmEdOtpInput" placeholder="Gmail-এ পাওয়া ৬-ডিজিটের OTP কোড লিখুন *" maxlength="6" autocomplete="off">
+                </div>
+              </div>
+
+              <button type="submit" class="cm-blue-submit" id="cmEdSaveBtn" style="margin-top:11px"><i class="fa-solid fa-check-circle"></i> Verify OTP &amp; Save Profile</button>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <!-- Email / Gmail Change Card (OTP Required) -->
+          <div class="cm-sub-card">
+            <div class="cm-sub-card-head">
+              <h4><i class="fa-solid fa-envelope-circle-check" style="color:#38bdf8"></i> Gmail / Email পরিবর্তন</h4>
+              <span class="cm-sec-badge"><i class="fa-solid fa-lock"></i> OTP Protected</span>
+            </div>
+            <div class="err-box" id="cmEmErr"></div>
+            <div class="ok-box" id="cmEmOk"></div>
+            <form onsubmit="submitEmailChangeWithOtp(event)" autocomplete="off">
+              <div class="form-group" id="cmEmOldWrap">
+                <label>বর্তমান Gmail লিখুন *</label>
+                <input type="email" id="cmEmOld" placeholder="বর্তমান Gmail লিখুন" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label>নতুন Gmail Address লিখুন *</label>
+                <div class="cm-otp-row">
+                  <input type="email" id="cmEmNew" placeholder="newemail@gmail.com" autocomplete="off" required>
+                  <button type="button" class="cm-otp-send-btn" id="cmEmSendBtn" onclick="triggerEmailChangeOtp()"><i class="fa-solid fa-paper-plane"></i> Send OTP</button>
+                </div>
+              </div>
+              <div id="cmEmOtpWrap" style="display:none;margin-bottom:10px">
+                <div class="form-group" style="margin:0"><label>৬-ডিজিটের OTP কোড *</label><input type="text" id="cmEmOtpInput" placeholder="OTP কোড দিন" maxlength="6" autocomplete="off"></div>
+              </div>
+              <button type="submit" class="cm-orange-submit" id="cmEmSaveBtn"><i class="fa-solid fa-envelope"></i> Verify OTP &amp; Update Gmail</button>
+            </form>
+          </div>
+
+          <!-- Phone Number Change Card (OTP Required + Full Migration) -->
+          <div class="cm-sub-card">
+            <div class="cm-sub-card-head">
+              <h4><i class="fa-solid fa-mobile-screen-button" style="color:#34d399"></i> মোবাইল নম্বর পরিবর্তন</h4>
+              <span class="cm-sec-badge"><i class="fa-solid fa-lock"></i> OTP Protected</span>
+            </div>
+            <p style="font-size:11px;opacity:0.8;margin-bottom:9px">বর্তমান নম্বর: <b id="cmCurPhoneBadge">—</b> (নম্বর পরিবর্তন করলে সব পুরোনো অর্ডারও নতুন নম্বরে ট্রান্সফার হবে)</p>
+            <div class="err-box" id="cmPhErr"></div>
+            <div class="ok-box" id="cmPhOk"></div>
+            <form onsubmit="submitPhoneChangeWithOtp(event)" autocomplete="off">
+              <div class="form-group">
+                <label>আপনার অ্যাকাউন্টের Gmail লিখুন *</label>
+                <input type="email" id="cmPhEmail" placeholder="example@gmail.com" autocomplete="off" required>
+              </div>
+              <div class="form-group">
+                <label>নতুন ১১ ডিজিটের মোবাইল নম্বর *</label>
+                <div class="cm-otp-row">
+                  <input type="tel" id="cmPhNew" placeholder="017XXXXXXXX" autocomplete="off" required>
+                  <button type="button" class="cm-otp-send-btn" id="cmPhSendBtn" onclick="triggerPhoneChangeOtp()"><i class="fa-solid fa-paper-plane"></i> Send OTP</button>
+                </div>
+              </div>
+              <div id="cmPhOtpWrap" style="display:none;margin-bottom:10px">
+                <div class="form-group" style="margin:0"><label>Gmail-এ পাওয়া ৬-ডিজিটের OTP *</label><input type="text" id="cmPhOtpInput" placeholder="OTP কোড দিন" maxlength="6" autocomplete="off"></div>
+              </div>
+              <button type="submit" class="cm-blue-submit" id="cmPhSaveBtn"><i class="fa-solid fa-rotate"></i> Verify OTP &amp; Change Number</button>
+            </form>
+          </div>
+
+          <!-- Shopping Preferences & Security Summary -->
+          <div class="cm-sub-card">
+            <div class="cm-sub-card-head">
+              <h4><i class="fa-solid fa-sliders" style="color:#a78bfa"></i> শপিং প্রিফারেন্স ও সিকিউরিটি</h4>
+            </div>
+            <div class="form-group">
+              <label>ডিফল্ট পেমেন্ট মেথড (চেকআউটে অটো-সিলেক্ট থাকবে)</label>
+              <select id="cmPrefPaySelect" onchange="saveInstantPreferences()">
+                <option value="COD">Cash On Delivery (COD)</option>
+                <option value="bKash">bKash (বিকাশ)</option>
+                <option value="Nagad">Nagad (নগদ)</option>
+              </select>
+            </div>
+            <div class="cm-pref-row">
+              <span>অর্ডার স্ট্যাটাস আপডেট অ্যালার্ট</span>
+              <label class="cm-switch"><input type="checkbox" id="cmPrefNotifOrd" checked onchange="saveInstantPreferences()"><span class="cm-slider"></span></label>
+            </div>
+            <div class="cm-pref-row">
+              <span>স্পেশাল অফার ও ফ্ল্যাশ সেল অ্যালার্ট</span>
+              <label class="cm-switch"><input type="checkbox" id="cmPrefNotifOff" checked onchange="saveInstantPreferences()"><span class="cm-slider"></span></label>
+            </div>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(148,163,184,0.2);font-size:11.5px;display:flex;flex-direction:column;gap:4px;opacity:0.9">
+              <div><i class="fa-solid fa-key" style="color:#38bdf8;width:16px"></i> Login Method: <b id="cmSecProvider">Mobile &amp; Password</b></div>
+              <div><i class="fa-solid fa-clock-rotate-left" style="color:#fbbf24;width:16px"></i> Last Updated: <b id="cmSecUpdated">—</b></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* 4. Add OTP Gate to My Addresses Form (#cmTabAddress) */
+  const addrForm = $('cmTabAddress')?.querySelector('form');
+  if (addrForm && !$('cmAdOtpGate')) {
+    const submitBtn = addrForm.querySelector('button[type="submit"]');
+    const gate = document.createElement('div');
+    gate.id = 'cmAdOtpGate';
+    gate.className = 'cm-otp-gate-box';
+    gate.style.marginBottom = '12px';
+    gate.innerHTML = `
+      <div class="err-box" id="cmAdErr"></div>
+      <div class="ok-box" id="cmAdOk"></div>
+      <label style="display:block;font-size:11.5px;font-weight:700;margin-bottom:6px"><i class="fa-solid fa-shield-halved" style="color:#fb923c"></i> ঠিকানা পরিবর্তনের জন্য Gmail OTP ভেরিফাই করুন *</label>
+      <div class="cm-otp-row">
+        <input type="email" id="cmAdVerifyEmail" placeholder="আপনার অ্যাকাউন্টের Gmail লিখুন" autocomplete="off">
+        <button type="button" class="cm-otp-send-btn" id="cmAdSendBtn" onclick="sendUniversalProfileOtp('cmAdVerifyEmail','address_update','cmAdOtpWrap','cmAdErr','cmAdOk','cmAdSendBtn')"><i class="fa-solid fa-paper-plane"></i> Send OTP</button>
+      </div>
+      <div id="cmAdOtpWrap" style="display:none;margin-top:9px">
+        <input type="text" id="cmAdOtpInput" placeholder="Gmail-এ পাওয়া ৬-ডিজিটের OTP লিখুন *" maxlength="6" autocomplete="off">
+      </div>`;
+    addrForm.insertBefore(gate, submitBtn);
+    if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Verify OTP &amp; Save Location';
+  }
+
+  /* 5. Helpers: Gender, Age, Completion %, Birthday Check */
+  let selectedGenderVal = '';
+  window.selectCmGender = function(val, btn) {
+    selectedGenderVal = val;
+    document.querySelectorAll('#cmGenderPills .cm-opt-pill').forEach(b => b.classList.toggle('active', b.dataset.val === val));
+  };
+
+  function calcAgeYears(dobStr) {
+    if (!dobStr) return null;
+    const dob = new Date(dobStr);
+    if (isNaN(dob.getTime())) return null;
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    return age >= 0 ? age : null;
+  }
+
+  window.updateAgePreview = function() {
+    const dobStr = $('cmEditDob')?.value || '';
+    const age = calcAgeYears(dobStr);
+    if ($('cmAgePreview')) $('cmAgePreview').textContent = age !== null ? `(বয়স: ${age} বছর)` : '';
+  };
+
+  function formatNiceDate(isoDate) {
+    if (!isoDate) return 'সেট করা নেই';
+    const d = new Date(isoDate);
+    if (isNaN(d.getTime())) return isoDate;
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const age = calcAgeYears(isoDate);
+    return `${String(d.getDate()).padStart(2,'0')} ${months[d.getMonth()]} ${d.getFullYear()}${age !== null ? ` (${age} yrs)` : ''}`;
+  }
+
+  function updateCompletionAndExtras() {
+    if (!currentUser) return;
+    const checks = [
+      { ok: !!currentUser.name, label: 'নাম' },
+      { ok: !!currentUser.email, label: 'Gmail' },
+      { ok: !!currentUser.photo, label: 'প্রোফাইল ছবি' },
+      { ok: !!currentUser.gender, label: 'Gender' },
+      { ok: !!currentUser.dob, label: 'জন্ম তারিখ' },
+      { ok: !!(currentUser.savedAddress && currentUser.savedAddress.dist), label: 'ডেলিভারি ঠিকানা' }
+    ];
+    const done = checks.filter(c => c.ok).length;
+    const pct = Math.round((done / checks.length) * 100);
+    if ($('cmCompPct')) $('cmCompPct').textContent = pct + '%';
+    if ($('cmCompFill')) $('cmCompFill').style.width = pct + '%';
+    const missing = checks.filter(c => !c.ok).map(c => c.label);
+    if ($('cmCompHint')) {
+      $('cmCompHint').textContent = missing.length ? `বাকি আছে: ${missing.join(', ')}` : 'অভিনন্দন! আপনার প্রোফাইল ১০০% সম্পূর্ণ।';
+    }
+
+    if ($('cmDetGender')) $('cmDetGender').textContent = currentUser.gender || 'সেট করা নেই';
+    if ($('cmDetDob')) $('cmDetDob').textContent = formatNiceDate(currentUser.dob);
+
+    // Birthday Wish on Welcome Banner
+    const wbText = pm.querySelector('.cm-wb-text');
+    if (wbText) {
+      let bBadge = $('cmBirthdayBadge');
+      let isBday = false;
+      if (currentUser.dob) {
+        const d = new Date(currentUser.dob), now = new Date();
+        if (!isNaN(d.getTime()) && d.getDate() === now.getDate() && d.getMonth() === now.getMonth()) isBday = true;
+      }
+      if (isBday) {
+        if (!bBadge) {
+          bBadge = document.createElement('div');
+          bBadge.id = 'cmBirthdayBadge';
+          bBadge.className = 'cm-bday-pill';
+          bBadge.innerHTML = '<i class="fa-solid fa-cake-candles"></i> Happy Birthday! জন্মদিনের শুভেচ্ছা';
+          wbText.insertBefore(bBadge, wbText.firstChild);
+        }
+      } else if (bBadge) {
+        bBadge.remove();
+      }
+    }
+
+    // Populate Edit Profile fields
+    if ($('editProfName')) $('editProfName').value = currentUser.name || '';
+    if ($('cmEditAltPhone')) $('cmEditAltPhone').value = currentUser.altPhone || '';
+    if ($('cmEditDob')) { $('cmEditDob').value = currentUser.dob || ''; updateAgePreview(); }
+    if ($('cmEditPrefSize')) $('cmEditPrefSize').value = currentUser.prefSize || '';
+    if ($('cmEditDelNote')) $('cmEditDelNote').value = currentUser.delNote || '';
+    selectCmGender(currentUser.gender || '');
+
+    if ($('cmRemovePhotoBtn')) $('cmRemovePhotoBtn').style.display = currentUser.photo ? 'inline-flex' : 'none';
+    if ($('cmEmOldWrap')) $('cmEmOldWrap').style.display = currentUser.email ? 'block' : 'none';
+    if ($('cmCurPhoneBadge')) $('cmCurPhoneBadge').textContent = currentUser.phone || '—';
+
+    if ($('cmPrefPaySelect')) $('cmPrefPaySelect').value = currentUser.prefPay || 'COD';
+    if ($('cmPrefNotifOrd')) $('cmPrefNotifOrd').checked = currentUser.notifOrder !== false;
+    if ($('cmPrefNotifOff')) $('cmPrefNotifOff').checked = currentUser.notifOffer !== false;
+    if ($('cmSecProvider')) $('cmSecProvider').textContent = currentUser.authProvider === 'google' ? 'Google Account' : 'Mobile & Password';
+    if ($('cmSecUpdated')) $('cmSecUpdated').textContent = currentUser.updatedAt || 'সম্প্রতি';
+  }
+
+  /* 6. Remove Profile Photo */
+  window.removeProfilePhoto = async function() {
+    if (!currentUser || !currentUser.photo) return;
+    if (!confirm('আপনি কি প্রোফাইল ছবি রিমুভ করতে চান?')) return;
+    try {
+      await fetch(`${FB_URL}/users/${currentUser.phone}.json`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ photo: '' })
+      });
+      currentUser.photo = '';
+      savePersistentUser(currentUser, true);
+      updateStoreAccessUI();
+      if ($('cmSideAvatar')) $('cmSideAvatar').textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+      if ($('cmDetAvatar')) $('cmDetAvatar').textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+      if ($('cmEditAvatar')) $('cmEditAvatar').textContent = (currentUser.name || 'U').charAt(0).toUpperCase();
+      updateCompletionAndExtras();
+      showToast('প্রোফাইল ছবি রিমুভ করা হয়েছে।');
+    } catch (e) { showToast('সমস্যা হয়েছে! আবার চেষ্টা করুন।'); }
+  };
+
+  /* 7. Save Preferences Instantly */
+  window.saveInstantPreferences = async function() {
+    if (!currentUser) return;
+    const prefPay = $('cmPrefPaySelect')?.value || 'COD';
+    const notifOrder = !!$('cmPrefNotifOrd')?.checked;
+    const notifOffer = !!$('cmPrefNotifOff')?.checked;
+    try {
+      await fetch(`${FB_URL}/users/${currentUser.phone}.json`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prefPay, notifOrder, notifOffer })
+      });
+      Object.assign(currentUser, { prefPay, notifOrder, notifOffer });
+      savePersistentUser(currentUser, true);
+      showToast('পছন্দসমূহ সেভ হয়েছে!');
+    } catch (e) {}
+  };
+
+  /* 8. Universal Real Gmail OTP Sender & Verifier */
+  window.sendUniversalProfileOtp = async function(emailInputId, purpose, otpWrapId, errId, okId, btnId, customTargetEmail = null) {
+    if (!currentUser) return;
+    const err = $(errId), ok = $(okId), btn = $(btnId);
+    if (err) err.style.display = 'none';
+    if (ok) ok.style.display = 'none';
+
+    const typedEmail = (customTargetEmail || $(emailInputId)?.value || '').trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(typedEmail)) {
+      if (err) { err.textContent = 'সঠিক Gmail / Email Address লিখুন!'; err.style.display = 'block'; }
+      return false;
+    }
+
+    btn.disabled = true;
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> পাঠানো হচ্ছে...';
+
+    try {
+      const dbUser = await (await fetch(`${FB_URL}/users/${currentUser.phone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+      if (!dbUser) { err.textContent = 'অ্যাকাউন্ট পাওয়া যায়নি!'; err.style.display = 'block'; return false; }
+
+      if (purpose !== 'email_add_first') {
+        if (!dbUser.email) {
+          err.textContent = 'আপনার অ্যাকাউন্টে কোনো Gmail যুক্ত নেই! আগে ডান পাশ থেকে নতুন Gmail যোগ করুন।';
+          err.style.display = 'block'; return false;
+        }
+        if (dbUser.email.trim().toLowerCase() !== typedEmail) {
+          err.textContent = 'আপনার লেখা Gmail-টি এই অ্যাকাউন্টের সাথে মিলছে না!';
+          err.style.display = 'block'; return false;
+        }
+      }
+
+      const existing = await (await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json`, { cache: 'no-store' })).json();
+      const localLock = Number(localStorage.getItem('cm_otp_lock_' + currentUser.phone) || 0);
+      const activeLock = Math.max(Number(existing?.lockedUntil || 0), localLock);
+      if (activeLock > Date.now()) {
+        const rem = Math.ceil((activeLock - Date.now()) / 1000);
+        err.textContent = `নিরাপত্তার জন্য ${Math.floor(rem/60)} মিনিট ${rem%60} সেকেন্ড অপেক্ষা করুন।`;
+        err.style.display = 'block'; return false;
+      }
+
+      const prevAttempts = (existing && (!existing.lockedUntil || Date.now() > existing.lockedUntil)) ? Number(existing.attempts || 0) : 0;
+      const newAttempts = (existing && existing.lockedUntil && Date.now() > existing.lockedUntil) ? 1 : (prevAttempts + 1);
+      const newLock = newAttempts >= 3 ? (Date.now() + 5 * 60 * 1000) : 0;
+      if (newLock > 0) localStorage.setItem('cm_otp_lock_' + currentUser.phone, String(newLock));
+      else localStorage.removeItem('cm_otp_lock_' + currentUser.phone);
+
+      const otp = String(Math.floor(100000 + Math.random() * 900000));
+      await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: currentUser.phone, name: dbUser.name, email: typedEmail,
+          code: otp, purpose, expiresAt: Date.now() + 180000,
+          attempts: newAttempts, lockedUntil: newLock,
+          createdAt: new Date().toLocaleString('bn-BD')
+        })
+      });
+
+      const s = getSettings();
+      let sent = false;
+      if (s.emailjsPublicKey && s.emailjsServiceId && s.emailjsTemplateId) {
+        const ej = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: s.emailjsServiceId.trim(),
+            template_id: s.emailjsTemplateId.trim(),
+            user_id: s.emailjsPublicKey.trim(),
+            template_params: {
+              to_email: typedEmail, to_name: dbUser.name,
+              otp_code: otp, app_name: s.brand || 'CHITRO MART BD'
+            }
+          })
+        });
+        if (ej.ok) sent = true;
+      }
+      if (!sent) {
+        err.textContent = 'Email-এ OTP পাঠানো যাচ্ছে না! Admin Settings-এ EmailJS সেট করা আছে কিনা দেখুন।';
+        err.style.display = 'block'; return false;
+      }
+
+      if ($(otpWrapId)) $(otpWrapId).style.display = 'block';
+      if (ok) {
+        ok.textContent = `${typedEmail} ঠিকানায় ৬-ডিজিটের OTP পাঠানো হয়েছে! (মেয়াদ ৩ মিনিট)`;
+        ok.style.display = 'block';
+      }
+      return true;
+    } catch (ex) {
+      if (err) { err.textContent = 'নেটওয়ার্ক সমস্যা! OTP পাঠানো যায়নি।'; err.style.display = 'block'; }
+      return false;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+    }
+  };
+
+  async function verifyStoredOtp(otpCode, expectedPurpose, errId) {
+    const err = $(errId);
+    if (!/^\d{6}$/.test(otpCode)) {
+      err.textContent = 'আগে Send OTP দিয়ে Gmail-এ পাওয়া ৬-ডিজিটের কোড লিখুন!';
+      err.style.display = 'block'; return false;
+    }
+    const req = await (await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+    if (!req || req.purpose !== expectedPurpose || req.code !== otpCode) {
+      err.textContent = 'ভুল OTP কোড! আপনার Gmail চেক করুন।';
+      err.style.display = 'block'; return false;
+    }
+    if (Date.now() > req.expiresAt) {
+      err.textContent = 'OTP কোডের মেয়াদ শেষ! আবার Send OTP দিন।';
+      err.style.display = 'block'; return false;
+    }
+    return true;
+  }
+
+  /* 9. Submit Personal Info (With Gender, DOB, Alt Phone + OTP) */
+  window.submitPersonalInfoWithOtp = async function(e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    const err = $('cmEdErr'), ok = $('cmEdOk'), btn = $('cmEdSaveBtn');
+    err.style.display = 'none'; ok.style.display = 'none';
+
+    const name = $('editProfName').value.trim();
+    const altPhone = $('cmEditAltPhone').value.trim();
+    const dob = $('cmEditDob').value;
+    const prefSize = $('cmEditPrefSize').value;
+    const delNote = $('cmEditDelNote').value.trim();
+    const otpCode = ($('cmEdOtpInput')?.value || '').trim();
+
+    if (!name) { err.textContent = 'আপনার নাম লিখুন!'; err.style.display = 'block'; return; }
+    if (!selectedGenderVal) { err.textContent = 'অনুগ্রহ করে Gender সিলেক্ট করুন!'; err.style.display = 'block'; return; }
+    if (altPhone && !/^01[0-9]{9}$/.test(altPhone)) {
+      err.textContent = 'বিকল্প নম্বরটি ১১ ডিজিটের হতে হবে (01XXXXXXXXX)'; err.style.display = 'block'; return;
+    }
+    if ($('cmEdOtpWrap').style.display === 'none') {
+      err.textContent = 'সেভ করার আগে আপনার Gmail লিখে Send OTP-তে ক্লিক করুন!'; err.style.display = 'block'; return;
+    }
+
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> যাচাই ও সেভ হচ্ছে...';
+    try {
+      const valid = await verifyStoredOtp(otpCode, 'profile_info', 'cmEdErr');
+      if (!valid) return;
+
+      const updatedAt = new Date().toLocaleString('bn-BD');
+      const patchObj = { name, gender: selectedGenderVal, dob, altPhone, prefSize, delNote, updatedAt };
+      await fetch(`${FB_URL}/users/${currentUser.phone}.json`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patchObj)
+      });
+      await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' });
+
+      Object.assign(currentUser, patchObj);
+      savePersistentUser(currentUser, true);
+      updateStoreAccessUI();
+      if ($('cmSideName')) $('cmSideName').textContent = name;
+      if ($('cmWbName')) $('cmWbName').textContent = name;
+      if ($('cmDetName')) $('cmDetName').textContent = name;
+      updateCompletionAndExtras();
+
+      $('cmEdVerifyEmail').value = ''; $('cmEdOtpInput').value = ''; $('cmEdOtpWrap').style.display = 'none';
+      ok.textContent = 'আপনার ব্যক্তিগত তথ্য সফলভাবে আপডেট হয়েছে!'; ok.style.display = 'block';
+      showToast('প্রোফাইল সফলভাবে আপডেট হয়েছে!');
+    } catch (ex) {
+      err.textContent = 'সেভ করা যায়নি! আবার চেষ্টা করুন।'; err.style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Verify OTP & Save Profile';
+    }
+  };
+
+  /* 10. Email / Gmail Change With OTP */
+  window.triggerEmailChangeOtp = async function() {
+    if (!currentUser) return;
+    const err = $('cmEmErr'); err.style.display = 'none';
+    const newEmail = $('cmEmNew').value.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+      err.textContent = 'সঠিক নতুন Gmail Address লিখুন!'; err.style.display = 'block'; return;
+    }
+    const all = (await (await fetch(`${FB_URL}/users.json?t=${Date.now()}`, { cache: 'no-store' })).json()) || {};
+    if (Object.values(all).some(u => u && u.phone !== currentUser.phone && u.email && u.email.toLowerCase() === newEmail)) {
+      err.textContent = 'এই Gmail-টি অন্য একটি অ্যাকাউন্টে ব্যবহৃত হচ্ছে!'; err.style.display = 'block'; return;
+    }
+    if (currentUser.email) {
+      if (newEmail === currentUser.email.toLowerCase()) {
+        err.textContent = 'নতুন Gmail-টি আগের Gmail-এর চেয়ে আলাদা হতে হবে!'; err.style.display = 'block'; return;
+      }
+      await sendUniversalProfileOtp('cmEmOld', 'email_change', 'cmEmOtpWrap', 'cmEmErr', 'cmEmOk', 'cmEmSendBtn');
+    } else {
+      await sendUniversalProfileOtp('cmEmNew', 'email_add_first', 'cmEmOtpWrap', 'cmEmErr', 'cmEmOk', 'cmEmSendBtn', newEmail);
+    }
+  };
+
+  window.submitEmailChangeWithOtp = async function(e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    const err = $('cmEmErr'), ok = $('cmEmOk'), btn = $('cmEmSaveBtn');
+    err.style.display = 'none'; ok.style.display = 'none';
+
+    const newEmail = $('cmEmNew').value.trim().toLowerCase();
+    const otpCode = ($('cmEmOtpInput')?.value || '').trim();
+    const purpose = currentUser.email ? 'email_change' : 'email_add_first';
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) { err.textContent = 'সঠিক নতুন Gmail দিন!'; err.style.display = 'block'; return; }
+    if ($('cmEmOtpWrap').style.display === 'none') { err.textContent = 'আগে Send OTP বাটনে ক্লিক করুন!'; err.style.display = 'block'; return; }
+
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> আপডেট হচ্ছে...';
+    try {
+      const valid = await verifyStoredOtp(otpCode, purpose, 'cmEmErr');
+      if (!valid) return;
+
+      const updatedAt = new Date().toLocaleString('bn-BD');
+      await fetch(`${FB_URL}/users/${currentUser.phone}.json`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newEmail, updatedAt })
+      });
+      await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' });
+
+      currentUser.email = newEmail; currentUser.updatedAt = updatedAt;
+      savePersistentUser(currentUser, true);
+      if ($('cmSideEmail')) $('cmSideEmail').textContent = newEmail;
+      if ($('cmDetEmail')) $('cmDetEmail').textContent = newEmail;
+      updateCompletionAndExtras();
+
+      $('cmEmOld').value = ''; $('cmEmNew').value = ''; $('cmEmOtpInput').value = ''; $('cmEmOtpWrap').style.display = 'none';
+      ok.textContent = `আপনার Gmail সফলভাবে ${newEmail}-এ পরিবর্তন হয়েছে!`; ok.style.display = 'block';
+      showToast('Gmail সফলভাবে পরিবর্তন হয়েছে!');
+    } catch (ex) {
+      err.textContent = 'Gmail পরিবর্তন করা যায়নি!'; err.style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Verify OTP & Update Gmail';
+    }
+  };
+
+  /* 11. Phone Number Change With Gmail OTP + Full Firebase & Order Migration */
+  window.triggerPhoneChangeOtp = async function() {
+    if (!currentUser) return;
+    const err = $('cmPhErr'); err.style.display = 'none';
+    const newPhone = $('cmPhNew').value.trim();
+    if (!/^01[0-9]{9}$/.test(newPhone)) {
+      err.textContent = 'সঠিক ১১ ডিজিটের নতুন মোবাইল নম্বর দিন (017XXXXXXXX)'; err.style.display = 'block'; return;
+    }
+    if (newPhone === currentUser.phone) {
+      err.textContent = 'নতুন নম্বরটি বর্তমান নম্বরের চেয়ে আলাদা হতে হবে!'; err.style.display = 'block'; return;
+    }
+    const existingNew = await (await fetch(`${FB_URL}/users/${newPhone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+    if (existingNew) {
+      err.textContent = 'এই মোবাইল নম্বর দিয়ে আগেই অন্য অ্যাকাউন্ট খোলা আছে!'; err.style.display = 'block'; return;
+    }
+    await sendUniversalProfileOtp('cmPhEmail', 'phone_change', 'cmPhOtpWrap', 'cmPhErr', 'cmPhOk', 'cmPhSendBtn');
+  };
+
+  window.submitPhoneChangeWithOtp = async function(e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    const err = $('cmPhErr'), ok = $('cmPhOk'), btn = $('cmPhSaveBtn');
+    err.style.display = 'none'; ok.style.display = 'none';
+
+    const oldPhone = currentUser.phone;
+    const newPhone = $('cmPhNew').value.trim();
+    const otpCode = ($('cmPhOtpInput')?.value || '').trim();
+    if (!/^01[0-9]{9}$/.test(newPhone) || newPhone === oldPhone) {
+      err.textContent = 'সঠিক নতুন মোবাইল নম্বর দিন!'; err.style.display = 'block'; return;
+    }
+    if ($('cmPhOtpWrap').style.display === 'none') {
+      err.textContent = 'আগে Send OTP বাটনে ক্লিক করে OTP নিন!'; err.style.display = 'block'; return;
+    }
+
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> নম্বর ও অর্ডার ট্রান্সফার হচ্ছে...';
+    try {
+      const valid = await verifyStoredOtp(otpCode, 'phone_change', 'cmPhErr');
+      if (!valid) return;
+
+      const existingNew = await (await fetch(`${FB_URL}/users/${newPhone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+      if (existingNew) { err.textContent = 'এই নম্বরটি আগেই ব্যবহৃত!'; err.style.display = 'block'; return; }
+
+      const oldUserObj = await (await fetch(`${FB_URL}/users/${oldPhone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+      if (!oldUserObj) { err.textContent = 'পুরোনো অ্যাকাউন্ট পাওয়া যায়নি!'; err.style.display = 'block'; return; }
+
+      const updatedAt = new Date().toLocaleString('bn-BD');
+      const migratedUser = Object.assign({}, oldUserObj, { phone: newPhone, previousPhone: oldPhone, updatedAt });
+      await fetch(`${FB_URL}/users/${newPhone}.json`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(migratedUser)
+      });
+
+      // Migrate Customer Orders to New Phone so Order History & Tracking Stay 100% Intact
+      const allOrders = (await (await fetch(`${FB_URL}/orders.json?t=${Date.now()}`, { cache: 'no-store' })).json()) || {};
+      const migPromises = [];
+      for (const [oid, ord] of Object.entries(allOrders)) {
+        if (ord && ord.customerPhone === oldPhone) {
+          migPromises.push(fetch(`${FB_URL}/orders/${oid}.json`, {
+            method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ customerPhone: newPhone })
+          }));
+        }
+      }
+      await Promise.all(migPromises);
+
+      await fetch(`${FB_URL}/users/${oldPhone}.json`, { method: 'DELETE' });
+      await fetch(`${FB_URL}/resetRequests/${oldPhone}.json`, { method: 'DELETE' });
+
+      currentUser.phone = newPhone; currentUser.updatedAt = updatedAt;
+      savePersistentUser(currentUser, true);
+      if ($('cmDetPhone')) $('cmDetPhone').textContent = newPhone;
+      if ($('orderPhone')) $('orderPhone').value = newPhone;
+      if ($('directPhone')) $('directPhone').value = newPhone;
+      updateStoreAccessUI();
+      updateCompletionAndExtras();
+      await loadCustomerOrders(true);
+
+      $('cmPhEmail').value = ''; $('cmPhNew').value = ''; $('cmPhOtpInput').value = ''; $('cmPhOtpWrap').style.display = 'none';
+      ok.textContent = `মোবাইল নম্বর সফলভাবে ${newPhone}-এ পরিবর্তন হয়েছে!`; ok.style.display = 'block';
+      showToast('মোবাইল নম্বর সফলভাবে পরিবর্তন হয়েছে!');
+    } catch (ex) {
+      err.textContent = 'নম্বর পরিবর্তন করা যায়নি! আবার চেষ্টা করুন।'; err.style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Verify OTP & Change Number';
+    }
+  };
+
+  /* 12. Address Save Protected by Gmail OTP */
+  const _prevSaveUserAddress = saveUserAddress;
+  saveUserAddress = async function(e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    const err = $('cmAdErr'), ok = $('cmAdOk');
+    if (err) err.style.display = 'none';
+    if (ok) ok.style.display = 'none';
+
+    if ($('cmAdOtpWrap')?.style.display === 'none') {
+      if (err) { err.textContent = 'ঠিকানা সেভ করতে আগে Gmail লিখে Send OTP দিন!'; err.style.display = 'block'; }
+      return;
+    }
+    const otpCode = ($('cmAdOtpInput')?.value || '').trim();
+    const valid = await verifyStoredOtp(otpCode, 'address_update', 'cmAdErr');
+    if (!valid) return;
+
+    await fetch(`${FB_URL}/resetRequests/${currentUser.phone}.json`, { method: 'DELETE' }).catch(() => {});
+    await _prevSaveUserAddress(e);
+    if ($('cmAdVerifyEmail')) $('cmAdVerifyEmail').value = '';
+    if ($('cmAdOtpInput')) $('cmAdOtpInput').value = '';
+    if ($('cmAdOtpWrap')) $('cmAdOtpWrap').style.display = 'none';
+    if (ok) { ok.textContent = 'OTP ভেরিফাইসহ ডেলিভারি লোকেশন সেভ হয়েছে!'; ok.style.display = 'block'; }
+    updateCompletionAndExtras();
+  };
+
+  /* 13. Sync Extra User Fields From Firebase + Auto-Select Preferred Payment on Checkout */
+  const _prevSyncUser = syncCurrentUserProfile;
+  syncCurrentUserProfile = async function() {
+    await _prevSyncUser();
+    if (!currentUser) return;
+    try {
+      const u = await (await fetch(`${FB_URL}/users/${currentUser.phone}.json?t=${Date.now()}`, { cache: 'no-store' })).json();
+      if (!u) return;
+      Object.assign(currentUser, {
+        gender: u.gender || '', dob: u.dob || '', altPhone: u.altPhone || '',
+        prefSize: u.prefSize || '', delNote: u.delNote || '',
+        prefPay: u.prefPay || 'COD', notifOrder: u.notifOrder !== false,
+        notifOffer: u.notifOffer !== false, authProvider: u.authProvider || 'password',
+        updatedAt: u.updatedAt || ''
+      });
+      savePersistentUser(currentUser, true);
+      if (pm.classList.contains('active')) updateCompletionAndExtras();
+    } catch (e) {}
+  };
+
+  const _prevOpenProfileModal = openProfileModal;
+  openProfileModal = async function() {
+    await _prevOpenProfileModal();
+    updateCompletionAndExtras();
+  };
+
+  const _prevSwitchDashTab = window.switchDashTab;
+  window.switchDashTab = function(tabId, btnEl) {
+    _prevSwitchDashTab(tabId, btnEl);
+    if (tabId === 'cmTabEdit' || tabId === 'cmTabOverview') updateCompletionAndExtras();
+    if (tabId === 'cmTabAddress' && $('cmAdErr')) { $('cmAdErr').style.display = 'none'; $('cmAdOk').style.display = 'none'; }
+  };
+
+  const _prevOpenOrderModal = openOrderModal;
+  openOrderModal = function(id, preSize = null) {
+    _prevOpenOrderModal(id, preSize);
+    if (currentUser && currentUser.prefPay) {
+      const s = getSettings(), pp = currentUser.prefPay;
+      if ((pp === 'COD' && s.enableCOD !== '0') || (pp === 'bKash' && s.enableBkash !== '0') || (pp === 'Nagad' && s.enableNagad !== '0')) {
+        setDirectPay(pp);
+      }
+    }
+  };
+
+  if (currentUser) syncCurrentUserProfile();
+})();
+</script>
+<!-- ================= END PRO THEME, OTP SECURITY & EXTRA PROFILE UPGRADE ================= -->
 </body>
 </html>
  
