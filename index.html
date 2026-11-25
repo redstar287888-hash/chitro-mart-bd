@@ -4959,12 +4959,231 @@
   if (currentUser) syncCurrentUserProfile();
 })();
 </script>
-    <!-- CHITRO MART Ultimate Storefront JS Upgrade v3.9 (Paste right before </body>) -->
+    <!-- CHITRO MART Ultimate All-in-One Premium Upgrade v4.0 (Paste right before </body>) -->
+<style>
+    html { scroll-behavior: smooth; }
+
+    /* Custom Brand Scrollbar & Selection */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #e8f5e9; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #0ea646, #065f46); border-radius: 50px; }
+    ::-webkit-scrollbar-thumb:hover { background: #047857; }
+    ::selection { background: #0ea646; color: #fff; }
+
+    /* Glassmorphism Sticky Header & Animated Nav Links */
+    header, .header, .navbar, .topbar-main {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    nav a, .nav a, .nav-links a { position: relative; transition: color .2s ease; }
+    nav a::after, .nav a::after, .nav-links a::after {
+        content: ""; position: absolute; left: 0; bottom: -3px; width: 0; height: 2.5px;
+        border-radius: 50px; background: linear-gradient(90deg, #0ea646, #1fd161); transition: width .25s ease;
+    }
+    nav a:hover::after, .nav a:hover::after, .nav-links a:hover::after { width: 100%; }
+
+    /* Search Focus & Cart Checkout Form Polish */
+    input[placeholder*="খুঁজছেন"]:focus, input[placeholder*="looking" i]:focus, input[type="search"]:focus {
+        box-shadow: 0 0 0 3px rgba(14, 166, 70, 0.22), 0 8px 22px rgba(14, 166, 70, 0.14) !important;
+        border-color: #0ea646 !important; outline: none !important;
+    }
+    [id*="cart" i] input:not([type="radio"]):not([type="checkbox"]), [id*="cart" i] select, [id*="cart" i] textarea,
+    [class*="cart" i] input:not([type="radio"]):not([type="checkbox"]), [class*="cart" i] select, [class*="cart" i] textarea {
+        border-radius: 10px !important; border: 1.5px solid #cbd5e1 !important; transition: border-color .2s ease, box-shadow .2s ease !important;
+    }
+    [id*="cart" i] input:focus, [id*="cart" i] select:focus, [id*="cart" i] textarea:focus,
+    [class*="cart" i] input:focus, [class*="cart" i] select:focus, [class*="cart" i] textarea:focus {
+        border-color: #0ea646 !important; box-shadow: 0 0 0 3px rgba(14, 166, 70, 0.16) !important; outline: none !important;
+    }
+
+    /* Premium Button & Card Hover Animations */
+    button, .btn, a[class*="btn"], input[type="submit"] {
+        transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, background .22s ease !important;
+    }
+    button:hover:not(:disabled), .btn:hover, a[class*="btn"]:hover {
+        transform: translateY(-1.5px); box-shadow: 0 8px 20px rgba(14, 166, 70, 0.2); filter: brightness(1.03);
+    }
+    button:active:not(:disabled) { transform: translateY(0) scale(.98); }
+
+    [class*="prod-card"], [class*="product-card"], [class*="cat-card"], [class*="category-card"], [class*="feat"], [class*="service-card"] {
+        transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease !important;
+    }
+    [class*="prod-card"]:hover, [class*="product-card"]:hover, [class*="cat-card"]:hover, [class*="category-card"]:hover {
+        transform: translateY(-4px); border-color: rgba(14, 166, 70, 0.45) !important; box-shadow: 0 14px 32px rgba(7, 19, 31, 0.13) !important;
+    }
+    [class*="prod-card"] img, [class*="product-card"] img { transition: transform .35s ease !important; border-radius: 10px; }
+    [class*="prod-card"]:hover img, [class*="product-card"]:hover img { transform: scale(1.04); }
+
+    /* Modal Smooth Open & Flash Timer Glow */
+    [class*="modal"].active, [id*="modal"].active, [class*="drawer"].active { animation: cmModalIn .22s ease; }
+    @keyframes cmModalIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    [class*="flash" i] [class*="box" i], [class*="timer" i] span, [id*="flash" i] span[style*="background"] { animation: cmTimerGlow 2s infinite ease-in-out; }
+    @keyframes cmTimerGlow { 0%, 100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); } 50% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.45); } }
+
+    /* Account -> Profile Badge */
+    .cm-profile-tag {
+        display: inline-flex !important; align-items: center; gap: 3px; margin-left: 5px; padding: 1.5px 8px;
+        border-radius: 50px; background: linear-gradient(135deg, #0ea646, #059669); color: #fff !important;
+        font-size: 9.5px !important; font-weight: 700 !important; letter-spacing: .3px; vertical-align: middle;
+        line-height: 1.3; box-shadow: 0 2px 8px rgba(14, 166, 70, 0.35);
+    }
+
+    /* Product Modal Premium Additions */
+    .cm-wish-modal-btn {
+        display: inline-flex !important; align-items: center; justify-content: center; gap: 6px;
+        min-height: 42px; padding: 9px 15px !important; border-radius: 10px !important;
+        border: 1.5px solid #fda4af !important; background: linear-gradient(135deg, #fff1f2, #ffe4e6) !important;
+        color: #e11d48 !important; font-size: 13px !important; font-weight: 700 !important;
+        cursor: pointer !important; white-space: nowrap; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.12);
+    }
+    .cm-wish-modal-btn:hover { background: linear-gradient(135deg, #ffe4e6, #fecdd3) !important; box-shadow: 0 6px 16px rgba(244, 63, 94, 0.22) !important; }
+    .cm-wish-modal-btn.saved {
+        background: linear-gradient(135deg, #f43f5e, #e11d48) !important; color: #fff !important;
+        border-color: #e11d48 !important; box-shadow: 0 6px 18px rgba(225, 29, 72, 0.32) !important;
+    }
+
+    .cm-wa-order-btn {
+        width: 100% !important; margin-top: 10px !important; padding: 11px 16px !important;
+        border-radius: 11px !important; border: 1.5px solid #86efac !important;
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important; color: #047857 !important;
+        font-size: 13.5px !important; font-weight: 700 !important; cursor: pointer !important;
+        display: flex !important; align-items: center; justify-content: center; gap: 8px;
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.14);
+    }
+    .cm-wa-order-btn:hover {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important; color: #fff !important;
+        border-color: #16a34a !important; box-shadow: 0 8px 22px rgba(22, 163, 74, 0.3) !important;
+    }
+
+    .cm-save-badge {
+        display: inline-flex !important; align-items: center; gap: 4px; margin-left: 8px; padding: 3px 10px;
+        border-radius: 50px; background: linear-gradient(135deg, #fff1f2, #ffe4e6); color: #e11d48;
+        border: 1px solid #fecdd3; font-size: 11.5px; font-weight: 700; vertical-align: middle;
+        box-shadow: 0 2px 6px rgba(225, 29, 72, 0.1);
+    }
+
+    .cm-trust-strip {
+        margin-top: 10px; padding: 9px 12px; border-radius: 10px;
+        background: linear-gradient(135deg, #f8fafc, #f1f5f9); border: 1px solid #e2e8f0;
+        font-size: 11.5px; font-weight: 600; color: #334155;
+        display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center;
+    }
+    .cm-trust-strip span { display: inline-flex; align-items: center; gap: 5px; }
+    .cm-trust-strip i { color: #0ea646; font-size: 12.5px; }
+
+    /* Search Auto-Suggestion Dropdown */
+    .cm-search-suggest {
+        position: fixed; background: #ffffff; border: 1px solid #d1fae5; border-radius: 16px;
+        box-shadow: 0 20px 45px rgba(7, 19, 31, 0.18); z-index: 2147483600; overflow: hidden;
+        display: none; max-height: 390px; overflow-y: auto; animation: cmSlideUp .18s ease;
+    }
+    .cm-sug-head { padding: 8px 14px; font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; border-bottom: 1px solid #d1fae5; display: flex; justify-content: space-between; }
+    .cm-sug-item { display: flex; align-items: center; gap: 11px; padding: 9px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; transition: background .15s ease; }
+    .cm-sug-item:last-child { border-bottom: none; }
+    .cm-sug-item:hover, .cm-sug-item.active { background: #f0fdf4; }
+    .cm-sug-item img { width: 46px; height: 46px; object-fit: cover; border-radius: 9px; border: 1px solid #e2e8f0; flex-shrink: 0; }
+    .cm-sug-meta { flex: 1; min-width: 0; }
+    .cm-sug-name { font-size: 13px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cm-sug-sub { font-size: 11px; color: #64748b; }
+    .cm-sug-price { text-align: right; flex-shrink: 0; }
+    .cm-sug-price b { color: #0ea646; font-size: 13.5px; display: block; }
+    .cm-sug-price del { color: #94a3b8; font-size: 11px; }
+    .cm-sug-empty { padding: 16px; text-align: center; font-size: 12.5px; color: #64748b; }
+
+    /* Cart Delete Button */
+    .cm-cart-del-btn {
+        display: inline-flex !important; align-items: center; align-self: center !important;
+        width: auto !important; height: auto !important; gap: 5px; padding: 6px 11px !important;
+        margin-left: 6px; border: 1px solid #fecaca !important; border-radius: 8px !important;
+        background: #fee2e2 !important; color: #dc2626 !important; font-size: 11.5px !important;
+        font-weight: 700 !important; cursor: pointer !important; line-height: 1.2 !important; flex-shrink: 0;
+    }
+    .cm-cart-del-btn:hover { background: #ef4444 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important; }
+
+    /* Smart Share Popup & Image Lightbox */
+    .cm-share-backdrop, .cm-zoom-backdrop {
+        position: fixed; inset: 0; background: rgba(7, 19, 31, 0.65); backdrop-filter: blur(4px);
+        z-index: 2147483640 !important; display: flex; align-items: center; justify-content: center;
+        padding: 16px; animation: cmSlideUp .18s ease;
+    }
+    .cm-share-box {
+        background: #fff; color: #0f172a; width: 100%; max-width: 410px; border-radius: 18px;
+        padding: 20px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35); border: 1px solid #e2e8f0;
+    }
+    .cm-share-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .cm-share-head h4 { font-size: 15.5px; font-weight: 800; color: #07131f; margin: 0; }
+    .cm-share-url-row { display: flex; gap: 6px; margin-bottom: 12px; }
+    .cm-share-url-row input { flex: 1; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 9px; font-size: 11.5px; background: #f8fafc; color: #334155; }
+    .cm-share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cm-share-btn {
+        border: none; padding: 10px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 700;
+        color: #fff !important; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;
+    }
+    .cm-zoom-backdrop img { max-width: 92vw; max-height: 86vh; border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); object-fit: contain; background: #fff; }
+    .cm-zoom-close { position: fixed; top: 18px; right: 22px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #fff; color: #0f172a; font-size: 22px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
+
+    /* Live Chat Unread Badge & Preview Bubble */
+    .cm-chat-unread-badge {
+        position: absolute; top: -7px; right: -5px; min-width: 22px; height: 22px; padding: 0 6px;
+        border-radius: 50px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff;
+        font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;
+        border: 2px solid #fff; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5); animation: cmPulse 1.4s infinite; z-index: 9999; pointer-events: none;
+    }
+    .cm-chat-preview-pop {
+        position: fixed; right: 20px; bottom: 84px; max-width: 280px; background: #0f172a; color: #f8fafc;
+        border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 14px; padding: 10px 13px; font-size: 12px;
+        line-height: 1.45; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28); z-index: 9998; cursor: pointer; animation: cmSlideUp .3s ease;
+    }
+    .cm-chat-preview-pop .cm-pop-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: #34d399; margin-bottom: 3px; }
+    .cm-chat-preview-close { background: none; border: none; color: #94a3b8; font-size: 14px; cursor: pointer; padding: 0 2px; line-height: 1; }
+
+    /* Recently Viewed Strip */
+    #cmRecentlyViewed {
+        max-width: 1280px; margin: 22px auto; padding: 16px; background: rgba(255, 255, 255, 0.94);
+        border: 1px solid #d1fae5; border-radius: 18px; box-shadow: 0 10px 26px rgba(7, 19, 31, 0.06);
+    }
+    .cm-rv-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; font-weight: 800; color: #07131f; }
+    .cm-rv-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
+    .cm-rv-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 9px; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+    .cm-rv-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(14, 166, 70, 0.14); border-color: #0ea646; }
+    .cm-rv-card img { width: 100%; height: 115px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+    .cm-rv-title { font-size: 12px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cm-rv-price { font-size: 12.5px; font-weight: 800; color: #0ea646; margin-top: 2px; }
+
+    /* Scroll to Top, Social Proof & Toast */
+    #cmScrollTopBtn {
+        position: fixed; right: 22px; bottom: 86px; width: 42px; height: 42px; border-radius: 50%; border: none;
+        background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; font-size: 16px; cursor: pointer;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.3); z-index: 9990; display: none; align-items: center; justify-content: center;
+    }
+    #cmSocialProof {
+        position: fixed; left: 18px; bottom: 20px; max-width: 290px; background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(8px); color: #0f172a; border: 1px solid #cbd5e1; border-left: 4px solid #0ea646;
+        border-radius: 12px; padding: 9px 12px; font-size: 11.5px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+        z-index: 9985; display: none; align-items: center; gap: 9px; animation: cmSlideUp .35s ease;
+    }
+    .cm-mini-toast {
+        position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff;
+        padding: 9px 20px; border-radius: 50px; font-size: 12.5px; font-weight: 600;
+        z-index: 2147483645; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+    }
+    @keyframes cmPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+    @keyframes cmSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) {
+        #cmSocialProof { max-width: calc(100vw - 95px); left: 10px; bottom: 14px; font-size: 11px; }
+        .cm-chat-preview-pop { right: 12px; bottom: 78px; max-width: calc(100vw - 24px); }
+        #cmRecentlyViewed { margin: 14px 10px; padding: 12px; }
+        .cm-rv-strip { grid-template-columns: repeat(2, 1fr); }
+        .cm-share-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
 <script>
 (function () {
     const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
     const VISIT_SESS_KEY = "cm_visit_log_key_v1";
     const RECENT_KEY = "cm_recent_prods_v1";
+    const WISH_CACHE_KEY = "cm_wish_state_cache_v1";
     const escHtml = s => String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
     const fmtNum = n => Number(n || 0).toLocaleString("en-IN");
     const getFirstImg = p => (Array.isArray(p.images) && p.images[0]) ? p.images[0] : (p.image || "https://placehold.co/100x100/0f172a/f59e0b?text=Item");
@@ -4984,10 +5203,7 @@
 
     async function copyTextSafe(text) {
         try {
-            if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(text);
-                return true;
-            }
+            if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
         } catch (e) {}
         try {
             const ta = document.createElement("textarea");
@@ -5002,7 +5218,7 @@
     }
 
     // ---------------------------------------------------------
-    // 1. Detect Logged-in Customer & Store Cache
+    // 1. Customer & Store Cache
     // ---------------------------------------------------------
     function detectCustomer() {
         let name = "", phone = "", chatId = "";
@@ -5021,9 +5237,7 @@
                     const raw = store.getItem(k);
                     if (!raw) continue;
                     if (!chatId && /chat/i.test(k) && /^u_|^g_|^c_/i.test(raw)) chatId = raw.trim();
-                    if (raw.startsWith("{")) {
-                        try { inspect(JSON.parse(raw)); } catch (e) {}
-                    }
+                    if (raw.startsWith("{")) { try { inspect(JSON.parse(raw)); } catch (e) {} }
                 }
             }
         } catch (e) {}
@@ -5051,7 +5265,7 @@
     }
 
     // ---------------------------------------------------------
-    // 2. Account -> "Profile" Badge Fix
+    // 2. Account -> "Profile" Badge
     // ---------------------------------------------------------
     function addProfileTagBesideAccount() {
         try {
@@ -5086,10 +5300,7 @@
     }
 
     // ---------------------------------------------------------
-    // 3. PRODUCT DETAILS MODAL ENHANCER
-    //    - Adds Wishlist button beside Add to Cart & Order Now
-    //    - Fixes Share Popup (always opens on top!)
-    //    - Adds Discount % + Savings badge, WhatsApp Order, Trust Strip & Image Zoom
+    // 3. PRODUCT MODAL: Wishlist (Accurate State!), Share Popup, WhatsApp, Savings & Zoom
     // ---------------------------------------------------------
     function findProductModalBox(startEl) {
         let cur = startEl;
@@ -5127,12 +5338,66 @@
         return { prodId, sku, name, price, oldPrice };
     }
 
+    function getHeaderWishlistCount() {
+        try {
+            const candidates = Array.from(document.querySelectorAll("header *, .header *, nav *, .topbar *, a, button, div"));
+            for (const el of candidates) {
+                const r = el.getBoundingClientRect();
+                if (r.top > 180 || r.height === 0) continue;
+                const t = (el.textContent || "").trim();
+                if (/Wishlist/i.test(t) && t.length < 30 && /\d+/.test(t)) {
+                    const m = t.match(/\d+/);
+                    if (m) return Number(m[0]);
+                }
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function findCardAndHeartForProduct(prodId, prodName) {
+        const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
+        const card = cards.find(c => {
+            if (c.closest(".cm-share-backdrop") || c.closest("#cmRecentlyViewed") || findProductModalBox(c)) return false;
+            const html = c.innerHTML || "";
+            return (prodId && html.includes(prodId)) || (prodName && (c.textContent || "").toLowerCase().includes(prodName.toLowerCase()) && /৳/.test(c.textContent || ""));
+        });
+        if (!card) return { card: null, heartBtn: null };
+        const heartBtn = Array.from(card.querySelectorAll("button, span, div, i")).find(el =>
+            /wish/i.test((el.getAttribute("onclick") || "") + " " + (el.className || "") + " " + (el.title || "")) ||
+            (el.tagName !== "I" && el.querySelector("i[class*='heart']"))
+        ) || card.querySelector("i[class*='heart']");
+        return { card, heartBtn };
+    }
+
+    function isHeartVisualActive(heartBtn) {
+        if (!heartBtn) return null;
+        if (/active|saved|liked|wishlisted/i.test(heartBtn.className || "")) return true;
+        const icon = heartBtn.tagName === "I" ? heartBtn : heartBtn.querySelector("i");
+        if (icon && /fa-solid/.test(icon.className || "") && /fa-heart/.test(icon.className || "")) return true;
+        if ((heartBtn.textContent || "").includes("❤️") || (heartBtn.textContent || "").includes("♥")) return true;
+        const col = getComputedStyle(icon || heartBtn).color || "";
+        // Red / pink / rose rgb detection
+        const m = col.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+        if (m && Number(m[1]) > 180 && Number(m[2]) < 110) return true;
+        return false;
+    }
+
+    function getWishCacheMap() {
+        try { return JSON.parse(localStorage.getItem(WISH_CACHE_KEY) || "{}"); } catch (e) { return {}; }
+    }
+    function setWishCacheState(key, val) {
+        if (!key) return;
+        const m = getWishCacheMap();
+        if (val) m[key] = 1; else delete m[key];
+        localStorage.setItem(WISH_CACHE_KEY, JSON.stringify(m));
+    }
+
     function getWishlistStorageInfo() {
         for (const store of [localStorage, sessionStorage]) {
             try {
                 for (let i = 0; i < store.length; i++) {
                     const k = store.key(i);
-                    if (!k || k.includes("adm")) continue;
+                    if (!k || k.includes("adm") || k === WISH_CACHE_KEY) continue;
                     if (/wish/i.test(k)) {
                         const raw = store.getItem(k);
                         if (raw && raw.startsWith("[")) {
@@ -5148,7 +5413,14 @@
         return null;
     }
 
-    function isProductInWishlist(prodId, prodName) {
+    function isProductInWishlist(prodId, prodName, heartBtn = null) {
+        if (heartBtn) {
+            const vis = isHeartVisualActive(heartBtn);
+            if (vis === true) return true;
+        }
+        const cache = getWishCacheMap();
+        if (prodId && cache[prodId]) return true;
+        if (prodName && cache[prodName]) return true;
         try {
             if (typeof wishlist !== "undefined" && Array.isArray(wishlist)) {
                 if (wishlist.some(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === prodName))) return true;
@@ -5159,70 +5431,48 @@
         return false;
     }
 
-    function toggleWishlistItem(prodInfo, wishBtn) {
+    async function toggleWishlistItem(prodInfo, wishBtn) {
         const { prodId, name } = prodInfo;
-        let toggledNatively = false;
+        const { heartBtn } = findCardAndHeartForProduct(prodId, name);
+        const beforeCount = getHeaderWishlistCount();
+        const beforeState = wishBtn.classList.contains("saved") || isProductInWishlist(prodId, name, heartBtn);
 
-        // 1. Try finding the native heart button on the matching product card in the grid
-        const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
-        const card = cards.find(c => {
-            if (c.closest(".cm-share-backdrop") || c.closest("#cmRecentlyViewed")) return false;
-            const oc = c.innerHTML || "";
-            return (prodId && oc.includes(prodId)) || (name && (c.textContent || "").toLowerCase().includes(name.toLowerCase()) && /৳/.test(c.textContent || ""));
-        });
-        if (card) {
-            const heartBtn = Array.from(card.querySelectorAll("button, span, div")).find(el =>
-                /wish/i.test((el.getAttribute("onclick") || "") + " " + (el.className || "") + " " + (el.title || "")) ||
-                el.querySelector("i[class*='heart']")
-            );
-            if (heartBtn) {
-                heartBtn.click();
-                toggledNatively = true;
-            }
-        }
+        let nowSaved = !beforeState;
 
-        // 2. Also try global toggle functions if native card heart wasn't found
-        if (!toggledNatively && prodId) {
-            for (const fn of ["toggleWishlist", "toggleWish", "addToWishlist", "wishToggle"]) {
-                try {
-                    if (typeof window[fn] === "function") {
-                        window[fn](prodId);
-                        toggledNatively = true;
-                        break;
-                    }
-                } catch (e) {}
-            }
-        }
+        if (heartBtn) {
+            heartBtn.click();
+            await sleepMs(60);
+            const afterCount = getHeaderWishlistCount();
+            const afterHeartActive = isHeartVisualActive(heartBtn);
 
-        // 3. Fallback: update localStorage wishlist array directly
-        let nowSaved = false;
-        if (!toggledNatively) {
-            let st = getWishlistStorageInfo();
-            if (!st) st = { store: localStorage, key: "cm_wishlist", arr: [] };
-            const idx = st.arr.findIndex(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === name));
-            if (idx > -1) {
-                st.arr.splice(idx, 1);
-                nowSaved = false;
-            } else {
-                st.arr.push(prodId || name);
-                nowSaved = true;
-            }
-            st.store.setItem(st.key, JSON.stringify(st.arr));
-            ["renderWishlist", "updateWishlist", "updateWishlistCount", "updateWishUI", "saveWishlist"].forEach(fn => {
-                try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
-            });
-            // Update header Wishlist counter badge if visible
-            const wishHeaderBtn = Array.from(document.querySelectorAll("header *, .header *, nav *, .topbar *")).find(el =>
-                /Wishlist/i.test(el.textContent || "") && /\d+/.test(el.textContent || "") && el.children.length <= 4
-            );
-            if (wishHeaderBtn) {
-                const cntEl = Array.from(wishHeaderBtn.querySelectorAll("span, small, b")).find(s => /^\d+$/.test((s.textContent || "").trim()));
-                if (cntEl) cntEl.textContent = String(st.arr.length);
+            if (beforeCount !== null && afterCount !== null && afterCount !== beforeCount) {
+                nowSaved = afterCount > beforeCount;
+            } else if (afterHeartActive !== null && afterHeartActive !== beforeState) {
+                nowSaved = afterHeartActive;
             }
         } else {
-            nowSaved = isProductInWishlist(prodId, name);
+            let calledGlobal = false;
+            if (prodId) {
+                for (const fn of ["toggleWishlist", "toggleWish", "addToWishlist", "wishToggle"]) {
+                    try {
+                        if (typeof window[fn] === "function") { window[fn](prodId); calledGlobal = true; break; }
+                    } catch (e) {}
+                }
+            }
+            if (!calledGlobal) {
+                let st = getWishlistStorageInfo();
+                if (!st) st = { store: localStorage, key: "cm_wishlist", arr: [] };
+                const idx = st.arr.findIndex(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === name));
+                if (idx > -1) { st.arr.splice(idx, 1); nowSaved = false; }
+                else { st.arr.push(prodId || name); nowSaved = true; }
+                st.store.setItem(st.key, JSON.stringify(st.arr));
+                ["renderWishlist", "updateWishlist", "updateWishlistCount", "updateWishUI", "saveWishlist"].forEach(fn => {
+                    try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
+                });
+            }
         }
 
+        setWishCacheState(prodId || name, nowSaved);
         wishBtn.classList.toggle("saved", nowSaved);
         wishBtn.innerHTML = nowSaved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
         miniToast(nowSaved ? "❤️ Wishlist-এ যুক্ত হয়েছে!" : "💔 Wishlist থেকে সরানো হয়েছে");
@@ -5245,10 +5495,10 @@
                     <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
                     <button type="button" class="cm-share-close" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;line-height:1">&times;</button>
                 </div>
-                <p style="font-size:12px;color:#475569;margin-bottom:8px"><b>${escHtml(info.name)}</b>${info.price ? ` • <span style="color:#0ea646;font-weight:700">৳${fmtNum(info.price)}</span>` : ""}</p>
+                <p style="font-size:12.5px;color:#475569;margin-bottom:10px"><b>${escHtml(info.name)}</b>${info.price ? ` • <span style="color:#0ea646;font-weight:700">৳${fmtNum(info.price)}</span>` : ""}</p>
                 <div class="cm-share-url-row">
                     <input type="text" value="${escHtml(shareUrl)}" readonly onclick="this.select()">
-                    <button type="button" id="cmShareCopyBtn" style="border:none;background:#0ea646;color:#fff;padding:0 12px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
+                    <button type="button" id="cmShareCopyBtn" style="border:none;background:#0ea646;color:#fff;padding:0 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
                 </div>
                 <div class="cm-share-grid">
                     <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
@@ -5260,7 +5510,12 @@
         `;
         bd.onclick = ev => { if (ev.target === bd) bd.remove(); };
         bd.querySelector(".cm-share-close").onclick = () => bd.remove();
-        bd.querySelector("#cmShareCopyBtn").onclick = async () => { await copyTextSafe(shareUrl); miniToast("✅ লিংক কপি হয়েছে!"); };
+        bd.querySelector("#cmShareCopyBtn").onclick = async function () {
+            await copyTextSafe(shareUrl);
+            this.textContent = "Copied ✓";
+            setTimeout(() => { if (this.isConnected) this.textContent = "Copy"; }, 1400);
+            miniToast("✅ লিংক কপি হয়েছে!");
+        };
         bd.querySelector("#cmShareCopyFullBtn").onclick = async () => { await copyTextSafe(shareText); miniToast("✅ নাম, দাম ও লিংক কপি হয়েছে!"); };
         const natBtn = bd.querySelector("#cmShareNativeBtn");
         if (natBtn) natBtn.onclick = () => navigator.share({ title: info.name, text: `${info.name} — ৳${fmtNum(info.price)}`, url: shareUrl }).catch(() => {});
@@ -5296,10 +5551,8 @@
                 if (modal.dataset.cmModalSig === prodSig && modal.querySelector(".cm-wish-modal-btn")) continue;
                 modal.dataset.cmModalSig = prodSig;
 
-                // Clean old injected extras if modal DOM was reused for a different product
                 modal.querySelectorAll(".cm-wish-modal-btn, .cm-wa-order-btn, .cm-save-badge, .cm-trust-strip").forEach(el => el.remove());
 
-                // 1. Add Wishlist button right beside Add to Cart & Order Now
                 const actionRow = addBtn.parentElement;
                 if (actionRow) {
                     const st = getComputedStyle(actionRow);
@@ -5309,20 +5562,19 @@
                         actionRow.style.gap = "8px";
                         Array.from(actionRow.children).forEach(ch => { ch.style.flex = "1 1 auto"; });
                     }
+                    const { heartBtn } = findCardAndHeartForProduct(info.prodId, info.name);
+                    const saved = isProductInWishlist(info.prodId, info.name, heartBtn);
                     const wishBtn = document.createElement("button");
                     wishBtn.type = "button";
-                    wishBtn.className = "cm-wish-modal-btn";
-                    const saved = isProductInWishlist(info.prodId, info.name);
-                    wishBtn.classList.toggle("saved", saved);
+                    wishBtn.className = "cm-wish-modal-btn" + (saved ? " saved" : "");
                     wishBtn.innerHTML = saved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
                     wishBtn.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); toggleWishlistItem(info, wishBtn); };
                     actionRow.appendChild(wishBtn);
 
-                    // 2. Add WhatsApp 1-Click Order button + Trust Strip below actionRow
                     const waBtn = document.createElement("button");
                     waBtn.type = "button";
                     waBtn.className = "cm-wa-order-btn";
-                    waBtn.innerHTML = '<i class="fa-brands fa-whatsapp" style="font-size:16px"></i> WhatsApp-এ সরাসরি অর্ডার করুন';
+                    waBtn.innerHTML = '<i class="fa-brands fa-whatsapp" style="font-size:17px"></i> WhatsApp-এ সরাসরি অর্ডার করুন';
                     waBtn.onclick = () => {
                         let wa = String(cachedSettings.whatsapp || "01767068529").replace(/[^0-9]/g, "");
                         if (wa.startsWith("01")) wa = "88" + wa;
@@ -5335,11 +5587,10 @@
 
                     const trust = document.createElement("div");
                     trust.className = "cm-trust-strip";
-                    trust.innerHTML = '<span>✅ ১০০% ক্যাশ অন ডেলিভারি</span><span>•</span><span>🚚 ২৪-৭২ ঘন্টায় ডেলিভারি</span><span>•</span><span>🔄 সহজ রিটার্ন</span>';
+                    trust.innerHTML = '<span><i class="fa-solid fa-shield-halved"></i> ১০০% ক্যাশ অন ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-truck-fast"></i> ২৪-৭২ ঘন্টায় ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-rotate-left"></i> সহজ রিটার্ন</span>';
                     waBtn.insertAdjacentElement("afterend", trust);
                 }
 
-                // 3. Add Discount % + Savings Badge next to price
                 if (info.oldPrice > info.price && info.price > 0) {
                     const priceEl = Array.from(modal.querySelectorAll("div, p, span")).find(el => {
                         const t = (el.textContent || "").trim();
@@ -5355,7 +5606,6 @@
                     }
                 }
 
-                // 4. Enable Click-to-Zoom Lightbox on Modal Main Image
                 const mainImg = Array.from(modal.querySelectorAll("img")).find(im => im.offsetWidth > 70 && im.offsetHeight > 70);
                 if (mainImg && !mainImg.dataset.cmZoomBound) {
                     mainImg.dataset.cmZoomBound = "1";
@@ -5425,7 +5675,7 @@
     }
 
     // ---------------------------------------------------------
-    // 4. Live Search Bar Auto-Suggestion
+    // 4. Live Search Auto-Suggestion
     // ---------------------------------------------------------
     function openOrSearchProduct(prod, searchInp) {
         saveRecentlyViewed(prod);
@@ -5533,21 +5783,15 @@
             if (dd.style.display !== "block" || !currentMatches.length) return;
             const items = dd.querySelectorAll(".cm-sug-item");
             if (ev.key === "ArrowDown") {
-                ev.preventDefault();
-                activeIdx = (activeIdx + 1) % items.length;
+                ev.preventDefault(); activeIdx = (activeIdx + 1) % items.length;
                 items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
             } else if (ev.key === "ArrowUp") {
-                ev.preventDefault();
-                activeIdx = (activeIdx - 1 + items.length) % items.length;
+                ev.preventDefault(); activeIdx = (activeIdx - 1 + items.length) % items.length;
                 items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
             } else if (ev.key === "Enter" && activeIdx > -1) {
-                ev.preventDefault();
-                const p = currentMatches[activeIdx];
-                dd.style.display = "none";
+                ev.preventDefault(); const p = currentMatches[activeIdx]; dd.style.display = "none";
                 if (p) openOrSearchProduct(p, inp);
-            } else if (ev.key === "Escape") {
-                dd.style.display = "none";
-            }
+            } else if (ev.key === "Escape") { dd.style.display = "none"; }
         });
 
         document.addEventListener("click", ev => { if (ev.target !== inp && !dd.contains(ev.target)) dd.style.display = "none"; });
@@ -5637,14 +5881,8 @@
 
     function cleanItemTitleForMatch(txt) {
         return String(txt || "")
-            .replace(/৳[\d,.\s]+/g, " ")
-            .replace(/\bx\s*\d+/gi, " ")
-            .replace(/\((S|M|L|XL|XXL|XXXL|\d+)\)/gi, " ")
-            .replace(/[-–—]/g, " ")
-            .replace(/মুছুন/g, " ")
-            .replace(/\s+/g, " ")
-            .trim()
-            .toLowerCase();
+            .replace(/৳[\d,.\s]+/g, " ").replace(/\bx\s*\d+/gi, " ").replace(/\((S|M|L|XL|XXL|XXXL|\d+)\)/gi, " ")
+            .replace(/[-–—]/g, " ").replace(/মুছুন/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
     }
 
     function findMatchingItemIndex(arr, rowCleanText, fallbackIdx) {
@@ -5664,7 +5902,7 @@
             try {
                 for (let i = 0; i < store.length; i++) {
                     const k = store.key(i);
-                    if (!k || k.includes("adm") || k.includes("visit") || k === RECENT_KEY) continue;
+                    if (!k || k.includes("adm") || k.includes("visit") || k === RECENT_KEY || k === WISH_CACHE_KEY) continue;
                     const raw = store.getItem(k);
                     if (!raw) continue;
                     if (raw.startsWith("[")) {
@@ -5672,9 +5910,7 @@
                             const arr = JSON.parse(raw);
                             if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === "object" && (
                                 /cart/i.test(k) || arr[0].qty !== undefined || arr[0].quantity !== undefined || arr[0].price !== undefined
-                            )) {
-                                matches.push({ store, key: k, type: "array", data: arr });
-                            }
+                            )) { matches.push({ store, key: k, type: "array", data: arr }); }
                         } catch (e) {}
                     } else if (raw.startsWith("{")) {
                         try {
@@ -5714,9 +5950,7 @@
                     const entries = Object.entries(d);
                     const arr = entries.map(([, v]) => v);
                     const idx = findMatchingItemIndex(arr, rowCleanText, fallbackIdx);
-                    if (idx > -1 && entries[idx]) {
-                        await fetch(`${FB_URL_SF}/${p}/${entries[idx][0]}.json`, { method: "DELETE" });
-                    }
+                    if (idx > -1 && entries[idx]) await fetch(`${FB_URL_SF}/${p}/${entries[idx][0]}.json`, { method: "DELETE" });
                 }
             } catch (e) {}
         }
@@ -5769,11 +6003,7 @@
         for (const hit of findAllCartArraysInStorage()) {
             const arr = hit.type === "array" ? hit.data : hit.data.cart;
             const idx = findMatchingItemIndex(arr, rowClean, rowIndex);
-            if (idx > -1) {
-                arr.splice(idx, 1);
-                hit.store.setItem(hit.key, JSON.stringify(hit.data));
-                removedAny = true;
-            }
+            if (idx > -1) { arr.splice(idx, 1); hit.store.setItem(hit.key, JSON.stringify(hit.data)); removedAny = true; }
         }
 
         await syncFirebaseCartDeletion(rowClean, rowIndex);
