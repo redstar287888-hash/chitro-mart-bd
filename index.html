@@ -4959,10 +4959,7 @@
   if (currentUser) syncCurrentUserProfile();
 })();
 </script>
-    <!-- CHITRO MART Premium Storefront JS Upgrade v3.7 (Paste right before </body>) -->
-<style>
-    .cm-cart-del-btn { align-self: center !important; width: auto !important; height: auto !important; padding: 6px 10px !important; }
-</style>
+   <!-- CHITRO MART Premium Storefront JS Upgrade v3.8 (Paste right before </body>) -->
 <script>
 (function () {
     const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
@@ -4982,6 +4979,25 @@
         el.textContent = msg;
         document.body.appendChild(el);
         setTimeout(() => el.remove(), 2600);
+    }
+
+    async function copyTextSafe(text) {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return true;
+            }
+        } catch (e) {}
+        try {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;";
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand("copy");
+            ta.remove();
+            return ok;
+        } catch (e) { return false; }
     }
 
     // ---------------------------------------------------------
@@ -5050,7 +5066,120 @@
     }
 
     // ---------------------------------------------------------
-    // 3. Live Search Bar Auto-Suggestion
+    // 3. SMART SHARE BUTTON FIX + SHARED PRODUCT DEEP-LINK OPENER
+    // ---------------------------------------------------------
+    function setupSmartShareAndDeepLink() {
+        document.addEventListener("click", async e => {
+            const btn = e.target.closest("button, a");
+            if (!btn || btn.closest(".cm-share-backdrop")) return;
+            const bTxt = (btn.textContent || "").trim();
+            const isShareBtn = /^Share$/i.test(bTxt) || (bTxt.length < 15 && /share/i.test(bTxt) && btn.querySelector("i[class*='share']"));
+            if (!isShareBtn) return;
+
+            const modal = btn.closest("[class*='modal' i], [id*='modal' i], [class*='detail' i], div");
+            const modalTxt = modal ? (modal.textContent || "") : "";
+            if (!/ID:|SKU:|৳/i.test(modalTxt)) return;
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            const idMatch = modalTxt.match(/ID:\s*([A-Za-z0-9_-]+)/i);
+            let prodId = idMatch ? idMatch[1].trim() : "";
+            const heading = modal.querySelector("h1, h2, h3, h4");
+            let prodName = heading ? heading.textContent.trim() : "CHITRO MART Product";
+            let prodPrice = "";
+            const pMatch = modalTxt.match(/৳\s*([\d,]+)/);
+            if (pMatch) prodPrice = pMatch[1];
+
+            if (!prodId && cachedProducts.length) {
+                const found = cachedProducts.find(p => p.name && prodName.toLowerCase().includes(p.name.toLowerCase()));
+                if (found) { prodId = found.id; prodName = found.name; prodPrice = fmtNum(found.price); }
+            }
+
+            const baseUrl = location.href.split(/[?#]/)[0];
+            const shareUrl = prodId ? `${baseUrl}?product=${encodeURIComponent(prodId)}` : baseUrl;
+            const shareText = `🔥 ${prodName}${prodPrice ? ` — মাত্র ৳${prodPrice}!` : ""}\nএখনই অর্ডার করুন:\n${shareUrl}`;
+
+            const copied = await copyTextSafe(shareUrl);
+            if (copied) miniToast("🔗 প্রোডাক্ট লিংক কপি হয়েছে!");
+
+            document.querySelectorAll(".cm-share-backdrop").forEach(el => el.remove());
+            const bd = document.createElement("div");
+            bd.className = "cm-share-backdrop";
+            bd.innerHTML = `
+                <div class="cm-share-box">
+                    <div class="cm-share-head">
+                        <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
+                        <button type="button" class="cm-share-close" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;line-height:1">&times;</button>
+                    </div>
+                    <p style="font-size:12px;color:#475569;margin-bottom:8px"><b>${escHtml(prodName)}</b>${prodPrice ? ` • <span style="color:#0ea646;font-weight:700">৳${escHtml(prodPrice)}</span>` : ""}</p>
+                    <div class="cm-share-url-row">
+                        <input type="text" id="cmShareUrlInp" value="${escHtml(shareUrl)}" readonly onclick="this.select()">
+                        <button type="button" id="cmShareCopyBtn" style="border:none;background:#0ea646;color:#fff;padding:0 12px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
+                    </div>
+                    <div class="cm-share-grid">
+                        <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                        <a class="cm-share-btn" style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                        <button type="button" id="cmShareCopyFullBtn" class="cm-share-btn" style="background:#0f172a"><i class="fa-solid fa-copy"></i> নাম+দামসহ কপি</button>
+                        ${navigator.share ? `<button type="button" id="cmShareNativeBtn" class="cm-share-btn" style="background:#6366f1"><i class="fa-solid fa-share-nodes"></i> আরও অ্যাপ</button>` : `<button type="button" id="cmShareDoneBtn" class="cm-share-btn" style="background:#64748b">বন্ধ করুন</button>`}
+                    </div>
+                </div>
+            `;
+            bd.onclick = ev => { if (ev.target === bd) bd.remove(); };
+            bd.querySelector(".cm-share-close").onclick = () => bd.remove();
+            bd.querySelector("#cmShareCopyBtn").onclick = async () => {
+                await copyTextSafe(shareUrl);
+                miniToast("✅ লিংক কপি হয়েছে!");
+            };
+            bd.querySelector("#cmShareCopyFullBtn").onclick = async () => {
+                await copyTextSafe(shareText);
+                miniToast("✅ নাম, দাম ও লিংক কপি হয়েছে!");
+            };
+            const natBtn = bd.querySelector("#cmShareNativeBtn");
+            if (natBtn) natBtn.onclick = () => navigator.share({ title: prodName, text: `${prodName} — ৳${prodPrice}`, url: shareUrl }).catch(() => {});
+            const doneBtn = bd.querySelector("#cmShareDoneBtn");
+            if (doneBtn) doneBtn.onclick = () => bd.remove();
+            document.body.appendChild(bd);
+        }, true);
+    }
+
+    async function autoOpenSharedProductFromUrl() {
+        const params = new URLSearchParams(location.search);
+        const targetId = params.get("product") || params.get("p") || params.get("id");
+        if (!targetId) return;
+
+        for (let i = 0; i < 25; i++) {
+            // 1. Try finding direct DOM card/button referencing this product ID
+            const byAttr = Array.from(document.querySelectorAll("[onclick], [data-id], [data-product-id]")).find(el => {
+                const oc = el.getAttribute("onclick") || "";
+                const di = el.getAttribute("data-id") || el.getAttribute("data-product-id") || "";
+                return oc.includes(targetId) || di === targetId;
+            });
+            if (byAttr) {
+                byAttr.scrollIntoView({ behavior: "smooth", block: "center" });
+                setTimeout(() => byAttr.click(), 200);
+                return;
+            }
+
+            // 2. Fallback via cachedProducts name match
+            if (!cachedProducts.length) await loadStoreProductsCache();
+            const prod = cachedProducts.find(p => String(p.id) === targetId);
+            if (prod) {
+                const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
+                const matched = cards.find(c => /৳/.test(c.textContent || "") && (c.textContent || "").toLowerCase().includes(prod.name.toLowerCase()));
+                if (matched) {
+                    matched.scrollIntoView({ behavior: "smooth", block: "center" });
+                    const clickable = matched.querySelector("img, h3, h4, a, button") || matched;
+                    setTimeout(() => clickable.click(), 200);
+                    return;
+                }
+            }
+            await sleepMs(320);
+        }
+    }
+
+    // ---------------------------------------------------------
+    // 4. Live Search Bar Auto-Suggestion
     // ---------------------------------------------------------
     async function loadStoreProductsCache() {
         try {
@@ -5195,7 +5324,7 @@
     }
 
     // ---------------------------------------------------------
-    // 4. Recently Viewed Products Strip
+    // 5. Recently Viewed Products Strip
     // ---------------------------------------------------------
     function saveRecentlyViewed(prod) {
         if (!prod || !prod.name) return;
@@ -5259,7 +5388,7 @@
     }
 
     // ---------------------------------------------------------
-    // 5. PERSISTENT CART DELETE (Fixed: Never deletes summary row + Persists on refresh!)
+    // 6. Persistent Cart Delete Button
     // ---------------------------------------------------------
     const SUMMARY_SKIP_RE = /পণ্যের মূল্য|ডেলিভারি|সর্বমোট|মোট টাকা|Subtotal|Total Payable|Grand Total|Delivery Charge|Discount|কুপন/i;
 
@@ -5338,8 +5467,7 @@
     async function syncFirebaseCartDeletion(rowCleanText, fallbackIdx) {
         const cust = detectCustomer();
         if (!cust.phone) return;
-        const paths = [`users/${cust.phone}/cart`, `carts/${cust.phone}`];
-        for (const p of paths) {
+        for (const p of [`users/${cust.phone}/cart`, `carts/${cust.phone}`]) {
             try {
                 const r = await fetch(`${FB_URL_SF}/${p}.json?t=${Date.now()}`, { cache: "no-store" });
                 const d = await r.json();
@@ -5364,8 +5492,6 @@
 
     async function removeCartItemByRow(rowEl, rowIndex) {
         const rowClean = cleanItemTitleForMatch(rowEl.textContent || "");
-
-        // Step 1: Try existing native delete button if one existed
         const existingBtn = rowEl.querySelector("button[onclick*='remove'], button[onclick*='del'], button[onclick*='Remove'], button[onclick*='Del']");
         if (existingBtn && !existingBtn.classList.contains("cm-cart-del-btn")) {
             existingBtn.click();
@@ -5374,7 +5500,6 @@
             return;
         }
 
-        // Step 2: Try clicking site's native [-] button until item disappears (handles native state + storage)
         const findSameRowInCart = () => {
             const rows = Array.from(document.querySelectorAll("[id*='cart' i] *, [class*='cart' i] *")).filter(el => el.dataset && el.dataset.cmCartEnhanced === "1");
             return rows.find(r => cleanItemTitleForMatch(r.textContent || "") === rowClean) || (rowEl.isConnected ? rowEl : null);
@@ -5382,34 +5507,19 @@
 
         for (let attempt = 0; attempt < 15; attempt++) {
             const curRow = findSameRowInCart();
-            if (!curRow) {
-                await syncFirebaseCartDeletion(rowClean, rowIndex);
-                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
-                return;
-            }
-            const minusBtn = Array.from(curRow.querySelectorAll("button")).find(b => {
-                const bt = (b.textContent || "").trim();
-                return bt === "-" || bt === "−";
-            });
+            if (!curRow) { await syncFirebaseCartDeletion(rowClean, rowIndex); miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
+            const minusBtn = Array.from(curRow.querySelectorAll("button")).find(b => { const bt = (b.textContent || "").trim(); return bt === "-" || bt === "−"; });
             if (!minusBtn) break;
-
             const beforeTxt = curRow.textContent;
             minusBtn.click();
             await sleepMs(75);
             const afterRow = findSameRowInCart();
-            if (!afterRow) {
-                await syncFirebaseCartDeletion(rowClean, rowIndex);
-                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
-                return;
-            }
-            // If clicking [-] did not reduce qty or remove row, break out to deep storage removal
+            if (!afterRow) { await syncFirebaseCartDeletion(rowClean, rowIndex); miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
             if (afterRow.textContent === beforeTxt) break;
         }
 
-        // Step 3: Deep removal from ALL global cart variables, ALL localStorage/sessionStorage keys, and Firebase
         let removedAny = false;
-        const globalNames = ["cart", "myCart", "cartItems", "shoppingCart", "userCart"];
-        for (const gName of globalNames) {
+        for (const gName of ["cart", "myCart", "cartItems", "shoppingCart", "userCart"]) {
             try {
                 if (typeof window[gName] !== "undefined" && Array.isArray(window[gName]) && window[gName].length > 0) {
                     const idx = findMatchingItemIndex(window[gName], rowClean, rowIndex);
@@ -5424,28 +5534,18 @@
             }
         } catch (e) {}
 
-        const storageHits = findAllCartArraysInStorage();
-        for (const hit of storageHits) {
-            if (hit.type === "array") {
-                const idx = findMatchingItemIndex(hit.data, rowClean, rowIndex);
-                if (idx > -1) {
-                    hit.data.splice(idx, 1);
-                    hit.store.setItem(hit.key, JSON.stringify(hit.data));
-                    removedAny = true;
-                }
-            } else if (hit.type === "obj_cart") {
-                const idx = findMatchingItemIndex(hit.data.cart, rowClean, rowIndex);
-                if (idx > -1) {
-                    hit.data.cart.splice(idx, 1);
-                    hit.store.setItem(hit.key, JSON.stringify(hit.data));
-                    removedAny = true;
-                }
+        for (const hit of findAllCartArraysInStorage()) {
+            const arr = hit.type === "array" ? hit.data : hit.data.cart;
+            const idx = findMatchingItemIndex(arr, rowClean, rowIndex);
+            if (idx > -1) {
+                arr.splice(idx, 1);
+                hit.store.setItem(hit.key, JSON.stringify(hit.data));
+                removedAny = true;
             }
         }
 
         await syncFirebaseCartDeletion(rowClean, rowIndex);
         refreshPageCartUI();
-
         if (rowEl.isConnected) rowEl.remove();
         miniToast(removedAny ? "পণ্যটি কার্ট থেকে স্থায়ীভাবে মুছে ফেলা হয়েছে" : "পণ্যটি কার্ট থেকে সরানো হয়েছে");
     }
@@ -5475,11 +5575,7 @@
                         delBtn.className = "cm-cart-del-btn";
                         delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
                         const capturedIdx = itemIdx;
-                        delBtn.onclick = e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            removeCartItemByRow(row, capturedIdx);
-                        };
+                        delBtn.onclick = e => { e.preventDefault(); e.stopPropagation(); removeCartItemByRow(row, capturedIdx); };
                         row.appendChild(delBtn);
                     }
                     itemIdx++;
@@ -5489,7 +5585,7 @@
     }
 
     // ---------------------------------------------------------
-    // 6. Live Chat Admin Unread Message Alert
+    // 7. Live Chat Admin Unread Alert + Visitor Tracker + Social Proof + Coupon Guard
     // ---------------------------------------------------------
     let chatBtnRef = null, latestUnreadCount = 0, latestChatId = "";
 
@@ -5587,9 +5683,6 @@
         }
     }
 
-    // ---------------------------------------------------------
-    // 7. Auto Visitor Tracker, Scroll-to-Top, Social Proof & Coupon Guard
-    // ---------------------------------------------------------
     function detectDevice() {
         const ua = navigator.userAgent || "";
         const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
@@ -5702,8 +5795,7 @@
                 if (!cp || (!Number(cp.minQty) && !Number(cp.minAmount))) return;
 
                 const hits = findAllCartArraysInStorage();
-                let arr = hits[0] ? (hits[0].type === "array" ? hits[0].data : hits[0].data.cart) : [];
-                if (!arr.length && typeof cart !== "undefined" && Array.isArray(cart)) arr = cart;
+                const arr = hits[0] ? (hits[0].type === "array" ? hits[0].data : hits[0].data.cart) : [];
                 const totalQty = arr.reduce((s, it) => s + Number(it.qty || it.quantity || 1), 0);
                 const subtotal = arr.reduce((s, it) => s + (Number(it.price || 0) * Number(it.qty || it.quantity || 1)), 0);
 
@@ -5728,9 +5820,10 @@
     });
 
     window.addEventListener("load", () => {
-        loadStoreProductsCache();
+        loadStoreProductsCache().then(() => autoOpenSharedProductFromUrl());
         addProfileTagBesideAccount();
         enhanceCartRows();
+        setupSmartShareAndDeepLink();
         setupSearchAutoSuggest();
         renderRecentlyViewed();
         hookProductClicksForRecent();
