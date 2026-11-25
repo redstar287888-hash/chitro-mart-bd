@@ -4960,6 +4960,705 @@
 })();
 </script>
 <!-- ================= END PRO THEME, OTP SECURITY & EXTRA PROFILE UPGRADE ================= -->
+    <!-- CHITRO MART Premium Storefront Upgrade v3.5 (Paste right before </body>) -->
+<style>
+    /* Premium Buttons, Cards & Smooth UI Enhancements */
+    html { scroll-behavior: smooth; }
+    button, .btn, a[class*="btn"], input[type="submit"] {
+        transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, background .22s ease !important;
+    }
+    button:hover:not(:disabled), .btn:hover, a[class*="btn"]:hover {
+        transform: translateY(-1.5px);
+        box-shadow: 0 8px 20px rgba(14, 166, 70, 0.22);
+    }
+    button:active:not(:disabled) { transform: translateY(0) scale(.98); }
+
+    /* Card Hover Lift */
+    [class*="prod-card"], [class*="product-card"], [class*="cat-card"], [class*="category-card"] {
+        transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease !important;
+    }
+    [class*="prod-card"]:hover, [class*="product-card"]:hover, [class*="cat-card"]:hover, [class*="category-card"]:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(7, 19, 31, 0.12) !important;
+    }
+
+    /* Account -> Profile Tag */
+    .cm-profile-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        margin-left: 5px;
+        padding: 1px 7px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #0ea646, #059669);
+        color: #fff !important;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: .3px;
+        vertical-align: middle;
+        box-shadow: 0 2px 8px rgba(14, 166, 70, 0.35);
+    }
+
+    /* Cart Delete Button */
+    .cm-cart-del-btn {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 9px !important;
+        margin-left: 6px;
+        border: 1px solid #fecaca !important;
+        border-radius: 7px !important;
+        background: #fee2e2 !important;
+        color: #dc2626 !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        line-height: 1.2 !important;
+        flex-shrink: 0;
+    }
+    .cm-cart-del-btn:hover {
+        background: #ef4444 !important;
+        color: #fff !important;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+    }
+
+    /* Live Chat Unread Badge & Preview Bubble */
+    .cm-chat-unread-badge {
+        position: absolute;
+        top: -7px;
+        right: -5px;
+        min-width: 22px;
+        height: 22px;
+        padding: 0 6px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+        animation: cmPulse 1.4s infinite;
+        z-index: 9999;
+        pointer-events: none;
+    }
+    .cm-chat-preview-pop {
+        position: fixed;
+        right: 20px;
+        bottom: 84px;
+        max-width: 280px;
+        background: #0f172a;
+        color: #f8fafc;
+        border: 1px solid rgba(16, 185, 129, 0.45);
+        border-radius: 14px;
+        padding: 10px 13px;
+        font-size: 12px;
+        line-height: 1.45;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+        z-index: 9998;
+        cursor: pointer;
+        animation: cmSlideUp .3s ease;
+    }
+    .cm-chat-preview-pop .cm-pop-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #34d399;
+        margin-bottom: 3px;
+    }
+    .cm-chat-preview-close {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        font-size: 14px;
+        cursor: pointer;
+        padding: 0 2px;
+        line-height: 1;
+    }
+
+    /* Scroll to Top & Social Proof Toast */
+    #cmScrollTopBtn {
+        position: fixed;
+        right: 22px;
+        bottom: 86px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: none;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.3);
+        z-index: 9990;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+    #cmSocialProof {
+        position: fixed;
+        left: 18px;
+        bottom: 20px;
+        max-width: 290px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(8px);
+        color: #0f172a;
+        border: 1px solid #cbd5e1;
+        border-left: 4px solid #0ea646;
+        border-radius: 12px;
+        padding: 9px 12px;
+        font-size: 11.5px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+        z-index: 9985;
+        display: none;
+        align-items: center;
+        gap: 9px;
+        animation: cmSlideUp .35s ease;
+    }
+    .cm-mini-toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #0f172a;
+        color: #fff;
+        padding: 9px 20px;
+        border-radius: 50px;
+        font-size: 12.5px;
+        font-weight: 600;
+        z-index: 99999;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+    }
+    @keyframes cmPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+    @keyframes cmSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) {
+        #cmSocialProof { max-width: calc(100vw - 95px); left: 10px; bottom: 14px; font-size: 11px; }
+        .cm-chat-preview-pop { right: 12px; bottom: 78px; max-width: calc(100vw - 24px); }
+    }
+</style>
+
+<script>
+(function () {
+    const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
+    const VISIT_SESS_KEY = "cm_visit_log_key_v1";
+    const escHtml = s => String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+
+    function miniToast(msg) {
+        if (typeof showToast === "function") { showToast(msg); return; }
+        const el = document.createElement("div");
+        el.className = "cm-mini-toast";
+        el.textContent = msg;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 2600);
+    }
+
+    // ---------------------------------------------------------
+    // 1. Detect Logged-in Customer & Chat ID
+    // ---------------------------------------------------------
+    function detectCustomer() {
+        let name = "", phone = "", chatId = "";
+        const inspect = obj => {
+            if (!obj || typeof obj !== "object") return;
+            if (!phone && obj.phone && /^01[0-9]{9}$/.test(String(obj.phone).trim())) phone = String(obj.phone).trim();
+            if (!name && obj.name && typeof obj.name === "string" && obj.name.length < 60) name = obj.name.trim();
+        };
+        try {
+            if (typeof currentUser !== "undefined" && currentUser) inspect(currentUser);
+            if (window.currentUser) inspect(window.currentUser);
+            for (const store of [localStorage, sessionStorage]) {
+                for (let i = 0; i < store.length; i++) {
+                    const k = store.key(i);
+                    if (!k || k.includes("adm")) continue;
+                    const raw = store.getItem(k);
+                    if (!raw) continue;
+                    if (!chatId && /chat/i.test(k) && /^u_|^g_|^c_/i.test(raw)) chatId = raw.trim();
+                    if (raw.startsWith("{")) {
+                        try { inspect(JSON.parse(raw)); } catch (e) {}
+                    }
+                }
+            }
+        } catch (e) {}
+        if (!chatId && phone) chatId = "u_" + phone;
+        return { name: name || "Guest", phone, chatId };
+    }
+
+    // ---------------------------------------------------------
+    // 2. Account -> Add "Profile" Pill Right Beside "Account"
+    // ---------------------------------------------------------
+    function addProfileTagBesideAccount() {
+        try {
+            const candidates = document.querySelectorAll("header button, header a, header div, header span, .header button, .header a, .topbar button, .topbar a");
+            for (const el of candidates) {
+                if (el.querySelector(".cm-profile-tag")) return;
+                const txt = (el.textContent || "").trim();
+                if (/^Account\b/i.test(txt) && txt.length < 45 && el.children.length <= 2) {
+                    const tag = document.createElement("span");
+                    tag.className = "cm-profile-tag";
+                    tag.textContent = "Profile";
+                    // Place right after "Account" text node if possible, else append
+                    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+                    let placed = false;
+                    while (walker.nextNode()) {
+                        const tn = walker.currentNode;
+                        if (/Account/i.test(tn.nodeValue || "")) {
+                            const spanWrap = document.createElement("span");
+                            spanWrap.appendChild(document.createTextNode(tn.nodeValue));
+                            spanWrap.appendChild(tag);
+                            tn.parentNode.replaceChild(spanWrap, tn);
+                            placed = true;
+                            break;
+                        }
+                    }
+                    if (!placed) el.appendChild(tag);
+                    el.title = "Account & Profile";
+                    break;
+                }
+            }
+        } catch (e) {}
+    }
+
+    // ---------------------------------------------------------
+    // 3. Cart Delete Button Injector & Smart Item Removal
+    // ---------------------------------------------------------
+    function findCartStorageInfo() {
+        try {
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (!k || k.includes("adm") || k.includes("visit")) continue;
+                const raw = localStorage.getItem(k);
+                if (raw && raw.startsWith("[")) {
+                    try {
+                        const arr = JSON.parse(raw);
+                        if (Array.isArray(arr) && (k.toLowerCase().includes("cart") || (arr[0] && arr[0].price !== undefined && (arr[0].name || arr[0].title)))) {
+                            return { key: k, arr };
+                        }
+                    } catch (e) {}
+                }
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function refreshPageCartUI() {
+        const fns = ["renderCart", "updateCart", "updateCartUI", "drawCart", "loadCart", "showCartItems", "syncCart"];
+        for (const fn of fns) {
+            try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
+        }
+    }
+
+    function removeCartItemByRow(rowEl, rowIndex) {
+        // First try existing remove button inside row if present
+        const existingBtn = rowEl.querySelector("button[onclick*='remove'], button[onclick*='del'], button[onclick*='Remove'], button[onclick*='Del']");
+        if (existingBtn && !existingBtn.classList.contains("cm-cart-del-btn")) {
+            existingBtn.click();
+            miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+            return;
+        }
+
+        // Otherwise remove safely from global cart variable and/or localStorage
+        const rowText = (rowEl.textContent || "").toLowerCase();
+        let removed = false;
+
+        try {
+            if (typeof cart !== "undefined" && Array.isArray(cart) && cart.length > 0) {
+                let idx = cart.findIndex(it => it && it.name && rowText.includes(String(it.name).toLowerCase()));
+                if (idx < 0 && rowIndex >= 0 && rowIndex < cart.length) idx = rowIndex;
+                if (idx > -1) {
+                    cart.splice(idx, 1);
+                    removed = true;
+                }
+            }
+        } catch (e) {}
+
+        const st = findCartStorageInfo();
+        if (st && st.arr.length > 0) {
+            let idx = st.arr.findIndex(it => it && it.name && rowText.includes(String(it.name).toLowerCase()));
+            if (idx < 0 && rowIndex >= 0 && rowIndex < st.arr.length) idx = rowIndex;
+            if (idx > -1) {
+                st.arr.splice(idx, 1);
+                localStorage.setItem(st.key, JSON.stringify(st.arr));
+                removed = true;
+            }
+        }
+
+        if (removed) {
+            refreshPageCartUI();
+            if (!rowEl.isConnected) { miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
+            rowEl.remove();
+            miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+        } else {
+            // Last fallback: click '-' button until item disappears
+            const minusBtn = Array.from(rowEl.querySelectorAll("button")).find(b => (b.textContent || "").trim() === "-");
+            if (minusBtn) {
+                for (let t = 0; t < 20; t++) {
+                    if (!rowEl.isConnected) break;
+                    minusBtn.click();
+                }
+                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+            }
+        }
+    }
+
+    function enhanceCartRows() {
+        try {
+            const containers = document.querySelectorAll("[id*='cart' i], [class*='cart' i]");
+            for (const box of containers) {
+                // Skip tiny header cart counter pill
+                if (box.tagName === "BUTTON" || box.tagName === "A" || box.offsetHeight < 100) continue;
+                const rows = box.querySelectorAll("[class*='item'], [class*='row'], li, .cart-row, .c-item");
+                const targetRows = rows.length ? rows : Array.from(box.children).filter(c => /৳/.test(c.textContent || "") && c.querySelector("button"));
+                let idx = 0;
+                for (const row of targetRows) {
+                    if (!/৳/.test(row.textContent || "") || row.dataset.cmCartEnhanced) { idx++; continue; }
+                    row.dataset.cmCartEnhanced = "1";
+
+                    // Style existing delete/trash button if found, or inject a brand new Delete button
+                    const oldDel = Array.from(row.querySelectorAll("button")).find(b =>
+                        /remove|del|trash|×|✕/i.test((b.getAttribute("onclick") || "") + " " + b.innerHTML + " " + (b.title || ""))
+                    );
+                    if (oldDel) {
+                        oldDel.classList.add("cm-cart-del-btn");
+                        if (!/মুছুন|Delete/i.test(oldDel.textContent || "")) oldDel.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
+                    } else {
+                        const delBtn = document.createElement("button");
+                        delBtn.type = "button";
+                        delBtn.className = "cm-cart-del-btn";
+                        delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
+                        const capturedIdx = idx;
+                        delBtn.onclick = e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            removeCartItemByRow(row, capturedIdx);
+                        };
+                        row.appendChild(delBtn);
+                    }
+                    idx++;
+                }
+            }
+        } catch (e) {}
+    }
+
+    // ---------------------------------------------------------
+    // 4. Live Chat Admin Unread Message Detector (Homepage Alert)
+    // ---------------------------------------------------------
+    let chatBtnRef = null, latestUnreadCount = 0, latestChatId = "";
+
+    function findLiveChatTrigger() {
+        if (chatBtnRef && document.contains(chatBtnRef)) return chatBtnRef;
+        const els = Array.from(document.querySelectorAll("button, a, div"));
+        chatBtnRef = els.find(el => {
+            const st = getComputedStyle(el);
+            const r = el.getBoundingClientRect();
+            const txt = (el.textContent || "").trim();
+            const isFloatingRight = st.position === "fixed" && r.right > window.innerWidth - 180 && r.bottom > window.innerHeight - 180 && r.width > 35 && r.height > 30 && r.height < 110;
+            const looksChat = /live\s*chat|chat/i.test(txt) || /chat/i.test(el.id || "") || /chat/i.test(el.className || "") || /chat/i.test(el.getAttribute("onclick") || "");
+            return isFloatingRight && looksChat;
+        }) || els.find(el => /live\s*chat/i.test((el.textContent || "").trim()) && el.offsetHeight < 80);
+
+        if (chatBtnRef && !chatBtnRef.dataset.cmChatHooked) {
+            chatBtnRef.dataset.cmChatHooked = "1";
+            if (getComputedStyle(chatBtnRef).position === "static") chatBtnRef.style.position = "relative";
+            chatBtnRef.style.overflow = "visible";
+            chatBtnRef.addEventListener("click", () => markClientChatRead());
+        }
+        return chatBtnRef;
+    }
+
+    function markClientChatRead() {
+        if (latestChatId && latestUnreadCount >= 0) {
+            const totalKey = "cm_seen_adm_cnt_" + latestChatId;
+            const currentTotal = Number(sessionStorage.getItem("cm_cur_adm_cnt_" + latestChatId) || 0);
+            localStorage.setItem(totalKey, String(currentTotal));
+        }
+        document.querySelectorAll(".cm-chat-unread-badge, .cm-chat-preview-pop").forEach(e => e.remove());
+        document.title = document.title.replace(/^\(\d+\)\s*/, "");
+    }
+
+    async function checkAdminChatMessages() {
+        const cust = detectCustomer();
+        let chatObj = null;
+
+        try {
+            if (cust.chatId) {
+                const r = await fetch(`${FB_URL_SF}/chats/${encodeURIComponent(cust.chatId)}.json?t=${Date.now()}`, { cache: "no-store" });
+                chatObj = await r.json();
+            }
+            if ((!chatObj || !chatObj.messages) && cust.phone) {
+                const rAll = await fetch(`${FB_URL_SF}/chats.json?t=${Date.now()}`, { cache: "no-store" });
+                const allChats = (await rAll.json()) || {};
+                chatObj = Object.values(allChats).find(c => c && c.phone === cust.phone) || null;
+            }
+        } catch (e) { return; }
+
+        if (!chatObj || !chatObj.messages) return;
+        const cid = chatObj.id || cust.chatId;
+        latestChatId = cid;
+
+        const msgs = Object.values(chatObj.messages || {});
+        const admMsgs = msgs.filter(m => m && m.sender === "admin");
+        const admCount = admMsgs.length;
+        sessionStorage.setItem("cm_cur_adm_cnt_" + cid, String(admCount));
+
+        const seenCount = Number(localStorage.getItem("cm_seen_adm_cnt_" + cid) || 0);
+        const unread = Math.max(0, admCount - seenCount);
+        latestUnreadCount = unread;
+
+        // If chat modal/box is currently open on screen, auto-mark as read
+        const chatBoxOpen = Array.from(document.querySelectorAll("[id*='chat' i], [class*='chat' i]")).some(el =>
+            el !== chatBtnRef && el.offsetHeight > 180 && /send|পাঠান|লিখুন/i.test(el.textContent || "")
+        );
+        if (chatBoxOpen && unread > 0) {
+            markClientChatRead();
+            return;
+        }
+
+        const btn = findLiveChatTrigger();
+        if (!btn) return;
+
+        let badge = btn.querySelector(".cm-chat-unread-badge");
+        if (unread > 0) {
+            if (!badge) {
+                badge = document.createElement("span");
+                badge.className = "cm-chat-unread-badge";
+                btn.appendChild(badge);
+            }
+            badge.textContent = unread > 9 ? "9+" : String(unread);
+
+            if (!/^\(\d+\)/.test(document.title)) {
+                document.title = `(${unread}) ${document.title}`;
+            }
+
+            const lastAdm = admMsgs[admMsgs.length - 1];
+            const dismissKey = "cm_pop_dismiss_" + cid + "_" + admCount;
+            if (lastAdm && !sessionStorage.getItem(dismissKey) && !document.querySelector(".cm-chat-preview-pop")) {
+                const pop = document.createElement("div");
+                pop.className = "cm-chat-preview-pop";
+                pop.innerHTML = `
+                    <div class="cm-pop-head">
+                        <span><i class="fa-solid fa-comment-dots"></i> Admin থেকে নতুন মেসেজ (${unread})</span>
+                        <button type="button" class="cm-chat-preview-close" title="বন্ধ করুন">&times;</button>
+                    </div>
+                    <div>${escHtml(String(lastAdm.text || "").slice(0, 95))}${String(lastAdm.text || "").length > 95 ? "..." : ""}</div>
+                    <small style="display:block;margin-top:4px;color:#94a3b8;font-size:10px">উত্তর দেখতে এখানে ক্লিক করুন</small>
+                `;
+                pop.querySelector(".cm-chat-preview-close").onclick = ev => {
+                    ev.stopPropagation();
+                    sessionStorage.setItem(dismissKey, "1");
+                    pop.remove();
+                };
+                pop.onclick = () => {
+                    pop.remove();
+                    btn.click();
+                    markClientChatRead();
+                };
+                document.body.appendChild(pop);
+            }
+        } else {
+            if (badge) badge.remove();
+            document.querySelectorAll(".cm-chat-preview-pop").forEach(e => e.remove());
+        }
+    }
+
+    // ---------------------------------------------------------
+    // 5. Auto Visitor Tracker (Synced with Admin Visitor Logs)
+    // ---------------------------------------------------------
+    function detectDevice() {
+        const ua = navigator.userAgent || "";
+        const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+        const os = /Android/i.test(ua) ? "Android" : (/iPhone|iPad/i.test(ua) ? "iOS" : (/Windows/i.test(ua) ? "Windows" : (/Mac/i.test(ua) ? "Mac" : "Linux")));
+        const br = /Edg/i.test(ua) ? "Edge" : (/Chrome/i.test(ua) ? "Chrome" : (/Firefox/i.test(ua) ? "Firefox" : (/Safari/i.test(ua) ? "Safari" : "Browser")));
+        return { full: `${isMob ? "Mobile" : "Desktop"} (${os} • ${br})`, short: `${isMob ? "Mobile" : "PC"} • ${os}` };
+    }
+
+    async function fetchGeo() {
+        try {
+            const r = await fetch("https://ipwho.is/");
+            const d = await r.json();
+            if (d && d.success !== false) {
+                return { location: [d.city, d.region, d.country].filter(Boolean).join(", ") || "Bangladesh", ip: d.ip || "" };
+            }
+        } catch (e) {}
+        try {
+            const r2 = await fetch("https://get.geojs.io/v1/ip/geo.json");
+            const d2 = await r2.json();
+            return { location: [d2.city, d2.region, d2.country].filter(Boolean).join(", ") || "Unknown", ip: d2.ip || "" };
+        } catch (e) {}
+        return { location: "Unknown", ip: "" };
+    }
+
+    async function logStoreVisit() {
+        const user = detectCustomer();
+        const existingKey = sessionStorage.getItem(VISIT_SESS_KEY);
+        if (existingKey) {
+            if (user.phone || user.name !== "Guest") {
+                fetch(`${FB_URL_SF}/visitorLogs/${existingKey}.json`, {
+                    method: "PATCH", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: user.name, phone: user.phone })
+                }).catch(() => {});
+            }
+            return;
+        }
+        const dev = detectDevice();
+        const geo = await fetchGeo();
+        const now = new Date();
+        const payload = {
+            name: user.name,
+            phone: user.phone,
+            location: geo.location,
+            ip: geo.ip,
+            device: dev.full,
+            deviceShort: dev.short,
+            page: (location.pathname + location.hash) || "/",
+            ts: now.getTime(),
+            dateIso: now.toISOString().slice(0, 10),
+            dateText: now.toLocaleDateString("bn-BD"),
+            timeText: now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+        };
+        try {
+            const res = await fetch(`${FB_URL_SF}/visitorLogs.json`, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data && data.name) sessionStorage.setItem(VISIT_SESS_KEY, data.name);
+        } catch (e) {}
+    }
+
+    // ---------------------------------------------------------
+    // 6. Live Social Proof Popup + Scroll-to-Top + Network Alert
+    // ---------------------------------------------------------
+    function setupScrollToTop() {
+        if (document.getElementById("cmScrollTopBtn")) return;
+        const btn = document.createElement("button");
+        btn.id = "cmScrollTopBtn";
+        btn.type = "button";
+        btn.title = "উপরে যান";
+        btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+        document.body.appendChild(btn);
+        window.addEventListener("scroll", () => {
+            btn.style.display = window.scrollY > 360 ? "flex" : "none";
+        }, { passive: true });
+    }
+
+    async function startSocialProof() {
+        let orders = [];
+        try {
+            const r = await fetch(`${FB_URL_SF}/orders.json?t=${Date.now()}`, { cache: "no-store" });
+            const d = await r.json();
+            if (d) orders = Object.values(d).filter(o => o && o.status !== "Cancelled").slice(-10).reverse();
+        } catch (e) {}
+        if (!orders.length) return;
+
+        const box = document.createElement("div");
+        box.id = "cmSocialProof";
+        document.body.appendChild(box);
+        let idx = 0;
+
+        const showNext = () => {
+            if (sessionStorage.getItem("cm_sp_muted") === "1") return;
+            const o = orders[idx % orders.length];
+            idx++;
+            const city = escHtml(o.area || "বাংলাদেশ");
+            const firstItem = escHtml(String(o.items || "প্রিমিয়াম পণ্য").split(",")[0].slice(0, 38));
+            box.innerHTML = `
+                <div style="width:34px;height:34px;border-radius:9px;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div style="flex:1;min-width:0">
+                    <b>${city}</b> থেকে একজন কাস্টমার<br>
+                    <span style="color:#0ea646;font-weight:600">${firstItem}</span> অর্ডার করেছেন ✓
+                </div>
+                <button type="button" onclick="sessionStorage.setItem('cm_sp_muted','1');this.parentElement.remove()" style="background:none;border:none;color:#94a3b8;font-size:15px;cursor:pointer">&times;</button>
+            `;
+            box.style.display = "flex";
+            setTimeout(() => { if (box.isConnected) box.style.display = "none"; }, 5500);
+        };
+
+        setTimeout(showNext, 5000);
+        setInterval(showNext, 26000);
+    }
+
+    // ---------------------------------------------------------
+    // 7. Conditional Coupon Guard (Min Qty & Min Order Amount)
+    // ---------------------------------------------------------
+    function setupConditionalCouponGuard() {
+        document.addEventListener("click", async e => {
+            const btn = e.target.closest("button");
+            if (!btn || btn.dataset.cmBypassCoupon) return;
+            const txt = (btn.textContent || "").trim();
+            if (!/apply|কুপন|প্রয়োগ/i.test(txt)) return;
+
+            const container = btn.closest("div, form, section");
+            const inp = container ? container.querySelector("input[type='text']") : null;
+            if (!inp || !inp.value.trim()) return;
+            const enteredCode = inp.value.trim().toUpperCase();
+
+            try {
+                const r = await fetch(`${FB_URL_SF}/store/coupons.json?t=${Date.now()}`, { cache: "no-store" });
+                const list = await r.json();
+                const coupons = Array.isArray(list) ? list : (list ? Object.values(list) : []);
+                const cp = coupons.find(c => c && String(c.code || "").toUpperCase() === enteredCode);
+                if (!cp || (!Number(cp.minQty) && !Number(cp.minAmount))) return;
+
+                // Read cart totals
+                const st = findCartStorageInfo();
+                let arr = st ? st.arr : [];
+                if (!arr.length && typeof cart !== "undefined" && Array.isArray(cart)) arr = cart;
+                const totalQty = arr.reduce((s, it) => s + Number(it.qty || it.quantity || 1), 0);
+                const subtotal = arr.reduce((s, it) => s + (Number(it.price || 0) * Number(it.qty || it.quantity || 1)), 0);
+
+                if (Number(cp.minQty) > 0 && totalQty < Number(cp.minQty)) {
+                    e.preventDefault(); e.stopImmediatePropagation();
+                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কার্টে কমপক্ষে ${cp.minQty}টি পণ্য থাকতে হবে!`);
+                    return;
+                }
+                if (Number(cp.minAmount) > 0 && subtotal < Number(cp.minAmount)) {
+                    e.preventDefault(); e.stopImmediatePropagation();
+                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কমপক্ষে ৳${Number(cp.minAmount).toLocaleString("en-IN")} টাকার অর্ডার লাগবে!`);
+                    return;
+                }
+            } catch (err) {}
+        }, true);
+    }
+
+    // ---------------------------------------------------------
+    // Boot Everything Safely
+    // ---------------------------------------------------------
+    let cartObsTimer = null;
+    const obs = new MutationObserver(() => {
+        clearTimeout(cartObsTimer);
+        cartObsTimer = setTimeout(() => {
+            addProfileTagBesideAccount();
+            enhanceCartRows();
+        }, 120);
+    });
+
+    window.addEventListener("load", () => {
+        addProfileTagBesideAccount();
+        enhanceCartRows();
+        setupScrollToTop();
+        setupConditionalCouponGuard();
+        obs.observe(document.body, { childList: true, subtree: true });
+
+        setTimeout(logStoreVisit, 1200);
+        setTimeout(checkAdminChatMessages, 1800);
+        setTimeout(startSocialProof, 3000);
+
+        setInterval(checkAdminChatMessages, 7000);
+        setInterval(() => {
+            addProfileTagBesideAccount();
+            logStoreVisit();
+        }, 10000);
+
+        window.addEventListener("offline", () => miniToast("⚠️ ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!"));
+        window.addEventListener("online", () => miniToast("✅ ইন্টারনেট পুনরায় সংযুক্ত হয়েছে"));
+    });
+})();
+</script>
 </body>
 </html>
  
