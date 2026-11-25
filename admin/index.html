@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHITRO MART BD — Master Admin Portal</title>
+    <title>CHITRO MART BD — Master AI Admin Portal</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%230f172a'/><path d='M32 10L12 19v14c0 12.5 8.5 23 20 26 11.5-3 20-13.5 20-26V19L32 10z' fill='%23f59e0b'/><path d='M22 36l4-11 6 5 6-5 4 11H22z' fill='%230f172a'/></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Hind Siliguri',sans-serif}
-        :root{--bg:#f1f5f9;--surface:#ffffff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#0ea646;--navy:#07131f;--gold:#f59e0b;--daraz:#f85606;--danger:#ef4444}
+        :root{--bg:#f1f5f9;--surface:#ffffff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--primary:#0ea646;--navy:#07131f;--gold:#f59e0b;--daraz:#f85606;--danger:#ef4444;--ai:#6366f1}
         body.dark{--bg:#020617;--surface:#0f172a;--text:#f8fafc;--muted:#94a3b8;--border:#1e293b}
         body{background:var(--bg);color:var(--text);min-height:100vh}
         #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#0f172a,#020617);padding:20px}
@@ -26,7 +26,9 @@
         .sb-btn{display:flex;align-items:center;gap:11px;width:100%;padding:10px 14px;border:none;background:transparent;color:#94a3b8;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;text-align:left;transition:.15s}
         .sb-btn:hover{background:rgba(255,255,255,.06);color:#fff}
         .sb-btn.active{background:linear-gradient(135deg,#0ea646,#059669);color:#fff;box-shadow:0 6px 16px rgba(14,166,70,.3)}
+        .sb-btn.ai-nav.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 6px 16px rgba(99,102,241,.35)}
         .sb-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;padding:1px 7px;border-radius:50px;display:none}
+        .sb-badge.ai-tag{display:inline-block;background:linear-gradient(135deg,#6366f1,#ec4899);font-size:9.5px}
         .sb-foot{padding:14px;border-top:1px solid #1e293b}
 
         .main-wrap{margin-left:255px;min-height:100vh;display:flex;flex-direction:column}
@@ -36,6 +38,7 @@
         .topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
         .pill-btn{padding:7px 14px;border-radius:50px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
         .pill-btn.green{background:var(--primary);color:#fff;border-color:var(--primary)}
+        .pill-btn.ai-pill{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:transparent}
 
         .content{padding:22px 24px;max-width:1360px;width:100%;margin:0 auto}
         .page-pane{display:none} .page-pane.active{display:block}
@@ -49,6 +52,7 @@
         .card-head h3{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:8px}
 
         .grid-2{display:grid;grid-template-columns:1fr 1.15fr;gap:18px}
+        .grid-ai{display:grid;grid-template-columns:1.55fr .95fr;gap:18px;align-items:start}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
         .fg{margin-bottom:11px} .fg label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted)}
@@ -72,22 +76,66 @@
         .chat-start-bar{display:flex;gap:6px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--border);flex-wrap:wrap}
         .chat-start-bar select,.chat-start-bar input{flex:1;min-width:120px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)}
 
+        /* AI Agent Workspace */
+        .ai-shell{display:flex;flex-direction:column;height:calc(100vh - 145px);min-height:560px;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+        .ai-top{padding:12px 16px;background:linear-gradient(135deg,#0f172a,#1e1b4b);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+        .ai-top-title{display:flex;align-items:center;gap:10px}
+        .ai-avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 4px 14px rgba(99,102,241,.45)}
+        .ai-switch{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);padding:5px 10px;border-radius:50px;font-size:11.5px;cursor:pointer}
+        .ai-switch input{accent-color:#10b981;cursor:pointer}
+        .ai-feed{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+        .ai-msg{max-width:86%;padding:11px 14px;border-radius:15px;font-size:13px;line-height:1.55;word-wrap:break-word}
+        .ai-msg.user{align-self:flex-end;background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;border-bottom-right-radius:4px}
+        .ai-msg.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--border);border-bottom-left-radius:4px;box-shadow:0 3px 10px rgba(0,0,0,.03)}
+        .ai-msg.sys{align-self:center;background:#eef2ff;color:#4338ca;font-size:11.5px;padding:6px 12px;border-radius:50px;border:1px solid #c7d2fe}
+        body.dark .ai-msg.sys{background:#1e1b4b;color:#c7d2fe;border-color:#3730a3}
+        .ai-msg-imgs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+        .ai-msg-imgs img{width:68px;height:68px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,.35)}
+        .ai-tool-badge{display:inline-flex;align-items:center;gap:5px;background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;font-size:11px;font-weight:600;padding:3px 9px;border-radius:50px;margin:2px 4px 4px 0}
+        body.dark .ai-tool-badge{background:#064e3b;color:#6ee7b7;border-color:#065f46}
+        .ai-card{margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px;display:flex;gap:11px;align-items:flex-start}
+        .ai-card img{width:74px;height:74px;object-fit:cover;border-radius:10px;border:1px solid var(--border);flex-shrink:0}
+        .ai-card-meta{flex:1;min-width:0}
+        .ai-card-meta h4{font-size:13.5px;font-weight:700;margin-bottom:2px}
+        .ai-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+        .ai-gen-wrap{margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px}
+        .ai-gen-wrap img{width:100%;max-height:260px;object-fit:contain;border-radius:10px;background:#0001}
+        .ai-quick-bar{padding:8px 12px;border-top:1px solid var(--border);background:var(--surface);display:flex;gap:6px;overflow-x:auto;white-space:nowrap}
+        .ai-drop-bar{padding:8px 14px;background:var(--surface);border-top:1px dashed var(--border);display:none;align-items:center;gap:8px;flex-wrap:wrap}
+        .ai-drop-bar.has{display:flex}
+        .ai-thumb{position:relative;width:62px;height:62px;border-radius:10px;overflow:hidden;border:2px solid var(--ai)}
+        .ai-thumb img{width:100%;height:100%;object-fit:cover}
+        .ai-thumb-acts{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.72);display:flex;justify-content:space-around;padding:2px}
+        .ai-thumb-acts button{background:none;border:none;color:#fff;font-size:10.5px;cursor:pointer;padding:1px 3px}
+        .ai-input-bar{padding:10px 12px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px}
+        .ai-ico-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+        .ai-ico-btn:hover{border-color:var(--ai);color:var(--ai)}
+        .ai-ico-btn.listening{background:#ef4444;color:#fff;border-color:#ef4444;animation:pulse 1.1s infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+        .ai-input-bar textarea{flex:1;resize:none;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:14px;padding:9px 13px;font-size:13px;max-height:110px;outline:none}
+        .ai-send-btn{height:38px;padding:0 16px;border-radius:50px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;flex-shrink:0}
+        .ai-fab{position:fixed;right:22px;bottom:22px;width:54px;height:54px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#ec4899);color:#fff;font-size:21px;cursor:pointer;box-shadow:0 10px 26px rgba(99,102,241,.45);z-index:80;display:flex;align-items:center;justify-content:center}
+
+        /* Cropper Canvas */
+        .crop-stage{position:relative;background:#0f172a;border-radius:12px;overflow:hidden;display:flex;justify-content:center;align-items:center;max-height:58vh;touch-action:none;user-select:none}
+        #cropCanvas{max-width:100%;max-height:56vh;cursor:crosshair;display:block}
+
         .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;backdrop-filter:blur(2px)} .overlay.active{display:block}
-        .modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--surface);width:94%;max-width:540px;border-radius:18px;z-index:950;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,.35)}
+        .modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--surface);width:94%;max-width:560px;border-radius:18px;z-index:950;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,.35)}
         .modal.active{display:block}
         .modal-h{background:#07131f;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
         .modal-b{padding:18px 20px;max-height:82vh;overflow-y:auto}
         .quick-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-        .quick-chip{padding:4px 9px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;cursor:pointer}
-        .quick-chip:hover{border-color:var(--daraz);color:var(--daraz)}
+        .quick-chip{padding:4px 9px;border-radius:50px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;cursor:pointer;flex-shrink:0}
+        .quick-chip:hover{border-color:var(--ai);color:var(--ai)}
         .msg-btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
         .msg-action-btn{border:none;padding:10px 12px;border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;color:#fff}
 
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#07131f;color:#fff;padding:10px 24px;border-radius:50px;font-size:13px;z-index:2000;opacity:0;transition:.3s}
         .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-        @media(max-width:1050px){.stats-grid{grid-template-columns:repeat(2,1fr)}.grid-2{grid-template-columns:1fr}}
-        @media(max-width:820px){.sidebar{left:-265px}.sidebar.open{left:0}.main-wrap{margin-left:0}.mob-menu-btn{display:inline-flex;align-items:center;justify-content:center}.form-row,.form-row-3,.msg-btn-grid{grid-template-columns:1fr}}
+        @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.grid-2,.grid-ai{grid-template-columns:1fr}}
+        @media(max-width:820px){.sidebar{left:-265px}.sidebar.open{left:0}.main-wrap{margin-left:0}.mob-menu-btn{display:inline-flex;align-items:center;justify-content:center}.form-row,.form-row-3,.msg-btn-grid{grid-template-columns:1fr}.ai-shell{height:calc(100vh - 130px)}}
     </style>
 </head>
 <body>
@@ -102,7 +150,7 @@
                 </svg>
             </div>
             <h2>MASTER ADMIN PORTAL</h2>
-            <p>CHITRO MART BD — Separate Control Center</p>
+            <p>CHITRO MART BD — AI Powered Control Center</p>
             <form onsubmit="handleAdminLogin(event)">
                 <div id="admLoginErr" style="display:none;background:#fee2e2;color:#dc2626;padding:8px;border-radius:8px;font-size:12px;margin-bottom:10px">ভুল পাসওয়ার্ড!</div>
                 <div class="fg" style="text-align:left"><label>Admin Password *</label><input type="password" id="admPassInput" placeholder="পাসওয়ার্ড দিন..." required style="background:#f8fafc;color:#0f172a"></div>
@@ -116,14 +164,15 @@
         <aside class="sidebar" id="sidebar">
             <div class="sb-head">
                 <div class="shield-logo" style="width:40px;height:40px;margin:0;border-radius:11px"><i class="fa-solid fa-crown" style="color:#fde68a"></i></div>
-                <div><h3 id="sbBrand">CHITRO MART</h3><small>Master Control v2.0</small></div>
+                <div><h3 id="sbBrand">CHITRO MART</h3><small>Master AI Control v3.0</small></div>
             </div>
             <div class="sb-menu">
                 <button class="sb-btn active" onclick="openTab('tabOverview',this)"><i class="fa-solid fa-chart-pie"></i> Dashboard Overview</button>
+                <button class="sb-btn ai-nav" id="sbAiBtn" onclick="openTab('tabAi',this)"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Command Center <span class="sb-badge ai-tag">AI</span></button>
                 <button class="sb-btn" onclick="openTab('tabOrders',this)"><i class="fa-solid fa-truck-fast"></i> Orders &amp; Tracking <span class="sb-badge" id="sbOrdBadge">0</span></button>
                 <button class="sb-btn" onclick="openTab('tabChat',this)"><i class="fa-solid fa-comments"></i> Live Chat Inbox <span class="sb-badge" id="sbChatBadge">0</span></button>
                 <button class="sb-btn" onclick="openTab('tabUsers',this)"><i class="fa-solid fa-users"></i> Users &amp; Resets <span class="sb-badge" id="sbResetBadge">0</span></button>
-                <button class="sb-btn" onclick="openTab('tabProducts',this)"><i class="fa-solid fa-box-open"></i> Products &amp; SKU</button>
+                <button class="sb-btn" onclick="openTab('tabProducts',this)"><i class="fa-solid fa-box-open"></i> Products, Bulk &amp; SKU</button>
                 <button class="sb-btn" onclick="openTab('tabCats',this)"><i class="fa-solid fa-tags"></i> Categories, Coupons &amp; Reviews</button>
                 <button class="sb-btn" onclick="openTab('tabCms',this)"><i class="fa-solid fa-sliders"></i> Full Site CMS Control</button>
             </div>
@@ -139,6 +188,7 @@
                     <h2 style="font-size:16px;font-weight:700" id="pageHeading">Dashboard Overview</h2>
                 </div>
                 <div class="topbar-actions">
+                    <button class="pill-btn ai-pill" onclick="jumpToAi()"><i class="fa-solid fa-robot"></i> AI Manager</button>
                     <button class="pill-btn" onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i> Theme</button>
                     <button class="pill-btn green" onclick="refreshAllLive()"><i class="fa-solid fa-rotate"></i> Sync Live</button>
                     <a href="index.html" target="_blank" id="visitStoreLink" class="pill-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Store</a>
@@ -156,12 +206,132 @@
                     </div>
                     <div class="grid-2">
                         <div class="card">
-                            <div class="card-head"><h3><i class="fa-solid fa-clock"></i> সাম্প্রতিক অর্ডারসমূহ</h3><button class="btn-sm b-blue" onclick="openTab('tabOrders',document.querySelectorAll('.sb-btn')[1])">সব দেখুন</button></div>
+                            <div class="card-head"><h3><i class="fa-solid fa-clock"></i> সাম্প্রতিক অর্ডারসমূহ</h3><button class="btn-sm b-blue" onclick="openTab('tabOrders',document.querySelectorAll('.sb-btn')[2])">সব দেখুন</button></div>
                             <div class="list-stack" id="ovRecentOrders"></div>
                         </div>
                         <div class="card">
                             <div class="card-head"><h3><i class="fa-solid fa-key"></i> পাসওয়ার্ড রিসেট রিকোয়েস্ট</h3><button class="btn-sm b-amber" onclick="resetVisitors()">Reset Visitors</button></div>
                             <div class="list-stack" id="ovResetRequests"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB AI: AI COMMAND CENTER -->
+                <section id="tabAi" class="page-pane">
+                    <div class="grid-ai">
+                        <!-- Conversational AI Agent Chat -->
+                        <div class="ai-shell" id="aiDropZone">
+                            <div class="ai-top">
+                                <div class="ai-top-title">
+                                    <div class="ai-avatar"><i class="fa-solid fa-sparkles fa-wand-magic-sparkles"></i></div>
+                                    <div>
+                                        <h3 style="font-size:14.5px;font-weight:700">CHITRO AI Manager</h3>
+                                        <small style="font-size:11px;color:#cbd5e1" id="aiStatusLine">স্ক্রিনশট দিন বা বাংলায় বলুন — পুরো সাইট কন্ট্রোল করুন</small>
+                                    </div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                                    <label class="ai-switch" title="অন থাকলে স্ক্রিনশট দিলেই প্রিভিউ ছাড়া সরাসরি পাবলিশ করবে"><input type="checkbox" id="aiAutoPub" onchange="saveAiConfig()"> ⚡ Auto-Publish</label>
+                                    <label class="ai-switch" title="ডিলিট বা সাইট অফ করার আগে কনফার্মেশন চাইবে"><input type="checkbox" id="aiSafeGuard" checked onchange="saveAiConfig()"> 🛡️ Safe Guard</label>
+                                    <label class="ai-switch" title="AI-এর উত্তর মুখে পড়ে শোনাবে"><input type="checkbox" id="aiVoiceReply" onchange="saveAiConfig()"> 🔊 Voice</label>
+                                    <button type="button" class="btn-sm b-amber" onclick="clearAiChat()"><i class="fa-solid fa-broom"></i> New Chat</button>
+                                </div>
+                            </div>
+
+                            <div class="ai-feed" id="aiFeed"></div>
+
+                            <div class="ai-quick-bar">
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('আজকের স্টোরের লাইভ রিপোর্ট ও পেন্ডিং অর্ডার দেখাও')">📊 স্টোর রিপোর্ট</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('এই স্ক্রিনশট থেকে Reseller রুল অনুযায়ী দাম বাড়িয়ে প্রোডাক্ট রেডি ও পাবলিশ করো')">📸 স্ক্রিনশট -> পাবলিশ</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('একটা আকর্ষণীয় Eid Flash Sale ব্যানার ইমেজ জেনারেট করো')">🎨 ব্যানার তৈরি</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('EID15 নামে ১৫% ডিসকাউন্টের একটি কুপন তৈরি করো')">🎟️ কুপন তৈরি</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('ওয়েবসাইটের Urgent Notice Banner অন করে লেখো: আজ সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা চলছে!')">📢 নোটিশ অন</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('সব Pending অর্ডারের লিস্ট দেখাও')">🚚 Pending অর্ডার</button>
+                            </div>
+
+                            <div class="ai-drop-bar" id="aiDropBar"></div>
+
+                            <div class="ai-input-bar">
+                                <input type="file" id="aiFileInput" accept="image/*" multiple style="display:none" onchange="handleAiFiles(event)">
+                                <button type="button" class="ai-ico-btn" title="স্ক্রিনশট বা ছবি যুক্ত করুন" onclick="document.getElementById('aiFileInput').click()"><i class="fa-solid fa-image"></i></button>
+                                <button type="button" class="ai-ico-btn" id="aiMicBtn" title="মুখে বলে টাইপ করুন (Bangla/English)" onclick="toggleAiVoice()"><i class="fa-solid fa-microphone"></i></button>
+                                <textarea id="aiPromptInput" rows="1" placeholder="স্ক্রিনশট পেস্ট (Ctrl+V) করুন অথবা লিখুন—যেমন: 'এটা ৩০০ টাকা লাভ রেখে পাবলিশ করো'..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiPrompt();}"></textarea>
+                                <button type="button" class="ai-send-btn" id="aiSendBtn" onclick="sendAiPrompt()"><i class="fa-solid fa-paper-plane"></i> Send</button>
+                            </div>
+                        </div>
+
+                        <!-- AI Brain, Keys & Reseller Profit Rule Settings -->
+                        <div>
+                            <div class="card">
+                                <div class="card-head">
+                                    <h3><i class="fa-solid fa-brain" style="color:var(--ai)"></i> AI Brain &amp; API Setup</h3>
+                                    <span class="status-pill b-green" id="aiKeyBadge">Not Set</span>
+                                </div>
+                                <div class="fg">
+                                    <label>Google Gemini API Key * (<a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--ai)">ফ্রি Key নিন</a>)</label>
+                                    <input type="password" id="aiGeminiKey" placeholder="AIzaSy..." oninput="saveAiConfig()">
+                                </div>
+                                <div class="form-row">
+                                    <div class="fg">
+                                        <label>Gemini Model</label>
+                                        <select id="aiModel" onchange="saveAiConfig()">
+                                            <option value="gemini-3.8-flash">gemini-3.8-flash (Smartest Agent)</option>
+                                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Fastest Free)</option>
+                                            <option value="gemini-4-hydrogen">gemini-4-hydrogen (Next-Gen)</option>
+                                            <option value="gemini-2.5-flash">gemini-2.5-flash (Legacy)</option>
+                                        </select>
+                                    </div>
+                                    <div class="fg">
+                                        <label>Image Generator</label>
+                                        <select id="aiImgEngine" onchange="saveAiConfig()">
+                                            <option value="pollinations">Pollinations AI (100% Free)</option>
+                                            <option value="gemini-paid">Gemini Image (Paid Key)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="fg"><label>ImgBB API Key (ঐচ্ছিক - দ্রুত ইমেজ URL)</label><input type="password" id="aiImgbbKey" placeholder="imgbb.com free key" oninput="saveAiConfig()"></div>
+                                    <div class="fg"><label>Pollinations Key (ঐচ্ছিক)</label><input type="password" id="aiPolKey" placeholder="খালি রাখলেও ফ্রি চলবে" oninput="saveAiConfig()"></div>
+                                </div>
+                                <small style="color:var(--muted);display:block;font-size:11px">🔒 আপনার API Key শুধু এই ব্রাউজারে সেভ থাকে—পাবলিক সাইটে বা Firebase-এ যায় না।</small>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-head"><h3><i class="fa-solid fa-coins" style="color:var(--gold)"></i> Reseller Auto-Profit Rules</h3></div>
+                                <div class="form-row">
+                                    <div class="fg">
+                                        <label>লাভ হিসাবের ধরন</label>
+                                        <select id="rsMode" onchange="saveAiConfig()">
+                                            <option value="slab">Price Slab (দাম অনুযায়ী লাভ)</option>
+                                            <option value="fixed">Fixed টাকা যোগ (+৳)</option>
+                                            <option value="pct">Percentage বাড়ানো (+%)</option>
+                                            <option value="suggested">Suggested Price অনুযায়ী</option>
+                                        </select>
+                                    </div>
+                                    <div class="fg">
+                                        <label>Value / Suggested Adjust</label>
+                                        <input type="number" id="rsVal" value="250" placeholder="যেমন: 250 বা 40 বা -50" oninput="saveAiConfig()">
+                                    </div>
+                                </div>
+                                <div class="fg">
+                                    <label>Price Slab নিয়ম (ফরম্যাট: maxPrice:profit, যেমন 500:+250, 1000:+350, max:+30%)</label>
+                                    <input type="text" id="rsSlabs" value="500:+250, 1000:+350, max:+30%" oninput="saveAiConfig()">
+                                </div>
+                                <div class="form-row">
+                                    <div class="fg">
+                                        <label>Smart Rounding</label>
+                                        <select id="rsRound" onchange="saveAiConfig()">
+                                            <option value="9">শেষ ডিজিট ৯ (৭৪৯ / ৭৯৯)</option>
+                                            <option value="10">১০-এর গুণিতক (৭৫০)</option>
+                                            <option value="none">একদম Exact</option>
+                                        </select>
+                                    </div>
+                                    <div class="fg">
+                                        <label>Auto Old Price (+%)</label>
+                                        <input type="number" id="rsOldPct" value="25" placeholder="25" oninput="saveAiConfig()">
+                                    </div>
+                                </div>
+                                <div style="background:var(--bg);border:1px dashed var(--border);padding:8px 10px;border-radius:9px;font-size:11.5px;color:var(--muted)" id="rsLivePreview">উদাহরণ: কেনা দাম ৳500 হলে -> বিক্রয়মূল্য হিসাব হবে।</div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -227,21 +397,35 @@
                     </div>
                 </section>
 
-                <!-- TAB 5: PRODUCTS & SKU -->
+                <!-- TAB 5: PRODUCTS, BULK & SKU -->
                 <section id="tabProducts" class="page-pane">
+                    <div class="card" style="margin-bottom:16px">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-bolt"></i> সুপার-ফাস্ট Bulk Tools (CSV / AI)</h3>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                                <button type="button" class="btn-sm b-purple" onclick="jumpToAi()"><i class="fa-solid fa-wand-magic-sparkles"></i> AI দিয়ে স্ক্রিনশট থেকে পোস্ট</button>
+                                <button type="button" class="btn-sm b-blue" onclick="downloadSampleCsv()"><i class="fa-solid fa-file-csv"></i> Sample CSV</button>
+                                <label class="btn-sm b-green" style="cursor:pointer"><i class="fa-solid fa-file-import"></i> Bulk Import CSV<input type="file" accept=".csv" style="display:none" onchange="importProductsCsv(event)"></label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="grid-2">
                         <div class="card">
                             <div class="card-head"><h3><i class="fa-solid fa-plus-circle"></i> Add / Edit Product &amp; SKU</h3></div>
                             <form onsubmit="saveProduct(event)">
                                 <input type="hidden" id="pEditId">
-                                 <div class="fg"><label>Product Name *</label><input type="text" id="pName" required></div>
+                                <div class="fg"><label>Product Name *</label><input type="text" id="pName" required></div>
                                 <div class="form-row">
                                     <div class="fg"><label>Product ID (খালি রাখলে অটো হবে)</label><input type="text" id="pProdId" placeholder="যেমন: 1791104696"></div>
                                     <div class="fg"><label>SKU Code</label><input type="text" id="pSku" placeholder="যেমন: 33573 বা CM-101" style="text-transform:uppercase"></div>
                                 </div>
                                 <div class="form-row"><div class="fg"><label>Short Highlight</label><input type="text" id="pShort" placeholder="300 GSM Fleece"></div><div class="fg"><label>Sizes</label><input type="text" id="pSizes" placeholder="M, L, XL"></div></div>
                                 <div class="fg"><label>Full Details &amp; Size Chart</label><textarea id="pSpec" rows="3"></textarea></div>
-                                <div class="form-row"><div class="fg"><label>Price (৳) *</label><input type="number" id="pPrice" required></div><div class="fg"><label>Old Price (৳)</label><input type="number" id="pOldPrice"></div></div>
+                                <div class="form-row-3">
+                                    <div class="fg"><label>Price (৳) *</label><input type="number" id="pPrice" required></div>
+                                    <div class="fg"><label>Old Price (৳)</label><input type="number" id="pOldPrice"></div>
+                                    <div class="fg"><label>Buy Price (৳ গোপন)</label><input type="number" id="pBuyPrice" placeholder="ঐচ্ছিক"></div>
+                                </div>
                                 <div class="form-row"><div class="fg"><label>Category</label><select id="pCat"></select></div><div class="fg" style="display:flex;align-items:center;padding-top:20px;gap:8px"><input type="checkbox" id="pHot" checked style="width:auto"><label style="margin:0">Hot Badge</label></div></div>
                                 <div class="fg"><label>ছবি আপলোড (১-৪টি)</label><input type="file" id="pFile" accept="image/*" multiple></div>
                                 <div class="fg"><label>অথবা ছবির লিংক (কমা দিয়ে)</label><input type="text" id="pUrl" placeholder="https://..."></div>
@@ -250,8 +434,8 @@
                         </div>
                         <div class="card">
                             <div class="card-head">
-                                <h3><i class="fa-solid fa-boxes-stacked"></i> সব প্রোডাক্ট</h3>
-                               <input type="text" id="prodSearch" placeholder="নাম, SKU বা ID খুঁজুন..." oninput="renderCatalogLists()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                                <h3><i class="fa-solid fa-boxes-stacked"></i> সব প্রোডাক্ট (<span id="prodTotalCount">0</span>)</h3>
+                                <input type="text" id="prodSearch" placeholder="নাম, SKU বা ID খুঁজুন..." oninput="renderCatalogLists()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
                             </div>
                             <div class="list-stack" id="admProdList"></div>
                         </div>
@@ -441,6 +625,8 @@
                 </section>
             </main>
         </div>
+
+        <button class="ai-fab" title="Open AI Command Center" onclick="jumpToAi()"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
     </div>
 
     <!-- Overlay & Modals -->
@@ -520,13 +706,36 @@
         </div>
     </div>
 
+    <!-- Screenshot Quick Crop Modal -->
+    <div class="modal" id="cropModal">
+        <div class="modal-h"><h3><i class="fa-solid fa-crop-simple"></i> স্ক্রিনশট থেকে প্রোডাক্ট ছবি কাটুন</h3><button onclick="closeAllAdmModals()" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer">&times;</button></div>
+        <div class="modal-b">
+            <p style="font-size:12px;color:var(--muted);margin-bottom:8px">মাউস বা আঙুল দিয়ে ছবির ওপর টেনে অংশটুকু সিলেক্ট করুন, অথবা নিচের Quick Preset চাপুন:</p>
+            <div class="quick-chips">
+                <button type="button" class="quick-chip" onclick="presetCrop('top-square')">উপরের অংশ (1:1)</button>
+                <button type="button" class="quick-chip" onclick="presetCrop('center')">মাঝখানের অংশ</button>
+                <button type="button" class="quick-chip" onclick="presetCrop('reset')">পুরো ছবি</button>
+            </div>
+            <div class="crop-stage"><canvas id="cropCanvas"></canvas></div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+                <button type="button" class="btn-primary" style="background:var(--ai)" onclick="applyCropSelection()"><i class="fa-solid fa-check"></i> Apply Cropped Image</button>
+                <button type="button" class="btn-sm b-amber" onclick="closeAllAdmModals()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast" class="toast"></div>
     <script>
         const FB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
         const DEFAULT_ADM_PASS = "redstar(())";
+        const AI_CFG_KEY = "cm_ai_cfg_v1";
         let storeData = { settings: {}, slides: [], categories: [], products: [], coupons: [] };
         let adminUsers = {}, adminOrders = {}, adminChats = {}, adminResets = {}, visitorCount = 0;
         let activeAdminChatId = '', pollTimer = null;
+
+        // AI Agent State
+        let aiHistory = [], aiPendingImgs = [], aiDrafts = [], aiGenImgs = [], aiBusy = false, speechRec = null;
+        let cropIdx = -1, cropTargetDraftId = '', cropImgObj = null, cropBox = { x: 0, y: 0, w: 0, h: 0 }, isDraggingCrop = false, dragStart = { x: 0, y: 0 };
 
         const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
         const escAttr = s => String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
@@ -536,6 +745,9 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             if (localStorage.getItem('cm_adm_theme') === 'dark') document.body.classList.add('dark');
+            loadAiConfig();
+            initAiDropAndPaste();
+            initCropCanvasEvents();
             await loadStore();
             if (sessionStorage.getItem('chitro_adm_ok') === '1') enterAdminPortal();
         });
@@ -583,6 +795,7 @@
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('appShell').style.display = 'block';
             populateCmsForm(); renderCatalogLists();
+            if (!aiHistory.length) showAiWelcome();
             await refreshAllLive();
             clearInterval(pollTimer);
             pollTimer = setInterval(refreshAllLive, 6000);
@@ -590,10 +803,11 @@
 
         function openTab(tabId, btn) {
             document.querySelectorAll('.page-pane, .sb-btn').forEach(e=>e.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active'); btn.classList.add('active');
-            document.getElementById('pageHeading').textContent = btn.textContent.trim();
+            document.getElementById(tabId).classList.add('active');
+            if (btn) { btn.classList.add('active'); document.getElementById('pageHeading').textContent = btn.textContent.replace(/AI$/,'').trim(); }
             document.getElementById('sidebar').classList.remove('open');
         }
+        function jumpToAi() { openTab('tabAi', document.getElementById('sbAiBtn')); document.getElementById('aiPromptInput').focus(); }
 
         async function refreshAllLive() {
             try {
@@ -720,6 +934,7 @@
             document.getElementById('overlay').classList.remove('active');
             document.getElementById('trackEditModal').classList.remove('active');
             document.getElementById('custMsgModal').classList.remove('active');
+            document.getElementById('cropModal').classList.remove('active');
         }
 
         /* Customer Direct Message / SMS / Live Chat Modal */
@@ -747,34 +962,32 @@
             return existing ? existing.id : ('u_' + clean);
         }
 
-        async function sendMsgToLiveChat() {
-            const phone = document.getElementById('cmPhone').value.trim();
-            const name = document.getElementById('cmName').value.trim() || 'Customer';
-            const oid = document.getElementById('cmOrderId').value.trim();
-            const txt = document.getElementById('cmMsgText').value.trim();
-            if (!phone) return showToast('কাস্টমারের ফোন নম্বর নেই!');
-            if (!txt) { document.getElementById('cmMsgText').focus(); return showToast('আগে মেসেজ লিখুন!'); }
+        async function pushLiveChatMessage(phone, name, txt, oid='', alsoTrack=false) {
             const cid = findOrBuildChatId(phone);
             const time = new Date().toLocaleTimeString('bn-BD', {hour:'2-digit', minute:'2-digit'});
+            await fetch(`${FB_URL}/chats/${cid}.json`, {
+                method:'PATCH', headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({ id:cid, name:name||'Customer', phone, lastMsg:txt, lastTime:time, unread:false })
+            });
+            await fetch(`${FB_URL}/chats/${cid}/messages.json`, {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({ sender:'admin', text:txt, time })
+            });
+            if (oid && alsoTrack && adminOrders[oid]) {
+                const o = adminOrders[oid];
+                const hist = Array.isArray(o.trackingHistory) ? [...o.trackingHistory] : [];
+                hist.push({ status: o.status || 'Pending', location: o.currentLocation || 'অর্ডার প্রসেসিং চলছে', note: txt, time: new Date().toLocaleString('bn-BD') });
+                await fetch(`${FB_URL}/orders/${oid}.json`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ trackingHistory: hist }) });
+            }
+            return cid;
+        }
+
+        async function sendMsgToLiveChat() {
+            const phone = document.getElementById('cmPhone').value.trim(), name = document.getElementById('cmName').value.trim() || 'Customer', oid = document.getElementById('cmOrderId').value.trim(), txt = document.getElementById('cmMsgText').value.trim();
+            if (!phone) return showToast('কাস্টমারের ফোন নম্বর নেই!');
+            if (!txt) { document.getElementById('cmMsgText').focus(); return showToast('আগে মেসেজ লিখুন!'); }
             try {
-                await fetch(`${FB_URL}/chats/${cid}.json`, {
-                    method:'PATCH', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({ id:cid, name, phone, lastMsg:txt, lastTime:time, unread:false })
-                });
-                await fetch(`${FB_URL}/chats/${cid}/messages.json`, {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({ sender:'admin', text:txt, time })
-                });
-                if (oid && document.getElementById('cmAlsoTrack').checked && adminOrders[oid]) {
-                    const o = adminOrders[oid];
-                    const hist = Array.isArray(o.trackingHistory) ? [...o.trackingHistory] : [];
-                    hist.push({ status: o.status || 'Pending', location: o.currentLocation || 'অর্ডার প্রসেসিং চলছে', note: txt, time: new Date().toLocaleString('bn-BD') });
-                    await fetch(`${FB_URL}/orders/${oid}.json`, {
-                        method:'PATCH', headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({ trackingHistory: hist })
-                    });
-                }
-                activeAdminChatId = cid;
+                activeAdminChatId = await pushLiveChatMessage(phone, name, txt, oid, document.getElementById('cmAlsoTrack').checked);
                 closeAllAdmModals();
                 showToast('কাস্টমারের Live Chat-এ মেসেজ পাঠানো হয়েছে!');
                 await refreshAllLive();
@@ -782,8 +995,7 @@
         }
 
         function sendMsgViaWa() {
-            const phone = document.getElementById('cmPhone').value.trim();
-            const txt = document.getElementById('cmMsgText').value.trim();
+            const phone = document.getElementById('cmPhone').value.trim(), txt = document.getElementById('cmMsgText').value.trim();
             if (!phone) return showToast('ফোন নম্বর পাওয়া যায়নি!');
             if (!txt) { document.getElementById('cmMsgText').focus(); return showToast('আগে মেসেজ লিখুন!'); }
             let clean = phone.replace(/[^0-9]/g, '');
@@ -792,8 +1004,7 @@
         }
 
         function sendMsgViaSms() {
-            const phone = document.getElementById('cmPhone').value.trim();
-            const txt = document.getElementById('cmMsgText').value.trim();
+            const phone = document.getElementById('cmPhone').value.trim(), txt = document.getElementById('cmMsgText').value.trim();
             if (!phone) return showToast('ফোন নম্বর পাওয়া যায়নি!');
             if (!txt) { document.getElementById('cmMsgText').focus(); return showToast('আগে মেসেজ লিখুন!'); }
             window.location.href = `sms:${phone}?body=${encodeURIComponent(txt)}`;
@@ -821,17 +1032,20 @@
         }
         function setQuickLoc(st, loc) { document.getElementById('trStatus').value = st; document.getElementById('trLocation').value = loc; }
 
-        async function saveOrderTrackingUpdate(e) {
-            e.preventDefault();
-            const oid = document.getElementById('trEditOrdId').value, o = adminOrders[oid];
-            if (!o) return;
-            const st = document.getElementById('trStatus').value, courier = document.getElementById('trCourier').value, code = document.getElementById('trCode').value.trim(), loc = document.getElementById('trLocation').value.trim(), note = document.getElementById('trNote').value.trim();
+        async function updateOrderTrackingDirect(oid, st, courier, code, loc, note) {
+            const o = adminOrders[oid]; if (!o) throw new Error('Order not found');
             const hist = Array.isArray(o.trackingHistory) ? [...o.trackingHistory] : [];
             hist.push({ status: st, location: loc, note: note || (courier ? `${courier} ${code}` : ''), time: new Date().toLocaleString('bn-BD') });
             await fetch(`${FB_URL}/orders/${oid}.json`, {
                 method: 'PATCH', headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({ status: st, courier, trackingCode: code, currentLocation: loc, trackingHistory: hist })
+                body: JSON.stringify({ status: st, courier: courier||'', trackingCode: code||'', currentLocation: loc, trackingHistory: hist })
             });
+        }
+
+        async function saveOrderTrackingUpdate(e) {
+            e.preventDefault();
+            const oid = document.getElementById('trEditOrdId').value;
+            await updateOrderTrackingDirect(oid, document.getElementById('trStatus').value, document.getElementById('trCourier').value, document.getElementById('trCode').value.trim(), document.getElementById('trLocation').value.trim(), document.getElementById('trNote').value.trim());
             closeAllAdmModals(); showToast('অর্ডার লোকেশন ও ট্র্যাকিং লাইভ আপডেট হয়েছে!');
             await refreshAllLive();
         }
@@ -847,8 +1061,7 @@
         }
 
         async function startDirectChatByPhone() {
-            let phone = document.getElementById('chatDirectPhone').value.trim();
-            let name = 'Customer';
+            let phone = document.getElementById('chatDirectPhone').value.trim(), name = 'Customer';
             const selVal = document.getElementById('chatOrderSelect').value;
             if (selVal && selVal.startsWith(phone + '|')) name = selVal.split('|')[1] || 'Customer';
             else if (adminUsers[phone] && adminUsers[phone].name) name = adminUsers[phone].name;
@@ -866,10 +1079,7 @@
                 });
                 adminChats[cid] = { id:cid, name, phone, lastMsg:'চ্যাট শুরু হয়েছে', lastTime:time, unread:false, messages:{} };
             }
-            activeAdminChatId = cid;
-            renderLiveUI();
-            selectAdminChat(cid);
-            document.getElementById('admChatInput').focus();
+            activeAdminChatId = cid; renderLiveUI(); selectAdminChat(cid); document.getElementById('admChatInput').focus();
         }
 
         async function selectAdminChat(cid) {
@@ -879,8 +1089,7 @@
             if (c.unread) { c.unread = false; await fetch(`${FB_URL}/chats/${cid}/unread.json`, { method:'PUT', body:'false' }); renderLiveUI(); }
         }
         function renderChatMsgs(c) {
-            const box = document.getElementById('admChatMessages');
-            const msgs = c.messages ? Object.values(c.messages) : [];
+            const box = document.getElementById('admChatMessages'), msgs = c.messages ? Object.values(c.messages) : [];
             box.innerHTML = msgs.length
                 ? msgs.map(m => `<div class="c-msg ${m.sender==='admin'?'adm':'cust'}">${esc(m.text)}<small>${esc(m.time)}</small></div>`).join('')
                 : '<p style="text-align:center;color:var(--muted);font-size:12px;margin:auto">নিচে মেসেজ লিখে এই কাস্টমারের সাথে কথা শুরু করুন।</p>';
@@ -919,14 +1128,32 @@
         }
         async function deleteUser(phone) { if(!confirm('ইউজার ডিলিট করবেন?'))return; await fetch(`${FB_URL}/users/${phone}.json`,{method:'DELETE'}); refreshAllLive(); }
 
-        /* Catalog (Products & SKU, Cats, Coupons, Reviews) */
-        function compressImg(f,mw=420) { return new Promise(res=>{ const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ const c=document.createElement('canvas'), sc=Math.min(1,mw/i.width); c.width=i.width*sc; c.height=i.height*sc; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/webp',.84)); }; i.src=e.target.result; }; r.readAsDataURL(f); }); }
+        /* Catalog (Products, Clone, CSV Bulk, SKU, Cats, Coupons, Reviews) */
+        function compressImg(f,mw=520) { return new Promise(res=>{ const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ const c=document.createElement('canvas'), sc=Math.min(1,mw/i.width); c.width=i.width*sc; c.height=i.height*sc; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/webp',.84)); }; i.src=e.target.result; }; r.readAsDataURL(f); }); }
+        async function uploadToImgbbIfConfigured(dataUrlOrUrl) {
+            const key = document.getElementById('aiImgbbKey')?.value.trim();
+            if (!key || !dataUrlOrUrl || !dataUrlOrUrl.startsWith('data:')) return dataUrlOrUrl;
+            try {
+                const b64 = dataUrlOrUrl.split(',')[1];
+                const fd = new FormData();
+                fd.append('image', b64);
+                const r = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(key)}`, { method:'POST', body:fd });
+                const j = await r.json();
+                if (j && j.success && j.data && j.data.url) return j.data.url;
+            } catch (e) {}
+            return dataUrlOrUrl;
+        }
+
         function renderCatalogLists() {
             document.getElementById('pCat').innerHTML = storeData.categories.map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('')+'<option value="General">General</option>';
             document.getElementById('rProdId').innerHTML = storeData.products.length ? storeData.products.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}${p.sku?' ('+esc(p.sku)+')':''} [${esc(p.id)}]</option>`).join('') : '<option value="">প্রোডাক্ট নেই</option>';
+            document.getElementById('prodTotalCount').textContent = storeData.products.length;
             const pq = (document.getElementById('prodSearch')?.value || '').trim().toLowerCase();
             const filteredProds = pq ? storeData.products.filter(p => (p.name||'').toLowerCase().includes(pq) || (p.sku||'').toLowerCase().includes(pq) || (p.id||'').toLowerCase().includes(pq) || (p.category||'').toLowerCase().includes(pq)) : storeData.products;
-            document.getElementById('admProdList').innerHTML = filteredProds.map(p=>`<div class="item-row"><div class="item-left"><img src="${getImgs(p)[0]||''}"><div><b>${esc(p.name)}</b> <span class="status-pill b-amber">ID: ${esc(p.id)}</span> ${p.sku?`<span class="status-pill b-blue">SKU: ${esc(p.sku)}</span>`:''}<br><small>৳${fmt(p.price)} • ${esc(p.category)}</small></div></div><div style="display:flex;gap:5px"><button class="btn-sm b-blue" onclick="editProduct('${escAttr(p.id)}')"><i class="fa-solid fa-pen"></i></button><button class="btn-sm b-red" onclick="deleteProduct('${escAttr(p.id)}')"><i class="fa-solid fa-trash"></i></button></div></div>`).join('') || '<small style="color:var(--muted)">কোনো প্রোডাক্ট পাওয়া যায়নি</small>';
+            document.getElementById('admProdList').innerHTML = filteredProds.map(p=>{
+                const buyBadge = p.buyPrice ? `<span class="status-pill b-green">Buy: ৳${fmt(p.buyPrice)} • Profit: +৳${fmt(Number(p.price)-Number(p.buyPrice))}</span>` : '';
+                return `<div class="item-row"><div class="item-left"><img src="${getImgs(p)[0]||''}"><div><b>${esc(p.name)}</b> <span class="status-pill b-amber">ID: ${esc(p.id)}</span> ${p.sku?`<span class="status-pill b-blue">SKU: ${esc(p.sku)}</span>`:''} ${buyBadge}<br><small>৳${fmt(p.price)} ${p.oldPrice?`<del style="color:var(--muted)">৳${fmt(p.oldPrice)}</del>`:''} • ${esc(p.category)}</small></div></div><div style="display:flex;gap:5px"><button class="btn-sm b-purple" title="Clone / Duplicate" onclick="cloneProduct('${escAttr(p.id)}')"><i class="fa-solid fa-copy"></i></button><button class="btn-sm b-blue" title="Edit" onclick="editProduct('${escAttr(p.id)}')"><i class="fa-solid fa-pen"></i></button><button class="btn-sm b-red" title="Delete" onclick="deleteProduct('${escAttr(p.id)}')"><i class="fa-solid fa-trash"></i></button></div></div>`;
+            }).join('') || '<small style="color:var(--muted)">কোনো প্রোডাক্ট পাওয়া যায়নি</small>';
             document.getElementById('admCatList').innerHTML = storeData.categories.map(c=>`<div class="item-row"><div class="item-left"><img src="${c.image}"><b>${esc(c.name)}</b></div><button class="btn-sm b-red" onclick="deleteCategory('${escAttr(c.id)}')"><i class="fa-solid fa-trash"></i></button></div>`).join('');
             document.getElementById('admCouponList').innerHTML = storeData.coupons.map(c=>`<div class="item-row"><span><b>${esc(c.code)}</b> (${c.type==='pct'?c.value+'%':'৳'+c.value} ছাড়)</span><button class="btn-sm b-red" onclick="deleteCoupon('${escAttr(c.id)}')"><i class="fa-solid fa-trash"></i></button></div>`).join('') || '<small style="color:var(--muted)">কোনো কুপন নেই</small>';
             const revs=[]; storeData.products.forEach(p=>(p.reviews||[]).forEach((r,i)=>revs.push(`<div class="item-row"><div><b>${esc(r.name)} (${'★'.repeat(r.stars)})</b><br><small>${esc(p.name)}: ${esc(r.text)}</small></div><button class="btn-sm b-red" onclick="deleteReview('${escAttr(p.id)}',${i})"><i class="fa-solid fa-trash"></i></button></div>`)));
@@ -934,20 +1161,76 @@
         }
         async function saveProduct(e) {
             e.preventDefault();
-         const editId=document.getElementById('pEditId').value, name=document.getElementById('pName').value.trim(), customId=document.getElementById('pProdId').value.replace(/['"<>\\]/g,'').trim(), sku=document.getElementById('pSku').value.trim().toUpperCase(), shortSpec=document.getElementById('pShort').value.trim(), sizes=document.getElementById('pSizes').value.trim(), spec=document.getElementById('pSpec').value.trim();
+            const editId=document.getElementById('pEditId').value, name=document.getElementById('pName').value.trim(), customId=document.getElementById('pProdId').value.replace(/['"<>\\]/g,'').trim(), sku=document.getElementById('pSku').value.trim().toUpperCase(), shortSpec=document.getElementById('pShort').value.trim(), sizes=document.getElementById('pSizes').value.trim(), spec=document.getElementById('pSpec').value.trim();
             const finalId = customId || editId || ('p_' + Date.now());
             if (storeData.products.some(p => p.id === finalId && p.id !== editId)) return showToast('এই Product ID আগেই ব্যবহার করা হয়েছে! অন্য একটি দিন।');
-            const price=Number(document.getElementById('pPrice').value), oldPrice=document.getElementById('pOldPrice').value?Number(document.getElementById('pOldPrice').value):null, category=document.getElementById('pCat').value, isHot=document.getElementById('pHot').checked;
-            const files=Array.from(document.getElementById('pFile').files).slice(0,4), urls=document.getElementById('pUrl').value.split(',').map(u=>u.trim()).filter(u=>u.startsWith('http'));
-            let images=[]; for(const f of files) images.push(await compressImg(f,420)); images=images.concat(urls).slice(0,4);
-            if(editId){ const i=storeData.products.findIndex(p=>p.id===editId); if(i>-1){ const old=storeData.products[i]; if(!images.length)images=getImgs(old); storeData.products[i]={id:finalId,name,sku,shortSpec,sizes,spec,price,oldPrice,category,isHot,image:images[0],images,reviews:old.reviews||[]}; } }
-            else { if(!images.length) return showToast('ছবি দিন!'); storeData.products.unshift({id:finalId,name,sku,shortSpec,sizes,spec,price,oldPrice,category,isHot,image:images[0],images,reviews:[]}); }
+            const price=Number(document.getElementById('pPrice').value), oldPrice=document.getElementById('pOldPrice').value?Number(document.getElementById('pOldPrice').value):null, buyPrice=document.getElementById('pBuyPrice').value?Number(document.getElementById('pBuyPrice').value):null, category=document.getElementById('pCat').value, isHot=document.getElementById('pHot').checked;
+            const files=Array.from(document.getElementById('pFile').files).slice(0,4), urls=document.getElementById('pUrl').value.split(',').map(u=>u.trim()).filter(u=>u.startsWith('http')||u.startsWith('data:'));
+            let images=[]; for(const f of files) images.push(await uploadToImgbbIfConfigured(await compressImg(f,520))); images=images.concat(urls).slice(0,4);
+            if(editId){ const i=storeData.products.findIndex(p=>p.id===editId); if(i>-1){ const old=storeData.products[i]; if(!images.length)images=getImgs(old); storeData.products[i]={id:finalId,name,sku,shortSpec,sizes,spec,price,oldPrice,buyPrice,category,isHot,image:images[0],images,reviews:old.reviews||[]}; } }
+            else { if(!images.length) return showToast('ছবি দিন!'); storeData.products.unshift({id:finalId,name,sku,shortSpec,sizes,spec,price,oldPrice,buyPrice,category,isHot,image:images[0],images,reviews:[]}); }
             resetProdForm(); await syncStoreToCloud(); showToast('প্রোডাক্ট লাইভ হয়েছে!');
         }
-        function editProduct(id) { const p=storeData.products.find(x=>x.id===id); if(!p)return; document.getElementById('pEditId').value=p.id; document.getElementById('pProdId').value=p.id||''; document.getElementById('pName').value=p.name; document.getElementById('pSku').value=p.sku||''; document.getElementById('pShort').value=p.shortSpec||''; document.getElementById('pSizes').value=p.sizes||''; document.getElementById('pSpec').value=p.spec||''; document.getElementById('pPrice').value=p.price; document.getElementById('pOldPrice').value=p.oldPrice||''; document.getElementById('pCat').value=p.category; document.getElementById('pHot').checked=!!p.isHot; document.getElementById('pUrl').value=getImgs(p).filter(u=>u.startsWith('http')).join(', '); document.getElementById('pSaveBtn').textContent='Update Live'; document.getElementById('pCancelBtn').style.display='inline-block'; }
+        function editProduct(id) { const p=storeData.products.find(x=>x.id===id); if(!p)return; document.getElementById('pEditId').value=p.id; document.getElementById('pProdId').value=p.id||''; document.getElementById('pName').value=p.name; document.getElementById('pSku').value=p.sku||''; document.getElementById('pShort').value=p.shortSpec||''; document.getElementById('pSizes').value=p.sizes||''; document.getElementById('pSpec').value=p.spec||''; document.getElementById('pPrice').value=p.price; document.getElementById('pOldPrice').value=p.oldPrice||''; document.getElementById('pBuyPrice').value=p.buyPrice||''; document.getElementById('pCat').value=p.category; document.getElementById('pHot').checked=!!p.isHot; document.getElementById('pUrl').value=getImgs(p).filter(u=>u.startsWith('http')).join(', '); document.getElementById('pSaveBtn').textContent='Update Live'; document.getElementById('pCancelBtn').style.display='inline-block'; }
+        function cloneProduct(id) {
+            const p=storeData.products.find(x=>x.id===id); if(!p)return;
+            resetProdForm();
+            document.getElementById('pName').value = p.name + ' (Copy)';
+            document.getElementById('pSku').value = (p.sku||'CM') + '-' + Math.floor(10+Math.random()*89);
+            document.getElementById('pShort').value = p.shortSpec||''; document.getElementById('pSizes').value = p.sizes||'';
+            document.getElementById('pSpec').value = p.spec||''; document.getElementById('pPrice').value = p.price;
+            document.getElementById('pOldPrice').value = p.oldPrice||''; document.getElementById('pBuyPrice').value = p.buyPrice||'';
+            document.getElementById('pCat').value = p.category; document.getElementById('pHot').checked = !!p.isHot;
+            document.getElementById('pUrl').value = getImgs(p).join(', ');
+            showToast('তথ্য কপি হয়েছে! শুধু নতুন ছবি/নাম দিয়ে Save চাপুন।');
+        }
         function resetProdForm() { document.getElementById('pEditId').value=''; document.querySelector('#tabProducts form').reset(); document.getElementById('pSaveBtn').textContent='Save & Publish Live'; document.getElementById('pCancelBtn').style.display='none'; }
         async function deleteProduct(id) { storeData.products=storeData.products.filter(p=>p.id!==id); await syncStoreToCloud(); showToast('ডিলিট হয়েছে'); }
-        async function saveCategory(e) { e.preventDefault(); const name=document.getElementById('cName').value.trim(), bg=document.getElementById('cBg').value, file=document.getElementById('cFile').files[0]; let image=document.getElementById('cUrl').value.trim(); if(file)image=await compressImg(file,300); if(!image)return showToast('ছবি দিন!'); storeData.categories.push({id:'c_'+Date.now(),name,bg,image}); e.target.reset(); await syncStoreToCloud(); showToast('ক্যাটাগরি যোগ হয়েছে!'); }
+
+        // CSV Bulk Import
+        function downloadSampleCsv() {
+            const csv = 'name,sku,price,oldPrice,buyPrice,category,sizes,shortSpec,spec,imageUrl,isHot\n"Premium Cotton Polo",CM-101,699,950,420,"Men Fashion","M, L, XL","100% Cotton Pique","আরামদায়ক ও টেকসই পোলো টি-শার্ট","https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",1\n';
+            const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'chitro-bulk-sample.csv'; a.click();
+        }
+        function parseCsvRow(row) {
+            const out = []; let cur = '', inQ = false;
+            for (let i=0; i<row.length; i++) {
+                const ch = row[i];
+                if (ch === '"') { if (inQ && row[i+1]==='"'){ cur+='"'; i++; } else inQ=!inQ; }
+                else if (ch === ',' && !inQ) { out.push(cur.trim()); cur=''; }
+                else cur += ch;
+            }
+            out.push(cur.trim());
+            return out;
+        }
+        async function importProductsCsv(e) {
+            const f = e.target.files[0]; if (!f) return;
+            const text = await f.text();
+            const lines = text.split(/\r?\n/).filter(l=>l.trim());
+            if (lines.length < 2) return showToast('CSV ফাইলে ডেটা নেই!');
+            const hdr = parseCsvRow(lines[0]).map(h=>h.toLowerCase());
+            let added = 0;
+            for (let i=1; i<lines.length; i++) {
+                const cols = parseCsvRow(lines[i]);
+                const get = k => { const idx = hdr.indexOf(k.toLowerCase()); return idx>-1 ? (cols[idx]||'') : ''; };
+                const name = get('name'), price = Number(get('price'));
+                if (!name || !price) continue;
+                const img = get('imageUrl') || get('image') || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500';
+                storeData.products.unshift({
+                    id: 'p_' + Date.now() + '_' + i, name, sku: (get('sku')||('CM-'+Math.floor(1000+Math.random()*8999))).toUpperCase(),
+                    price, oldPrice: get('oldPrice')?Number(get('oldPrice')):null, buyPrice: get('buyPrice')?Number(get('buyPrice')):null,
+                    category: get('category')||'General', sizes: get('sizes'), shortSpec: get('shortSpec'), spec: get('spec'),
+                    isHot: get('isHot')!=='0', image: img, images: [img], reviews: []
+                });
+                added++;
+            }
+            e.target.value = '';
+            if (!added) return showToast('কোনো সঠিক প্রোডাক্ট পাওয়া যায়নি!');
+            await syncStoreToCloud();
+            showToast(`${added}টি প্রোডাক্ট একসাথে লাইভ হয়েছে!`);
+        }
+
+        async function saveCategory(e) { e.preventDefault(); const name=document.getElementById('cName').value.trim(), bg=document.getElementById('cBg').value, file=document.getElementById('cFile').files[0]; let image=document.getElementById('cUrl').value.trim(); if(file)image=await uploadToImgbbIfConfigured(await compressImg(file,300)); if(!image)return showToast('ছবি দিন!'); storeData.categories.push({id:'c_'+Date.now(),name,bg,image}); e.target.reset(); await syncStoreToCloud(); showToast('ক্যাটাগরি যোগ হয়েছে!'); }
         async function deleteCategory(id) { storeData.categories=storeData.categories.filter(c=>c.id!==id); await syncStoreToCloud(); }
         async function saveCoupon(e) { e.preventDefault(); storeData.coupons.push({id:'cp_'+Date.now(),code:document.getElementById('cpCode').value.trim().toUpperCase(),type:document.getElementById('cpType').value,value:Number(document.getElementById('cpVal').value)}); e.target.reset(); await syncStoreToCloud(); showToast('কুপন তৈরি হয়েছে!'); }
         async function deleteCoupon(id) { storeData.coupons=storeData.coupons.filter(c=>c.id!==id); await syncStoreToCloud(); }
@@ -1034,12 +1317,11 @@
             storeData.slides.splice(Number(document.getElementById('sSlideIdx').value)||0, 1);
             renderSlideSelect(); showToast('স্লাইড মুছে ফেলা হয়েছে');
         }
-        async function uploadSlideImg(e) { const f=e.target.files[0]; if(!f)return; const b64=await compressImg(f,600); document.getElementById('slImg').value=b64; syncSlideEditor(); showToast('ছবি আপলোড হয়েছে!'); }
+        async function uploadSlideImg(e) { const f=e.target.files[0]; if(!f)return; const b64=await uploadToImgbbIfConfigured(await compressImg(f,720)); document.getElementById('slImg').value=b64; syncSlideEditor(); showToast('ছবি আপলোড হয়েছে!'); }
 
         async function saveAllCms(e) {
             e.preventDefault(); syncSlideEditor();
-            const cp = document.getElementById('sShowCatsPromo').value;
-            const newPass = document.getElementById('sAdmPass').value.trim();
+            const cp = document.getElementById('sShowCatsPromo').value, newPass = document.getElementById('sAdmPass').value.trim();
             storeData.settings = Object.assign({}, storeData.settings, {
                 storeUrl: document.getElementById('sStoreUrl').value.trim() || 'index.html',
                 emailjsPublicKey: document.getElementById('sEjPub').value.trim(),
@@ -1099,6 +1381,683 @@
 
         function downloadJson() { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(storeData,null,2)],{type:'application/json'})); a.download='chitro-mart-backup.json'; a.click(); }
         function restoreJson(e) { const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=async ev=>{ try{ storeData=JSON.parse(ev.target.result); await syncStoreToCloud(); showToast('Backup রিস্টোর হয়েছে!'); }catch(err){showToast('সঠিক JSON নয়!');} }; r.readAsText(f); }
+
+        /* =========================================================
+           CHITRO AI COMMAND CENTER (AGENTIC AI + RESELLER ENGINE)
+           ========================================================= */
+        function loadAiConfig() {
+            try {
+                const c = JSON.parse(localStorage.getItem(AI_CFG_KEY) || '{}');
+                if (c.geminiKey) document.getElementById('aiGeminiKey').value = c.geminiKey;
+                if (c.model) document.getElementById('aiModel').value = c.model;
+                if (c.imgEngine) document.getElementById('aiImgEngine').value = c.imgEngine;
+                if (c.imgbbKey) document.getElementById('aiImgbbKey').value = c.imgbbKey;
+                if (c.polKey) document.getElementById('aiPolKey').value = c.polKey;
+                if (c.rsMode) document.getElementById('rsMode').value = c.rsMode;
+                if (c.rsVal !== undefined) document.getElementById('rsVal').value = c.rsVal;
+                if (c.rsSlabs) document.getElementById('rsSlabs').value = c.rsSlabs;
+                if (c.rsRound) document.getElementById('rsRound').value = c.rsRound;
+                if (c.rsOldPct !== undefined) document.getElementById('rsOldPct').value = c.rsOldPct;
+                document.getElementById('aiAutoPub').checked = !!c.autoPub;
+                document.getElementById('aiSafeGuard').checked = c.safeGuard !== false;
+                document.getElementById('aiVoiceReply').checked = !!c.voiceReply;
+            } catch (e) {}
+            updateAiKeyStatus();
+        }
+
+        function saveAiConfig() {
+            const c = {
+                geminiKey: document.getElementById('aiGeminiKey').value.trim(),
+                model: document.getElementById('aiModel').value,
+                imgEngine: document.getElementById('aiImgEngine').value,
+                imgbbKey: document.getElementById('aiImgbbKey').value.trim(),
+                polKey: document.getElementById('aiPolKey').value.trim(),
+                rsMode: document.getElementById('rsMode').value,
+                rsVal: Number(document.getElementById('rsVal').value) || 0,
+                rsSlabs: document.getElementById('rsSlabs').value.trim(),
+                rsRound: document.getElementById('rsRound').value,
+                rsOldPct: Number(document.getElementById('rsOldPct').value) || 0,
+                autoPub: document.getElementById('aiAutoPub').checked,
+                safeGuard: document.getElementById('aiSafeGuard').checked,
+                voiceReply: document.getElementById('aiVoiceReply').checked
+            };
+            localStorage.setItem(AI_CFG_KEY, JSON.stringify(c));
+            updateAiKeyStatus();
+        }
+
+        function updateAiKeyStatus() {
+            const k = document.getElementById('aiGeminiKey').value.trim();
+            const b = document.getElementById('aiKeyBadge');
+            b.textContent = k ? 'Ready ✓' : 'Key Required';
+            b.className = 'status-pill ' + (k ? 'b-green' : 'b-amber');
+            const ex = calcResellPricing(500, 1000);
+            document.getElementById('rsLivePreview').innerHTML = `উদাহরণ: কেনা <b>৳500</b> (Suggested ৳1000) হলে -> বিক্রয়মূল্য: <b style="color:var(--primary)">৳${fmt(ex.sellPrice)}</b>, Old Price: <del>৳${fmt(ex.oldPrice)}</del>, লাভ: <b>+৳${fmt(ex.sellPrice-500)}</b>`;
+        }
+
+        function calcResellPricing(buyPrice, suggestedPrice, overrideSellPrice) {
+            const mode = document.getElementById('rsMode').value;
+            const val = Number(document.getElementById('rsVal').value) || 0;
+            const slabsStr = document.getElementById('rsSlabs').value || '';
+            const roundMode = document.getElementById('rsRound').value;
+            const oldPct = Number(document.getElementById('rsOldPct').value) || 0;
+
+            let sell = Number(overrideSellPrice) || 0;
+            const buy = Number(buyPrice) || 0;
+            const sug = Number(suggestedPrice) || 0;
+
+            if (!sell) {
+                if (mode === 'suggested' && sug > 0) {
+                    sell = sug + val;
+                } else if (buy > 0) {
+                    if (mode === 'fixed') sell = buy + val;
+                    else if (mode === 'pct') sell = buy * (1 + val / 100);
+                    else if (mode === 'slab') {
+                        const rules = slabsStr.split(',').map(x=>x.trim()).filter(Boolean);
+                        let matched = false;
+                        for (const r of rules) {
+                            const [limStr, adjStr] = r.split(':').map(s=>s.trim());
+                            if (!limStr || !adjStr) continue;
+                            const isMax = limStr.toLowerCase() === 'max' || buy <= Number(limStr);
+                            if (isMax) {
+                                if (adjStr.endsWith('%')) sell = buy * (1 + parseFloat(adjStr)/100);
+                                else sell = buy + parseFloat(adjStr);
+                                matched = true;
+                                break;
+                            }
+                        }
+                        if (!matched) sell = buy + 250;
+                    }
+                } else if (sug > 0) {
+                    sell = sug;
+                }
+            }
+
+            sell = Math.max(10, Math.round(sell));
+            if (roundMode === '10') sell = Math.round(sell / 10) * 10;
+            else if (roundMode === '9') sell = Math.max(9, Math.round(sell / 10) * 10 - 1);
+
+            let oldPrice = sug > sell ? sug : (oldPct > 0 ? Math.round((sell * (1 + oldPct / 100)) / 10) * 10 : null);
+            if (oldPrice && oldPrice <= sell) oldPrice = Math.round((sell * 1.2) / 10) * 10;
+
+            return { sellPrice: sell, oldPrice, buyPrice: buy || null };
+        }
+
+        function showAiWelcome() {
+            const feed = document.getElementById('aiFeed');
+            feed.innerHTML = `<div class="ai-msg bot">
+                <b>আসসালামু আলাইকুম! আমি আপনার CHITRO AI Manager 🤖</b><br>
+                ডানপাশে আপনার ফ্রি <b>Gemini API Key</b> দিয়ে যেকোনো কাজ বলুন:<br>
+                • 📸 <b>প্রোডাক্টের স্ক্রিনশট পেস্ট (Ctrl+V)</b> করুন — আমি অটো নাম, দাম, সাইজ পড়ে Reseller লাভ যোগ করে পাবলিশ করে দেব।<br>
+                • ✂️ স্ক্রিনশট থেকে ফোনের বাড়তি অংশ কাটতে ছবির নিচে <b>Crop</b> চাপুন।<br>
+                • 🚚 <b>"Order #1234-কে Shipped করে ঢাকা হাব লেখো"</b> বা <b>"Pending অর্ডার দেখাও"</b> বলুন।<br>
+                • 🎨 <b>"ঈদ সেলের ব্যানার বানাও"</b> বলুন — ইমেজ জেনারেট করে Hero Slider-এ বসিয়ে দেব!
+            </div>`;
+        }
+
+        function clearAiChat() { aiHistory = []; aiDrafts = []; aiGenImgs = []; showAiWelcome(); showToast('নতুন চ্যাট শুরু হয়েছে'); }
+        function useAiPrompt(txt) { document.getElementById('aiPromptInput').value = txt; document.getElementById('aiPromptInput').focus(); }
+
+        function initAiDropAndPaste() {
+            const zone = document.getElementById('aiDropZone');
+            ['dragenter','dragover'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); zone.style.outline = '2px dashed #6366f1'; }));
+            ['dragleave','drop'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); zone.style.outline = 'none'; }));
+            zone.addEventListener('drop', async e => {
+                const files = Array.from(e.dataTransfer?.files || []).filter(f=>f.type.startsWith('image/'));
+                if (files.length) await addAiImageFiles(files);
+            });
+            document.addEventListener('paste', async e => {
+                if (!document.getElementById('tabAi').classList.contains('active')) return;
+                const items = Array.from(e.clipboardData?.items || []);
+                const files = items.filter(it=>it.type.startsWith('image/')).map(it=>it.getAsFile()).filter(Boolean);
+                if (files.length) { e.preventDefault(); await addAiImageFiles(files); showToast('স্ক্রিনশট পেস্ট হয়েছে!'); }
+            });
+        }
+
+        async function handleAiFiles(e) {
+            const files = Array.from(e.target.files || []).filter(f=>f.type.startsWith('image/'));
+            if (files.length) await addAiImageFiles(files);
+            e.target.value = '';
+        }
+
+        async function addAiImageFiles(files) {
+            for (const f of files.slice(0, 6)) {
+                const dataUrl = await compressImg(f, 960);
+                aiPendingImgs.push(dataUrl);
+            }
+            renderAiDropBar();
+        }
+
+        function renderAiDropBar() {
+            const bar = document.getElementById('aiDropBar');
+            bar.classList.toggle('has', aiPendingImgs.length > 0);
+            bar.innerHTML = aiPendingImgs.map((src, i) => `
+                <div class="ai-thumb">
+                    <img src="${src}">
+                    <div class="ai-thumb-acts">
+                        <button type="button" title="Crop Product Photo" onclick="openCropModal(${i},'')"><i class="fa-solid fa-crop-simple"></i></button>
+                        <button type="button" title="Remove" onclick="removeAiPendingImg(${i})"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>`).join('') + (aiPendingImgs.length ? `<small style="color:var(--muted);font-size:11px">${aiPendingImgs.length}টি ছবি যুক্ত হয়েছে (Crop দিয়ে আসল ছবি কাটতে পারেন)</small>` : '');
+        }
+        function removeAiPendingImg(i) { aiPendingImgs.splice(i, 1); renderAiDropBar(); }
+
+        /* Interactive Canvas Image Cropper (Mouse + Touch) */
+        function openCropModal(idx, draftId='') {
+            closeAllAdmModals();
+            cropIdx = idx; cropTargetDraftId = draftId;
+            let src = '';
+            if (draftId) {
+                const d = aiDrafts.find(x=>x.draftId===draftId);
+                if (d && d.images && d.images[0]) src = d.images[0];
+            } else src = aiPendingImgs[idx] || '';
+            if (!src) return;
+
+            cropImgObj = new Image();
+            cropImgObj.onload = () => {
+                const cv = document.getElementById('cropCanvas');
+                const maxW = Math.min(480, window.innerWidth - 60);
+                const sc = Math.min(1, maxW / cropImgObj.width, 400 / cropImgObj.height);
+                cv.width = Math.round(cropImgObj.width * sc);
+                cv.height = Math.round(cropImgObj.height * sc);
+                cropBox = { x: Math.round(cv.width*0.08), y: Math.round(cv.height*0.12), w: Math.round(cv.width*0.84), h: Math.round(cv.height*0.58) };
+                drawCropCanvas();
+                document.getElementById('overlay').classList.add('active');
+                document.getElementById('cropModal').classList.add('active');
+            };
+            cropImgObj.src = src;
+        }
+
+        function drawCropCanvas() {
+            const cv = document.getElementById('cropCanvas'), ctx = cv.getContext('2d');
+            ctx.clearRect(0, 0, cv.width, cv.height);
+            ctx.drawImage(cropImgObj, 0, 0, cv.width, cv.height);
+            ctx.fillStyle = 'rgba(0,0,0,0.55)';
+            ctx.fillRect(0, 0, cv.width, cv.height);
+            const x = Math.min(cropBox.x, cropBox.x+cropBox.w), y = Math.min(cropBox.y, cropBox.y+cropBox.h);
+            const w = Math.abs(cropBox.w), h = Math.abs(cropBox.h);
+            if (w > 4 && h > 4) {
+                ctx.save();
+                ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+                ctx.drawImage(cropImgObj, 0, 0, cv.width, cv.height);
+                ctx.restore();
+                ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+            }
+        }
+
+        function initCropCanvasEvents() {
+            const cv = document.getElementById('cropCanvas');
+            const getPos = e => {
+                const r = cv.getBoundingClientRect(), t = e.touches ? e.touches[0] : e;
+                return { x: (t.clientX - r.left) * (cv.width / r.width), y: (t.clientY - r.top) * (cv.height / r.height) };
+            };
+            const start = e => { e.preventDefault(); isDraggingCrop = true; dragStart = getPos(e); cropBox = { x: dragStart.x, y: dragStart.y, w: 0, h: 0 }; };
+            const move = e => { if (!isDraggingCrop) return; e.preventDefault(); const p = getPos(e); cropBox.w = p.x - dragStart.x; cropBox.h = p.y - dragStart.y; drawCropCanvas(); };
+            const end = () => { isDraggingCrop = false; };
+            cv.addEventListener('mousedown', start); cv.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
+            cv.addEventListener('touchstart', start, {passive:false}); cv.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', end);
+        }
+
+        function presetCrop(mode) {
+            const cv = document.getElementById('cropCanvas');
+            if (mode === 'reset') cropBox = { x: 0, y: 0, w: cv.width, h: cv.height };
+            else if (mode === 'top-square') { const s = Math.min(cv.width*0.9, cv.height*0.55); cropBox = { x:(cv.width-s)/2, y:cv.height*0.08, w:s, h:s }; }
+            else if (mode === 'center') cropBox = { x:cv.width*0.08, y:cv.height*0.18, w:cv.width*0.84, h:cv.height*0.56 };
+            drawCropCanvas();
+        }
+
+        function applyCropSelection() {
+            const cv = document.getElementById('cropCanvas');
+            let x = Math.min(cropBox.x, cropBox.x+cropBox.w), y = Math.min(cropBox.y, cropBox.y+cropBox.h);
+            let w = Math.abs(cropBox.w), h = Math.abs(cropBox.h);
+            if (w < 15 || h < 15) { x = 0; y = 0; w = cv.width; h = cv.height; }
+            const sx = x * (cropImgObj.width / cv.width), sy = y * (cropImgObj.height / cv.height);
+            const sw = w * (cropImgObj.width / cv.width), sh = h * (cropImgObj.height / cv.height);
+            const out = document.createElement('canvas');
+            const scale = Math.min(1, 600 / sw);
+            out.width = Math.round(sw * scale); out.height = Math.round(sh * scale);
+            out.getContext('2d').drawImage(cropImgObj, sx, sy, sw, sh, 0, 0, out.width, out.height);
+            const cropped = out.toDataURL('image/webp', 0.88);
+            if (cropTargetDraftId) {
+                const d = aiDrafts.find(z=>z.draftId===cropTargetDraftId);
+                if (d) { d.images = [cropped]; const imgEl = document.getElementById('draftImg_' + d.draftId); if (imgEl) imgEl.src = cropped; }
+            } else if (cropIdx > -1) {
+                aiPendingImgs[cropIdx] = cropped; renderAiDropBar();
+            }
+            closeAllAdmModals();
+            showToast('ছবি সুন্দরভাবে Crop হয়েছে!');
+        }
+
+        /* Bangla / English Voice Input & TTS */
+        function toggleAiVoice() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) return showToast('আপনার ব্রাউজার Voice Input সাপোর্ট করে না (Chrome ব্যবহার করুন)');
+            const btn = document.getElementById('aiMicBtn');
+            if (speechRec) { speechRec.stop(); speechRec = null; btn.classList.remove('listening'); return; }
+            speechRec = new SR();
+            speechRec.lang = 'bn-BD';
+            speechRec.interimResults = false;
+            btn.classList.add('listening');
+            speechRec.onresult = e => {
+                const txt = e.results[0][0].transcript;
+                const inp = document.getElementById('aiPromptInput');
+                inp.value = (inp.value ? inp.value + ' ' : '') + txt;
+                inp.focus();
+            };
+            speechRec.onerror = () => { btn.classList.remove('listening'); speechRec = null; };
+            speechRec.onend = () => { btn.classList.remove('listening'); speechRec = null; };
+            speechRec.start();
+        }
+        function speakAiText(txt) {
+            if (!document.getElementById('aiVoiceReply').checked || !window.speechSynthesis) return;
+            try {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(txt.replace(/[*#`]/g,'').slice(0, 260));
+                u.lang = /[\u0980-\u09FF]/.test(txt) ? 'bn-BD' : 'en-US';
+                window.speechSynthesis.speak(u);
+            } catch (e) {}
+        }
+
+        /* AI Agent Tool Definitions */
+        const AI_TOOLS = [{
+            function_declarations: [
+                { name: "get_store_summary", description: "Get live store summary: revenue, order counts, pending orders, product count, categories, coupons, visitors, and current key CMS settings.", parameters: { type: "OBJECT", properties: {} } },
+                { name: "list_orders", description: "List recent orders filtered by status or search text.", parameters: { type: "OBJECT", properties: { status: { type: "STRING", description: "ALL, Pending, Confirmed, Shipped, Out for Delivery, Delivered, or Cancelled" }, query: { type: "STRING" } } } },
+                { name: "update_order_tracking", description: "Update an order status, courier, tracking code, current live location, and note.", parameters: { type: "OBJECT", properties: { order_id: { type: "STRING" }, status: { type: "STRING", enum: ["Pending","Confirmed","Shipped","Out for Delivery","Delivered","Cancelled"] }, courier: { type: "STRING" }, tracking_code: { type: "STRING" }, current_location: { type: "STRING" }, note: { type: "STRING" } }, required: ["order_id","status","current_location"] } },
+                { name: "send_customer_chat_message", description: "Send a live chat message directly to a customer by phone number (and optionally add to order tracking note).", parameters: { type: "OBJECT", properties: { phone: { type: "STRING" }, customer_name: { type: "STRING" }, message: { type: "STRING" }, order_id: { type: "STRING" } }, required: ["phone","message"] } },
+                { name: "list_products", description: "Search or list products in the store.", parameters: { type: "OBJECT", properties: { query: { type: "STRING" } } } },
+                { name: "prepare_or_publish_product", description: "Create a product draft OR publish it live to store (and update if edit_product_id is given). Automatically calculates Reseller selling price & oldPrice from buy_price / suggested_price unless exact_price is given.", parameters: { type: "OBJECT", properties: { edit_product_id: { type: "STRING" }, name: { type: "STRING" }, buy_price: { type: "NUMBER", description: "Supplier/wholesale cost price found on screenshot" }, suggested_price: { type: "NUMBER", description: "Suggested/MRP price found on screenshot" }, exact_price: { type: "NUMBER", description: "Only set if user explicitly demanded an exact selling price" }, old_price: { type: "NUMBER" }, category: { type: "STRING" }, sku: { type: "STRING" }, sizes: { type: "STRING" }, short_spec: { type: "STRING" }, spec: { type: "STRING" }, is_hot: { type: "BOOLEAN" }, image_indices: { type: "ARRAY", items: { type: "INTEGER" }, description: "0-based indices of images from user's attached images" }, image_url: { type: "STRING" }, force_publish: { type: "BOOLEAN", description: "Set true ONLY if Auto-Publish is ON or user explicitly said to publish immediately" } }, required: ["name","category"] } },
+                { name: "delete_product", description: "Delete a product by ID. Respect Safe Guard.", parameters: { type: "OBJECT", properties: { product_id: { type: "STRING" }, confirmed: { type: "BOOLEAN" } }, required: ["product_id"] } },
+                { name: "create_category", description: "Create a new product category.", parameters: { type: "OBJECT", properties: { name: { type: "STRING" }, image_url: { type: "STRING" }, bg_color: { type: "STRING" } }, required: ["name"] } },
+                { name: "manage_coupon", description: "Create or delete a discount coupon.", parameters: { type: "OBJECT", properties: { action: { type: "STRING", enum: ["create","delete"] }, code: { type: "STRING" }, type: { type: "STRING", enum: ["pct","flat"] }, value: { type: "NUMBER" } }, required: ["action","code"] } },
+                { name: "update_site_settings", description: "Update live CMS settings: noticeOn ('0'/'1'), noticeText, flashOn ('0'/'1'), flashText, maintOn ('0'/'1'), maintMsg, dhakaCharge, outsideCharge, brand, tagline, themeColor, loginGate ('0'/'1'), popupOn ('0'/'1'), popupTitle, popupCoupon, popupSub, popupImg.", parameters: { type: "OBJECT", properties: { noticeOn:{type:"STRING"}, noticeText:{type:"STRING"}, flashOn:{type:"STRING"}, flashText:{type:"STRING"}, maintOn:{type:"STRING"}, maintMsg:{type:"STRING"}, dhakaCharge:{type:"NUMBER"}, outsideCharge:{type:"NUMBER"}, brand:{type:"STRING"}, tagline:{type:"STRING"}, themeColor:{type:"STRING"}, loginGate:{type:"STRING"}, popupOn:{type:"STRING"}, popupTitle:{type:"STRING"}, popupCoupon:{type:"STRING"}, popupSub:{type:"STRING"}, popupImg:{type:"STRING"}, confirmed:{type:"BOOLEAN"} } } },
+                { name: "add_or_update_hero_slide", description: "Add a new hero slider banner or update slide at index (0-based).", parameters: { type: "OBJECT", properties: { slide_index: { type: "INTEGER" }, badge: { type: "STRING" }, title: { type: "STRING" }, sub: { type: "STRING" }, btn: { type: "STRING" }, img: { type: "STRING" } }, required: ["title","img"] } },
+                { name: "generate_ai_image", description: "Generate a brand new image (for Hero banner, Promo, Category, or Product illustration) using an English visual prompt.", parameters: { type: "OBJECT", properties: { prompt: { type: "STRING", description: "Detailed English image generation prompt" }, width: { type: "INTEGER" }, height: { type: "INTEGER" }, purpose: { type: "STRING", enum: ["banner","product","category","popup"] } }, required: ["prompt"] } }
+            ]
+        }];
+
+        async function executeAiTool(name, args) {
+            const safeGuard = document.getElementById('aiSafeGuard').checked;
+            const autoPub = document.getElementById('aiAutoPub').checked;
+
+            if (name === 'get_store_summary') {
+                const oArr = Object.values(adminOrders);
+                const sales = oArr.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+Number(o.total||0),0);
+                return {
+                    totalSales: sales, totalOrders: oArr.length,
+                    pendingOrders: oArr.filter(o=>o.status==='Pending').length,
+                    totalProducts: storeData.products.length,
+                    categories: storeData.categories.map(c=>c.name),
+                    coupons: storeData.coupons.map(c=>`${c.code}(${c.type==='pct'?c.value+'%':'৳'+c.value})`),
+                    visitors: visitorCount, users: Object.keys(adminUsers).length,
+                    settings: { brand: storeData.settings.brand, noticeOn: storeData.settings.noticeOn, noticeText: storeData.settings.noticeText, flashOn: storeData.settings.flashOn, flashText: storeData.settings.flashText, maintOn: storeData.settings.maintOn, dhakaCharge: storeData.settings.dhakaCharge, outsideCharge: storeData.settings.outsideCharge }
+                };
+            }
+            if (name === 'list_orders') {
+                let list = Object.values(adminOrders).reverse();
+                if (args.status && args.status !== 'ALL') list = list.filter(o=>o.status===args.status);
+                if (args.query) { const q=args.query.toLowerCase(); list=list.filter(o=>(o.orderId||'').toLowerCase().includes(q)||(o.customerName||'').toLowerCase().includes(q)||(o.customerPhone||'').includes(q)); }
+                return list.slice(0,12).map(o=>({ orderId:o.orderId, customerName:o.customerName, phone:o.customerPhone, total:o.total, status:o.status, location:o.currentLocation, items:o.items }));
+            }
+            if (name === 'update_order_tracking') {
+                if (!adminOrders[args.order_id]) return { error: `Order #${args.order_id} পাওয়া যায়নি` };
+                await updateOrderTrackingDirect(args.order_id, args.status, args.courier, args.tracking_code, args.current_location, args.note);
+                await refreshAllLive();
+                return { ok: true, message: `Order #${args.order_id} updated to ${args.status} (${args.current_location})` };
+            }
+            if (name === 'send_customer_chat_message') {
+                await pushLiveChatMessage(args.phone, args.customer_name||'Customer', args.message, args.order_id||'', !!args.order_id);
+                await refreshAllLive();
+                return { ok: true, message: `Message sent to ${args.phone}` };
+            }
+            if (name === 'list_products') {
+                let list = storeData.products;
+                if (args.query) { const q=args.query.toLowerCase(); list=list.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.sku||'').toLowerCase().includes(q)||(p.id||'').toLowerCase().includes(q)||(p.category||'').toLowerCase().includes(q)); }
+                return list.slice(0,15).map(p=>({ id:p.id, name:p.name, sku:p.sku, price:p.price, oldPrice:p.oldPrice, buyPrice:p.buyPrice, category:p.category }));
+            }
+            if (name === 'prepare_or_publish_product') {
+                const pricing = calcResellPricing(args.buy_price, args.suggested_price, args.exact_price);
+                const finalOld = args.old_price || pricing.oldPrice;
+                let imgs = [];
+                if (args.image_url) imgs.push(args.image_url);
+                const idxs = Array.isArray(args.image_indices) && args.image_indices.length ? args.image_indices : (aiPendingImgs.length ? [0] : []);
+                for (const ix of idxs) { if (aiPendingImgs[ix]) imgs.push(aiPendingImgs[ix]); }
+                if (!imgs.length && aiGenImgs.length) imgs.push(aiGenImgs[aiGenImgs.length-1]);
+                if (!imgs.length) imgs.push('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500');
+
+                const draft = {
+                    draftId: 'dr_' + Date.now() + '_' + Math.floor(Math.random()*999),
+                    editId: args.edit_product_id || '',
+                    name: args.name,
+                    sku: (args.sku || ('CM-' + Math.floor(1000+Math.random()*8999))).toUpperCase(),
+                    price: pricing.sellPrice,
+                    oldPrice: finalOld,
+                    buyPrice: pricing.buyPrice,
+                    category: args.category || (storeData.categories[0]?.name || 'General'),
+                    sizes: args.sizes || '',
+                    shortSpec: args.short_spec || '',
+                    spec: args.spec || '',
+                    isHot: args.is_hot !== false,
+                    images: imgs
+                };
+
+                if (autoPub || args.force_publish || args.edit_product_id) {
+                    const published = await publishAiDraftObj(draft);
+                    return { published: true, product: { id: published.id, name: published.name, price: published.price, oldPrice: published.oldPrice, buyPrice: published.buyPrice, sku: published.sku, category: published.category } };
+                } else {
+                    aiDrafts.push(draft);
+                    return { drafted: true, draftId: draft.draftId, calculatedPricing: pricing, note: "Draft card rendered for user confirmation." };
+                }
+            }
+            if (name === 'delete_product') {
+                if (safeGuard && !args.confirmed) return { needs_confirmation: true, message: `Safe Guard অন আছে: Product ID ${args.product_id} ডিলিট করতে ইউজারের অনুমতি নিন।` };
+                const before = storeData.products.length;
+                storeData.products = storeData.products.filter(p=>p.id !== args.product_id);
+                if (storeData.products.length === before) return { error: 'Product not found' };
+                await syncStoreToCloud();
+                return { ok: true, deletedId: args.product_id };
+            }
+            if (name === 'create_category') {
+                const img = args.image_url || (aiGenImgs[aiGenImgs.length-1] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400');
+                storeData.categories.push({ id:'c_'+Date.now(), name:args.name, bg:args.bg_color||'#f8fafc', image:img });
+                await syncStoreToCloud();
+                return { ok: true, category: args.name };
+            }
+            if (name === 'manage_coupon') {
+                const code = (args.code||'').toUpperCase();
+                if (args.action === 'delete') {
+                    storeData.coupons = storeData.coupons.filter(c=>c.code!==code);
+                    await syncStoreToCloud();
+                    return { ok: true, deleted: code };
+                } else {
+                    storeData.coupons.push({ id:'cp_'+Date.now(), code, type:args.type||'pct', value:Number(args.value)||10 });
+                    await syncStoreToCloud();
+                    return { ok: true, created: code };
+                }
+            }
+            if (name === 'update_site_settings') {
+                if (safeGuard && args.maintOn === '1' && !args.confirmed) return { needs_confirmation: true, message: "Maintenance Mode অন করলে সাইট বন্ধ হয়ে যাবে—ইউজারের কনফার্মেশন নিন।" };
+                const allowed = ['noticeOn','noticeText','flashOn','flashText','maintOn','maintMsg','dhakaCharge','outsideCharge','brand','tagline','themeColor','loginGate','popupOn','popupTitle','popupCoupon','popupSub','popupImg'];
+                for (const k of allowed) { if (args[k] !== undefined) storeData.settings[k] = args[k]; }
+                await syncStoreToCloud();
+                return { ok: true, updatedKeys: Object.keys(args).filter(k=>allowed.includes(k)) };
+            }
+            if (name === 'add_or_update_hero_slide') {
+                const sl = { badge: args.badge||'Special Offer', title: args.title, sub: args.sub||'সেরা দামে প্রিমিয়াম কালেকশন', btn: args.btn||'Shop Now', img: args.img };
+                if (args.slide_index !== undefined && storeData.slides[args.slide_index]) storeData.slides[args.slide_index] = sl;
+                else storeData.slides.push(sl);
+                await syncStoreToCloud();
+                return { ok: true, totalSlides: storeData.slides.length };
+            }
+            if (name === 'generate_ai_image') {
+                const imgUrl = await runAiImageGen(args.prompt, args.width||768, args.height||512);
+                aiGenImgs.push(imgUrl);
+                return { ok: true, imageUrl: imgUrl, purpose: args.purpose||'banner' };
+            }
+            return { error: 'Unknown tool' };
+        }
+
+        async function publishAiDraftObj(draft) {
+            const uploadedImgs = [];
+            for (const im of (draft.images || [])) uploadedImgs.push(await uploadToImgbbIfConfigured(im));
+            const finalId = draft.editId || ('p_' + Date.now() + '_' + Math.floor(Math.random()*99));
+            const prodObj = {
+                id: finalId, name: draft.name, sku: draft.sku, shortSpec: draft.shortSpec||'', sizes: draft.sizes||'',
+                spec: draft.spec||'', price: Number(draft.price), oldPrice: draft.oldPrice?Number(draft.oldPrice):null,
+                buyPrice: draft.buyPrice?Number(draft.buyPrice):null, category: draft.category||'General',
+                isHot: !!draft.isHot, image: uploadedImgs[0], images: uploadedImgs, reviews: []
+            };
+            if (draft.editId) {
+                const idx = storeData.products.findIndex(p=>p.id===draft.editId);
+                if (idx > -1) { prodObj.reviews = storeData.products[idx].reviews || []; storeData.products[idx] = prodObj; }
+                else storeData.products.unshift(prodObj);
+            } else storeData.products.unshift(prodObj);
+            await syncStoreToCloud();
+            showToast('প্রোডাক্ট লাইভ ওয়েবসাইটে পাবলিশ হয়েছে!');
+            return prodObj;
+        }
+
+        async function confirmPublishDraft(draftId, btn) {
+            const d = aiDrafts.find(x=>x.draftId===draftId); if (!d) return;
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publishing...';
+            await publishAiDraftObj(d);
+            btn.className = 'btn-sm b-green'; btn.innerHTML = '✓ Live Published!';
+        }
+
+        function loadDraftToForm(draftId) {
+            const d = aiDrafts.find(x=>x.draftId===draftId); if (!d) return;
+            openTab('tabProducts', document.querySelectorAll('.sb-btn')[5]);
+            document.getElementById('pName').value = d.name; document.getElementById('pSku').value = d.sku;
+            document.getElementById('pShort').value = d.shortSpec||''; document.getElementById('pSizes').value = d.sizes||'';
+            document.getElementById('pSpec').value = d.spec||''; document.getElementById('pPrice').value = d.price;
+            document.getElementById('pOldPrice').value = d.oldPrice||''; document.getElementById('pBuyPrice').value = d.buyPrice||'';
+            document.getElementById('pCat').value = d.category; document.getElementById('pHot').checked = !!d.isHot;
+            document.getElementById('pUrl').value = (d.images||[]).join(', ');
+            showToast('প্রোডাক্ট ফর্মে লোড হয়েছে!');
+        }
+
+        async function runAiImageGen(prompt, w=768, h=512) {
+            const engine = document.getElementById('aiImgEngine').value;
+            const gKey = document.getElementById('aiGeminiKey').value.trim();
+            const polKey = document.getElementById('aiPolKey').value.trim();
+
+            if (engine === 'gemini-paid' && gKey) {
+                try {
+                    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent`, {
+                        method:'POST', headers:{'Content-Type':'application/json','X-goog-api-key':gKey},
+                        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{responseModalities:["IMAGE","TEXT"]} })
+                    });
+                    const j = await r.json();
+                    const parts = j?.candidates?.[0]?.content?.parts || [];
+                    const imgPart = parts.find(p=>p.inlineData || p.inline_data);
+                    if (imgPart) {
+                        const d = imgPart.inlineData || imgPart.inline_data;
+                        const dataUrl = `data:${d.mimeType||d.mime_type||'image/png'};base64,${d.data}`;
+                        return await uploadToImgbbIfConfigured(dataUrl);
+                    }
+                } catch (e) {}
+            }
+
+            const seed = Math.floor(Math.random() * 999999);
+            const url = polKey
+                ? `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&seed=${seed}&key=${encodeURIComponent(polKey)}`
+                : `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&seed=${seed}`;
+            return url;
+        }
+
+        function attachGenImgToPending(url) { aiPendingImgs.push(url); renderAiDropBar(); showToast('ইমেজ প্রোডাক্ট এটাচমেন্টে যুক্ত হয়েছে!'); }
+        async function applyGenImgToSlide(url) {
+            storeData.slides.push({ badge:'AI Special', title:'New [Exclusive] Offer', sub:'সীমিত সময়ের বিশেষ ডিসকাউন্ট!', btn:'Shop Now', img:url });
+            await syncStoreToCloud(); showToast('Hero Slider-এ নতুন ব্যানার যুক্ত হয়েছে!');
+        }
+        async function applyGenImgToPopup(url) {
+            storeData.settings.popupImg = url; storeData.settings.popupOn = '1';
+            await syncStoreToCloud(); showToast('Offer Popup-এ ছবি সেট ও অন করা হয়েছে!');
+        }
+
+        /* Gemini API Call with Multi-Turn Function Calling & Automatic Model Fallback */
+        async function callGeminiWithFallback(contents, sysPrompt) {
+            const gKey = document.getElementById('aiGeminiKey').value.trim();
+            const chosen = document.getElementById('aiModel').value;
+            const candidates = [...new Set([chosen, 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-4-hydrogen', 'gemini-2.5-flash'])];
+
+            let lastErr = '';
+            for (const mdl of candidates) {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-goog-api-key': gKey },
+                    body: JSON.stringify({
+                        system_instruction: { parts: [{ text: sysPrompt }] },
+                        contents,
+                        tools: AI_TOOLS
+                    })
+                });
+                const json = await res.json();
+                if (res.ok && json.candidates && json.candidates[0]) {
+                    if (mdl !== chosen) { document.getElementById('aiModel').value = mdl; saveAiConfig(); }
+                    return json.candidates[0];
+                }
+                lastErr = json?.error?.message || `HTTP ${res.status}`;
+                if (res.status !== 404 && !/not found|not supported/i.test(lastErr)) throw new Error(lastErr);
+            }
+            throw new Error(lastErr || 'Model request failed');
+        }
+
+        function buildAiSystemPrompt() {
+            const cats = storeData.categories.map(c=>c.name).join(', ') || 'General';
+            const autoPub = document.getElementById('aiAutoPub').checked;
+            const safeGuard = document.getElementById('aiSafeGuard').checked;
+            return `You are CHITRO AI Manager, an intelligent Bengali + Banglish + English conversational assistant controlling the CHITRO MART BD e-commerce Admin Portal.
+Current date/time: ${new Date().toLocaleString('en-BD')}.
+Available Categories in store: [${cats}].
+Auto-Publish Mode: ${autoPub ? 'ON (publish immediately)' : 'OFF (prepare draft unless user explicitly asks to publish now)'}.
+Safe Guard Mode: ${safeGuard ? 'ON (ask confirmation before deleting or enabling maintenance mode)' : 'OFF'}.
+Rules:
+1. When user sends a product screenshot (or multiple screenshots):
+   - Read ALL details carefully: product name, supplier/base buy_price (কেনা দাম / Wholesale / Reseller Price), suggested_price (Suggested / MRP), sizes, short highlights, fabric/spec, SKU if visible.
+   - Match the closest category from [${cats}] (or suggest a fitting one).
+   - Write an attractive, clean Bengali/English product description in 'spec' and crisp highlight in 'short_spec'.
+   - Call 'prepare_or_publish_product' for EACH product detected! Pass buy_price & suggested_price so the Reseller Pricing Engine calculates selling price automatically. Only pass exact_price if user explicitly gave a fixed selling price.
+   - Note: Attached images are indexed 0, 1, 2... Pass image_indices accordingly.
+2. When user asks to control orders, tracking, customer Live Chat, coupons, categories, or site settings (notice banner, flash sale, delivery charges, maintenance mode, theme color, slides): use the provided tools directly and report back clearly in friendly Bengali!
+3. When user asks to generate an image/banner/poster: call 'generate_ai_image' with a rich, detailed English prompt.
+4. Keep replies clear, polite, helpful, and concise.`;
+        }
+
+        async function sendAiPrompt() {
+            if (aiBusy) return;
+            const gKey = document.getElementById('aiGeminiKey').value.trim();
+            if (!gKey) { showToast('আগে ডানপাশে আপনার Google Gemini API Key দিন!'); document.getElementById('aiGeminiKey').focus(); return; }
+
+            const inp = document.getElementById('aiPromptInput');
+            let txt = inp.value.trim();
+            const imgsToSend = [...aiPendingImgs];
+            if (!txt && !imgsToSend.length) return;
+            if (!txt && imgsToSend.length) txt = 'এই স্ক্রিনশট/ছবিগুলো পড়ে প্রোডাক্টের সব তথ্য ডিটেক্ট করে Reseller রুল অনুযায়ী প্রস্তুত করো।';
+
+            inp.value = ''; aiPendingImgs = []; renderAiDropBar();
+            appendAiMsg('user', txt, imgsToSend);
+
+            const userParts = [{ text: txt }];
+            imgsToSend.forEach((dUrl, idx) => {
+                const [meta, b64] = dUrl.split(',');
+                const mime = (meta.match(/data:([^;]+)/)||[])[1] || 'image/webp';
+                userParts.push({ text: `[Attached Image Index ${idx}]` });
+                userParts.push({ inline_data: { mime_type: mime, data: b64 } });
+            });
+
+            aiHistory.push({ role: 'user', parts: userParts });
+            const feed = document.getElementById('aiFeed');
+            const thinkingEl = document.createElement('div');
+            thinkingEl.className = 'ai-msg sys';
+            thinkingEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> CHITRO AI কাজ করছে...';
+            feed.appendChild(thinkingEl); feed.scrollTop = feed.scrollHeight;
+
+            aiBusy = true; document.getElementById('aiSendBtn').disabled = true;
+            const toolLogs = [], createdDraftIds = [], createdGenUrls = [];
+
+            try {
+                const sysPrompt = buildAiSystemPrompt();
+                let finalReply = '';
+                for (let round = 0; round < 6; round++) {
+                    const cand = await callGeminiWithFallback(aiHistory, sysPrompt);
+                    const modelContent = cand.content;
+                    aiHistory.push(modelContent); // Preserves thoughtSignature & exact structure
+
+                    const parts = modelContent.parts || [];
+                    const fnCalls = parts.filter(p => p.functionCall);
+                    const texts = parts.filter(p => p.text).map(p => p.text).join('\n').trim();
+
+                    if (!fnCalls.length) { finalReply = texts; break; }
+
+                    const toolRespParts = [];
+                    for (const fcPart of fnCalls) {
+                        const fc = fcPart.functionCall;
+                        thinkingEl.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Running: ${esc(fc.name)}...`;
+                        const result = await executeAiTool(fc.name, fc.args || {});
+                        toolLogs.push({ name: fc.name, result });
+                        if (result.draftId) createdDraftIds.push(result.draftId);
+                        if (fc.name === 'generate_ai_image' && result.imageUrl) createdGenUrls.push(result.imageUrl);
+                        toolRespParts.push({ functionResponse: { name: fc.name, response: { result } } });
+                    }
+                    aiHistory.push({ role: 'user', parts: toolRespParts });
+                }
+
+                thinkingEl.remove();
+                appendAiBotResponse(finalReply || 'কাজটি সম্পন্ন হয়েছে!', toolLogs, createdDraftIds, createdGenUrls);
+                speakAiText(finalReply);
+
+                // Strip heavy base64 images from older turns to keep follow-up chats super fast
+                aiHistory.forEach(turn => {
+                    if (turn.role === 'user' && Array.isArray(turn.parts)) {
+                        turn.parts = turn.parts.map(p => p.inline_data ? { text: '[Image previously analyzed]' } : p);
+                    }
+                });
+                if (aiHistory.length > 18) aiHistory = aiHistory.slice(-14);
+            } catch (err) {
+                thinkingEl.remove();
+                appendAiMsg('bot', `❌ সমস্যা হয়েছে: ${err.message}\n(আপনার Gemini API Key বা ইন্টারনেট কানেকশন চেক করুন)`);
+            } finally {
+                aiBusy = false; document.getElementById('aiSendBtn').disabled = false;
+            }
+        }
+
+        function appendAiMsg(who, text, imgs=[]) {
+            const feed = document.getElementById('aiFeed');
+            const d = document.createElement('div');
+            d.className = 'ai-msg ' + who;
+            const imgHtml = imgs.length ? `<div class="ai-msg-imgs">${imgs.map(s=>`<img src="${s}">`).join('')}</div>` : '';
+            d.innerHTML = imgHtml + esc(text).replace(/\n/g, '<br>');
+            feed.appendChild(d); feed.scrollTop = feed.scrollHeight;
+        }
+
+        function appendAiBotResponse(text, toolLogs, draftIds, genUrls) {
+            const feed = document.getElementById('aiFeed');
+            const d = document.createElement('div');
+            d.className = 'ai-msg bot';
+
+            let html = '';
+            if (toolLogs.length) {
+                html += `<div>${toolLogs.map(t=>`<span class="ai-tool-badge"><i class="fa-solid fa-check-circle"></i> ${esc(t.name)}</span>`).join('')}</div>`;
+            }
+            html += `<div>${esc(text).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')}</div>`;
+
+            draftIds.forEach(did => {
+                const dr = aiDrafts.find(x=>x.draftId===did);
+                if (!dr) return;
+                html += `<div class="ai-card">
+                    <img id="draftImg_${esc(dr.draftId)}" src="${dr.images[0]||''}">
+                    <div class="ai-card-meta">
+                        <h4>${esc(dr.name)}</h4>
+                        <div style="font-size:12px">
+                            <b style="color:var(--primary)">৳${fmt(dr.price)}</b>
+                            ${dr.oldPrice?`<del style="color:var(--muted)">৳${fmt(dr.oldPrice)}</del>`:''}
+                            ${dr.buyPrice?`• <span style="color:var(--gold)">Buy: ৳${fmt(dr.buyPrice)} (Profit +৳${fmt(dr.price-dr.buyPrice)})</span>`:''}
+                        </div>
+                        <small style="color:var(--muted)">Cat: ${esc(dr.category)} • SKU: ${esc(dr.sku)} ${dr.sizes?'• Sizes: '+esc(dr.sizes):''}</small>
+                        <div class="ai-card-actions">
+                            <button type="button" class="btn-sm b-green" onclick="confirmPublishDraft('${escAttr(dr.draftId)}',this)"><i class="fa-solid fa-rocket"></i> Publish Live</button>
+                            <button type="button" class="btn-sm b-purple" onclick="openCropModal(-1,'${escAttr(dr.draftId)}')"><i class="fa-solid fa-crop-simple"></i> Crop Photo</button>
+                            <button type="button" class="btn-sm b-blue" onclick="loadDraftToForm('${escAttr(dr.draftId)}')"><i class="fa-solid fa-pen"></i> Edit in Form</button>
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            genUrls.forEach(url => {
+                html += `<div class="ai-gen-wrap">
+                    <img src="${esc(url)}" alt="AI Generated">
+                    <div class="ai-card-actions">
+                        <button type="button" class="btn-sm b-purple" onclick="attachGenImgToPending('${escAttr(url)}')"><i class="fa-solid fa-plus"></i> Attach to Product</button>
+                        <button type="button" class="btn-sm b-blue" onclick="applyGenImgToSlide('${escAttr(url)}')"><i class="fa-solid fa-images"></i> Add to Hero Slider</button>
+                        <button type="button" class="btn-sm b-amber" onclick="applyGenImgToPopup('${escAttr(url)}')"><i class="fa-solid fa-gift"></i> Set Offer Popup</button>
+                        <a href="${esc(url)}" target="_blank" download="ai-image.png" class="btn-sm b-green"><i class="fa-solid fa-download"></i> Open</a>
+                    </div>
+                </div>`;
+            });
+
+            d.innerHTML = html;
+            feed.appendChild(d); feed.scrollTop = feed.scrollHeight;
+        }
     </script>
 </body>
 </html>
