@@ -52,11 +52,11 @@
         .card-head h3{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:8px}
 
         .grid-2{display:grid;grid-template-columns:1fr 1.15fr;gap:18px}
-        .grid-ai{display:grid;grid-template-columns:1.55fr .95fr;gap:18px;align-items:start}
+        .grid-ai{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
         .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-        .fg{margin-bottom:11px} .fg label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted)}
-        .fg input,.fg select,.fg textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:9px;font-size:13px;background:var(--bg);color:var(--text);outline:none}
+        .fg{margin-bottom:11px} .fg label{display:block;font-size:11.5px;font-weight:600;margin-bottom:4px;color:var(--muted)}
+        .fg input,.fg select,.fg textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:9px;font-size:12.5px;background:var(--bg);color:var(--text);outline:none}
         .btn-primary{width:100%;background:linear-gradient(135deg,#0ea646,#059669);color:#fff;border:none;padding:11px 16px;border-radius:10px;font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 
         .list-stack{display:flex;flex-direction:column;gap:9px;max-height:520px;overflow-y:auto}
@@ -77,7 +77,7 @@
         .chat-start-bar select,.chat-start-bar input{flex:1;min-width:120px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)}
 
         /* AI Agent Workspace */
-        .ai-shell{display:flex;flex-direction:column;height:calc(100vh - 145px);min-height:560px;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+        .ai-shell{display:flex;flex-direction:column;height:calc(100vh - 140px);min-height:580px;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.05)}
         .ai-top{padding:12px 16px;background:linear-gradient(135deg,#0f172a,#1e1b4b);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
         .ai-top-title{display:flex;align-items:center;gap:10px}
         .ai-avatar{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#ec4899);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 4px 14px rgba(99,102,241,.45)}
@@ -92,7 +92,9 @@
         .ai-msg-imgs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
         .ai-msg-imgs img{width:68px;height:68px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,.35)}
         .ai-tool-badge{display:inline-flex;align-items:center;gap:5px;background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;font-size:11px;font-weight:600;padding:3px 9px;border-radius:50px;margin:2px 4px 4px 0}
+        .ai-prov-badge{display:inline-flex;align-items:center;gap:5px;background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:50px;margin:2px 4px 4px 0}
         body.dark .ai-tool-badge{background:#064e3b;color:#6ee7b7;border-color:#065f46}
+        body.dark .ai-prov-badge{background:#1e1b4b;color:#a5b4fc;border-color:#3730a3}
         .ai-card{margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px;display:flex;gap:11px;align-items:flex-start}
         .ai-card img{width:74px;height:74px;object-fit:cover;border-radius:10px;border:1px solid var(--border);flex-shrink:0}
         .ai-card-meta{flex:1;min-width:0}
@@ -115,6 +117,21 @@
         .ai-input-bar textarea{flex:1;resize:none;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:14px;padding:9px 13px;font-size:13px;max-height:110px;outline:none}
         .ai-send-btn{height:38px;padding:0 16px;border-radius:50px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;flex-shrink:0}
         .ai-fab{position:fixed;right:22px;bottom:22px;width:54px;height:54px;border-radius:50%;border:none;background:linear-gradient(135deg,#6366f1,#ec4899);color:#fff;font-size:21px;cursor:pointer;box-shadow:0 10px 26px rgba(99,102,241,.45);z-index:80;display:flex;align-items:center;justify-content:center}
+
+        .prov-chain-box{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;padding:7px 9px;background:var(--bg);border:1px dashed var(--border);border-radius:9px;font-size:11px;align-items:center}
+        .prov-chip{padding:2px 8px;border-radius:50px;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--muted)}
+        .prov-chip.on{border-color:#10b981;color:#059669;background:#ecfdf5}
+        body.dark .prov-chip.on{background:#064e3b;color:#6ee7b7}
+        details.custom-api-box{border:1px dashed var(--border);border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:12px}
+        details.custom-api-box summary{cursor:pointer;font-weight:600;color:var(--muted)}
+
+        /* Visitor Logs Table */
+        .v-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+        .v-table{width:100%;border-collapse:collapse;font-size:12.5px}
+        .v-table th{background:var(--bg);text-align:left;padding:10px 12px;font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+        .v-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+        .v-table tr:last-child td{border-bottom:none}
+        .v-table tr:hover{background:rgba(99,102,241,.04)}
 
         /* Cropper Canvas */
         .crop-stage{position:relative;background:#0f172a;border-radius:12px;overflow:hidden;display:flex;justify-content:center;align-items:center;max-height:58vh;touch-action:none;user-select:none}
@@ -164,17 +181,18 @@
         <aside class="sidebar" id="sidebar">
             <div class="sb-head">
                 <div class="shield-logo" style="width:40px;height:40px;margin:0;border-radius:11px"><i class="fa-solid fa-crown" style="color:#fde68a"></i></div>
-                <div><h3 id="sbBrand">CHITRO MART</h3><small>Master AI Control v3.0</small></div>
+                <div><h3 id="sbBrand">CHITRO MART</h3><small>Master AI Control v3.2</small></div>
             </div>
             <div class="sb-menu">
-                <button class="sb-btn active" onclick="openTab('tabOverview',this)"><i class="fa-solid fa-chart-pie"></i> Dashboard Overview</button>
-                <button class="sb-btn ai-nav" id="sbAiBtn" onclick="openTab('tabAi',this)"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Command Center <span class="sb-badge ai-tag">AI</span></button>
-                <button class="sb-btn" onclick="openTab('tabOrders',this)"><i class="fa-solid fa-truck-fast"></i> Orders &amp; Tracking <span class="sb-badge" id="sbOrdBadge">0</span></button>
-                <button class="sb-btn" onclick="openTab('tabChat',this)"><i class="fa-solid fa-comments"></i> Live Chat Inbox <span class="sb-badge" id="sbChatBadge">0</span></button>
-                <button class="sb-btn" onclick="openTab('tabUsers',this)"><i class="fa-solid fa-users"></i> Users &amp; Resets <span class="sb-badge" id="sbResetBadge">0</span></button>
-                <button class="sb-btn" onclick="openTab('tabProducts',this)"><i class="fa-solid fa-box-open"></i> Products, Bulk &amp; SKU</button>
-                <button class="sb-btn" onclick="openTab('tabCats',this)"><i class="fa-solid fa-tags"></i> Categories, Coupons &amp; Reviews</button>
-                <button class="sb-btn" onclick="openTab('tabCms',this)"><i class="fa-solid fa-sliders"></i> Full Site CMS Control</button>
+                <button class="sb-btn active" id="sbBtn_tabOverview" onclick="openTab('tabOverview',this)"><i class="fa-solid fa-chart-pie"></i> Dashboard Overview</button>
+                <button class="sb-btn ai-nav" id="sbBtn_tabAi" onclick="openTab('tabAi',this)"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Command Center <span class="sb-badge ai-tag">AI</span></button>
+                <button class="sb-btn" id="sbBtn_tabOrders" onclick="openTab('tabOrders',this)"><i class="fa-solid fa-truck-fast"></i> Orders &amp; Tracking <span class="sb-badge" id="sbOrdBadge">0</span></button>
+                <button class="sb-btn" id="sbBtn_tabChat" onclick="openTab('tabChat',this)"><i class="fa-solid fa-comments"></i> Live Chat Inbox <span class="sb-badge" id="sbChatBadge">0</span></button>
+                <button class="sb-btn" id="sbBtn_tabUsers" onclick="openTab('tabUsers',this)"><i class="fa-solid fa-users"></i> Users &amp; Resets <span class="sb-badge" id="sbResetBadge">0</span></button>
+                <button class="sb-btn" id="sbBtn_tabVisitors" onclick="openTab('tabVisitors',this)"><i class="fa-solid fa-globe"></i> Visitor Analytics &amp; Logs <span class="sb-badge" id="sbVisitBadge" style="background:#0284c7">0</span></button>
+                <button class="sb-btn" id="sbBtn_tabProducts" onclick="openTab('tabProducts',this)"><i class="fa-solid fa-box-open"></i> Products, Bulk &amp; SKU</button>
+                <button class="sb-btn" id="sbBtn_tabCats" onclick="openTab('tabCats',this)"><i class="fa-solid fa-tags"></i> Categories, Coupons &amp; Reviews</button>
+                <button class="sb-btn" id="sbBtn_tabCms" onclick="openTab('tabCms',this)"><i class="fa-solid fa-sliders"></i> Full Site CMS Control</button>
             </div>
             <div class="sb-foot">
                 <button class="sb-btn" style="color:#f87171" onclick="adminLogout()"><i class="fa-solid fa-right-from-bracket"></i> Logout Portal</button>
@@ -202,17 +220,21 @@
                         <div class="stat-card"><div class="st-ico" style="background:#dcfce7;color:#15803d"><i class="fa-solid fa-sack-dollar"></i></div><div><h4 id="stRevenue">৳0</h4><span>Total Sales</span></div></div>
                         <div class="stat-card"><div class="st-ico" style="background:#ffedd5;color:#c2410c"><i class="fa-solid fa-cart-flatbed"></i></div><div><h4 id="stOrders">0</h4><span>Total Orders (<b id="stPending">0</b> Pending)</span></div></div>
                         <div class="stat-card"><div class="st-ico" style="background:#e0f2fe;color:#0369a1"><i class="fa-solid fa-users"></i></div><div><h4 id="stUsers">0</h4><span>Registered Customers</span></div></div>
-                        <div class="stat-card"><div class="st-ico" style="background:#f3e8ff;color:#7e22ce"><i class="fa-solid fa-eye"></i></div><div><h4 id="stVisitors">0</h4><span>Total Visitors</span></div></div>
+                        <div class="stat-card" style="cursor:pointer" onclick="openTabById('tabVisitors')"><div class="st-ico" style="background:#f3e8ff;color:#7e22ce"><i class="fa-solid fa-eye"></i></div><div><h4 id="stVisitors">0</h4><span>Total Visitors (Click Logs)</span></div></div>
                     </div>
                     <div class="grid-2">
                         <div class="card">
-                            <div class="card-head"><h3><i class="fa-solid fa-clock"></i> সাম্প্রতিক অর্ডারসমূহ</h3><button class="btn-sm b-blue" onclick="openTab('tabOrders',document.querySelectorAll('.sb-btn')[2])">সব দেখুন</button></div>
+                            <div class="card-head"><h3><i class="fa-solid fa-clock"></i> সাম্প্রতিক অর্ডারসমূহ</h3><button class="btn-sm b-blue" onclick="openTabById('tabOrders')">সব দেখুন</button></div>
                             <div class="list-stack" id="ovRecentOrders"></div>
                         </div>
                         <div class="card">
-                            <div class="card-head"><h3><i class="fa-solid fa-key"></i> পাসওয়ার্ড রিসেট রিকোয়েস্ট</h3><button class="btn-sm b-amber" onclick="resetVisitors()">Reset Visitors</button></div>
-                            <div class="list-stack" id="ovResetRequests"></div>
+                            <div class="card-head"><h3><i class="fa-solid fa-globe"></i> সাম্প্রতিক ভিজিটর (Live)</h3><button class="btn-sm b-purple" onclick="openTabById('tabVisitors')">বিস্তারিত দেখুন</button></div>
+                            <div class="list-stack" id="ovRecentVisitors"></div>
                         </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head"><h3><i class="fa-solid fa-key"></i> পাসওয়ার্ড রিসেট রিকোয়েস্ট</h3><button class="btn-sm b-amber" onclick="resetVisitors()">Reset Visitor Counter</button></div>
+                        <div class="list-stack" id="ovResetRequests"></div>
                     </div>
                 </section>
 
@@ -223,10 +245,10 @@
                         <div class="ai-shell" id="aiDropZone">
                             <div class="ai-top">
                                 <div class="ai-top-title">
-                                    <div class="ai-avatar"><i class="fa-solid fa-sparkles fa-wand-magic-sparkles"></i></div>
+                                    <div class="ai-avatar"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                                     <div>
                                         <h3 style="font-size:14.5px;font-weight:700">CHITRO AI Manager</h3>
-                                        <small style="font-size:11px;color:#cbd5e1" id="aiStatusLine">স্ক্রিনশট দিন বা বাংলায় বলুন — পুরো সাইট কন্ট্রোল করুন</small>
+                                        <small style="font-size:11px;color:#cbd5e1" id="aiStatusLine">Multi-API Auto-Fallback সক্রিয় — একটিতে না চললে অটো পরেরটিতে যাবে</small>
                                     </div>
                                 </div>
                                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -240,7 +262,7 @@
                             <div class="ai-feed" id="aiFeed"></div>
 
                             <div class="ai-quick-bar">
-                                <button type="button" class="quick-chip" onclick="useAiPrompt('আজকের স্টোরের লাইভ রিপোর্ট ও পেন্ডিং অর্ডার দেখাও')">📊 স্টোর রিপোর্ট</button>
+                                <button type="button" class="quick-chip" onclick="useAiPrompt('আজকের স্টোরের লাইভ রিপোর্ট, ভিজিটর ও পেন্ডিং অর্ডার দেখাও')">📊 স্টোর রিপোর্ট</button>
                                 <button type="button" class="quick-chip" onclick="useAiPrompt('এই স্ক্রিনশট থেকে Reseller রুল অনুযায়ী দাম বাড়িয়ে প্রোডাক্ট রেডি ও পাবলিশ করো')">📸 স্ক্রিনশট -> পাবলিশ</button>
                                 <button type="button" class="quick-chip" onclick="useAiPrompt('একটা আকর্ষণীয় Eid Flash Sale ব্যানার ইমেজ জেনারেট করো')">🎨 ব্যানার তৈরি</button>
                                 <button type="button" class="quick-chip" onclick="useAiPrompt('EID15 নামে ১৫% ডিসকাউন্টের একটি কুপন তৈরি করো')">🎟️ কুপন তৈরি</button>
@@ -259,40 +281,103 @@
                             </div>
                         </div>
 
-                        <!-- AI Brain, Keys & Reseller Profit Rule Settings -->
+                        <!-- AI Brain, Multi-Provider Free APIs & Reseller Settings -->
                         <div>
                             <div class="card">
                                 <div class="card-head">
-                                    <h3><i class="fa-solid fa-brain" style="color:var(--ai)"></i> AI Brain &amp; API Setup</h3>
-                                    <span class="status-pill b-green" id="aiKeyBadge">Not Set</span>
+                                    <h3><i class="fa-solid fa-brain" style="color:var(--ai)"></i> Multi-AI Free API &amp; Auto-Fallback</h3>
+                                    <span class="status-pill b-amber" id="aiKeyBadge">Key Required</span>
                                 </div>
-                                <div class="fg">
-                                    <label>Google Gemini API Key * (<a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--ai)">ফ্রি Key নিন</a>)</label>
-                                    <input type="password" id="aiGeminiKey" placeholder="AIzaSy..." oninput="saveAiConfig()">
+
+                                <div class="prov-chain-box" id="provChainBox">
+                                    <span><b>Auto-Fallback:</b></span>
+                                    <span class="prov-chip" id="chipGemini">Gemini</span>➔
+                                    <span class="prov-chip" id="chipOr">OpenRouter</span>➔
+                                    <span class="prov-chip" id="chipGroq">Groq</span>➔
+                                    <span class="prov-chip" id="chipMistral">Mistral</span>➔
+                                    <span class="prov-chip" id="chipCustom">Custom</span>
                                 </div>
+
                                 <div class="form-row">
+                                    <div class="fg">
+                                        <label>Primary Priority (আগে কোনটি চলবে)</label>
+                                        <select id="aiPrimaryProv" onchange="saveAiConfig()">
+                                            <option value="auto">Auto (Gemini ➔ OpenRouter ➔ Groq ➔ Mistral)</option>
+                                            <option value="openrouter">OpenRouter Free আগে (DeepSeek/Qwen/Gemma)</option>
+                                            <option value="groq">Groq Free আগে (সুপার ফাস্ট)</option>
+                                            <option value="mistral">Mistral Free আগে</option>
+                                            <option value="custom">Custom Key আগে</option>
+                                        </select>
+                                    </div>
                                     <div class="fg">
                                         <label>Gemini Model</label>
                                         <select id="aiModel" onchange="saveAiConfig()">
-                                            <option value="gemini-3.8-flash">gemini-3.8-flash (Smartest Agent)</option>
-                                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Fastest Free)</option>
-                                            <option value="gemini-4-hydrogen">gemini-4-hydrogen (Next-Gen)</option>
+                                            <option value="gemini-3.8-flash">gemini-3.8-flash (Smartest)</option>
+                                            <option value="gemini-3.6-flash">gemini-3.6-flash (Fast Balanced)</option>
+                                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Free Fast)</option>
+                                            <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Light)</option>
                                             <option value="gemini-2.5-flash">gemini-2.5-flash (Legacy)</option>
                                         </select>
                                     </div>
+                                </div>
+
+                                <div class="fg">
+                                    <label>১. Google Gemini Key (<a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--ai)">ফ্রি Key নিন</a>)</label>
+                                    <input type="password" id="aiGeminiKey" placeholder="AIzaSy..." oninput="saveAiConfig()">
+                                </div>
+
+                                <div class="form-row">
                                     <div class="fg">
-                                        <label>Image Generator</label>
-                                        <select id="aiImgEngine" onchange="saveAiConfig()">
-                                            <option value="pollinations">Pollinations AI (100% Free)</option>
-                                            <option value="gemini-paid">Gemini Image (Paid Key)</option>
+                                        <label>২. OpenRouter Key (<a href="https://openrouter.ai/keys" target="_blank" style="color:var(--ai)">ফ্রি DeepSeek/Qwen/Gemma</a>)</label>
+                                        <input type="password" id="aiOrKey" placeholder="sk-or-v1-..." oninput="saveAiConfig()">
+                                    </div>
+                                    <div class="fg">
+                                        <label>OpenRouter Free Model</label>
+                                        <select id="aiOrModel" onchange="saveAiConfig()">
+                                            <option value="openrouter/free">openrouter/free (অটো সেরা ফ্রি)</option>
+                                            <option value="google/gemma-4-31b-it:free">Gemma 4 31B (Free Vision)</option>
+                                            <option value="qwen/qwen3.8-27b:free">Qwen 3.8 27B (Free Vision)</option>
+                                            <option value="nvidia/nemotron-3.5-super-vl:free">Nemotron 3.5 VL (Free)</option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-row">
-                                    <div class="fg"><label>ImgBB API Key (ঐচ্ছিক - দ্রুত ইমেজ URL)</label><input type="password" id="aiImgbbKey" placeholder="imgbb.com free key" oninput="saveAiConfig()"></div>
-                                    <div class="fg"><label>Pollinations Key (ঐচ্ছিক)</label><input type="password" id="aiPolKey" placeholder="খালি রাখলেও ফ্রি চলবে" oninput="saveAiConfig()"></div>
+                                    <div class="fg">
+                                        <label>৩. Groq Free Key (<a href="https://console.groq.com/keys" target="_blank" style="color:var(--ai)">ফ্রি ১,০০০/দিন</a>)</label>
+                                        <input type="password" id="aiGroqKey" placeholder="gsk_..." oninput="saveAiConfig()">
+                                    </div>
+                                    <div class="fg">
+                                        <label>৪. Mistral Free Key (<a href="https://console.mistral.ai/api-keys/" target="_blank" style="color:var(--ai)">ফ্রি Experiment</a>)</label>
+                                        <input type="password" id="aiMistralKey" placeholder="Mistral API Key" oninput="saveAiConfig()">
+                                    </div>
                                 </div>
-                                <small style="color:var(--muted);display:block;font-size:11px">🔒 আপনার API Key শুধু এই ব্রাউজারে সেভ থাকে—পাবলিক সাইটে বা Firebase-এ যায় না।</small>
+
+                                <div class="form-row">
+                                    <div class="fg"><label>ImgBB API Key (দ্রুত ছবি URL)</label><input type="password" id="aiImgbbKey" placeholder="imgbb.com free key" oninput="saveAiConfig()"></div>
+                                    <div class="fg"><label>Pollinations Key (ঐচ্ছিক)</label><input type="password" id="aiPolKey" placeholder="খালি রাখলেও ছবি ফ্রি" oninput="saveAiConfig()"></div>
+                                </div>
+
+                                <div class="fg">
+                                    <label>Image Generator</label>
+                                    <select id="aiImgEngine" onchange="saveAiConfig()">
+                                        <option value="pollinations">Pollinations AI (100% Free)</option>
+                                        <option value="gemini-paid">Gemini Image (Paid Key)</option>
+                                    </select>
+                                </div>
+
+                                <details class="custom-api-box">
+                                    <summary><i class="fa-solid fa-plug"></i> ঐচ্ছিক: Custom / Paid API (OpenAI / DeepSeek অফিসিয়াল)</summary>
+                                    <div style="margin-top:8px">
+                                        <div class="fg"><label>Base URL (OpenAI Compatible)</label><input type="text" id="aiCustomUrl" placeholder="https://api.deepseek.com/v1/chat/completions" oninput="saveAiConfig()"></div>
+                                        <div class="form-row">
+                                            <div class="fg"><label>API Key</label><input type="password" id="aiCustomKey" placeholder="sk-..." oninput="saveAiConfig()"></div>
+                                            <div class="fg"><label>Model Name</label><input type="text" id="aiCustomModel" placeholder="deepseek-chat বা gpt-4o-mini" oninput="saveAiConfig()"></div>
+                                        </div>
+                                    </div>
+                                </details>
+
+                                <small style="color:var(--muted);display:block;font-size:11px">🔒 সব API Key শুধু আপনার এই ব্রাউজারে সেভ থাকে—পাবলিক সাইটে বা Firebase-এ যায় না।</small>
                             </div>
 
                             <div class="card">
@@ -397,7 +482,51 @@
                     </div>
                 </section>
 
-                <!-- TAB 5: PRODUCTS, BULK & SKU -->
+                <!-- TAB 5: VISITOR ANALYTICS & LOGS -->
+                <section id="tabVisitors" class="page-pane">
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="st-ico" style="background:#e0f2fe;color:#0284c7"><i class="fa-solid fa-eye"></i></div><div><h4 id="vTotalHits">0</h4><span>মোট ভিজিট (Counter)</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#dcfce7;color:#15803d"><i class="fa-solid fa-calendar-day"></i></div><div><h4 id="vTodayCount">0</h4><span>আজকের লগইন/ভিজিট</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#fef3c7;color:#b45309"><i class="fa-solid fa-user-check"></i></div><div><h4 id="vIdentifiedCount">0</h4><span>নাম ও ফোনসহ কাস্টমার</span></div></div>
+                        <div class="stat-card"><div class="st-ico" style="background:#f3e8ff;color:#7e22ce"><i class="fa-solid fa-user-secret"></i></div><div><h4 id="vGuestCount">0</h4><span>অচেনা ভিজিটর (Guest)</span></div></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h3><i class="fa-solid fa-globe"></i> লাইভ ভিজিটর লগ (কে, কখন, কোথা থেকে দেখল)</h3>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                                <input type="text" id="vSearch" placeholder="নাম, ফোন, শহর বা ডিভাইস..." oninput="renderVisitorLogs()" style="padding:6px 11px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                                <select id="vTypeFilter" onchange="renderVisitorLogs()" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--bg);color:var(--text)">
+                                    <option value="ALL">সব ভিজিটর</option>
+                                    <option value="NAMED">শুধু নাম ও ফোনসহ</option>
+                                    <option value="GUEST">শুধু Guest</option>
+                                </select>
+                                <button type="button" class="btn-sm b-blue" onclick="refreshAllLive()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                                <button type="button" class="btn-sm b-red" onclick="clearVisitorLogs()"><i class="fa-solid fa-trash"></i> Clear All Logs</button>
+                            </div>
+                        </div>
+                        <p style="font-size:11.5px;color:var(--muted);margin-bottom:10px">
+                            ℹ️ <b>নোট:</b> লগইন করা কাস্টমারদের নাম, ফোন নম্বর, লোকেশন ও সময় অটো দেখাবে। লগইন ছাড়া অচেনা ভিজিটরদের (Guest) ক্ষেত্রে ব্রাউজার সিকিউরিটির কারণে শুধু লোকেশন (শহর/দেশ), ডিভাইস ও ভিজিটের সময় দেখাবে।
+                        </p>
+                        <div class="v-table-wrap">
+                            <table class="v-table">
+                                <thead>
+                                    <tr>
+                                        <th>ভিজিটরের নাম</th>
+                                        <th>ফোন নম্বর</th>
+                                        <th>লোকেশন (IP ভিত্তিক)</th>
+                                        <th>তারিখ ও সময়</th>
+                                        <th>ডিভাইস ও পেজ</th>
+                                        <th>অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admVisitorTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: PRODUCTS, BULK & SKU -->
                 <section id="tabProducts" class="page-pane">
                     <div class="card" style="margin-bottom:16px">
                         <div class="card-head">
@@ -442,7 +571,7 @@
                     </div>
                 </section>
 
-                <!-- TAB 6: CATEGORIES, COUPONS & REVIEWS -->
+                <!-- TAB 7: CATEGORIES, COUPONS & REVIEWS -->
                 <section id="tabCats" class="page-pane">
                     <div class="grid-2">
                         <div>
@@ -479,7 +608,7 @@
                     </div>
                 </section>
 
-                <!-- TAB 7: FULL SITE CMS CONTROL -->
+                <!-- TAB 8: FULL SITE CMS CONTROL -->
                 <section id="tabCms" class="page-pane">
                     <form onsubmit="saveAllCms(event)">
                         <div class="card">
@@ -728,13 +857,13 @@
     <script>
         const FB_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
         const DEFAULT_ADM_PASS = "redstar(())";
-        const AI_CFG_KEY = "cm_ai_cfg_v1";
+        const AI_CFG_KEY = "cm_ai_cfg_v2";
         let storeData = { settings: {}, slides: [], categories: [], products: [], coupons: [] };
-        let adminUsers = {}, adminOrders = {}, adminChats = {}, adminResets = {}, visitorCount = 0;
+        let adminUsers = {}, adminOrders = {}, adminChats = {}, adminResets = {}, adminVisitorLogs = {}, visitorCount = 0;
         let activeAdminChatId = '', pollTimer = null;
 
-        // AI Agent State
-        let aiHistory = [], aiPendingImgs = [], aiDrafts = [], aiGenImgs = [], aiBusy = false, speechRec = null;
+        // AI Agent State (Provider-Agnostic Conversation + Turn Images)
+        let aiConvo = [], aiPendingImgs = [], currentTurnImgs = [], aiDrafts = [], aiGenImgs = [], aiBusy = false, speechRec = null;
         let cropIdx = -1, cropTargetDraftId = '', cropImgObj = null, cropBox = { x: 0, y: 0, w: 0, h: 0 }, isDraggingCrop = false, dragStart = { x: 0, y: 0 };
 
         const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -742,6 +871,7 @@
         const fmt = n => Number(n||0).toLocaleString('en-IN');
         const getImgs = p => (Array.isArray(p.images)&&p.images.length)?p.images:(p.image?[p.image]:[]);
         const showToast = m => { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); };
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
 
         document.addEventListener('DOMContentLoaded', async () => {
             if (localStorage.getItem('cm_adm_theme') === 'dark') document.body.classList.add('dark');
@@ -795,7 +925,7 @@
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('appShell').style.display = 'block';
             populateCmsForm(); renderCatalogLists();
-            if (!aiHistory.length) showAiWelcome();
+            if (!aiConvo.length) showAiWelcome();
             await refreshAllLive();
             clearInterval(pollTimer);
             pollTimer = setInterval(refreshAllLive, 6000);
@@ -804,25 +934,28 @@
         function openTab(tabId, btn) {
             document.querySelectorAll('.page-pane, .sb-btn').forEach(e=>e.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            if (btn) { btn.classList.add('active'); document.getElementById('pageHeading').textContent = btn.textContent.replace(/AI$/,'').trim(); }
+            if (btn) { btn.classList.add('active'); document.getElementById('pageHeading').textContent = btn.textContent.replace(/(AI|\d+)$/,'').trim(); }
             document.getElementById('sidebar').classList.remove('open');
         }
-        function jumpToAi() { openTab('tabAi', document.getElementById('sbAiBtn')); document.getElementById('aiPromptInput').focus(); }
+        function openTabById(tabId) { openTab(tabId, document.getElementById('sbBtn_' + tabId)); }
+        function jumpToAi() { openTabById('tabAi'); document.getElementById('aiPromptInput').focus(); }
 
         async function refreshAllLive() {
             try {
-                const [vR, uR, oR, cR, rR] = await Promise.all([
+                const [vR, uR, oR, cR, rR, vlR] = await Promise.all([
                     fetch(`${FB_URL}/visitors.json`,{cache:'no-store'}),
                     fetch(`${FB_URL}/users.json`,{cache:'no-store'}),
                     fetch(`${FB_URL}/orders.json`,{cache:'no-store'}),
                     fetch(`${FB_URL}/chats.json`,{cache:'no-store'}),
-                    fetch(`${FB_URL}/resetRequests.json`,{cache:'no-store'})
+                    fetch(`${FB_URL}/resetRequests.json`,{cache:'no-store'}),
+                    fetch(`${FB_URL}/visitorLogs.json`,{cache:'no-store'})
                 ]);
                 visitorCount = Number(await vR.json()) || 0;
                 adminUsers = (await uR.json()) || {};
                 adminOrders = (await oR.json()) || {};
                 adminChats = (await cR.json()) || {};
                 adminResets = (await rR.json()) || {};
+                adminVisitorLogs = (await vlR.json()) || {};
                 renderLiveUI();
             } catch (e) {}
         }
@@ -833,8 +966,15 @@
             return storeData.products.filter(p => p.sku && p.name && low.includes(p.name.toLowerCase())).map(p => p.sku);
         }
 
+        function getVisitorLogsArray() {
+            return Object.entries(adminVisitorLogs || {})
+                .map(([key, v]) => ({ _key: key, ...(v || {}) }))
+                .sort((a, b) => Number(b.ts || 0) - Number(a.ts || 0));
+        }
+
         function renderLiveUI() {
             const uArr = Object.values(adminUsers), oArr = Object.values(adminOrders).reverse(), cArr = Object.values(adminChats), rArr = Object.values(adminResets);
+            const vArr = getVisitorLogsArray();
             const sales = oArr.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+Number(o.total||0),0);
             const penCnt = oArr.filter(o=>o.status==='Pending').length;
             const unreadChats = cArr.filter(c=>c.unread).length;
@@ -843,11 +983,12 @@
             document.getElementById('stOrders').textContent = oArr.length;
             document.getElementById('stPending').textContent = penCnt;
             document.getElementById('stUsers').textContent = uArr.length;
-            document.getElementById('stVisitors').textContent = visitorCount;
+            document.getElementById('stVisitors').textContent = visitorCount || vArr.length;
 
             const ob=document.getElementById('sbOrdBadge'); ob.style.display=penCnt?'inline-block':'none'; ob.textContent=penCnt;
             const cb=document.getElementById('sbChatBadge'); cb.style.display=unreadChats?'inline-block':'none'; cb.textContent=unreadChats;
             const rb=document.getElementById('sbResetBadge'); rb.style.display=rArr.length?'inline-block':'none'; rb.textContent=rArr.length;
+            const vb=document.getElementById('sbVisitBadge'); vb.style.display=vArr.length?'inline-block':'none'; vb.textContent=vArr.length;
 
             document.getElementById('ovRecentOrders').innerHTML = oArr.slice(0,5).map(o => `
                 <div class="item-row">
@@ -857,6 +998,17 @@
                         <button class="btn-sm b-orange" onclick="openTrackEditModal('${escAttr(o.orderId)}')"><i class="fa-solid fa-location-dot"></i> Track</button>
                     </div>
                 </div>`).join('') || '<small style="color:var(--muted)">কোনো অর্ডার নেই</small>';
+
+            document.getElementById('ovRecentVisitors').innerHTML = vArr.slice(0,5).map(v => {
+                const isNamed = !!(v.phone || (v.name && v.name !== 'Guest'));
+                return `<div class="item-row">
+                    <div>
+                        <b>${esc(v.name || 'Guest')}</b> ${isNamed ? `<span class="status-pill b-green">${esc(v.phone||'User')}</span>` : `<span class="status-pill b-amber">Guest</span>`}<br>
+                        <small style="color:var(--muted)">📍 ${esc(v.location || 'Unknown')} • 🕒 ${esc(v.timeText || '')}</small>
+                    </div>
+                    ${v.phone ? `<button class="btn-sm b-purple" onclick="openCustMsgModal('${escAttr(v.phone)}','${escAttr(v.name||'Customer')}','')"><i class="fa-solid fa-comment-sms"></i></button>` : `<small style="color:var(--muted)">${esc(v.deviceShort||'')}</small>`}
+                </div>`;
+            }).join('') || '<small style="color:var(--muted)">এখনো কোনো ভিজিটর লগ আসেনি (index.html-এ ট্র্যাকিং কোড বসান)</small>';
 
             const resetHtml = rArr.map(r => `
                 <div class="item-row">
@@ -870,6 +1022,7 @@
             document.getElementById('admResetList').innerHTML = resetHtml;
 
             renderOrdersList();
+            renderVisitorLogs();
 
             const chatOrdSel = document.getElementById('chatOrderSelect');
             if (chatOrdSel) {
@@ -901,6 +1054,65 @@
                     <button class="btn-sm b-red" onclick="event.stopPropagation();deleteChat('${escAttr(c.id)}')"><i class="fa-solid fa-trash"></i></button>
                 </div>`).join('') || '<small style="color:var(--muted)">কোনো চ্যাট নেই</small>';
             if (activeAdminChatId && adminChats[activeAdminChatId]) renderChatMsgs(adminChats[activeAdminChatId]);
+        }
+
+        function renderVisitorLogs() {
+            const all = getVisitorLogsArray();
+            const todayIso = new Date().toISOString().slice(0, 10);
+            const todayCnt = all.filter(v => v.dateIso === todayIso).length;
+            const namedCnt = all.filter(v => !!(v.phone || (v.name && v.name !== 'Guest'))).length;
+
+            document.getElementById('vTotalHits').textContent = visitorCount || all.length;
+            document.getElementById('vTodayCount').textContent = todayCnt;
+            document.getElementById('vIdentifiedCount').textContent = namedCnt;
+            document.getElementById('vGuestCount').textContent = Math.max(0, all.length - namedCnt);
+
+            const q = (document.getElementById('vSearch')?.value || '').trim().toLowerCase();
+            const tf = document.getElementById('vTypeFilter')?.value || 'ALL';
+            let list = all;
+            if (tf === 'NAMED') list = list.filter(v => !!(v.phone || (v.name && v.name !== 'Guest')));
+            else if (tf === 'GUEST') list = list.filter(v => !(v.phone || (v.name && v.name !== 'Guest')));
+            if (q) list = list.filter(v =>
+                (v.name||'').toLowerCase().includes(q) ||
+                (v.phone||'').toLowerCase().includes(q) ||
+                (v.location||'').toLowerCase().includes(q) ||
+                (v.device||'').toLowerCase().includes(q) ||
+                (v.page||'').toLowerCase().includes(q)
+            );
+
+            const tbody = document.getElementById('admVisitorTableBody');
+            if (!list.length) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px">কোনো ভিজিটর লগ পাওয়া যায়নি</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = list.slice(0, 200).map(v => {
+                const isNamed = !!(v.phone || (v.name && v.name !== 'Guest'));
+                return `<tr>
+                    <td><b>${esc(v.name || 'Guest')}</b><br><span class="status-pill ${isNamed?'b-green':'b-amber'}">${isNamed?'Customer':'Guest'}</span></td>
+                    <td>${v.phone ? `<b>${esc(v.phone)}</b>` : '<span style="color:var(--muted)">—</span>'}</td>
+                    <td>📍 ${esc(v.location || 'Unknown')}${v.ip ? `<br><small style="color:var(--muted)">IP: ${esc(v.ip)}</small>` : ''}</td>
+                    <td><b>${esc(v.dateText || v.dateIso || '')}</b><br><small style="color:var(--muted)">${esc(v.timeText || '')}</small></td>
+                    <td><small>${esc(v.device || 'Unknown')}</small><br><small style="color:var(--muted)">${esc(v.page || '/')}</small></td>
+                    <td>
+                        <div style="display:flex;gap:5px">
+                            ${v.phone ? `<button class="btn-sm b-purple" title="SMS / Chat" onclick="openCustMsgModal('${escAttr(v.phone)}','${escAttr(v.name||'Customer')}','')"><i class="fa-solid fa-comment-sms"></i></button>` : ''}
+                            <button class="btn-sm b-red" title="Delete Log" onclick="deleteVisitorLog('${escAttr(v._key)}')"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function deleteVisitorLog(key) {
+            await fetch(`${FB_URL}/visitorLogs/${key}.json`, { method:'DELETE' });
+            showToast('ভিজিটর লগ ডিলিট হয়েছে');
+            refreshAllLive();
+        }
+        async function clearVisitorLogs() {
+            if (!confirm('সব ভিজিটর লগ মুছে ফেলবেন?')) return;
+            await fetch(`${FB_URL}/visitorLogs.json`, { method:'DELETE' });
+            showToast('সব ভিজিটর লগ মুছে ফেলা হয়েছে');
+            refreshAllLive();
         }
 
         function renderOrdersList() {
@@ -1107,7 +1319,7 @@
         async function deleteChat(cid) { if(!confirm('চ্যাট ডিলিট করবেন?'))return; await fetch(`${FB_URL}/chats/${cid}.json`,{method:'DELETE'}); if(activeAdminChatId===cid) activeAdminChatId=''; refreshAllLive(); }
 
         /* Users & Resets */
-        async function resetVisitors() { if(!confirm('ভিজিটর ০ করবেন?'))return; await fetch(`${FB_URL}/visitors.json`,{method:'PUT',body:'0'}); refreshAllLive(); showToast('রিসেট হয়েছে'); }
+        async function resetVisitors() { if(!confirm('ভিজিটর কাউন্টার ০ করবেন?'))return; await fetch(`${FB_URL}/visitors.json`,{method:'PUT',body:'0'}); refreshAllLive(); showToast('রিসেট হয়েছে'); }
         async function deleteResetReq(p) { await fetch(`${FB_URL}/resetRequests/${p}.json`,{method:'DELETE'}); refreshAllLive(); }
         async function adminCreateUser(e) {
             e.preventDefault();
@@ -1128,7 +1340,7 @@
         }
         async function deleteUser(phone) { if(!confirm('ইউজার ডিলিট করবেন?'))return; await fetch(`${FB_URL}/users/${phone}.json`,{method:'DELETE'}); refreshAllLive(); }
 
-        /* Catalog (Products, Clone, CSV Bulk, SKU, Cats, Coupons, Reviews) */
+        /* Catalog */
         function compressImg(f,mw=520) { return new Promise(res=>{ const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ const c=document.createElement('canvas'), sc=Math.min(1,mw/i.width); c.width=i.width*sc; c.height=i.height*sc; c.getContext('2d').drawImage(i,0,0,c.width,c.height); res(c.toDataURL('image/webp',.84)); }; i.src=e.target.result; }; r.readAsDataURL(f); }); }
         async function uploadToImgbbIfConfigured(dataUrlOrUrl) {
             const key = document.getElementById('aiImgbbKey')?.value.trim();
@@ -1187,7 +1399,6 @@
         function resetProdForm() { document.getElementById('pEditId').value=''; document.querySelector('#tabProducts form').reset(); document.getElementById('pSaveBtn').textContent='Save & Publish Live'; document.getElementById('pCancelBtn').style.display='none'; }
         async function deleteProduct(id) { storeData.products=storeData.products.filter(p=>p.id!==id); await syncStoreToCloud(); showToast('ডিলিট হয়েছে'); }
 
-        // CSV Bulk Import
         function downloadSampleCsv() {
             const csv = 'name,sku,price,oldPrice,buyPrice,category,sizes,shortSpec,spec,imageUrl,isHot\n"Premium Cotton Polo",CM-101,699,950,420,"Men Fashion","M, L, XL","100% Cotton Pique","আরামদায়ক ও টেকসই পোলো টি-শার্ট","https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",1\n';
             const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'chitro-bulk-sample.csv'; a.click();
@@ -1215,7 +1426,7 @@
                 const get = k => { const idx = hdr.indexOf(k.toLowerCase()); return idx>-1 ? (cols[idx]||'') : ''; };
                 const name = get('name'), price = Number(get('price'));
                 if (!name || !price) continue;
-                const img = get('imageUrl') || get('image') || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500';
+                const img = get('imageUrl') || get('image') || 'https://placehold.co/500x500/0f172a/f59e0b?text=CHITRO+MART';
                 storeData.products.unshift({
                     id: 'p_' + Date.now() + '_' + i, name, sku: (get('sku')||('CM-'+Math.floor(1000+Math.random()*8999))).toUpperCase(),
                     price, oldPrice: get('oldPrice')?Number(get('oldPrice')):null, buyPrice: get('buyPrice')?Number(get('buyPrice')):null,
@@ -1383,13 +1594,22 @@
         function restoreJson(e) { const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=async ev=>{ try{ storeData=JSON.parse(ev.target.result); await syncStoreToCloud(); showToast('Backup রিস্টোর হয়েছে!'); }catch(err){showToast('সঠিক JSON নয়!');} }; r.readAsText(f); }
 
         /* =========================================================
-           CHITRO AI COMMAND CENTER (AGENTIC AI + RESELLER ENGINE)
+           CHITRO MULTI-AI AGENT ENGINE (GEMINI + OPENROUTER + GROQ + MISTRAL + CUSTOM)
            ========================================================= */
         function loadAiConfig() {
             try {
-                const c = JSON.parse(localStorage.getItem(AI_CFG_KEY) || '{}');
+                // Migrate legacy v1 config automatically if v2 doesn't exist yet
+                const c = JSON.parse(localStorage.getItem(AI_CFG_KEY) || localStorage.getItem('cm_ai_cfg_v1') || '{}');
                 if (c.geminiKey) document.getElementById('aiGeminiKey').value = c.geminiKey;
-                if (c.model) document.getElementById('aiModel').value = c.model;
+                if (c.orKey) document.getElementById('aiOrKey').value = c.orKey;
+                if (c.orModel) document.getElementById('aiOrModel').value = c.orModel;
+                if (c.groqKey) document.getElementById('aiGroqKey').value = c.groqKey;
+                if (c.mistralKey) document.getElementById('aiMistralKey').value = c.mistralKey;
+                if (c.primaryProv) document.getElementById('aiPrimaryProv').value = c.primaryProv;
+                if (c.customUrl) document.getElementById('aiCustomUrl').value = c.customUrl;
+                if (c.customKey) document.getElementById('aiCustomKey').value = c.customKey;
+                if (c.customModel) document.getElementById('aiCustomModel').value = c.customModel;
+                if (c.model && document.querySelector(`#aiModel option[value="${c.model}"]`)) document.getElementById('aiModel').value = c.model;
                 if (c.imgEngine) document.getElementById('aiImgEngine').value = c.imgEngine;
                 if (c.imgbbKey) document.getElementById('aiImgbbKey').value = c.imgbbKey;
                 if (c.polKey) document.getElementById('aiPolKey').value = c.polKey;
@@ -1408,6 +1628,14 @@
         function saveAiConfig() {
             const c = {
                 geminiKey: document.getElementById('aiGeminiKey').value.trim(),
+                orKey: document.getElementById('aiOrKey').value.trim(),
+                orModel: document.getElementById('aiOrModel').value,
+                groqKey: document.getElementById('aiGroqKey').value.trim(),
+                mistralKey: document.getElementById('aiMistralKey').value.trim(),
+                primaryProv: document.getElementById('aiPrimaryProv').value,
+                customUrl: document.getElementById('aiCustomUrl').value.trim(),
+                customKey: document.getElementById('aiCustomKey').value.trim(),
+                customModel: document.getElementById('aiCustomModel').value.trim(),
                 model: document.getElementById('aiModel').value,
                 imgEngine: document.getElementById('aiImgEngine').value,
                 imgbbKey: document.getElementById('aiImgbbKey').value.trim(),
@@ -1426,10 +1654,23 @@
         }
 
         function updateAiKeyStatus() {
-            const k = document.getElementById('aiGeminiKey').value.trim();
+            const g = document.getElementById('aiGeminiKey').value.trim();
+            const o = document.getElementById('aiOrKey').value.trim();
+            const gr = document.getElementById('aiGroqKey').value.trim();
+            const m = document.getElementById('aiMistralKey').value.trim();
+            const cu = document.getElementById('aiCustomKey').value.trim() && document.getElementById('aiCustomUrl').value.trim();
+            const activeCount = [g, o, gr, m, cu].filter(Boolean).length;
+
+            document.getElementById('chipGemini').className = 'prov-chip ' + (g ? 'on' : '');
+            document.getElementById('chipOr').className = 'prov-chip ' + (o ? 'on' : '');
+            document.getElementById('chipGroq').className = 'prov-chip ' + (gr ? 'on' : '');
+            document.getElementById('chipMistral').className = 'prov-chip ' + (m ? 'on' : '');
+            document.getElementById('chipCustom').className = 'prov-chip ' + (cu ? 'on' : '');
+
             const b = document.getElementById('aiKeyBadge');
-            b.textContent = k ? 'Ready ✓' : 'Key Required';
-            b.className = 'status-pill ' + (k ? 'b-green' : 'b-amber');
+            b.textContent = activeCount ? `${activeCount} API Ready ✓` : 'Key Required';
+            b.className = 'status-pill ' + (activeCount ? 'b-green' : 'b-amber');
+
             const ex = calcResellPricing(500, 1000);
             document.getElementById('rsLivePreview').innerHTML = `উদাহরণ: কেনা <b>৳500</b> (Suggested ৳1000) হলে -> বিক্রয়মূল্য: <b style="color:var(--primary)">৳${fmt(ex.sellPrice)}</b>, Old Price: <del>৳${fmt(ex.oldPrice)}</del>, লাভ: <b>+৳${fmt(ex.sellPrice-500)}</b>`;
         }
@@ -1486,15 +1727,15 @@
             const feed = document.getElementById('aiFeed');
             feed.innerHTML = `<div class="ai-msg bot">
                 <b>আসসালামু আলাইকুম! আমি আপনার CHITRO AI Manager 🤖</b><br>
-                ডানপাশে আপনার ফ্রি <b>Gemini API Key</b> দিয়ে যেকোনো কাজ বলুন:<br>
-                • 📸 <b>প্রোডাক্টের স্ক্রিনশট পেস্ট (Ctrl+V)</b> করুন — আমি অটো নাম, দাম, সাইজ পড়ে Reseller লাভ যোগ করে পাবলিশ করে দেব।<br>
-                • ✂️ স্ক্রিনশট থেকে ফোনের বাড়তি অংশ কাটতে ছবির নিচে <b>Crop</b> চাপুন।<br>
+                এখন Multi-AI Auto-Fallback যুক্ত করা হয়েছে—Google Gemini ব্যস্ত থাকলে অটো <b>OpenRouter (DeepSeek/Qwen/Gemma)</b>, <b>Groq</b> বা <b>Mistral</b> দিয়ে কাজ শেষ হবে!<br>
+                • 📸 <b>প্রোডাক্টের স্ক্রিনশট পেস্ট (Ctrl+V)</b> করুন — আপনার আসল স্ক্রিনশটের ছবি দিয়েই Reseller লাভ যোগ করে প্রোডাক্ট রেডি হবে।<br>
+                • ✂️ বাড়তি অংশ কাটতে ছবির নিচে <b>Crop</b> চাপুন।<br>
                 • 🚚 <b>"Order #1234-কে Shipped করে ঢাকা হাব লেখো"</b> বা <b>"Pending অর্ডার দেখাও"</b> বলুন।<br>
                 • 🎨 <b>"ঈদ সেলের ব্যানার বানাও"</b> বলুন — ইমেজ জেনারেট করে Hero Slider-এ বসিয়ে দেব!
             </div>`;
         }
 
-        function clearAiChat() { aiHistory = []; aiDrafts = []; aiGenImgs = []; showAiWelcome(); showToast('নতুন চ্যাট শুরু হয়েছে'); }
+        function clearAiChat() { aiConvo = []; aiDrafts = []; aiGenImgs = []; currentTurnImgs = []; showAiWelcome(); showToast('নতুন চ্যাট শুরু হয়েছে'); }
         function useAiPrompt(txt) { document.getElementById('aiPromptInput').value = txt; document.getElementById('aiPromptInput').focus(); }
 
         function initAiDropAndPaste() {
@@ -1541,7 +1782,7 @@
         }
         function removeAiPendingImg(i) { aiPendingImgs.splice(i, 1); renderAiDropBar(); }
 
-        /* Interactive Canvas Image Cropper (Mouse + Touch) */
+        /* Interactive Canvas Image Cropper */
         function openCropModal(idx, draftId='') {
             closeAllAdmModals();
             cropIdx = idx; cropTargetDraftId = draftId;
@@ -1660,7 +1901,7 @@
         /* AI Agent Tool Definitions */
         const AI_TOOLS = [{
             function_declarations: [
-                { name: "get_store_summary", description: "Get live store summary: revenue, order counts, pending orders, product count, categories, coupons, visitors, and current key CMS settings.", parameters: { type: "OBJECT", properties: {} } },
+                { name: "get_store_summary", description: "Get live store summary: revenue, order counts, pending orders, product count, categories, coupons, visitors, recent visitor logs count, and current key CMS settings.", parameters: { type: "OBJECT", properties: {} } },
                 { name: "list_orders", description: "List recent orders filtered by status or search text.", parameters: { type: "OBJECT", properties: { status: { type: "STRING", description: "ALL, Pending, Confirmed, Shipped, Out for Delivery, Delivered, or Cancelled" }, query: { type: "STRING" } } } },
                 { name: "update_order_tracking", description: "Update an order status, courier, tracking code, current live location, and note.", parameters: { type: "OBJECT", properties: { order_id: { type: "STRING" }, status: { type: "STRING", enum: ["Pending","Confirmed","Shipped","Out for Delivery","Delivered","Cancelled"] }, courier: { type: "STRING" }, tracking_code: { type: "STRING" }, current_location: { type: "STRING" }, note: { type: "STRING" } }, required: ["order_id","status","current_location"] } },
                 { name: "send_customer_chat_message", description: "Send a live chat message directly to a customer by phone number (and optionally add to order tracking note).", parameters: { type: "OBJECT", properties: { phone: { type: "STRING" }, customer_name: { type: "STRING" }, message: { type: "STRING" }, order_id: { type: "STRING" } }, required: ["phone","message"] } },
@@ -1675,6 +1916,21 @@
             ]
         }];
 
+        function normalizeSchemaTypes(obj) {
+            if (!obj || typeof obj !== 'object') return obj;
+            if (Array.isArray(obj)) return obj.map(normalizeSchemaTypes);
+            const out = {};
+            for (const [k, v] of Object.entries(obj)) {
+                if (k === 'type' && typeof v === 'string') out[k] = v.toLowerCase();
+                else out[k] = normalizeSchemaTypes(v);
+            }
+            return out;
+        }
+        const OPENAI_TOOLS = AI_TOOLS[0].function_declarations.map(fn => ({
+            type: 'function',
+            function: { name: fn.name, description: fn.description, parameters: normalizeSchemaTypes(fn.parameters) }
+        }));
+
         async function executeAiTool(name, args) {
             const safeGuard = document.getElementById('aiSafeGuard').checked;
             const autoPub = document.getElementById('aiAutoPub').checked;
@@ -1682,13 +1938,15 @@
             if (name === 'get_store_summary') {
                 const oArr = Object.values(adminOrders);
                 const sales = oArr.filter(o=>o.status!=='Cancelled').reduce((s,o)=>s+Number(o.total||0),0);
+                const vArr = getVisitorLogsArray();
                 return {
                     totalSales: sales, totalOrders: oArr.length,
                     pendingOrders: oArr.filter(o=>o.status==='Pending').length,
                     totalProducts: storeData.products.length,
                     categories: storeData.categories.map(c=>c.name),
                     coupons: storeData.coupons.map(c=>`${c.code}(${c.type==='pct'?c.value+'%':'৳'+c.value})`),
-                    visitors: visitorCount, users: Object.keys(adminUsers).length,
+                    visitors: visitorCount, loggedVisitors: vArr.length,
+                    users: Object.keys(adminUsers).length,
                     settings: { brand: storeData.settings.brand, noticeOn: storeData.settings.noticeOn, noticeText: storeData.settings.noticeText, flashOn: storeData.settings.flashOn, flashText: storeData.settings.flashText, maintOn: storeData.settings.maintOn, dhakaCharge: storeData.settings.dhakaCharge, outsideCharge: storeData.settings.outsideCharge }
                 };
             }
@@ -1717,12 +1975,15 @@
             if (name === 'prepare_or_publish_product') {
                 const pricing = calcResellPricing(args.buy_price, args.suggested_price, args.exact_price);
                 const finalOld = args.old_price || pricing.oldPrice;
+
+                // FIXED: Always read from currentTurnImgs so user's uploaded screenshot is never lost!
                 let imgs = [];
-                if (args.image_url) imgs.push(args.image_url);
-                const idxs = Array.isArray(args.image_indices) && args.image_indices.length ? args.image_indices : (aiPendingImgs.length ? [0] : []);
-                for (const ix of idxs) { if (aiPendingImgs[ix]) imgs.push(aiPendingImgs[ix]); }
+                const idxs = Array.isArray(args.image_indices) && args.image_indices.length ? args.image_indices : (currentTurnImgs.length ? [0] : []);
+                for (const ix of idxs) { if (currentTurnImgs[ix]) imgs.push(currentTurnImgs[ix]); }
+                if (!imgs.length && currentTurnImgs.length) imgs.push(currentTurnImgs[0]);
+                if (!imgs.length && args.image_url && /^https?:\/\/|^data:image\//i.test(args.image_url)) imgs.push(args.image_url);
                 if (!imgs.length && aiGenImgs.length) imgs.push(aiGenImgs[aiGenImgs.length-1]);
-                if (!imgs.length) imgs.push('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500');
+                if (!imgs.length) imgs.push('https://placehold.co/500x500/0f172a/f59e0b?text=NO+PHOTO');
 
                 const draft = {
                     draftId: 'dr_' + Date.now() + '_' + Math.floor(Math.random()*999),
@@ -1745,7 +2006,7 @@
                     return { published: true, product: { id: published.id, name: published.name, price: published.price, oldPrice: published.oldPrice, buyPrice: published.buyPrice, sku: published.sku, category: published.category } };
                 } else {
                     aiDrafts.push(draft);
-                    return { drafted: true, draftId: draft.draftId, calculatedPricing: pricing, note: "Draft card rendered for user confirmation." };
+                    return { drafted: true, draftId: draft.draftId, calculatedPricing: pricing, note: "Draft card rendered with attached screenshot." };
                 }
             }
             if (name === 'delete_product') {
@@ -1825,7 +2086,7 @@
 
         function loadDraftToForm(draftId) {
             const d = aiDrafts.find(x=>x.draftId===draftId); if (!d) return;
-            openTab('tabProducts', document.querySelectorAll('.sb-btn')[5]);
+            openTabById('tabProducts');
             document.getElementById('pName').value = d.name; document.getElementById('pSku').value = d.sku;
             document.getElementById('pShort').value = d.shortSpec||''; document.getElementById('pSizes').value = d.sizes||'';
             document.getElementById('pSpec').value = d.spec||''; document.getElementById('pPrice').value = d.price;
@@ -1858,10 +2119,9 @@
             }
 
             const seed = Math.floor(Math.random() * 999999);
-            const url = polKey
+            return polKey
                 ? `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&seed=${seed}&key=${encodeURIComponent(polKey)}`
                 : `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${w}&height=${h}&nologo=true&seed=${seed}`;
-            return url;
         }
 
         function attachGenImgToPending(url) { aiPendingImgs.push(url); renderAiDropBar(); showToast('ইমেজ প্রোডাক্ট এটাচমেন্টে যুক্ত হয়েছে!'); }
@@ -1874,32 +2134,231 @@
             await syncStoreToCloud(); showToast('Offer Popup-এ ছবি সেট ও অন করা হয়েছে!');
         }
 
-        /* Gemini API Call with Multi-Turn Function Calling & Automatic Model Fallback */
-        async function callGeminiWithFallback(contents, sysPrompt) {
-            const gKey = document.getElementById('aiGeminiKey').value.trim();
-            const chosen = document.getElementById('aiModel').value;
-            const candidates = [...new Set([chosen, 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-4-hydrogen', 'gemini-2.5-flash'])];
-
-            let lastErr = '';
-            for (const mdl of candidates) {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-goog-api-key': gKey },
-                    body: JSON.stringify({
-                        system_instruction: { parts: [{ text: sysPrompt }] },
-                        contents,
-                        tools: AI_TOOLS
-                    })
-                });
-                const json = await res.json();
-                if (res.ok && json.candidates && json.candidates[0]) {
-                    if (mdl !== chosen) { document.getElementById('aiModel').value = mdl; saveAiConfig(); }
-                    return json.candidates[0];
-                }
-                lastErr = json?.error?.message || `HTTP ${res.status}`;
-                if (res.status !== 404 && !/not found|not supported/i.test(lastErr)) throw new Error(lastErr);
+        /* =========================================================
+           MULTI-PROVIDER RUNNERS WITH TRUE AUTO-FALLBACK
+           ========================================================= */
+        function buildGeminiContents(userText, imgsForTurn) {
+            const contents = [];
+            for (const turn of aiConvo) {
+                contents.push({ role: turn.role === 'assistant' ? 'model' : 'user', parts: [{ text: turn.text }] });
             }
-            throw new Error(lastErr || 'Model request failed');
+            const userParts = [{ text: userText }];
+            imgsForTurn.forEach((dUrl, idx) => {
+                const [meta, b64] = dUrl.split(',');
+                const mime = (meta.match(/data:([^;]+)/)||[])[1] || 'image/webp';
+                userParts.push({ text: `[Attached Image Index ${idx}]` });
+                userParts.push({ inline_data: { mime_type: mime, data: b64 } });
+            });
+            contents.push({ role: 'user', parts: userParts });
+            return contents;
+        }
+
+        function buildOpenAiMessages(sysPrompt, userText, imgsForTurn, allowVision = true) {
+            const msgs = [{ role: 'system', content: sysPrompt }];
+            for (const turn of aiConvo) {
+                msgs.push({ role: turn.role === 'assistant' ? 'assistant' : 'user', content: turn.text });
+            }
+            if (imgsForTurn.length && allowVision) {
+                const content = [{ type: 'text', text: userText }];
+                imgsForTurn.forEach((dUrl, idx) => {
+                    content.push({ type: 'text', text: `[Attached Image Index ${idx}]` });
+                    content.push({ type: 'image_url', image_url: { url: dUrl } });
+                });
+                msgs.push({ role: 'user', content });
+            } else {
+                msgs.push({ role: 'user', content: userText });
+            }
+            return msgs;
+        }
+
+        async function runGeminiProvider(gKey, sysPrompt, userText, imgsForTurn, thinkingEl, toolLogs, createdDraftIds, createdGenUrls) {
+            const chosen = document.getElementById('aiModel').value;
+            const candidates = [...new Set([chosen, 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-2.5-flash'])];
+            let lastErr = '';
+
+            for (const mdl of candidates) {
+                const localContents = buildGeminiContents(userText, imgsForTurn);
+                let modelFailed = false;
+
+                for (let round = 0; round < 6; round++) {
+                    thinkingEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Trying Gemini (${esc(mdl)})...`;
+                    let res, json;
+                    try {
+                        res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-goog-api-key': gKey },
+                            body: JSON.stringify({
+                                system_instruction: { parts: [{ text: sysPrompt }] },
+                                contents: localContents,
+                                tools: AI_TOOLS
+                            })
+                        });
+                        json = await res.json();
+                    } catch (netErr) {
+                        lastErr = `Gemini network error (${netErr.message})`;
+                        modelFailed = true; break;
+                    }
+
+                    if (!res.ok || !json?.candidates?.[0]) {
+                        lastErr = json?.error?.message || `HTTP ${res.status}`;
+                        // If API key itself is invalid, stop trying other Gemini models immediately and fall back to OpenRouter/Groq/Mistral
+                        if (res.status === 400 && /api key|API_KEY_INVALID/i.test(lastErr)) {
+                            throw new Error(`Gemini Key Invalid: ${lastErr}`);
+                        }
+                        // On 503 (high demand), 429 (quota), 500, or 404: try next Gemini model!
+                        modelFailed = true;
+                        if (round === 0) await sleep(500);
+                        break;
+                    }
+
+                    const cand = json.candidates[0];
+                    const modelContent = cand.content || { role: 'model', parts: [] };
+                    localContents.push(modelContent);
+
+                    const parts = modelContent.parts || [];
+                    const fnCalls = parts.filter(p => p.functionCall);
+                    const texts = parts.filter(p => p.text).map(p => p.text).join('\n').trim();
+
+                    if (!fnCalls.length) {
+                        return { text: texts || 'কাজটি সম্পন্ন হয়েছে!', providerLabel: `Gemini • ${mdl}` };
+                    }
+
+                    const toolRespParts = [];
+                    for (const fcPart of fnCalls) {
+                        const fc = fcPart.functionCall;
+                        thinkingEl.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Running ${esc(fc.name)} (${esc(mdl)})...`;
+                        const result = await executeAiTool(fc.name, fc.args || {});
+                        toolLogs.push({ name: fc.name, result });
+                        if (result.draftId) createdDraftIds.push(result.draftId);
+                        if (fc.name === 'generate_ai_image' && result.imageUrl) createdGenUrls.push(result.imageUrl);
+                        toolRespParts.push({ functionResponse: { name: fc.name, response: { result } } });
+                    }
+                    localContents.push({ role: 'user', parts: toolRespParts });
+                }
+
+                // Only switch model safely if no irreversible side effects occurred mid-round
+                if (!modelFailed || toolLogs.length > 0) {
+                    if (toolLogs.length > 0) return { text: 'কাজটি সম্পন্ন হয়েছে!', providerLabel: `Gemini • ${mdl}` };
+                }
+            }
+            throw new Error(lastErr || 'All Gemini models are currently busy');
+        }
+
+        async function runOpenAiCompatProvider(cfg, sysPrompt, userText, imgsForTurn, thinkingEl, toolLogs, createdDraftIds, createdGenUrls) {
+            let lastErr = '';
+            for (const mdlCfg of cfg.models) {
+                const mdl = mdlCfg.id;
+                const messages = buildOpenAiMessages(sysPrompt, userText, imgsForTurn, mdlCfg.vision !== false);
+                let useTools = true;
+                let failed = false;
+
+                for (let round = 0; round < 6; round++) {
+                    thinkingEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Trying ${esc(cfg.label)} (${esc(mdl)})...`;
+                    const body = { model: mdl, messages };
+                    if (useTools) { body.tools = OPENAI_TOOLS; body.tool_choice = 'auto'; }
+
+                    const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${cfg.key}` };
+                    if (cfg.extraHeaders) Object.assign(headers, cfg.extraHeaders);
+
+                    let res, json;
+                    try {
+                        res = await fetch(cfg.url, { method: 'POST', headers, body: JSON.stringify(body) });
+                        json = await res.json();
+                    } catch (netErr) {
+                        lastErr = `${cfg.label} network error (${netErr.message})`;
+                        failed = true; break;
+                    }
+
+                    if (!res.ok || !json?.choices?.[0]) {
+                        lastErr = json?.error?.message || json?.message || `HTTP ${res.status}`;
+                        // If a free model rejects tool schemas on round 0, retry once without tools if no image extraction is strictly blocked, or fall through
+                        if (useTools && res.status === 400 && /tool|function/i.test(lastErr)) {
+                            useTools = false; round--; continue;
+                        }
+                        if (res.status === 401 || res.status === 403) {
+                            throw new Error(`${cfg.label} Key Invalid: ${lastErr}`);
+                        }
+                        failed = true;
+                        await sleep(400);
+                        break;
+                    }
+
+                    const msg = json.choices[0].message || {};
+                    const toolCalls = Array.isArray(msg.tool_calls) ? msg.tool_calls : [];
+
+                    if (!toolCalls.length) {
+                        const finalTxt = (msg.content || '').trim() || 'কাজটি সম্পন্ন হয়েছে!';
+                        return { text: finalTxt, providerLabel: `${cfg.label} • ${mdl}` };
+                    }
+
+                    messages.push({ role: 'assistant', content: msg.content || '', tool_calls: toolCalls });
+                    for (const tc of toolCalls) {
+                        const fnName = tc.function?.name || '';
+                        let args = {};
+                        try { args = JSON.parse(tc.function?.arguments || '{}'); } catch (e) { args = {}; }
+                        thinkingEl.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Running ${esc(fnName)} (${esc(cfg.label)})...`;
+                        const result = await executeAiTool(fnName, args);
+                        toolLogs.push({ name: fnName, result });
+                        if (result.draftId) createdDraftIds.push(result.draftId);
+                        if (fnName === 'generate_ai_image' && result.imageUrl) createdGenUrls.push(result.imageUrl);
+                        messages.push({ role: 'tool', tool_call_id: tc.id || ('tc_' + Date.now()), content: JSON.stringify(result) });
+                    }
+                }
+                if (failed && toolLogs.length > 0) {
+                    return { text: 'কাজটি সম্পন্ন হয়েছে!', providerLabel: `${cfg.label} • ${mdl}` };
+                }
+            }
+            throw new Error(lastErr || `${cfg.label} failed`);
+        }
+
+        function buildProviderQueue(hasImages) {
+            const gKey = document.getElementById('aiGeminiKey').value.trim();
+            const orKey = document.getElementById('aiOrKey').value.trim();
+            const orModel = document.getElementById('aiOrModel').value || 'openrouter/free';
+            const groqKey = document.getElementById('aiGroqKey').value.trim();
+            const mistralKey = document.getElementById('aiMistralKey').value.trim();
+            const customUrl = document.getElementById('aiCustomUrl').value.trim();
+            const customKey = document.getElementById('aiCustomKey').value.trim();
+            const customModel = document.getElementById('aiCustomModel').value.trim();
+            const polKey = document.getElementById('aiPolKey').value.trim();
+            const pref = document.getElementById('aiPrimaryProv').value;
+
+            const map = {};
+            if (gKey) map.gemini = { type: 'gemini', key: gKey, label: 'Gemini' };
+            if (orKey) map.openrouter = {
+                type: 'openai', label: 'OpenRouter Free', key: orKey,
+                url: 'https://openrouter.ai/api/v1/chat/completions',
+                extraHeaders: { 'X-Title': 'CHITRO AI Manager' },
+                models: [...new Set([orModel, 'openrouter/free', 'google/gemma-4-31b-it:free', 'qwen/qwen3.8-27b:free'])].map(id => ({ id, vision: true }))
+            };
+            if (groqKey) map.groq = {
+                type: 'openai', label: 'Groq Free', key: groqKey,
+                url: 'https://api.groq.com/openai/v1/chat/completions',
+                models: hasImages
+                    ? [{ id: 'meta-llama/llama-4-scout-17b-16e-instruct', vision: true }]
+                    : [{ id: 'openai/gpt-oss-120b', vision: false }, { id: 'llama-3.3-70b-versatile', vision: false }]
+            };
+            if (mistralKey) map.mistral = {
+                type: 'openai', label: 'Mistral Free', key: mistralKey,
+                url: 'https://api.mistral.ai/v1/chat/completions',
+                models: [{ id: 'mistral-small-latest', vision: true }, { id: 'pixtral-12b-latest', vision: true }]
+            };
+            if (customKey && customUrl) map.custom = {
+                type: 'openai', label: 'Custom API', key: customKey, url: customUrl,
+                models: [{ id: customModel || 'gpt-4o-mini', vision: true }]
+            };
+            if (polKey) map.pollinations = {
+                type: 'openai', label: 'Pollinations AI', key: polKey,
+                url: 'https://gen.pollinations.ai/v1/chat/completions',
+                models: [{ id: 'openai', vision: true }]
+            };
+
+            const baseOrder = ['gemini', 'openrouter', 'groq', 'mistral', 'custom', 'pollinations'];
+            const orderedKeys = pref !== 'auto' && map[pref]
+                ? [pref, ...baseOrder.filter(k => k !== pref)]
+                : baseOrder;
+
+            return orderedKeys.map(k => map[k]).filter(Boolean);
         }
 
         function buildAiSystemPrompt() {
@@ -1917,7 +2376,7 @@ Rules:
    - Match the closest category from [${cats}] (or suggest a fitting one).
    - Write an attractive, clean Bengali/English product description in 'spec' and crisp highlight in 'short_spec'.
    - Call 'prepare_or_publish_product' for EACH product detected! Pass buy_price & suggested_price so the Reseller Pricing Engine calculates selling price automatically. Only pass exact_price if user explicitly gave a fixed selling price.
-   - Note: Attached images are indexed 0, 1, 2... Pass image_indices accordingly.
+   - Note: Attached images are indexed 0, 1, 2... Pass image_indices accordingly (e.g. [0]).
 2. When user asks to control orders, tracking, customer Live Chat, coupons, categories, or site settings (notice banner, flash sale, delivery charges, maintenance mode, theme color, slides): use the provided tools directly and report back clearly in friendly Bengali!
 3. When user asks to generate an image/banner/poster: call 'generate_ai_image' with a rich, detailed English prompt.
 4. Keep replies clear, polite, helpful, and concise.`;
@@ -1925,27 +2384,24 @@ Rules:
 
         async function sendAiPrompt() {
             if (aiBusy) return;
-            const gKey = document.getElementById('aiGeminiKey').value.trim();
-            if (!gKey) { showToast('আগে ডানপাশে আপনার Google Gemini API Key দিন!'); document.getElementById('aiGeminiKey').focus(); return; }
+            const imgsToSend = [...aiPendingImgs];
+            const queue = buildProviderQueue(imgsToSend.length > 0);
+            if (!queue.length) {
+                showToast('অন্তত একটি ফ্রি AI API Key দিন (Gemini / OpenRouter / Groq / Mistral)!');
+                document.getElementById('aiGeminiKey').focus();
+                return;
+            }
 
             const inp = document.getElementById('aiPromptInput');
             let txt = inp.value.trim();
-            const imgsToSend = [...aiPendingImgs];
             if (!txt && !imgsToSend.length) return;
             if (!txt && imgsToSend.length) txt = 'এই স্ক্রিনশট/ছবিগুলো পড়ে প্রোডাক্টের সব তথ্য ডিটেক্ট করে Reseller রুল অনুযায়ী প্রস্তুত করো।';
 
+            // Hold images in currentTurnImgs so tool calls NEVER lose the screenshot!
+            currentTurnImgs = imgsToSend;
             inp.value = ''; aiPendingImgs = []; renderAiDropBar();
             appendAiMsg('user', txt, imgsToSend);
 
-            const userParts = [{ text: txt }];
-            imgsToSend.forEach((dUrl, idx) => {
-                const [meta, b64] = dUrl.split(',');
-                const mime = (meta.match(/data:([^;]+)/)||[])[1] || 'image/webp';
-                userParts.push({ text: `[Attached Image Index ${idx}]` });
-                userParts.push({ inline_data: { mime_type: mime, data: b64 } });
-            });
-
-            aiHistory.push({ role: 'user', parts: userParts });
             const feed = document.getElementById('aiFeed');
             const thinkingEl = document.createElement('div');
             thinkingEl.className = 'ai-msg sys';
@@ -1953,50 +2409,56 @@ Rules:
             feed.appendChild(thinkingEl); feed.scrollTop = feed.scrollHeight;
 
             aiBusy = true; document.getElementById('aiSendBtn').disabled = true;
+            const sysPrompt = buildAiSystemPrompt();
+            const errors = [];
+            let resultObj = null;
             const toolLogs = [], createdDraftIds = [], createdGenUrls = [];
 
             try {
-                const sysPrompt = buildAiSystemPrompt();
-                let finalReply = '';
-                for (let round = 0; round < 6; round++) {
-                    const cand = await callGeminiWithFallback(aiHistory, sysPrompt);
-                    const modelContent = cand.content;
-                    aiHistory.push(modelContent); // Preserves thoughtSignature & exact structure
-
-                    const parts = modelContent.parts || [];
-                    const fnCalls = parts.filter(p => p.functionCall);
-                    const texts = parts.filter(p => p.text).map(p => p.text).join('\n').trim();
-
-                    if (!fnCalls.length) { finalReply = texts; break; }
-
-                    const toolRespParts = [];
-                    for (const fcPart of fnCalls) {
-                        const fc = fcPart.functionCall;
-                        thinkingEl.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Running: ${esc(fc.name)}...`;
-                        const result = await executeAiTool(fc.name, fc.args || {});
-                        toolLogs.push({ name: fc.name, result });
-                        if (result.draftId) createdDraftIds.push(result.draftId);
-                        if (fc.name === 'generate_ai_image' && result.imageUrl) createdGenUrls.push(result.imageUrl);
-                        toolRespParts.push({ functionResponse: { name: fc.name, response: { result } } });
+                for (const prov of queue) {
+                    const tLogs = [], dIds = [], gUrls = [];
+                    try {
+                        if (prov.type === 'gemini') {
+                            resultObj = await runGeminiProvider(prov.key, sysPrompt, txt, currentTurnImgs, thinkingEl, tLogs, dIds, gUrls);
+                        } else {
+                            resultObj = await runOpenAiCompatProvider(prov, sysPrompt, txt, currentTurnImgs, thinkingEl, tLogs, dIds, gUrls);
+                        }
+                        toolLogs.push(...tLogs);
+                        createdDraftIds.push(...dIds);
+                        createdGenUrls.push(...gUrls);
+                        break; // Success! Exit fallback chain
+                    } catch (e) {
+                        errors.push(`${prov.label}: ${e.message}`);
+                        // If a tool already ran before error, stop to avoid duplicating side effects
+                        if (tLogs.length > 0) {
+                            toolLogs.push(...tLogs); createdDraftIds.push(...dIds); createdGenUrls.push(...gUrls);
+                            resultObj = { text: 'আংশিক কাজ সম্পন্ন হয়েছে।', providerLabel: prov.label };
+                            break;
+                        }
                     }
-                    aiHistory.push({ role: 'user', parts: toolRespParts });
                 }
 
                 thinkingEl.remove();
-                appendAiBotResponse(finalReply || 'কাজটি সম্পন্ন হয়েছে!', toolLogs, createdDraftIds, createdGenUrls);
-                speakAiText(finalReply);
 
-                // Strip heavy base64 images from older turns to keep follow-up chats super fast
-                aiHistory.forEach(turn => {
-                    if (turn.role === 'user' && Array.isArray(turn.parts)) {
-                        turn.parts = turn.parts.map(p => p.inline_data ? { text: '[Image previously analyzed]' } : p);
+                if (resultObj) {
+                    // Save clean text-only turn in aiConvo (never leaks failed images into future turns!)
+                    aiConvo.push({ role: 'user', text: imgsToSend.length ? `${txt} [${imgsToSend.length} image(s) attached]` : txt });
+                    aiConvo.push({ role: 'assistant', text: resultObj.text });
+                    if (aiConvo.length > 16) aiConvo = aiConvo.slice(-12);
+
+                    document.getElementById('aiStatusLine').textContent = `সর্বশেষ সক্রিয়: ${resultObj.providerLabel}`;
+                    appendAiBotResponse(resultObj.text, toolLogs, createdDraftIds, createdGenUrls, resultObj.providerLabel);
+                    speakAiText(resultObj.text);
+                } else {
+                    // Rollback: Restore user's pending images so they don't have to re-paste!
+                    if (imgsToSend.length && !aiPendingImgs.length) {
+                        aiPendingImgs = [...imgsToSend];
+                        renderAiDropBar();
                     }
-                });
-                if (aiHistory.length > 18) aiHistory = aiHistory.slice(-14);
-            } catch (err) {
-                thinkingEl.remove();
-                appendAiMsg('bot', `❌ সমস্যা হয়েছে: ${err.message}\n(আপনার Gemini API Key বা ইন্টারনেট কানেকশন চেক করুন)`);
+                    appendAiMsg('bot', `❌ সব API প্রোভাইডার চেষ্টা করেও উত্তর পাওয়া যায়নি:\n• ${errors.join('\n• ')}\n\n(টিপস: OpenRouter বা Groq-এর ফ্রি Key যোগ করলে একটির সার্ভার ব্যস্ত থাকলেও অন্যটি দিয়ে সাথে সাথেই কাজ হবে!)`);
+                }
             } finally {
+                currentTurnImgs = [];
                 aiBusy = false; document.getElementById('aiSendBtn').disabled = false;
             }
         }
@@ -2010,14 +2472,17 @@ Rules:
             feed.appendChild(d); feed.scrollTop = feed.scrollHeight;
         }
 
-        function appendAiBotResponse(text, toolLogs, draftIds, genUrls) {
+        function appendAiBotResponse(text, toolLogs, draftIds, genUrls, providerLabel='') {
             const feed = document.getElementById('aiFeed');
             const d = document.createElement('div');
             d.className = 'ai-msg bot';
 
             let html = '';
-            if (toolLogs.length) {
-                html += `<div>${toolLogs.map(t=>`<span class="ai-tool-badge"><i class="fa-solid fa-check-circle"></i> ${esc(t.name)}</span>`).join('')}</div>`;
+            if (providerLabel || toolLogs.length) {
+                html += `<div>`;
+                if (providerLabel) html += `<span class="ai-prov-badge"><i class="fa-solid fa-bolt"></i> ${esc(providerLabel)}</span>`;
+                html += toolLogs.map(t=>`<span class="ai-tool-badge"><i class="fa-solid fa-check-circle"></i> ${esc(t.name)}</span>`).join('');
+                html += `</div>`;
             }
             html += `<div>${esc(text).replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')}</div>`;
 
@@ -2061,3 +2526,122 @@ Rules:
     </script>
 </body>
 </html>
+
+২. আপনার মেইন সাইট (index.html)-এ ভিজিটর ট্র্যাকিং চালু করার কোড
+
+ভিজিটরের নাম, ফোন (যদি লগইন করা থাকে), লোকেশন, ডিভাইস, তারিখ ও সময় অটোমেটিক
+আপনার এডমিনের Visitor Analytics & Logs ট্যাবে পাঠাতে নিচের কোডটি আপনার
+index.html ফাইলের একদম নিচে </body> ট্যাগের ঠিক আগে পেস্ট করে দিন:
+
+<!-- CHITRO MART Auto Visitor Tracker -->
+<script>
+(function () {
+    const FB_LOG_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
+    const SESS_KEY = "cm_visit_log_key_v1";
+
+    function detectLoggedUser() {
+        let name = "", phone = "";
+        const tryExtract = obj => {
+            if (!obj || typeof obj !== "object") return;
+            if (!phone && obj.phone && /^01[0-9]{9}$/.test(String(obj.phone).trim())) phone = String(obj.phone).trim();
+            if (!name && obj.name && typeof obj.name === "string") name = obj.name.trim();
+        };
+        try {
+            if (window.currentUser) tryExtract(window.currentUser);
+            for (const store of [localStorage, sessionStorage]) {
+                for (let i = 0; i < store.length; i++) {
+                    const k = store.key(i);
+                    if (!k || k.includes("adm")) continue;
+                    const raw = store.getItem(k);
+                    if (raw && raw.startsWith("{")) { try { tryExtract(JSON.parse(raw)); } catch (e) {} }
+                }
+            }
+        } catch (e) {}
+        return { name: name || "Guest", phone: phone || "" };
+    }
+
+    function detectDevice() {
+        const ua = navigator.userAgent || "";
+        const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+        const os = /Android/i.test(ua) ? "Android" : (/iPhone|iPad/i.test(ua) ? "iOS" : (/Windows/i.test(ua) ? "Windows" : (/Mac/i.test(ua) ? "Mac" : "Linux")));
+        const br = /Edg/i.test(ua) ? "Edge" : (/Chrome/i.test(ua) ? "Chrome" : (/Firefox/i.test(ua) ? "Firefox" : (/Safari/i.test(ua) ? "Safari" : "Browser")));
+        return { full: `${isMob ? "Mobile" : "Desktop"} (${os} • ${br})`, short: `${isMob ? "Mobile" : "PC"} • ${os}` };
+    }
+
+    async function fetchGeo() {
+        try {
+            const r = await fetch("https://ipwho.is/");
+            const d = await r.json();
+            if (d && d.success !== false) {
+                return { location: [d.city, d.region, d.country].filter(Boolean).join(", ") || "Bangladesh", ip: d.ip || "" };
+            }
+        } catch (e) {}
+        try {
+            const r2 = await fetch("https://get.geojs.io/v1/ip/geo.json");
+            const d2 = await r2.json();
+            return { location: [d2.city, d2.region, d2.country].filter(Boolean).join(", ") || "Unknown", ip: d2.ip || "" };
+        } catch (e) {}
+        return { location: "Unknown", ip: "" };
+    }
+
+    async function logVisit() {
+        const user = detectLoggedUser();
+        const existingKey = sessionStorage.getItem(SESS_KEY);
+
+        // If already logged this session, upgrade Guest -> Customer if they just logged in!
+        if (existingKey) {
+            if (user.phone || user.name !== "Guest") {
+                fetch(`${FB_LOG_URL}/visitorLogs/${existingKey}.json`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: user.name, phone: user.phone })
+                }).catch(() => {});
+            }
+            return;
+        }
+
+        const dev = detectDevice();
+        const geo = await fetchGeo();
+        const now = new Date();
+        const payload = {
+            name: user.name,
+            phone: user.phone,
+            location: geo.location,
+            ip: geo.ip,
+            device: dev.full,
+            deviceShort: dev.short,
+            page: (location.pathname + location.hash) || "/",
+            ts: now.getTime(),
+            dateIso: now.toISOString().slice(0, 10),
+            dateText: now.toLocaleDateString("bn-BD"),
+            timeText: now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+        };
+
+        try {
+            const res = await fetch(`${FB_LOG_URL}/visitorLogs.json`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data && data.name) sessionStorage.setItem(SESS_KEY, data.name);
+        } catch (e) {}
+    }
+
+    window.addEventListener("load", () => {
+        setTimeout(logVisit, 1200);
+        // Re-check periodically in case user logs in after opening the page
+        setInterval(() => {
+            const u = detectLoggedUser();
+            const k = sessionStorage.getItem(SESS_KEY);
+            if (k && (u.phone || u.name !== "Guest")) {
+                fetch(`${FB_LOG_URL}/visitorLogs/${k}.json`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: u.name, phone: u.phone })
+                }).catch(() => {});
+            }
+        }, 10000);
+    });
+})();
+</script>
