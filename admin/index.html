@@ -2524,16 +2524,7 @@ Rules:
             feed.appendChild(d); feed.scrollTop = feed.scrollHeight;
         }
     </script>
-</body>
-</html>
-
-২. আপনার মেইন সাইট (index.html)-এ ভিজিটর ট্র্যাকিং চালু করার কোড
-
-ভিজিটরের নাম, ফোন (যদি লগইন করা থাকে), লোকেশন, ডিভাইস, তারিখ ও সময় অটোমেটিক
-আপনার এডমিনের Visitor Analytics & Logs ট্যাবে পাঠাতে নিচের কোডটি আপনার
-index.html ফাইলের একদম নিচে </body> ট্যাগের ঠিক আগে পেস্ট করে দিন:
-
-<!-- CHITRO MART Auto Visitor Tracker -->
+    <!-- CHITRO MART Auto Visitor Tracker -->
 <script>
 (function () {
     const FB_LOG_URL = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
@@ -2645,3 +2636,456 @@ index.html ফাইলের একদম নিচে </body> ট্যাগ�
     });
 })();
 </script>
+    <!-- CHITRO AI Auto-Crop, HD Vision, Inline Edit & Conditional Coupon Patch v3.3 -->
+<script>
+(function () {
+    // 1. Extend AI_TOOLS & rebuild OPENAI_TOOLS with product_photo_box & conditional coupon rules
+    try {
+        const prodTool = AI_TOOLS[0].function_declarations.find(f => f.name === 'prepare_or_publish_product');
+        if (prodTool && prodTool.parameters && prodTool.parameters.properties) {
+            prodTool.parameters.properties.product_photo_box = {
+                type: "ARRAY",
+                items: { type: "NUMBER" },
+                description: "Tight bounding box [ymin, xmin, ymax, xmax] on a 0-1000 scale covering ONLY the actual product image/photo inside a webpage or app screenshot. Exclude surrounding text, prices, buttons, and white page margins."
+            };
+        }
+        const cpTool = AI_TOOLS[0].function_declarations.find(f => f.name === 'manage_coupon');
+        if (cpTool && cpTool.parameters && cpTool.parameters.properties) {
+            cpTool.parameters.properties.min_qty = {
+                type: "INTEGER",
+                description: "Minimum total item quantity in cart required to apply this coupon (e.g. 2 for combo offers)"
+            };
+            cpTool.parameters.properties.min_amount = {
+                type: "NUMBER",
+                description: "Minimum cart subtotal in BDT required to apply this coupon"
+            };
+        }
+        if (Array.isArray(OPENAI_TOOLS)) {
+            OPENAI_TOOLS.length = 0;
+            AI_TOOLS[0].function_declarations.forEach(fn => {
+                OPENAI_TOOLS.push({
+                    type: 'function',
+                    function: { name: fn.name, description: fn.description, parameters: normalizeSchemaTypes(fn.parameters) }
+                });
+            });
+        }
+    } catch (e) {}
+
+    // 2. High-Resolution Screenshot Loader (prevents blurry small prices)
+    window.addAiImageFiles = async function (files) {
+        for (const f of files.slice(0, 6)) {
+            const dataUrl = await new Promise(res => {
+                const r = new FileReader();
+                r.onload = ev => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const maxDim = 1800;
+                        const sc = Math.min(1, maxDim / Math.max(img.width, img.height));
+                        const cv = document.createElement('canvas');
+                        cv.width = Math.round(img.width * sc);
+                        cv.height = Math.round(img.height * sc);
+                        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+                        res(cv.toDataURL('image/webp', 0.92));
+                    };
+                    img.src = ev.target.result;
+                };
+                r.readAsDataURL(f);
+            });
+            aiPendingImgs.push(dataUrl);
+        }
+        renderAiDropBar();
+    };
+
+    // 3. Auto-Crop Product Photo from Bounding Box + Gentle White Margin Cleanup
+    async function autoCropImageByBox(dataUrl, box) {
+        if (!dataUrl || !dataUrl.startsWith('data:image/')) return dataUrl;
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => {
+                let b = Array.isArray(box) && box.length === 4 ? box.map(Number) : null;
+                if (b && b.some(n => Number.isNaN(n))) b = null;
+                if (b && Math.max(...b) <= 1.05) b = b.map(n => n * 1000);
+
+                let sx = 0, sy = 0, sw = img.width, sh = img.height;
+                if (b) {
+                    const [ymin, xmin, ymax, xmax] = b;
+                    const bw = xmax - xmin, bh = ymax - ymin;
+                    // Only crop if box is a genuine sub-region (>5% and <95% of full screenshot)
+                    if (bw > 50 && bh > 50 && !(ymin < 25 && xmin < 25 && ymax > 975 && xmax > 975)) {
+                        sx = Math.max(0, Math.round((xmin / 1000) * img.width));
+                        sy = Math.max(0, Math.round((ymin / 1000) * img.height));
+                        sw = Math.min(img.width - sx, Math.round((bw / 1000) * img.width));
+                        sh = Math.min(img.height - sy, Math.round((bh / 1000) * img.height));
+                    }
+                }
+
+                const outScale = Math.min(1, 760 / Math.max(sw, sh));
+                const cw = Math.max(20, Math.round(sw * outScale));
+                const ch = Math.max(20, Math.round(sh * outScale));
+                const cv = document.createElement('canvas');
+                cv.width = cw; cv.height = ch;
+                const ctx = cv.getContext('2d');
+                ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+
+                // Gentle whitespace margin trim if box still has webpage white edges
+                if (b) {
+                    try {
+                        const idata = ctx.getImageData(0, 0, cw, ch).data;
+                        const isNearWhite = (x, y) => {
+                            const i = (y * cw + x) * 4;
+                            return idata[i] > 243 && idata[i + 1] > 243 && idata[i + 2] > 243;
+                        };
+                        const maxTrimX = Math.floor(cw * 0.14), maxTrimY = Math.floor(ch * 0.14);
+                        let top = 0, bottom = ch - 1, left = 0, right = cw - 1;
+                        const rowWhite = y => { for (let x = 0; x < cw; x += 4) if (!isNearWhite(x, y)) return false; return true; };
+                        const colWhite = x => { for (let y = 0; y < ch; y += 4) if (!isNearWhite(x, y)) return false; return true; };
+                        while (top < maxTrimY && rowWhite(top)) top++;
+                        while (bottom > ch - 1 - maxTrimY && rowWhite(bottom)) bottom--;
+                        while (left < maxTrimX && colWhite(left)) left++;
+                        while (right > cw - 1 - maxTrimX && colWhite(right)) right--;
+                        const nw = right - left + 1, nh = bottom - top + 1;
+                        if (nw > cw * 0.55 && nh > ch * 0.55 && (top > 4 || left > 4 || bottom < ch - 5 || right < cw - 5)) {
+                            const pad = 6;
+                            const fx = Math.max(0, left - pad), fy = Math.max(0, top - pad);
+                            const fw = Math.min(cw - fx, nw + pad * 2), fh = Math.min(ch - fy, nh + pad * 2);
+                            const cv2 = document.createElement('canvas');
+                            cv2.width = fw; cv2.height = fh;
+                            cv2.getContext('2d').drawImage(cv, fx, fy, fw, fh, 0, 0, fw, fh);
+                            resolve(cv2.toDataURL('image/webp', 0.88));
+                            return;
+                        }
+                    } catch (e) {}
+                }
+                resolve(cv.toDataURL('image/webp', 0.88));
+            };
+            img.onerror = () => resolve(dataUrl);
+            img.src = dataUrl;
+        });
+    }
+
+    // 4. Strict Anti-Hallucination Vision + Conditional Coupon System Prompt
+    window.buildAiSystemPrompt = function () {
+        const cats = storeData.categories.map(c => c.name).join(', ') || 'General';
+        const autoPub = document.getElementById('aiAutoPub').checked;
+        const safeGuard = document.getElementById('aiSafeGuard').checked;
+        return `You are CHITRO AI Manager, an intelligent Bengali + Banglish + English conversational assistant controlling the CHITRO MART BD e-commerce Admin Portal.
+Current date/time: ${new Date().toLocaleString('en-BD')}.
+Available Categories in store: [${cats}].
+Auto-Publish Mode: ${autoPub ? 'ON (publish immediately)' : 'OFF (prepare draft unless user explicitly asks to publish now)'}.
+Safe Guard Mode: ${safeGuard ? 'ON (ask confirmation before deleting or enabling maintenance mode)' : 'OFF'}.
+STRICT ACCURACY RULES:
+1. When user sends a product screenshot (or multiple screenshots):
+   - Read numbers carefully digit-by-digit! Never guess or confuse 8/9/6/0.
+   - Distinguish Wholesale / Reseller / Base Price (buy_price) vs Suggested / MRP / Regular Price (suggested_price) vs Delivery Charge (do NOT treat delivery fee as product price).
+   - Extract exact product name, SKU, sizes, and fabric/highlights ONLY if clearly visible or explicitly stated. Do NOT invent fake sizes or specs that are not shown.
+   - CRITICAL FOR PHOTO: Always locate the actual product image region inside the screenshot and pass 'product_photo_box': [ymin, xmin, ymax, xmax] (0 to 1000 scale, tight around ONLY the product photo—exclude surrounding webpage text, price boxes, and white space).
+   - Match the closest category from [${cats}] (or suggest a fitting one).
+   - Call 'prepare_or_publish_product' for EACH product detected! Pass buy_price & suggested_price so the Reseller Pricing Engine calculates selling price automatically. Pass exact_price ONLY if the user explicitly demanded a fixed selling price.
+2. Coupons support conditional rules ('min_qty' for minimum item quantity like 2+ items, and 'min_amount' for minimum cart subtotal in BDT). Use 'manage_coupon' with those fields whenever the user asks for combo or minimum-order coupons.
+3. For orders, tracking, customer Live Chat, categories, or site settings: use the tools directly and reply clearly in friendly Bengali.
+4. For image/banner generation: call 'generate_ai_image' with a detailed English prompt.`;
+    };
+
+    // 5. Prioritize Smart Vision Gemini Models (3.8 / 3.6) first when screenshots are attached
+    const origRunGemini = window.runGeminiProvider;
+    window.runGeminiProvider = async function (gKey, sysPrompt, userText, imgsForTurn, thinkingEl, toolLogs, createdDraftIds, createdGenUrls) {
+        if (!imgsForTurn || !imgsForTurn.length) {
+            return origRunGemini(gKey, sysPrompt, userText, imgsForTurn, thinkingEl, toolLogs, createdDraftIds, createdGenUrls);
+        }
+        const chosen = document.getElementById('aiModel').value;
+        const candidates = [...new Set(['gemini-3.8-flash', 'gemini-3.6-flash', chosen, 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-2.5-flash'])];
+        let lastErr = '';
+
+        for (const mdl of candidates) {
+            const localContents = buildGeminiContents(userText, imgsForTurn);
+            let modelFailed = false;
+
+            for (let round = 0; round < 6; round++) {
+                thinkingEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> HD Vision: Gemini (${esc(mdl)})...`;
+                let res, json;
+                try {
+                    res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-goog-api-key': gKey },
+                        body: JSON.stringify({
+                            system_instruction: { parts: [{ text: sysPrompt }] },
+                            contents: localContents,
+                            tools: AI_TOOLS
+                        })
+                    });
+                    json = await res.json();
+                } catch (netErr) {
+                    lastErr = `Gemini network error (${netErr.message})`;
+                    modelFailed = true; break;
+                }
+
+                if (!res.ok || !json?.candidates?.[0]) {
+                    lastErr = json?.error?.message || `HTTP ${res.status}`;
+                    if (res.status === 400 && /api key|API_KEY_INVALID/i.test(lastErr)) throw new Error(`Gemini Key Invalid: ${lastErr}`);
+                    modelFailed = true;
+                    if (round === 0) await sleep(500);
+                    break;
+                }
+
+                const cand = json.candidates[0];
+                const modelContent = cand.content || { role: 'model', parts: [] };
+                localContents.push(modelContent);
+                const parts = modelContent.parts || [];
+                const fnCalls = parts.filter(p => p.functionCall);
+                const texts = parts.filter(p => p.text).map(p => p.text).join('\n').trim();
+
+                if (!fnCalls.length) return { text: texts || 'কাজটি সম্পন্ন হয়েছে!', providerLabel: `Gemini HD • ${mdl}` };
+
+                const toolRespParts = [];
+                for (const fcPart of fnCalls) {
+                    const fc = fcPart.functionCall;
+                    thinkingEl.innerHTML = `<i class="fa-solid fa-gear fa-spin"></i> Running ${esc(fc.name)} (${esc(mdl)})...`;
+                    const result = await executeAiTool(fc.name, fc.args || {});
+                    toolLogs.push({ name: fc.name, result });
+                    if (result.draftId) createdDraftIds.push(result.draftId);
+                    if (fc.name === 'generate_ai_image' && result.imageUrl) createdGenUrls.push(result.imageUrl);
+                    toolRespParts.push({ functionResponse: { name: fc.name, response: { result } } });
+                }
+                localContents.push({ role: 'user', parts: toolRespParts });
+            }
+            if (toolLogs.length > 0) return { text: 'কাজটি সম্পন্ন হয়েছে!', providerLabel: `Gemini HD • ${mdl}` };
+        }
+        throw new Error(lastErr || 'All Gemini vision models are currently busy');
+    };
+
+    // 6. Enhanced executeAiTool: Auto-Crop Product Photo + Conditional Coupons
+    const origExecuteAiTool = window.executeAiTool;
+    window.executeAiTool = async function (name, args) {
+        if (name === 'prepare_or_publish_product') {
+            const autoPub = document.getElementById('aiAutoPub').checked;
+            const pricing = calcResellPricing(args.buy_price, args.suggested_price, args.exact_price);
+            const finalOld = args.old_price || pricing.oldPrice;
+
+            let rawImgs = [];
+            const idxs = Array.isArray(args.image_indices) && args.image_indices.length ? args.image_indices : (currentTurnImgs.length ? [0] : []);
+            for (const ix of idxs) { if (currentTurnImgs[ix]) rawImgs.push(currentTurnImgs[ix]); }
+            if (!rawImgs.length && currentTurnImgs.length) rawImgs.push(currentTurnImgs[0]);
+            if (!rawImgs.length && args.image_url && /^https?:\/\/|^data:image\//i.test(args.image_url)) rawImgs.push(args.image_url);
+            if (!rawImgs.length && aiGenImgs.length) rawImgs.push(aiGenImgs[aiGenImgs.length - 1]);
+            if (!rawImgs.length) rawImgs.push('https://placehold.co/500x500/0f172a/f59e0b?text=NO+PHOTO');
+
+            // Auto-crop primary screenshot image if bounding box provided
+            let finalImgs = [...rawImgs];
+            if (finalImgs[0] && finalImgs[0].startsWith('data:image/')) {
+                finalImgs[0] = await autoCropImageByBox(finalImgs[0], args.product_photo_box);
+            }
+
+            const draft = {
+                draftId: 'dr_' + Date.now() + '_' + Math.floor(Math.random() * 999),
+                editId: args.edit_product_id || '',
+                name: args.name,
+                sku: (args.sku || ('CM-' + Math.floor(1000 + Math.random() * 8999))).toUpperCase(),
+                price: pricing.sellPrice,
+                oldPrice: finalOld,
+                buyPrice: pricing.buyPrice,
+                category: args.category || (storeData.categories[0]?.name || 'General'),
+                sizes: args.sizes || '',
+                shortSpec: args.short_spec || '',
+                spec: args.spec || '',
+                isHot: args.is_hot !== false,
+                images: finalImgs,
+                rawImages: rawImgs
+            };
+
+            if (autoPub || args.force_publish || args.edit_product_id) {
+                const published = await publishAiDraftObj(draft);
+                return { published: true, autoCropped: !!args.product_photo_box, product: { id: published.id, name: published.name, price: published.price, oldPrice: published.oldPrice, buyPrice: published.buyPrice, sku: published.sku, category: published.category } };
+            } else {
+                aiDrafts.push(draft);
+                return { drafted: true, draftId: draft.draftId, autoCropped: !!args.product_photo_box, calculatedPricing: pricing, note: "Draft card rendered with Auto-Cropped photo & inline edit controls." };
+            }
+        }
+
+        if (name === 'manage_coupon') {
+            const code = (args.code || '').trim().toUpperCase();
+            if (!code) return { error: 'Coupon code required' };
+            if (args.action === 'delete') {
+                storeData.coupons = storeData.coupons.filter(c => c.code !== code);
+                await syncStoreToCloud();
+                return { ok: true, deleted: code };
+            } else {
+                const minQty = Math.max(0, Number(args.min_qty) || 0);
+                const minAmount = Math.max(0, Number(args.min_amount) || 0);
+                storeData.coupons = storeData.coupons.filter(c => c.code !== code);
+                storeData.coupons.push({
+                    id: 'cp_' + Date.now(),
+                    code,
+                    type: args.type === 'flat' ? 'flat' : 'pct',
+                    value: Number(args.value) || 10,
+                    minQty,
+                    minAmount
+                });
+                await syncStoreToCloud();
+                return { ok: true, created: code, minQty, minAmount };
+            }
+        }
+
+        return origExecuteAiTool(name, args);
+    };
+
+    // 7. Manual Crop Modal always opens from original full raw screenshot when editing a draft
+    const origOpenCropModal = window.openCropModal;
+    window.openCropModal = function (idx, draftId = '') {
+        if (draftId) {
+            const d = aiDrafts.find(x => x.draftId === draftId);
+            if (d && Array.isArray(d.rawImages) && d.rawImages[0]) {
+                closeAllAdmModals();
+                cropIdx = -1; cropTargetDraftId = draftId;
+                cropImgObj = new Image();
+                cropImgObj.onload = () => {
+                    const cv = document.getElementById('cropCanvas');
+                    const maxW = Math.min(480, window.innerWidth - 60);
+                    const sc = Math.min(1, maxW / cropImgObj.width, 400 / cropImgObj.height);
+                    cv.width = Math.round(cropImgObj.width * sc);
+                    cv.height = Math.round(cropImgObj.height * sc);
+                    cropBox = { x: Math.round(cv.width * 0.08), y: Math.round(cv.height * 0.12), w: Math.round(cv.width * 0.84), h: Math.round(cv.height * 0.58) };
+                    drawCropCanvas();
+                    document.getElementById('overlay').classList.add('active');
+                    document.getElementById('cropModal').classList.add('active');
+                };
+                cropImgObj.src = d.rawImages[0];
+                return;
+            }
+        }
+        return origOpenCropModal(idx, draftId);
+    };
+
+    // 8. Inline Editable Draft Card inside AI Chat
+    window.updateDraftField = function (draftId, field, value) {
+        const d = aiDrafts.find(x => x.draftId === draftId);
+        if (!d) return;
+        if (field === 'price' || field === 'oldPrice' || field === 'buyPrice') {
+            d[field] = value === '' ? null : Number(value);
+        } else {
+            d[field] = value;
+        }
+        const profEl = document.getElementById('drProfit_' + draftId);
+        if (profEl) {
+            const p = Number(d.price || 0) - Number(d.buyPrice || 0);
+            profEl.textContent = d.buyPrice ? `লাভ: ${p >= 0 ? '+' : ''}৳${fmt(p)}` : '';
+        }
+    };
+
+    window.appendAiBotResponse = function (text, toolLogs, draftIds, genUrls, providerLabel = '') {
+        const feed = document.getElementById('aiFeed');
+        const d = document.createElement('div');
+        d.className = 'ai-msg bot';
+
+        let html = '';
+        if (providerLabel || toolLogs.length) {
+            html += `<div>`;
+            if (providerLabel) html += `<span class="ai-prov-badge"><i class="fa-solid fa-bolt"></i> ${esc(providerLabel)}</span>`;
+            html += toolLogs.map(t => `<span class="ai-tool-badge"><i class="fa-solid fa-check-circle"></i> ${esc(t.name)}</span>`).join('');
+            html += `</div>`;
+        }
+        html += `<div>${esc(text).replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>')}</div>`;
+
+        const catNames = [...new Set([...(storeData.categories || []).map(c => c.name), 'General'])];
+
+        draftIds.forEach(did => {
+            const dr = aiDrafts.find(x => x.draftId === did);
+            if (!dr) return;
+            if (!catNames.includes(dr.category)) catNames.unshift(dr.category);
+            const catOpts = catNames.map(cn => `<option value="${esc(cn)}" ${cn === dr.category ? 'selected' : ''}>${esc(cn)}</option>`).join('');
+            const profitVal = dr.buyPrice ? (Number(dr.price || 0) - Number(dr.buyPrice || 0)) : 0;
+
+            html += `<div class="ai-card" style="flex-direction:column;gap:8px">
+                <div style="display:flex;gap:11px;align-items:flex-start;width:100%">
+                    <img id="draftImg_${esc(dr.draftId)}" src="${dr.images[0] || ''}" style="width:82px;height:82px">
+                    <div class="ai-card-meta" style="width:100%">
+                        <input type="text" value="${esc(dr.name)}" oninput="updateDraftField('${escAttr(dr.draftId)}','name',this.value)" placeholder="প্রোডাক্টের নাম" style="width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-weight:700;background:var(--surface);color:var(--text);margin-bottom:6px">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px">
+                            <div><small style="color:var(--muted);font-size:10px;display:block">কেনা (Buy ৳)</small><input type="number" value="${dr.buyPrice ?? ''}" oninput="updateDraftField('${escAttr(dr.draftId)}','buyPrice',this.value)" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--surface);color:var(--text)"></div>
+                            <div><small style="color:var(--primary);font-size:10px;display:block;font-weight:700">বিক্রয় (Sell ৳)</small><input type="number" value="${dr.price ?? ''}" oninput="updateDraftField('${escAttr(dr.draftId)}','price',this.value)" style="width:100%;padding:4px 6px;border:1px solid var(--primary);border-radius:6px;font-size:12px;font-weight:700;background:var(--surface);color:var(--primary)"></div>
+                            <div><small style="color:var(--muted);font-size:10px;display:block">Old Price (৳)</small><input type="number" value="${dr.oldPrice ?? ''}" oninput="updateDraftField('${escAttr(dr.draftId)}','oldPrice',this.value)" style="width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--surface);color:var(--text)"></div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+                            <select onchange="updateDraftField('${escAttr(dr.draftId)}','category',this.value)" style="padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px;background:var(--surface);color:var(--text)">${catOpts}</select>
+                            <input type="text" value="${esc(dr.sizes || '')}" oninput="updateDraftField('${escAttr(dr.draftId)}','sizes',this.value)" placeholder="Sizes (M, L, XL)" style="padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px;background:var(--surface);color:var(--text)">
+                            <input type="text" value="${esc(dr.sku || '')}" oninput="updateDraftField('${escAttr(dr.draftId)}','sku',this.value)" placeholder="SKU" style="padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px;background:var(--surface);color:var(--text)">
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;width:100%;border-top:1px dashed var(--border);padding-top:7px">
+                    <small id="drProfit_${esc(dr.draftId)}" style="color:var(--gold);font-weight:700">${dr.buyPrice ? `লাভ: ${profitVal >= 0 ? '+' : ''}৳${fmt(profitVal)}` : ''}</small>
+                    <div class="ai-card-actions" style="margin-top:0">
+                        <button type="button" class="btn-sm b-green" onclick="confirmPublishDraft('${escAttr(dr.draftId)}',this)"><i class="fa-solid fa-rocket"></i> Publish Live</button>
+                        <button type="button" class="btn-sm b-purple" onclick="openCropModal(-1,'${escAttr(dr.draftId)}')"><i class="fa-solid fa-crop-simple"></i> Crop Photo</button>
+                        <button type="button" class="btn-sm b-blue" onclick="loadDraftToForm('${escAttr(dr.draftId)}')"><i class="fa-solid fa-pen"></i> Full Form</button>
+                    </div>
+                </div>
+            </div>`;
+        });
+
+        genUrls.forEach(url => {
+            html += `<div class="ai-gen-wrap">
+                <img src="${esc(url)}" alt="AI Generated">
+                <div class="ai-card-actions">
+                    <button type="button" class="btn-sm b-purple" onclick="attachGenImgToPending('${escAttr(url)}')"><i class="fa-solid fa-plus"></i> Attach to Product</button>
+                    <button type="button" class="btn-sm b-blue" onclick="applyGenImgToSlide('${escAttr(url)}')"><i class="fa-solid fa-images"></i> Add to Hero Slider</button>
+                    <button type="button" class="btn-sm b-amber" onclick="applyGenImgToPopup('${escAttr(url)}')"><i class="fa-solid fa-gift"></i> Set Offer Popup</button>
+                    <a href="${esc(url)}" target="_blank" download="ai-image.png" class="btn-sm b-green"><i class="fa-solid fa-download"></i> Open</a>
+                </div>
+            </div>`;
+        });
+
+        d.innerHTML = html;
+        feed.appendChild(d); feed.scrollTop = feed.scrollHeight;
+    };
+
+    // 9. Conditional Coupons UI & Save Logic (Minimum Qty & Minimum Order Amount)
+    function injectConditionalCouponFields() {
+        const cpVal = document.getElementById('cpVal');
+        if (!cpVal || document.getElementById('cpMinQty')) return;
+        const form = cpVal.closest('form');
+        if (!form) return;
+        const row = document.createElement('div');
+        row.className = 'form-row';
+        row.style.cssText = 'grid-column:1/-1;margin-top:2px';
+        row.innerHTML = `
+            <div class="fg" style="margin-bottom:6px"><input type="number" id="cpMinQty" min="0" placeholder="Min Qty (যেমন: 2 — খালি রাখলে শর্ত নেই)"></div>
+            <div class="fg" style="margin-bottom:6px"><input type="number" id="cpMinAmt" min="0" placeholder="Min Order ৳ (যেমন: 1000 — ঐচ্ছিক)"></div>
+        `;
+        form.appendChild(row);
+    }
+
+    window.saveCoupon = async function (e) {
+        e.preventDefault();
+        const code = document.getElementById('cpCode').value.trim().toUpperCase();
+        const type = document.getElementById('cpType').value;
+        const value = Number(document.getElementById('cpVal').value);
+        const minQty = Number(document.getElementById('cpMinQty')?.value || 0);
+        const minAmount = Number(document.getElementById('cpMinAmt')?.value || 0);
+        storeData.coupons = storeData.coupons.filter(c => c.code !== code);
+        storeData.coupons.push({ id: 'cp_' + Date.now(), code, type, value, minQty, minAmount });
+        e.target.reset();
+        await syncStoreToCloud();
+        showToast('শর্তযুক্ত কুপন তৈরি হয়েছে!');
+    };
+
+    const origRenderCatalogLists = window.renderCatalogLists;
+    window.renderCatalogLists = function () {
+        origRenderCatalogLists();
+        const listEl = document.getElementById('admCouponList');
+        if (listEl) {
+            listEl.innerHTML = storeData.coupons.map(c => {
+                const conds = [];
+                if (Number(c.minQty) > 0) conds.push(`Min ${Number(c.minQty)}টি পণ্য`);
+                if (Number(c.minAmount) > 0) conds.push(`Min ৳${fmt(c.minAmount)}`);
+                const condBadge = conds.length ? ` <span class="status-pill b-amber">${esc(conds.join(' • '))}</span>` : '';
+                return `<div class="item-row"><span><b>${esc(c.code)}</b> (${c.type === 'pct' ? c.value + '%' : '৳' + c.value} ছাড়)${condBadge}</span><button class="btn-sm b-red" onclick="deleteCoupon('${escAttr(c.id)}')"><i class="fa-solid fa-trash"></i></button></div>`;
+            }).join('') || '<small style="color:var(--muted)">কোনো কুপন নেই</small>';
+        }
+    };
+
+    injectConditionalCouponFields();
+    if (Array.isArray(storeData.coupons)) renderCatalogLists();
+})();
+</script>
+</body>
+</html>
