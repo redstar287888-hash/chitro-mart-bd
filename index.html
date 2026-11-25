@@ -4959,7 +4959,7 @@
   if (currentUser) syncCurrentUserProfile();
 })();
 </script>
-   <!-- CHITRO MART Premium Storefront JS Upgrade v3.8 (Paste right before </body>) -->
+    <!-- CHITRO MART Ultimate Storefront JS Upgrade v3.9 (Paste right before </body>) -->
 <script>
 (function () {
     const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
@@ -4971,6 +4971,7 @@
     const sleepMs = ms => new Promise(r => setTimeout(r, ms));
 
     let cachedProducts = [];
+    let cachedSettings = {};
 
     function miniToast(msg) {
         if (typeof showToast === "function") { showToast(msg); return; }
@@ -5001,7 +5002,7 @@
     }
 
     // ---------------------------------------------------------
-    // 1. Detect Logged-in Customer & Chat ID
+    // 1. Detect Logged-in Customer & Store Cache
     // ---------------------------------------------------------
     function detectCustomer() {
         let name = "", phone = "", chatId = "";
@@ -5028,6 +5029,25 @@
         } catch (e) {}
         if (!chatId && phone) chatId = "u_" + phone;
         return { name: name || "Guest", phone, chatId };
+    }
+
+    async function loadStoreCache() {
+        try {
+            const [pRes, sRes] = await Promise.all([
+                fetch(`${FB_URL_SF}/store/products.json?t=${Date.now()}`, { cache: "no-store" }),
+                fetch(`${FB_URL_SF}/store/settings.json?t=${Date.now()}`, { cache: "no-store" })
+            ]);
+            const pData = await pRes.json();
+            const sData = await sRes.json();
+            if (pData) cachedProducts = Array.isArray(pData) ? pData.filter(Boolean) : Object.values(pData).filter(Boolean);
+            if (sData && typeof sData === "object") cachedSettings = sData;
+        } catch (e) {}
+        if (!cachedProducts.length) {
+            try {
+                if (typeof products !== "undefined" && Array.isArray(products)) cachedProducts = products;
+                else if (typeof storeData !== "undefined" && Array.isArray(storeData.products)) cachedProducts = storeData.products;
+            } catch (e) {}
+        }
     }
 
     // ---------------------------------------------------------
@@ -5066,80 +5086,309 @@
     }
 
     // ---------------------------------------------------------
-    // 3. SMART SHARE BUTTON FIX + SHARED PRODUCT DEEP-LINK OPENER
+    // 3. PRODUCT DETAILS MODAL ENHANCER
+    //    - Adds Wishlist button beside Add to Cart & Order Now
+    //    - Fixes Share Popup (always opens on top!)
+    //    - Adds Discount % + Savings badge, WhatsApp Order, Trust Strip & Image Zoom
     // ---------------------------------------------------------
+    function findProductModalBox(startEl) {
+        let cur = startEl;
+        while (cur && cur !== document.body) {
+            const t = cur.textContent || "";
+            if (/Add to Cart/i.test(t) && /Order Now/i.test(t) && /৳/.test(t)) return cur;
+            cur = cur.parentElement;
+        }
+        return null;
+    }
+
+    function extractProductInfoFromModal(modal) {
+        const txt = modal ? (modal.textContent || "") : "";
+        const idMatch = txt.match(/ID:\s*([A-Za-z0-9_-]+)/i);
+        const skuMatch = txt.match(/SKU:\s*([A-Za-z0-9_-]+)/i);
+        let prodId = idMatch ? idMatch[1].trim() : "";
+        let sku = skuMatch ? skuMatch[1].trim() : "";
+
+        const heading = modal.querySelector("h1, h2, h3, h4");
+        let name = heading ? heading.textContent.trim() : "CHITRO MART Product";
+
+        const prices = Array.from(txt.matchAll(/৳\s*([\d,]+)/g)).map(m => Number(m[1].replace(/,/g, ""))).filter(Boolean);
+        let price = prices[0] || 0;
+        let oldPrice = prices[1] && prices[1] > prices[0] ? prices[1] : 0;
+
+        if (!prodId && cachedProducts.length) {
+            const matched = cachedProducts.find(p => p.name && name.toLowerCase().includes(p.name.toLowerCase()));
+            if (matched) {
+                prodId = matched.id || "";
+                if (!sku) sku = matched.sku || "";
+                if (!price) price = Number(matched.price || 0);
+                if (!oldPrice && matched.oldPrice) oldPrice = Number(matched.oldPrice);
+            }
+        }
+        return { prodId, sku, name, price, oldPrice };
+    }
+
+    function getWishlistStorageInfo() {
+        for (const store of [localStorage, sessionStorage]) {
+            try {
+                for (let i = 0; i < store.length; i++) {
+                    const k = store.key(i);
+                    if (!k || k.includes("adm")) continue;
+                    if (/wish/i.test(k)) {
+                        const raw = store.getItem(k);
+                        if (raw && raw.startsWith("[")) {
+                            try {
+                                const arr = JSON.parse(raw);
+                                if (Array.isArray(arr)) return { store, key: k, arr };
+                            } catch (e) {}
+                        }
+                    }
+                }
+            } catch (e) {}
+        }
+        return null;
+    }
+
+    function isProductInWishlist(prodId, prodName) {
+        try {
+            if (typeof wishlist !== "undefined" && Array.isArray(wishlist)) {
+                if (wishlist.some(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === prodName))) return true;
+            }
+        } catch (e) {}
+        const st = getWishlistStorageInfo();
+        if (st && st.arr.some(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === prodName))) return true;
+        return false;
+    }
+
+    function toggleWishlistItem(prodInfo, wishBtn) {
+        const { prodId, name } = prodInfo;
+        let toggledNatively = false;
+
+        // 1. Try finding the native heart button on the matching product card in the grid
+        const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
+        const card = cards.find(c => {
+            if (c.closest(".cm-share-backdrop") || c.closest("#cmRecentlyViewed")) return false;
+            const oc = c.innerHTML || "";
+            return (prodId && oc.includes(prodId)) || (name && (c.textContent || "").toLowerCase().includes(name.toLowerCase()) && /৳/.test(c.textContent || ""));
+        });
+        if (card) {
+            const heartBtn = Array.from(card.querySelectorAll("button, span, div")).find(el =>
+                /wish/i.test((el.getAttribute("onclick") || "") + " " + (el.className || "") + " " + (el.title || "")) ||
+                el.querySelector("i[class*='heart']")
+            );
+            if (heartBtn) {
+                heartBtn.click();
+                toggledNatively = true;
+            }
+        }
+
+        // 2. Also try global toggle functions if native card heart wasn't found
+        if (!toggledNatively && prodId) {
+            for (const fn of ["toggleWishlist", "toggleWish", "addToWishlist", "wishToggle"]) {
+                try {
+                    if (typeof window[fn] === "function") {
+                        window[fn](prodId);
+                        toggledNatively = true;
+                        break;
+                    }
+                } catch (e) {}
+            }
+        }
+
+        // 3. Fallback: update localStorage wishlist array directly
+        let nowSaved = false;
+        if (!toggledNatively) {
+            let st = getWishlistStorageInfo();
+            if (!st) st = { store: localStorage, key: "cm_wishlist", arr: [] };
+            const idx = st.arr.findIndex(x => String(x?.id || x) === String(prodId) || (x?.name && x.name === name));
+            if (idx > -1) {
+                st.arr.splice(idx, 1);
+                nowSaved = false;
+            } else {
+                st.arr.push(prodId || name);
+                nowSaved = true;
+            }
+            st.store.setItem(st.key, JSON.stringify(st.arr));
+            ["renderWishlist", "updateWishlist", "updateWishlistCount", "updateWishUI", "saveWishlist"].forEach(fn => {
+                try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
+            });
+            // Update header Wishlist counter badge if visible
+            const wishHeaderBtn = Array.from(document.querySelectorAll("header *, .header *, nav *, .topbar *")).find(el =>
+                /Wishlist/i.test(el.textContent || "") && /\d+/.test(el.textContent || "") && el.children.length <= 4
+            );
+            if (wishHeaderBtn) {
+                const cntEl = Array.from(wishHeaderBtn.querySelectorAll("span, small, b")).find(s => /^\d+$/.test((s.textContent || "").trim()));
+                if (cntEl) cntEl.textContent = String(st.arr.length);
+            }
+        } else {
+            nowSaved = isProductInWishlist(prodId, name);
+        }
+
+        wishBtn.classList.toggle("saved", nowSaved);
+        wishBtn.innerHTML = nowSaved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
+        miniToast(nowSaved ? "❤️ Wishlist-এ যুক্ত হয়েছে!" : "💔 Wishlist থেকে সরানো হয়েছে");
+    }
+
+    function openSharePopupForModal(modal) {
+        const info = extractProductInfoFromModal(modal);
+        const baseUrl = location.href.split(/[?#]/)[0];
+        const shareUrl = info.prodId ? `${baseUrl}?product=${encodeURIComponent(info.prodId)}` : baseUrl;
+        const shareText = `🔥 ${info.name}${info.price ? ` — মাত্র ৳${fmtNum(info.price)}!` : ""}\nএখনই অর্ডার করুন:\n${shareUrl}`;
+
+        copyTextSafe(shareUrl).then(ok => { if (ok) miniToast("🔗 প্রোডাক্ট লিংক কপি হয়েছে!"); });
+
+        document.querySelectorAll(".cm-share-backdrop").forEach(el => el.remove());
+        const bd = document.createElement("div");
+        bd.className = "cm-share-backdrop";
+        bd.innerHTML = `
+            <div class="cm-share-box">
+                <div class="cm-share-head">
+                    <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
+                    <button type="button" class="cm-share-close" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;line-height:1">&times;</button>
+                </div>
+                <p style="font-size:12px;color:#475569;margin-bottom:8px"><b>${escHtml(info.name)}</b>${info.price ? ` • <span style="color:#0ea646;font-weight:700">৳${fmtNum(info.price)}</span>` : ""}</p>
+                <div class="cm-share-url-row">
+                    <input type="text" value="${escHtml(shareUrl)}" readonly onclick="this.select()">
+                    <button type="button" id="cmShareCopyBtn" style="border:none;background:#0ea646;color:#fff;padding:0 12px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
+                </div>
+                <div class="cm-share-grid">
+                    <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                    <a class="cm-share-btn" style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                    <button type="button" id="cmShareCopyFullBtn" class="cm-share-btn" style="background:#0f172a"><i class="fa-solid fa-copy"></i> নাম+দামসহ কপি</button>
+                    ${navigator.share ? `<button type="button" id="cmShareNativeBtn" class="cm-share-btn" style="background:#6366f1"><i class="fa-solid fa-share-nodes"></i> আরও অ্যাপ</button>` : `<button type="button" id="cmShareDoneBtn" class="cm-share-btn" style="background:#64748b">বন্ধ করুন</button>`}
+                </div>
+            </div>
+        `;
+        bd.onclick = ev => { if (ev.target === bd) bd.remove(); };
+        bd.querySelector(".cm-share-close").onclick = () => bd.remove();
+        bd.querySelector("#cmShareCopyBtn").onclick = async () => { await copyTextSafe(shareUrl); miniToast("✅ লিংক কপি হয়েছে!"); };
+        bd.querySelector("#cmShareCopyFullBtn").onclick = async () => { await copyTextSafe(shareText); miniToast("✅ নাম, দাম ও লিংক কপি হয়েছে!"); };
+        const natBtn = bd.querySelector("#cmShareNativeBtn");
+        if (natBtn) natBtn.onclick = () => navigator.share({ title: info.name, text: `${info.name} — ৳${fmtNum(info.price)}`, url: shareUrl }).catch(() => {});
+        const doneBtn = bd.querySelector("#cmShareDoneBtn");
+        if (doneBtn) doneBtn.onclick = () => bd.remove();
+        document.body.appendChild(bd);
+    }
+
+    function getSelectedSizeFromModal(modal) {
+        const sizeBtns = Array.from(modal.querySelectorAll("button")).filter(b => {
+            const t = (b.textContent || "").trim();
+            return t.length > 0 && t.length <= 6 && /^(XS|S|M|L|XL|XXL|XXXL|\d{2})$/i.test(t);
+        });
+        const active = sizeBtns.find(b => {
+            if (/active|selected/i.test(b.className || "")) return true;
+            const bg = getComputedStyle(b).backgroundColor;
+            return bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "rgb(255, 255, 255)" && bg !== "rgb(248, 250, 252)";
+        });
+        return active ? active.textContent.trim() : "";
+    }
+
+    function enhanceOpenProductModal() {
+        try {
+            const addBtns = Array.from(document.querySelectorAll("button")).filter(b =>
+                /Add to Cart/i.test((b.textContent || "").trim()) && b.offsetHeight > 0
+            );
+            for (const addBtn of addBtns) {
+                const modal = findProductModalBox(addBtn);
+                if (!modal) continue;
+
+                const info = extractProductInfoFromModal(modal);
+                const prodSig = (info.prodId || info.name) + "_" + info.price;
+                if (modal.dataset.cmModalSig === prodSig && modal.querySelector(".cm-wish-modal-btn")) continue;
+                modal.dataset.cmModalSig = prodSig;
+
+                // Clean old injected extras if modal DOM was reused for a different product
+                modal.querySelectorAll(".cm-wish-modal-btn, .cm-wa-order-btn, .cm-save-badge, .cm-trust-strip").forEach(el => el.remove());
+
+                // 1. Add Wishlist button right beside Add to Cart & Order Now
+                const actionRow = addBtn.parentElement;
+                if (actionRow) {
+                    const st = getComputedStyle(actionRow);
+                    if (st.display === "grid") {
+                        actionRow.style.display = "flex";
+                        actionRow.style.flexWrap = "wrap";
+                        actionRow.style.gap = "8px";
+                        Array.from(actionRow.children).forEach(ch => { ch.style.flex = "1 1 auto"; });
+                    }
+                    const wishBtn = document.createElement("button");
+                    wishBtn.type = "button";
+                    wishBtn.className = "cm-wish-modal-btn";
+                    const saved = isProductInWishlist(info.prodId, info.name);
+                    wishBtn.classList.toggle("saved", saved);
+                    wishBtn.innerHTML = saved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
+                    wishBtn.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); toggleWishlistItem(info, wishBtn); };
+                    actionRow.appendChild(wishBtn);
+
+                    // 2. Add WhatsApp 1-Click Order button + Trust Strip below actionRow
+                    const waBtn = document.createElement("button");
+                    waBtn.type = "button";
+                    waBtn.className = "cm-wa-order-btn";
+                    waBtn.innerHTML = '<i class="fa-brands fa-whatsapp" style="font-size:16px"></i> WhatsApp-এ সরাসরি অর্ডার করুন';
+                    waBtn.onclick = () => {
+                        let wa = String(cachedSettings.whatsapp || "01767068529").replace(/[^0-9]/g, "");
+                        if (wa.startsWith("01")) wa = "88" + wa;
+                        const sz = getSelectedSizeFromModal(modal);
+                        const link = info.prodId ? `${location.href.split(/[?#]/)[0]}?product=${encodeURIComponent(info.prodId)}` : location.href;
+                        const msg = `আসসালামু আলাইকুম! আমি এই পণ্যটি অর্ডার করতে চাই:\n📦 পণ্য: ${info.name}\n🏷️ দাম: ৳${fmtNum(info.price)}${sz ? `\n📏 সাইজ: ${sz}` : ""}${info.sku ? `\n🔖 SKU: ${info.sku}` : ""}\n🔗 লিংক: ${link}`;
+                        window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+                    };
+                    actionRow.insertAdjacentElement("afterend", waBtn);
+
+                    const trust = document.createElement("div");
+                    trust.className = "cm-trust-strip";
+                    trust.innerHTML = '<span>✅ ১০০% ক্যাশ অন ডেলিভারি</span><span>•</span><span>🚚 ২৪-৭২ ঘন্টায় ডেলিভারি</span><span>•</span><span>🔄 সহজ রিটার্ন</span>';
+                    waBtn.insertAdjacentElement("afterend", trust);
+                }
+
+                // 3. Add Discount % + Savings Badge next to price
+                if (info.oldPrice > info.price && info.price > 0) {
+                    const priceEl = Array.from(modal.querySelectorAll("div, p, span")).find(el => {
+                        const t = (el.textContent || "").trim();
+                        return el.children.length <= 3 && t.includes("৳") && t.includes(fmtNum(info.oldPrice).slice(0, 3)) && t.length < 40;
+                    });
+                    if (priceEl && !priceEl.querySelector(".cm-save-badge")) {
+                        const pct = Math.round(((info.oldPrice - info.price) / info.oldPrice) * 100);
+                        const save = info.oldPrice - info.price;
+                        const badge = document.createElement("span");
+                        badge.className = "cm-save-badge";
+                        badge.textContent = `🔥 ${pct}% ছাড় (৳${fmtNum(save)} সাশ্রয়)`;
+                        priceEl.appendChild(badge);
+                    }
+                }
+
+                // 4. Enable Click-to-Zoom Lightbox on Modal Main Image
+                const mainImg = Array.from(modal.querySelectorAll("img")).find(im => im.offsetWidth > 70 && im.offsetHeight > 70);
+                if (mainImg && !mainImg.dataset.cmZoomBound) {
+                    mainImg.dataset.cmZoomBound = "1";
+                    mainImg.style.cursor = "zoom-in";
+                    mainImg.title = "বড় করে দেখতে ক্লিক করুন";
+                    mainImg.addEventListener("click", ev => {
+                        ev.stopPropagation();
+                        const z = document.createElement("div");
+                        z.className = "cm-zoom-backdrop";
+                        z.innerHTML = `<button type="button" class="cm-zoom-close">&times;</button><img src="${escHtml(mainImg.src)}" alt="">`;
+                        z.onclick = () => z.remove();
+                        document.body.appendChild(z);
+                    });
+                }
+            }
+        } catch (e) {}
+    }
+
     function setupSmartShareAndDeepLink() {
-        document.addEventListener("click", async e => {
+        document.addEventListener("click", e => {
             const btn = e.target.closest("button, a");
             if (!btn || btn.closest(".cm-share-backdrop")) return;
             const bTxt = (btn.textContent || "").trim();
-            const isShareBtn = /^Share$/i.test(bTxt) || (bTxt.length < 15 && /share/i.test(bTxt) && btn.querySelector("i[class*='share']"));
+            const isShareBtn = /^Share$/i.test(bTxt) || (bTxt.length < 18 && /share/i.test(bTxt));
             if (!isShareBtn) return;
 
-            const modal = btn.closest("[class*='modal' i], [id*='modal' i], [class*='detail' i], div");
-            const modalTxt = modal ? (modal.textContent || "") : "";
-            if (!/ID:|SKU:|৳/i.test(modalTxt)) return;
+            const modal = findProductModalBox(btn);
+            if (!modal) return;
 
             e.preventDefault();
+            e.stopPropagation();
             e.stopImmediatePropagation();
-
-            const idMatch = modalTxt.match(/ID:\s*([A-Za-z0-9_-]+)/i);
-            let prodId = idMatch ? idMatch[1].trim() : "";
-            const heading = modal.querySelector("h1, h2, h3, h4");
-            let prodName = heading ? heading.textContent.trim() : "CHITRO MART Product";
-            let prodPrice = "";
-            const pMatch = modalTxt.match(/৳\s*([\d,]+)/);
-            if (pMatch) prodPrice = pMatch[1];
-
-            if (!prodId && cachedProducts.length) {
-                const found = cachedProducts.find(p => p.name && prodName.toLowerCase().includes(p.name.toLowerCase()));
-                if (found) { prodId = found.id; prodName = found.name; prodPrice = fmtNum(found.price); }
-            }
-
-            const baseUrl = location.href.split(/[?#]/)[0];
-            const shareUrl = prodId ? `${baseUrl}?product=${encodeURIComponent(prodId)}` : baseUrl;
-            const shareText = `🔥 ${prodName}${prodPrice ? ` — মাত্র ৳${prodPrice}!` : ""}\nএখনই অর্ডার করুন:\n${shareUrl}`;
-
-            const copied = await copyTextSafe(shareUrl);
-            if (copied) miniToast("🔗 প্রোডাক্ট লিংক কপি হয়েছে!");
-
-            document.querySelectorAll(".cm-share-backdrop").forEach(el => el.remove());
-            const bd = document.createElement("div");
-            bd.className = "cm-share-backdrop";
-            bd.innerHTML = `
-                <div class="cm-share-box">
-                    <div class="cm-share-head">
-                        <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
-                        <button type="button" class="cm-share-close" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;line-height:1">&times;</button>
-                    </div>
-                    <p style="font-size:12px;color:#475569;margin-bottom:8px"><b>${escHtml(prodName)}</b>${prodPrice ? ` • <span style="color:#0ea646;font-weight:700">৳${escHtml(prodPrice)}</span>` : ""}</p>
-                    <div class="cm-share-url-row">
-                        <input type="text" id="cmShareUrlInp" value="${escHtml(shareUrl)}" readonly onclick="this.select()">
-                        <button type="button" id="cmShareCopyBtn" style="border:none;background:#0ea646;color:#fff;padding:0 12px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
-                    </div>
-                    <div class="cm-share-grid">
-                        <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                        <a class="cm-share-btn" style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                        <button type="button" id="cmShareCopyFullBtn" class="cm-share-btn" style="background:#0f172a"><i class="fa-solid fa-copy"></i> নাম+দামসহ কপি</button>
-                        ${navigator.share ? `<button type="button" id="cmShareNativeBtn" class="cm-share-btn" style="background:#6366f1"><i class="fa-solid fa-share-nodes"></i> আরও অ্যাপ</button>` : `<button type="button" id="cmShareDoneBtn" class="cm-share-btn" style="background:#64748b">বন্ধ করুন</button>`}
-                    </div>
-                </div>
-            `;
-            bd.onclick = ev => { if (ev.target === bd) bd.remove(); };
-            bd.querySelector(".cm-share-close").onclick = () => bd.remove();
-            bd.querySelector("#cmShareCopyBtn").onclick = async () => {
-                await copyTextSafe(shareUrl);
-                miniToast("✅ লিংক কপি হয়েছে!");
-            };
-            bd.querySelector("#cmShareCopyFullBtn").onclick = async () => {
-                await copyTextSafe(shareText);
-                miniToast("✅ নাম, দাম ও লিংক কপি হয়েছে!");
-            };
-            const natBtn = bd.querySelector("#cmShareNativeBtn");
-            if (natBtn) natBtn.onclick = () => navigator.share({ title: prodName, text: `${prodName} — ৳${prodPrice}`, url: shareUrl }).catch(() => {});
-            const doneBtn = bd.querySelector("#cmShareDoneBtn");
-            if (doneBtn) doneBtn.onclick = () => bd.remove();
-            document.body.appendChild(bd);
+            openSharePopupForModal(modal);
         }, true);
     }
 
@@ -5149,7 +5398,6 @@
         if (!targetId) return;
 
         for (let i = 0; i < 25; i++) {
-            // 1. Try finding direct DOM card/button referencing this product ID
             const byAttr = Array.from(document.querySelectorAll("[onclick], [data-id], [data-product-id]")).find(el => {
                 const oc = el.getAttribute("onclick") || "";
                 const di = el.getAttribute("data-id") || el.getAttribute("data-product-id") || "";
@@ -5160,9 +5408,7 @@
                 setTimeout(() => byAttr.click(), 200);
                 return;
             }
-
-            // 2. Fallback via cachedProducts name match
-            if (!cachedProducts.length) await loadStoreProductsCache();
+            if (!cachedProducts.length) await loadStoreCache();
             const prod = cachedProducts.find(p => String(p.id) === targetId);
             if (prod) {
                 const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
@@ -5181,20 +5427,6 @@
     // ---------------------------------------------------------
     // 4. Live Search Bar Auto-Suggestion
     // ---------------------------------------------------------
-    async function loadStoreProductsCache() {
-        try {
-            const r = await fetch(`${FB_URL_SF}/store/products.json?t=${Date.now()}`, { cache: "no-store" });
-            const d = await r.json();
-            if (d) cachedProducts = Array.isArray(d) ? d.filter(Boolean) : Object.values(d).filter(Boolean);
-        } catch (e) {}
-        if (!cachedProducts.length) {
-            try {
-                if (typeof products !== "undefined" && Array.isArray(products)) cachedProducts = products;
-                else if (typeof storeData !== "undefined" && Array.isArray(storeData.products)) cachedProducts = storeData.products;
-            } catch (e) {}
-        }
-    }
-
     function openOrSearchProduct(prod, searchInp) {
         saveRecentlyViewed(prod);
         const prodCards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product'], [onclick*='prod' i], [onclick*='detail' i], [onclick*='modal' i]"));
@@ -5248,7 +5480,7 @@
         function renderSuggestions() {
             const q = inp.value.trim().toLowerCase();
             if (!q) { dd.style.display = "none"; currentMatches = []; return; }
-            if (!cachedProducts.length) loadStoreProductsCache();
+            if (!cachedProducts.length) loadStoreCache();
 
             const words = q.split(/\s+/).filter(Boolean);
             currentMatches = cachedProducts.filter(p => {
@@ -5292,7 +5524,7 @@
         }
 
         inp.addEventListener("focus", () => {
-            if (!cachedProducts.length) loadStoreProductsCache().then(renderSuggestions);
+            if (!cachedProducts.length) loadStoreCache().then(renderSuggestions);
             else if (inp.value.trim()) renderSuggestions();
         });
         inp.addEventListener("input", renderSuggestions);
@@ -5816,13 +6048,18 @@
     let obsTimer = null;
     const obs = new MutationObserver(() => {
         clearTimeout(obsTimer);
-        obsTimer = setTimeout(() => { addProfileTagBesideAccount(); enhanceCartRows(); }, 120);
+        obsTimer = setTimeout(() => {
+            addProfileTagBesideAccount();
+            enhanceCartRows();
+            enhanceOpenProductModal();
+        }, 120);
     });
 
     window.addEventListener("load", () => {
-        loadStoreProductsCache().then(() => autoOpenSharedProductFromUrl());
+        loadStoreCache().then(() => autoOpenSharedProductFromUrl());
         addProfileTagBesideAccount();
         enhanceCartRows();
+        enhanceOpenProductModal();
         setupSmartShareAndDeepLink();
         setupSearchAutoSuggest();
         renderRecentlyViewed();
@@ -5837,13 +6074,13 @@
 
         setInterval(checkAdminChatMessages, 7000);
         setInterval(() => { addProfileTagBesideAccount(); logStoreVisit(); }, 10000);
-        setInterval(loadStoreProductsCache, 60000);
+        setInterval(loadStoreCache, 60000);
 
         window.addEventListener("offline", () => miniToast("⚠️ ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!"));
         window.addEventListener("online", () => miniToast("✅ ইন্টারনেট পুনরায় সংযুক্ত হয়েছে"));
     });
 })();
 </script>
- </body>
+  </body>
 </html>
  
