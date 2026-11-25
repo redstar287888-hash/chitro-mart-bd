@@ -4959,178 +4959,150 @@
   if (currentUser) syncCurrentUserProfile();
 })();
 </script>
-    <!-- CHITRO MART Ultimate Storefront Upgrade v4.1 (Paste right before </body>) -->
+    <!-- ================= CHITRO MART BD MASTER STOREFRONT INTEGRATION v5.0 ================= -->
 <style>
-    html { scroll-behavior: smooth; }
-
-    /* Custom Brand Scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: #e8f5e9; }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #0ea646, #065f46); border-radius: 50px; }
-    ::-webkit-scrollbar-thumb:hover { background: #047857; }
-    ::selection { background: #0ea646; color: #fff; }
-
-    /* Glassmorphism Header & Nav Links */
-    header, .header, .navbar, .topbar-main { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    nav a, .nav a, .nav-links a { position: relative; transition: color .2s ease; }
-    nav a::after, .nav a::after, .nav-links a::after {
-        content: ""; position: absolute; left: 0; bottom: -3px; width: 0; height: 2.5px;
-        border-radius: 50px; background: linear-gradient(90deg, #0ea646, #1fd161); transition: width .25s ease;
-    }
-    nav a:hover::after, .nav a:hover::after, .nav-links a:hover::after { width: 100%; }
-
-    /* Search & Form Polish */
-    input[placeholder*="খুঁজছেন"]:focus, input[placeholder*="looking" i]:focus, input[type="search"]:focus {
-        box-shadow: 0 0 0 3px rgba(14, 166, 70, 0.22), 0 8px 22px rgba(14, 166, 70, 0.14) !important;
-        border-color: #0ea646 !important; outline: none !important;
-    }
-    [id*="cart" i] input:not([type="radio"]):not([type="checkbox"]), [id*="cart" i] select, [id*="cart" i] textarea,
-    [class*="cart" i] input:not([type="radio"]):not([type="checkbox"]), [class*="cart" i] select, [class*="cart" i] textarea {
-        border-radius: 10px !important; border: 1.5px solid #cbd5e1 !important; transition: border-color .2s ease, box-shadow .2s ease !important;
-    }
-    [id*="cart" i] input:focus, [id*="cart" i] select:focus, [id*="cart" i] textarea:focus,
-    [class*="cart" i] input:focus, [class*="cart" i] select:focus, [class*="cart" i] textarea:focus {
-        border-color: #0ea646 !important; box-shadow: 0 0 0 3px rgba(14, 166, 70, 0.16) !important; outline: none !important;
-    }
-
-    /* Buttons Hover Lift */
-    button, .btn, a[class*="btn"], input[type="submit"] {
-        transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, background .22s ease !important;
-    }
-    button:hover:not(:disabled), .btn:hover, a[class*="btn"]:hover {
-        transform: translateY(-1.5px); box-shadow: 0 8px 20px rgba(14, 166, 70, 0.2); filter: brightness(1.03);
-    }
-    button:active:not(:disabled) { transform: translateY(0) scale(.98); }
-
-    [class*="prod-card"], [class*="product-card"], [class*="cat-card"], [class*="category-card"], [class*="feat"], [class*="service-card"] {
-        transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease !important;
-    }
-    [class*="prod-card"]:hover, [class*="product-card"]:hover, [class*="cat-card"]:hover, [class*="category-card"]:hover {
-        transform: translateY(-4px); border-color: rgba(14, 166, 70, 0.45) !important; box-shadow: 0 14px 32px rgba(7, 19, 31, 0.13) !important;
-    }
-    [class*="prod-card"] img, [class*="product-card"] img { transition: transform .35s ease !important; border-radius: 10px; }
-    [class*="prod-card"]:hover img, [class*="product-card"]:hover img { transform: scale(1.04); }
-
-    /* Account -> Profile Badge */
-    .cm-profile-tag {
-        display: inline-flex !important; align-items: center; gap: 3px; margin-left: 5px; padding: 1.5px 8px;
-        border-radius: 50px; background: linear-gradient(135deg, #0ea646, #059669); color: #fff !important;
-        font-size: 9.5px !important; font-weight: 700 !important; letter-spacing: .3px; vertical-align: middle;
-        line-height: 1.3; box-shadow: 0 2px 8px rgba(14, 166, 70, 0.35);
-    }
-
-    /* VIBRANT HIGH-CONTRAST SHARE BUTTON */
-    .cm-prominent-share-btn {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-        color: #ffffff !important;
-        border: 1.5px solid #1e40af !important;
-        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.38) !important;
-        font-weight: 700 !important;
-        padding: 5px 14px !important;
-        border-radius: 50px !important;
+    /* Ultra-Premium Delete Button for BOTH Cart & Wishlist */
+    .cm-del-btn-pill {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 6px !important;
-        cursor: pointer !important;
-        font-size: 12.5px !important;
-    }
-    .cm-prominent-share-btn i { color: #fff !important; }
-    .cm-prominent-share-btn:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e3a8a) !important;
-        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5) !important;
-        transform: translateY(-1px) !important;
-    }
-
-    /* Modal Wishlist Button */
-    .cm-wish-modal-btn {
-        display: inline-flex !important; align-items: center; justify-content: center; gap: 6px;
-        min-height: 42px; padding: 9px 15px !important; border-radius: 10px !important;
-        border: 1.5px solid #fda4af !important; background: linear-gradient(135deg, #fff1f2, #ffe4e6) !important;
-        color: #e11d48 !important; font-size: 13px !important; font-weight: 700 !important;
-        cursor: pointer !important; white-space: nowrap; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.12);
-    }
-    .cm-wish-modal-btn:hover { background: linear-gradient(135deg, #ffe4e6, #fecdd3) !important; box-shadow: 0 6px 16px rgba(244, 63, 94, 0.22) !important; }
-    .cm-wish-modal-btn.saved {
-        background: linear-gradient(135deg, #f43f5e, #e11d48) !important; color: #fff !important;
-        border-color: #e11d48 !important; box-shadow: 0 6px 18px rgba(225, 29, 72, 0.32) !important;
-    }
-
-    .cm-wa-order-btn {
-        width: 100% !important; margin-top: 10px !important; padding: 11px 16px !important;
-        border-radius: 11px !important; border: 1.5px solid #86efac !important;
-        background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important; color: #047857 !important;
-        font-size: 13.5px !important; font-weight: 700 !important; cursor: pointer !important;
-        display: flex !important; align-items: center; justify-content: center; gap: 8px;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.14);
-    }
-    .cm-wa-order-btn:hover {
-        background: linear-gradient(135deg, #22c55e, #16a34a) !important; color: #fff !important;
-        border-color: #16a34a !important; box-shadow: 0 8px 22px rgba(22, 163, 74, 0.3) !important;
-    }
-
-    .cm-save-badge {
-        display: inline-flex !important; align-items: center; gap: 4px; margin-left: 8px; padding: 3px 10px;
-        border-radius: 50px; background: linear-gradient(135deg, #fff1f2, #ffe4e6); color: #e11d48;
-        border: 1px solid #fecdd3; font-size: 11.5px; font-weight: 700; vertical-align: middle;
-    }
-
-    .cm-trust-strip {
-        margin-top: 10px; padding: 9px 12px; border-radius: 10px;
-        background: linear-gradient(135deg, #f8fafc, #f1f5f9); border: 1px solid #e2e8f0;
-        font-size: 11.5px; font-weight: 600; color: #334155;
-        display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center;
-    }
-    .cm-trust-strip span { display: inline-flex; align-items: center; gap: 5px; }
-    .cm-trust-strip i { color: #0ea646; font-size: 12.5px; }
-
-    /* Search Auto-Suggestion Dropdown */
-    .cm-search-suggest {
-        position: fixed; background: #ffffff; border: 1px solid #d1fae5; border-radius: 16px;
-        box-shadow: 0 20px 45px rgba(7, 19, 31, 0.18); z-index: 2147483600; overflow: hidden;
-        display: none; max-height: 390px; overflow-y: auto;
-    }
-    .cm-sug-head { padding: 8px 14px; font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; border-bottom: 1px solid #d1fae5; display: flex; justify-content: space-between; }
-    .cm-sug-item { display: flex; align-items: center; gap: 11px; padding: 9px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; transition: background .15s ease; }
-    .cm-sug-item:last-child { border-bottom: none; }
-    .cm-sug-item:hover, .cm-sug-item.active { background: #f0fdf4; }
-    .cm-sug-item img { width: 46px; height: 46px; object-fit: cover; border-radius: 9px; border: 1px solid #e2e8f0; flex-shrink: 0; }
-    .cm-sug-meta { flex: 1; min-width: 0; }
-    .cm-sug-name { font-size: 13px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cm-sug-sub { font-size: 11px; color: #64748b; }
-    .cm-sug-price { text-align: right; flex-shrink: 0; }
-    .cm-sug-price b { color: #0ea646; font-size: 13.5px; display: block; }
-    .cm-sug-price del { color: #94a3b8; font-size: 11px; }
-    .cm-sug-empty { padding: 16px; text-align: center; font-size: 12.5px; color: #64748b; }
-
-    /* ULTRA-PREMIUM DELETE BUTTON FOR CART & WISHLIST */
-    .cm-cart-del-btn, .cm-wish-del-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        align-self: center !important;
         gap: 5px !important;
-        padding: 6px 12px !important;
-        margin-left: 6px !important;
+        padding: 5px 12px !important;
         border: 1px solid #fecaca !important;
-        border-radius: 9px !important;
-        background: linear-gradient(135deg, #fee2e2, #fecdd3) !important;
+        border-radius: 8px !important;
+        background: linear-gradient(135deg, #fff1f2, #fee2e2) !important;
         color: #dc2626 !important;
         font-size: 11.5px !important;
         font-weight: 700 !important;
         cursor: pointer !important;
         line-height: 1.2 !important;
-        flex-shrink: 0 !important;
-        transition: all .2s ease !important;
+        transition: all 0.2s ease !important;
         box-shadow: 0 2px 6px rgba(220, 38, 38, 0.08) !important;
     }
-    .cm-cart-del-btn:hover, .cm-wish-del-btn:hover {
+    .cm-del-btn-pill:hover {
         background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-        color: #fff !important;
+        color: #ffffff !important;
         border-color: #dc2626 !important;
-        box-shadow: 0 4px 14px rgba(220, 38, 38, 0.28) !important;
         transform: translateY(-1px) !important;
+        box-shadow: 0 4px 14px rgba(220, 38, 38, 0.28) !important;
     }
 
-    /* Smart Share Popup & Lightbox (No clashing animations) */
+    /* Prominent Royal Blue Share Pill Button */
+    .cm-share-pill-btn {
+        margin-left: auto !important;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+        color: #ffffff !important;
+        border: 1.5px solid #1e40af !important;
+        padding: 4px 14px !important;
+        border-radius: 50px !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35) !important;
+        transition: 0.2s ease !important;
+    }
+    .cm-share-pill-btn:hover {
+        background: linear-gradient(135deg, #1d4ed8, #1e3a8a) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 14px rgba(37, 99, 235, 0.5) !important;
+    }
+
+    /* Modal Wishlist Button */
+    .cm-wish-modal-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 9px 14px !important;
+        border-radius: 9px !important;
+        border: 1.5px solid #fda4af !important;
+        background: linear-gradient(135deg, #fff1f2, #ffe4e6) !important;
+        color: #e11d48 !important;
+        font-size: 12.5px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        transition: 0.2s ease !important;
+    }
+    .cm-wish-modal-btn:hover { background: #fecdd3 !important; }
+    .cm-wish-modal-btn.saved {
+        background: linear-gradient(135deg, #f43f5e, #e11d48) !important;
+        color: #fff !important;
+        border-color: #e11d48 !important;
+        box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3) !important;
+    }
+
+    /* 1-Click WhatsApp Order Button & Trust Strip */
+    .cm-wa-order-btn {
+        width: 100% !important;
+        margin-top: 10px !important;
+        padding: 10px 14px !important;
+        border-radius: 10px !important;
+        border: 1.5px solid #86efac !important;
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+        color: #047857 !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+    .cm-wa-order-btn:hover {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+        color: #fff !important;
+    }
+    .cm-trust-strip {
+        margin-top: 10px;
+        padding: 8px 12px;
+        border-radius: 9px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #334155;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cm-save-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px;
+        margin-left: 8px;
+        padding: 2px 9px;
+        border-radius: 50px;
+        background: #fff1f2;
+        color: #e11d48;
+        border: 1px solid #fecdd3;
+        font-size: 11px;
+        font-weight: 700;
+        vertical-align: middle;
+    }
+
+    /* Account -> Profile Badge */
+    .cm-profile-tag {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 3px;
+        margin-left: 5px;
+        padding: 1.5px 8px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #0ea646, #059669);
+        color: #fff !important;
+        font-size: 9.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: .3px;
+        vertical-align: middle;
+        line-height: 1.3;
+    }
+
+    /* Share Backdrop & Modal */
     .cm-share-backdrop, .cm-zoom-backdrop {
         position: fixed; inset: 0; background: rgba(7, 19, 31, 0.65); backdrop-filter: blur(4px);
         z-index: 2147483640 !important; display: flex; align-items: center; justify-content: center; padding: 16px;
@@ -5148,38 +5120,36 @@
         border: none; padding: 10px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 700;
         color: #fff !important; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;
     }
-    .cm-zoom-backdrop img { max-width: 92vw; max-height: 86vh; border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); object-fit: contain; background: #fff; }
-    .cm-zoom-close { position: fixed; top: 18px; right: 22px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #fff; color: #0f172a; font-size: 22px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
+    .cm-zoom-backdrop img { max-width: 92vw; max-height: 86vh; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); object-fit: contain; background: #fff; }
+    .cm-zoom-close { position: fixed; top: 18px; right: 22px; width: 40px; height: 40px; border-radius: 50%; border: none; background: #fff; color: #0f172a; font-size: 22px; font-weight: 700; cursor: pointer; }
 
-    /* Live Chat Badge & Preview Bubble */
-    .cm-chat-unread-badge {
-        position: absolute; top: -7px; right: -5px; min-width: 22px; height: 22px; padding: 0 6px;
-        border-radius: 50px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff;
-        font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;
-        border: 2px solid #fff; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5); z-index: 9999; pointer-events: none;
+    /* Search Auto Suggest */
+    .cm-search-suggest {
+        position: fixed; background: #ffffff; border: 1px solid #d1fae5; border-radius: 16px;
+        box-shadow: 0 20px 45px rgba(7, 19, 31, 0.18); z-index: 2147483600; overflow: hidden;
+        display: none; max-height: 380px; overflow-y: auto;
     }
-    .cm-chat-preview-pop {
-        position: fixed; right: 20px; bottom: 84px; max-width: 280px; background: #0f172a; color: #f8fafc;
-        border: 1px solid rgba(16, 185, 129, 0.45); border-radius: 14px; padding: 10px 13px; font-size: 12px;
-        line-height: 1.45; box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28); z-index: 9998; cursor: pointer;
-    }
-    .cm-chat-preview-pop .cm-pop-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: #34d399; margin-bottom: 3px; }
-    .cm-chat-preview-close { background: none; border: none; color: #94a3b8; font-size: 14px; cursor: pointer; padding: 0 2px; line-height: 1; }
+    .cm-sug-head { padding: 8px 14px; font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; border-bottom: 1px solid #d1fae5; display: flex; justify-content: space-between; }
+    .cm-sug-item { display: flex; align-items: center; gap: 11px; padding: 9px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+    .cm-sug-item:last-child { border-bottom: none; }
+    .cm-sug-item:hover { background: #f0fdf4; }
+    .cm-sug-item img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; flex-shrink: 0; }
+    .cm-sug-name { font-size: 13px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Recently Viewed Strip */
     #cmRecentlyViewed {
-        max-width: 1280px; margin: 22px auto; padding: 16px; background: rgba(255, 255, 255, 0.94);
-        border: 1px solid #d1fae5; border-radius: 18px; box-shadow: 0 10px 26px rgba(7, 19, 31, 0.06);
+        max-width: 1280px; margin: 24px auto; padding: 16px; background: rgba(255, 255, 255, 0.95);
+        border: 1px solid #d1fae5; border-radius: 18px; box-shadow: 0 10px 26px rgba(7, 19, 31, 0.05);
     }
     .cm-rv-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; font-weight: 800; color: #07131f; }
     .cm-rv-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
-    .cm-rv-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 9px; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
-    .cm-rv-card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(14, 166, 70, 0.14); border-color: #0ea646; }
+    .cm-rv-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 9px; cursor: pointer; transition: 0.2s ease; }
+    .cm-rv-card:hover { transform: translateY(-3px); border-color: #0ea646; box-shadow: 0 10px 22px rgba(14, 166, 70, 0.14); }
     .cm-rv-card img { width: 100%; height: 115px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
     .cm-rv-title { font-size: 12px; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .cm-rv-price { font-size: 12.5px; font-weight: 800; color: #0ea646; margin-top: 2px; }
 
-    /* Scroll to Top, Social Proof & Toast */
+    /* Floating Scroll-Top */
     #cmScrollTopBtn {
         position: fixed; right: 22px; bottom: 86px; width: 42px; height: 42px; border-radius: 50%; border: none;
         background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; font-size: 16px; cursor: pointer;
@@ -5191,660 +5161,347 @@
         border-radius: 12px; padding: 9px 12px; font-size: 11.5px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
         z-index: 9985; display: none; align-items: center; gap: 9px;
     }
-    .cm-mini-toast {
-        position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff;
-        padding: 9px 20px; border-radius: 50px; font-size: 12.5px; font-weight: 600;
-        z-index: 2147483645; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
-    }
+
     @media (max-width: 768px) {
-        #cmSocialProof { max-width: calc(100vw - 95px); left: 10px; bottom: 14px; font-size: 11px; }
-        .cm-chat-preview-pop { right: 12px; bottom: 78px; max-width: calc(100vw - 24px); }
-        #cmRecentlyViewed { margin: 14px 10px; padding: 12px; }
+        #cmRecentlyViewed { margin: 14px 10px; }
         .cm-rv-strip { grid-template-columns: repeat(2, 1fr); }
         .cm-share-grid { grid-template-columns: 1fr; }
     }
 </style>
 
 <script>
-(function () {
-    const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
-    const VISIT_SESS_KEY = "cm_visit_log_key_v1";
-    const RECENT_KEY = "cm_recent_prods_v1";
-    const WISH_KEY = "cm_wish_items_v2";
-    const escHtml = s => String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
-    const fmtNum = n => Number(n || 0).toLocaleString("en-IN");
-    const getFirstImg = p => (Array.isArray(p.images) && p.images[0]) ? p.images[0] : (p.image || "https://placehold.co/100x100/0f172a/f59e0b?text=Item");
-    const sleepMs = ms => new Promise(r => setTimeout(r, ms));
+(function() {
+    const RECENT_KEY = "cm_recent_prods_v8";
 
-    let cachedProducts = [];
-    let cachedSettings = {};
-
-    function miniToast(msg) {
-        if (typeof showToast === "function") { showToast(msg); return; }
-        const el = document.createElement("div");
-        el.className = "cm-mini-toast";
-        el.textContent = msg;
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 2600);
-    }
-
-    async function copyTextSafe(text) {
-        try {
-            if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
-        } catch (e) {}
-        try {
-            const ta = document.createElement("textarea");
-            ta.value = text;
-            ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;";
-            document.body.appendChild(ta);
-            ta.select();
-            const ok = document.execCommand("copy");
-            ta.remove();
-            return ok;
-        } catch (e) { return false; }
-    }
-
-    // ---------------------------------------------------------
-    // 1. Customer & Store Cache
-    // ---------------------------------------------------------
-    function detectCustomer() {
-        let name = "", phone = "", chatId = "";
-        const inspect = obj => {
-            if (!obj || typeof obj !== "object") return;
-            if (!phone && obj.phone && /^01[0-9]{9}$/.test(String(obj.phone).trim())) phone = String(obj.phone).trim();
-            if (!name && obj.name && typeof obj.name === "string" && obj.name.length < 60) name = obj.name.trim();
-        };
-        try {
-            if (typeof currentUser !== "undefined" && currentUser) inspect(currentUser);
-            if (window.currentUser) inspect(window.currentUser);
-            for (const store of [localStorage, sessionStorage]) {
-                for (let i = 0; i < store.length; i++) {
-                    const k = store.key(i);
-                    if (!k || k.includes("adm")) continue;
-                    const raw = store.getItem(k);
-                    if (!raw) continue;
-                    if (!chatId && /chat/i.test(k) && /^u_|^g_|^c_/i.test(raw)) chatId = raw.trim();
-                    if (raw.startsWith("{")) { try { inspect(JSON.parse(raw)); } catch (e) {} }
-                }
-            }
-        } catch (e) {}
-        if (!chatId && phone) chatId = "u_" + phone;
-        return { name: name || "Guest", phone, chatId };
-    }
-
-    async function loadStoreCache() {
-        try {
-            const [pRes, sRes] = await Promise.all([
-                fetch(`${FB_URL_SF}/store/products.json?t=${Date.now()}`, { cache: "no-store" }),
-                fetch(`${FB_URL_SF}/store/settings.json?t=${Date.now()}`, { cache: "no-store" })
-            ]);
-            const pData = await pRes.json();
-            const sData = await sRes.json();
-            if (pData) cachedProducts = Array.isArray(pData) ? pData.filter(Boolean) : Object.values(pData).filter(Boolean);
-            if (sData && typeof sData === "object") cachedSettings = sData;
-        } catch (e) {}
-        if (!cachedProducts.length) {
-            try {
-                if (typeof products !== "undefined" && Array.isArray(products)) cachedProducts = products;
-                else if (typeof storeData !== "undefined" && Array.isArray(storeData.products)) cachedProducts = storeData.products;
-            } catch (e) {}
+    // 1. Account -> "Profile" Tag Injection
+    function injectProfileTag() {
+        const accSmall = document.querySelector('.main-header .action-item .action-info small');
+        if (accSmall && !accSmall.querySelector('.cm-profile-tag')) {
+            accSmall.innerHTML = 'Account <span class="cm-profile-tag">Profile</span>';
         }
     }
 
-    // ---------------------------------------------------------
-    // 2. Account -> "Profile" Badge
-    // ---------------------------------------------------------
-    function addProfileTagBesideAccount() {
-        try {
-            if (document.querySelector(".cm-profile-tag")) return;
-            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
-            while (walker.nextNode()) {
-                const tn = walker.currentNode;
-                const parent = tn.parentElement;
-                if (!parent || /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|INPUT)$/i.test(parent.tagName)) continue;
-                const txt = (tn.nodeValue || "").trim();
-                if (!/^Account$/i.test(txt)) continue;
+    // 2. NATIVE WISHLIST OVERRIDE: Exactly ONE Premium Delete Button!
+    window.renderWishlist = function() {
+        $('wishlistBadge').textContent = wishlist.length;
+        if ($('cmMobWishBadge')) $('cmMobWishBadge').textContent = wishlist.length;
+        const c = $('wishlistItemsContainer');
+        if (!c) return;
 
-                const rect = parent.getBoundingClientRect();
-                if (rect.width === 0 || rect.height === 0 || rect.top > 220) continue;
-                if (parent.querySelector(".cm-profile-tag")) return;
-
-                const tag = document.createElement("span");
-                tag.className = "cm-profile-tag";
-                tag.textContent = "Profile";
-
-                const wrap = document.createElement("span");
-                wrap.style.cssText = "display:inline-flex;align-items:center;gap:4px;";
-                wrap.appendChild(document.createTextNode(tn.nodeValue));
-                wrap.appendChild(tag);
-                tn.parentNode.replaceChild(wrap, tn);
-
-                const clickable = parent.closest("button, a, div");
-                if (clickable) clickable.title = "Account & Profile";
-                return;
-            }
-        } catch (e) {}
-    }
-
-    // ---------------------------------------------------------
-    // 3. PRODUCT MODAL & WISHLIST ENGINE (Add, Sync, Delete)
-    // ---------------------------------------------------------
-    function findProductModalBox(startEl) {
-        let cur = startEl;
-        while (cur && cur !== document.body) {
-            const t = cur.textContent || "";
-            if (/Add to Cart/i.test(t) && /Order Now/i.test(t) && /৳/.test(t)) return cur;
-            cur = cur.parentElement;
-        }
-        return null;
-    }
-
-    function extractProductInfoFromModal(modal) {
-        const txt = modal ? (modal.textContent || "") : "";
-        const idMatch = txt.match(/ID:\s*([A-Za-z0-9_-]+)/i);
-        const skuMatch = txt.match(/SKU:\s*([A-Za-z0-9_-]+)/i);
-        let prodId = idMatch ? idMatch[1].trim() : "";
-        let sku = skuMatch ? skuMatch[1].trim() : "";
-
-        const heading = modal.querySelector("h1, h2, h3, h4");
-        let name = heading ? heading.textContent.trim() : "CHITRO MART Product";
-
-        const prices = Array.from(txt.matchAll(/৳\s*([\d,]+)/g)).map(m => Number(m[1].replace(/,/g, ""))).filter(Boolean);
-        let price = prices[0] || 0;
-        let oldPrice = prices[1] && prices[1] > prices[0] ? prices[1] : 0;
-
-        const imgEl = modal.querySelector("img");
-        let image = imgEl ? imgEl.src : "";
-
-        if (!prodId && cachedProducts.length) {
-            const matched = cachedProducts.find(p => p.name && name.toLowerCase().includes(p.name.toLowerCase()));
-            if (matched) {
-                prodId = matched.id || "";
-                if (!sku) sku = matched.sku || "";
-                if (!price) price = Number(matched.price || 0);
-                if (!oldPrice && matched.oldPrice) oldPrice = Number(matched.oldPrice);
-                if (!image) image = getFirstImg(matched);
-            }
-        }
-        return { prodId, sku, name, price, oldPrice, image };
-    }
-
-    function getWishlistItems() {
-        try {
-            const arr = JSON.parse(localStorage.getItem(WISH_KEY) || "[]");
-            return Array.isArray(arr) ? arr : [];
-        } catch (e) { return []; }
-    }
-
-    function saveWishlistItems(items) {
-        try { localStorage.setItem(WISH_KEY, JSON.stringify(items)); } catch (e) {}
-        updateWishlistCountUI(items.length);
-    }
-
-    function updateWishlistCountUI(count) {
-        try {
-            const headers = Array.from(document.querySelectorAll("header *, .header *, nav *, .topbar *, a, button, div"));
-            for (const el of headers) {
-                const r = el.getBoundingClientRect();
-                if (r.top > 200 || r.height === 0) continue;
-                const t = (el.textContent || "").trim();
-                if (/Wishlist/i.test(t) && t.length < 35) {
-                    const cntSpan = Array.from(el.querySelectorAll("span, small, b, strong")).find(s => /^\d+$/.test((s.textContent || "").trim()));
-                    if (cntSpan) cntSpan.textContent = String(count);
-                    else {
-                        // Check if text directly has digits like "0 Wishlist"
-                        el.innerHTML = el.innerHTML.replace(/\b\d+\s*Wishlist/i, `${count} Wishlist`);
-                    }
-                }
-            }
-        } catch (e) {}
-    }
-
-    function isProductInWishlist(prodId, prodName) {
-        const items = getWishlistItems();
-        return items.some(it => (prodId && it.id === prodId) || (it.name && it.name === prodName));
-    }
-
-    function toggleModalWishlist(prodInfo, wishBtn) {
-        let items = getWishlistItems();
-        const exists = items.some(it => (prodInfo.prodId && it.id === prodInfo.prodId) || (it.name && it.name === prodInfo.name));
-
-        if (exists) {
-            items = items.filter(it => !((prodInfo.prodId && it.id === prodInfo.prodId) || (it.name && it.name === prodInfo.name)));
-            saveWishlistItems(items);
-            wishBtn.classList.remove("saved");
-            wishBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Wishlist';
-            miniToast("💔 Wishlist থেকে সরানো হয়েছে");
-        } else {
-            items.unshift({
-                id: prodInfo.prodId || ("w_" + Date.now()),
-                name: prodInfo.name,
-                price: prodInfo.price,
-                oldPrice: prodInfo.oldPrice || null,
-                sku: prodInfo.sku || "",
-                image: prodInfo.image
-            });
-            saveWishlistItems(items);
-            wishBtn.classList.add("saved");
-            wishBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Saved';
-            miniToast("❤️ Wishlist-এ সফলভাবে যুক্ত হয়েছে!");
-        }
-
-        // Try triggering native heart button if present on background card
-        const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
-        const card = cards.find(c => {
-            if (findProductModalBox(c)) return false;
-            const h = c.innerHTML || "";
-            return (prodInfo.prodId && h.includes(prodInfo.prodId)) || (prodInfo.name && (c.textContent || "").toLowerCase().includes(prodInfo.name.toLowerCase()));
-        });
-        if (card) {
-            const heart = card.querySelector("i[class*='heart']") || card.querySelector("button[onclick*='wish' i]");
-            if (heart) {
-                const pBtn = heart.closest("button") || heart;
-                pBtn.click();
-            }
-        }
-    }
-
-    // ---------------------------------------------------------
-    // WISHLIST DRAWER / MODAL: PREMIUM DELETE BUTTON INJECTOR
-    // ---------------------------------------------------------
-    function enhanceWishlistDrawerRows() {
-        try {
-            const containers = document.querySelectorAll("[id*='wish' i], [class*='wish' i]");
-            for (const box of containers) {
-                if (box.tagName === "BUTTON" || box.tagName === "A" || box.offsetHeight < 80) continue;
-                const rows = Array.from(box.querySelectorAll("[class*='item'], [class*='row'], li, .w-item, div"));
-                for (const row of rows) {
-                    const txt = (row.textContent || "").trim();
-                    if (!/৳/.test(txt) || row.dataset.cmWishEnhanced || row.offsetHeight < 30 || row.offsetWidth < 120) continue;
-                    row.dataset.cmWishEnhanced = "1";
-
-                    const delBtn = document.createElement("button");
-                    delBtn.type = "button";
-                    delBtn.className = "cm-wish-del-btn";
-                    delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
-                    delBtn.onclick = e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Find matching item in storage
-                        let items = getWishlistItems();
-                        const rowClean = txt.toLowerCase();
-                        const matchedIdx = items.findIndex(it => it.name && rowClean.includes(it.name.toLowerCase()));
-                        if (matchedIdx > -1) items.splice(matchedIdx, 1);
-                        else if (items.length) items.shift();
-                        saveWishlistItems(items);
-
-                        // If there is an existing native delete button, click it too
-                        const oldBtn = row.querySelector("button[onclick*='del' i], button[onclick*='remove' i], button[onclick*='wish' i]");
-                        if (oldBtn && oldBtn !== delBtn) oldBtn.click();
-
-                        row.style.transition = "all .25s ease";
-                        row.style.opacity = "0";
-                        row.style.transform = "translateX(20px)";
-                        setTimeout(() => { if (row.isConnected) row.remove(); }, 260);
-                        miniToast("🗑️ Wishlist থেকে পণ্যটি মুছে ফেলা হয়েছে");
-                    };
-                    row.appendChild(delBtn);
-                }
-            }
-        } catch (e) {}
-    }
-
-    // ---------------------------------------------------------
-    // 4. SMART SHARE POPUP (With Prominent Blue Styling + Working Others App)
-    // ---------------------------------------------------------
-    function openSharePopupForModal(modal) {
-        const info = extractProductInfoFromModal(modal);
-        const baseUrl = location.href.split(/[?#]/)[0];
-        const shareUrl = info.prodId ? `${baseUrl}?product=${encodeURIComponent(info.prodId)}` : baseUrl;
-        const shareText = `🔥 ${info.name}${info.price ? ` — মাত্র ৳${fmtNum(info.price)}!` : ""}\nএখনই অর্ডার করুন:\n${shareUrl}`;
-
-        copyTextSafe(shareUrl).then(ok => { if (ok) miniToast("🔗 প্রোডাক্ট লিংক কপি হয়েছে!"); });
-
-        document.querySelectorAll(".cm-share-backdrop").forEach(el => el.remove());
-        const bd = document.createElement("div");
-        bd.className = "cm-share-backdrop";
-        bd.innerHTML = `
-            <div class="cm-share-box">
-                <div class="cm-share-head">
-                    <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
-                    <button type="button" class="cm-share-close" style="background:none;border:none;font-size:22px;color:#64748b;cursor:pointer;line-height:1">&times;</button>
-                </div>
-                <p style="font-size:12.5px;color:#475569;margin-bottom:10px"><b>${escHtml(info.name)}</b>${info.price ? ` • <span style="color:#0ea646;font-weight:700">৳${fmtNum(info.price)}</span>` : ""}</p>
-                <div class="cm-share-url-row">
-                    <input type="text" value="${escHtml(shareUrl)}" readonly onclick="this.select()">
-                    <button type="button" id="cmShareCopyBtn" style="border:none;background:#2563eb;color:#fff;padding:0 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
-                </div>
-                <div class="cm-share-grid">
-                    <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                    <a class="cm-share-btn" style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                    <a class="cm-share-btn" style="background:#0088cc" target="_blank" rel="noopener" href="https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(info.name)}"><i class="fa-brands fa-telegram"></i> Telegram</a>
-                    <button type="button" id="cmShareCopyFullBtn" class="cm-share-btn" style="background:#0f172a"><i class="fa-solid fa-copy"></i> নাম+দামসহ কপি</button>
-                    <button type="button" id="cmShareOtherBtn" class="cm-share-btn" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);grid-column:1/-1"><i class="fa-solid fa-share-nodes"></i> আরও অ্যাপ / অন্যান্য মাধ্যমে শেয়ার</button>
-                </div>
-            </div>
-        `;
-        bd.onclick = ev => { if (ev.target === bd) bd.remove(); };
-        bd.querySelector(".cm-share-close").onclick = () => bd.remove();
-        bd.querySelector("#cmShareCopyBtn").onclick = async function () {
-            await copyTextSafe(shareUrl);
-            this.textContent = "Copied ✓";
-            setTimeout(() => { if (this.isConnected) this.textContent = "Copy"; }, 1400);
-            miniToast("✅ লিংক কপি হয়েছে!");
-        };
-        bd.querySelector("#cmShareCopyFullBtn").onclick = async () => { await copyTextSafe(shareText); miniToast("✅ নাম, দাম ও লিংক কপি হয়েছে!"); };
-
-        // 100% Reliable Others App button
-        bd.querySelector("#cmShareOtherBtn").onclick = async () => {
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: info.name, text: `${info.name} — ৳${fmtNum(info.price)}`, url: shareUrl });
-                    return;
-                } catch (err) {
-                    // if user aborted or unsupported, fallback gracefully to copyTextSafe below
-                }
-            }
-            await copyTextSafe(shareText);
-            miniToast("✅ মেসেজ ও লিংক কপি হয়েছে! যেকোনো অ্যাপে পেস্ট করতে পারেন");
-        };
-
-        document.body.appendChild(bd);
-    }
-
-    function getSelectedSizeFromModal(modal) {
-        const sizeBtns = Array.from(modal.querySelectorAll("button")).filter(b => {
-            const t = (b.textContent || "").trim();
-            return t.length > 0 && t.length <= 6 && /^(XS|S|M|L|XL|XXL|XXXL|\d{2})$/i.test(t);
-        });
-        const active = sizeBtns.find(b => {
-            if (/active|selected/i.test(b.className || "")) return true;
-            const bg = getComputedStyle(b).backgroundColor;
-            return bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "rgb(255, 255, 255)" && bg !== "rgb(248, 250, 252)";
-        });
-        return active ? active.textContent.trim() : "";
-    }
-
-    function enhanceOpenProductModal() {
-        try {
-            const addBtns = Array.from(document.querySelectorAll("button")).filter(b =>
-                /Add to Cart/i.test((b.textContent || "").trim()) && b.offsetHeight > 0
-            );
-            for (const addBtn of addBtns) {
-                const modal = findProductModalBox(addBtn);
-                if (!modal) continue;
-
-                // Prominently restyle the existing Share button in the modal header
-                const modalShareBtn = Array.from(modal.querySelectorAll("button, a")).find(b =>
-                    /^Share$/i.test((b.textContent || "").trim()) || /share/i.test(b.className || "")
-                );
-                if (modalShareBtn && !modalShareBtn.classList.contains("cm-prominent-share-btn")) {
-                    modalShareBtn.classList.add("cm-prominent-share-btn");
-                    modalShareBtn.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Share';
-                }
-
-                const info = extractProductInfoFromModal(modal);
-                const prodSig = (info.prodId || info.name) + "_" + info.price;
-                if (modal.dataset.cmModalSig === prodSig && modal.querySelector(".cm-wish-modal-btn")) continue;
-                modal.dataset.cmModalSig = prodSig;
-
-                modal.querySelectorAll(".cm-wish-modal-btn, .cm-wa-order-btn, .cm-save-badge, .cm-trust-strip").forEach(el => el.remove());
-
-                const actionRow = addBtn.parentElement;
-                if (actionRow) {
-                    const st = getComputedStyle(actionRow);
-                    if (st.display === "grid") {
-                        actionRow.style.display = "flex";
-                        actionRow.style.flexWrap = "wrap";
-                        actionRow.style.gap = "8px";
-                        Array.from(actionRow.children).forEach(ch => { ch.style.flex = "1 1 auto"; });
-                    }
-                    const saved = isProductInWishlist(info.prodId, info.name);
-                    const wishBtn = document.createElement("button");
-                    wishBtn.type = "button";
-                    wishBtn.className = "cm-wish-modal-btn" + (saved ? " saved" : "");
-                    wishBtn.innerHTML = saved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
-                    wishBtn.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); toggleModalWishlist(info, wishBtn); };
-                    actionRow.appendChild(wishBtn);
-
-                    const waBtn = document.createElement("button");
-                    waBtn.type = "button";
-                    waBtn.className = "cm-wa-order-btn";
-                    waBtn.innerHTML = '<i class="fa-brands fa-whatsapp" style="font-size:17px"></i> WhatsApp-এ সরাসরি অর্ডার করুন';
-                    waBtn.onclick = () => {
-                        let wa = String(cachedSettings.whatsapp || "01767068529").replace(/[^0-9]/g, "");
-                        if (wa.startsWith("01")) wa = "88" + wa;
-                        const sz = getSelectedSizeFromModal(modal);
-                        const link = info.prodId ? `${location.href.split(/[?#]/)[0]}?product=${encodeURIComponent(info.prodId)}` : location.href;
-                        const msg = `আসসালামু আলাইকুম! আমি এই পণ্যটি অর্ডার করতে চাই:\n📦 পণ্য: ${info.name}\n🏷️ দাম: ৳${fmtNum(info.price)}${sz ? `\n📏 সাইজ: ${sz}` : ""}${info.sku ? `\n🔖 SKU: ${info.sku}` : ""}\n🔗 লিংক: ${link}`;
-                        window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-                    };
-                    actionRow.insertAdjacentElement("afterend", waBtn);
-
-                    const trust = document.createElement("div");
-                    trust.className = "cm-trust-strip";
-                    trust.innerHTML = '<span><i class="fa-solid fa-shield-halved"></i> ১০০% ক্যাশ অন ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-truck-fast"></i> ২৪-৭২ ঘন্টায় ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-rotate-left"></i> সহজ রিটার্ন</span>';
-                    waBtn.insertAdjacentElement("afterend", trust);
-                }
-
-                if (info.oldPrice > info.price && info.price > 0) {
-                    const priceEl = Array.from(modal.querySelectorAll("div, p, span")).find(el => {
-                        const t = (el.textContent || "").trim();
-                        return el.children.length <= 3 && t.includes("৳") && t.includes(fmtNum(info.oldPrice).slice(0, 3)) && t.length < 40;
-                    });
-                    if (priceEl && !priceEl.querySelector(".cm-save-badge")) {
-                        const pct = Math.round(((info.oldPrice - info.price) / info.oldPrice) * 100);
-                        const save = info.oldPrice - info.price;
-                        const badge = document.createElement("span");
-                        badge.className = "cm-save-badge";
-                        badge.textContent = `🔥 ${pct}% ছাড় (৳${fmtNum(save)} সাশ্রয়)`;
-                        priceEl.appendChild(badge);
-                    }
-                }
-
-                const mainImg = Array.from(modal.querySelectorAll("img")).find(im => im.offsetWidth > 70 && im.offsetHeight > 70);
-                if (mainImg && !mainImg.dataset.cmZoomBound) {
-                    mainImg.dataset.cmZoomBound = "1";
-                    mainImg.style.cursor = "zoom-in";
-                    mainImg.title = "বড় করে দেখতে ক্লিক করুন";
-                    mainImg.addEventListener("click", ev => {
-                        ev.stopPropagation();
-                        const z = document.createElement("div");
-                        z.className = "cm-zoom-backdrop";
-                        z.innerHTML = `<button type="button" class="cm-zoom-close">&times;</button><img src="${escHtml(mainImg.src)}" alt="">`;
-                        z.onclick = () => z.remove();
-                        document.body.appendChild(z);
-                    });
-                }
-            }
-        } catch (e) {}
-    }
-
-    function setupSmartShareAndDeepLink() {
-        document.addEventListener("click", e => {
-            const btn = e.target.closest("button, a");
-            if (!btn || btn.closest(".cm-share-backdrop")) return;
-            const bTxt = (btn.textContent || "").trim();
-            const isShareBtn = /^Share$/i.test(bTxt) || (bTxt.length < 18 && /share/i.test(bTxt));
-            if (!isShareBtn) return;
-
-            const modal = findProductModalBox(btn);
-            if (!modal) return;
-
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            openSharePopupForModal(modal);
-        }, true);
-    }
-
-    async function autoOpenSharedProductFromUrl() {
-        const params = new URLSearchParams(location.search);
-        const targetId = params.get("product") || params.get("p") || params.get("id");
-        if (!targetId) return;
-
-        for (let i = 0; i < 25; i++) {
-            const byAttr = Array.from(document.querySelectorAll("[onclick], [data-id], [data-product-id]")).find(el => {
-                const oc = el.getAttribute("onclick") || "";
-                const di = el.getAttribute("data-id") || el.getAttribute("data-product-id") || "";
-                return oc.includes(targetId) || di === targetId;
-            });
-            if (byAttr) {
-                byAttr.scrollIntoView({ behavior: "smooth", block: "center" });
-                setTimeout(() => byAttr.click(), 200);
-                return;
-            }
-            if (!cachedProducts.length) await loadStoreCache();
-            const prod = cachedProducts.find(p => String(p.id) === targetId);
-            if (prod) {
-                const cards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product']"));
-                const matched = cards.find(c => /৳/.test(c.textContent || "") && (c.textContent || "").toLowerCase().includes(prod.name.toLowerCase()));
-                if (matched) {
-                    matched.scrollIntoView({ behavior: "smooth", block: "center" });
-                    const clickable = matched.querySelector("img, h3, h4, a, button") || matched;
-                    setTimeout(() => clickable.click(), 200);
-                    return;
-                }
-            }
-            await sleepMs(320);
-        }
-    }
-
-    // ---------------------------------------------------------
-    // 5. Live Search Bar Auto-Suggestion
-    // ---------------------------------------------------------
-    function openOrSearchProduct(prod, searchInp) {
-        saveRecentlyViewed(prod);
-        const prodCards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product'], [onclick*='prod' i], [onclick*='detail' i], [onclick*='modal' i]"));
-        const targetCard = prodCards.find(c => {
-            if (c.closest("#cmSearchSuggest") || c.closest("#cmRecentlyViewed")) return false;
-            const t = (c.textContent || "").toLowerCase();
-            return prod.name && t.includes(prod.name.toLowerCase()) && /৳/.test(t);
-        });
-        if (targetCard) {
-            targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
-            const clickTarget = targetCard.querySelector("img, h3, h4, a, button") || targetCard;
-            setTimeout(() => clickTarget.click(), 180);
+        if (!wishlist.length) {
+            c.innerHTML = '<div class="drawer-empty"><i class="fa-regular fa-heart"></i><p>Wishlist খালি</p></div>';
             return;
         }
-        if (searchInp) {
-            searchInp.value = prod.name;
-            searchInp.dispatchEvent(new Event("input", { bubbles: true }));
-            searchInp.dispatchEvent(new Event("change", { bubbles: true }));
-            const wrap = searchInp.closest("form, div");
-            const sBtn = wrap ? wrap.querySelector("button") : null;
-            if (sBtn) sBtn.click();
+
+        c.innerHTML = wishlist.map(id => {
+            const p = storeData.products.find(x => x.id === id);
+            if (!p) return '';
+            return `
+            <div class="drawer-item" style="align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9">
+                <img src="${getProductImages(p)[0] || ''}" alt="${esc(p.name)}" style="width:56px;height:56px;object-fit:cover;border-radius:9px;border:1px solid #e2e8f0">
+                <div style="flex:1;min-width:0">
+                    <h5 style="font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</h5>
+                    <p style="font-size:12px;color:var(--primary);font-weight:700">৳ ${formatPrice(p.price)}</p>
+                    <div style="display:flex;gap:6px;margin-top:6px;align-items:center">
+                        <button type="button" class="mini-cart-btn" style="margin:0;padding:5px 12px;font-weight:700;border-radius:6px" onclick="openOrderModal('${p.id}')">Order Now</button>
+                        <button type="button" class="cm-del-btn-pill" onclick="toggleWishlist('${p.id}')" title="Wishlist থেকে মুছুন">
+                            <i class="fa-solid fa-trash-can"></i> মুছুন
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+    };
+
+    // 3. NATIVE CART OVERRIDE: Exactly ONE Permanent Delete Button!
+    window.deleteCartItemDirect = function(idx) {
+        if (!cart[idx]) return;
+        cart.splice(idx, 1);
+        saveCart(); // Natively updates localStorage 'chitro_cart_v8', cloud & UI
+        showToast('কার্ট থেকে পণ্য মুছে ফেলা হয়েছে');
+    };
+
+    window.renderCart = function() {
+        $('cartBadge').textContent = cart.reduce((s, i) => s + Number(i.qty || 1), 0);
+        if ($('cmMobCartBadge')) $('cmMobCartBadge').textContent = $('cartBadge').textContent;
+
+        const c = $('cartItemsContainer'), f = $('checkoutFields'), dg = $('cartDelGrid'), dn = $('cartDelNote'),
+              cr = $('cartCouponRow'), pl = $('cartPayList'), bb = $('cartBillBox'), lh = $('cartLoginHint');
+
+        if (!cart.length) {
+            c.innerHTML = '<div class="drawer-empty"><i class="fa-solid fa-cart-arrow-down"></i><p>কার্ট খালি</p></div>';
+            if (f) f.style.display = 'none'; if (dg) dg.style.display = 'none'; if (dn) dn.style.display = 'none';
+            if (lh) lh.style.display = 'none'; if (cr) cr.style.display = 'none'; if (pl) pl.style.display = 'none';
+            if (bb) bb.style.display = 'none'; if ($('cartPayBox')) $('cartPayBox').style.display = 'none';
+            return;
         }
-    }
 
+        let sub = 0;
+        c.innerHTML = cart.map((item, idx) => {
+            const p = storeData.products.find(x => x.id === item.id);
+            if (!p) return '';
+            sub += p.price * item.qty;
+            return `
+            <div class="drawer-item" style="align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9">
+                <img src="${getProductImages(p)[0] || ''}" alt="${esc(p.name)}" style="width:56px;height:56px;object-fit:cover;border-radius:9px;border:1px solid #e2e8f0">
+                <div style="flex:1;min-width:0">
+                    <h5 style="font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}${item.size ? ` (${esc(item.size)})` : ''}</h5>
+                    <p style="font-size:12px;color:var(--primary);font-weight:700">৳ ${formatPrice(p.price)} x ${item.qty}</p>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+                        <div class="qty-controls">
+                            <button type="button" onclick="updateQty(${idx}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button type="button" onclick="updateQty(${idx}, 1)">+</button>
+                        </div>
+                        <button type="button" class="cm-del-btn-pill" onclick="deleteCartItemDirect(${idx})" title="কার্ট থেকে স্থায়ীভাবে মুছুন">
+                            <i class="fa-solid fa-trash-can"></i> মুছুন
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+
+        const s = getSettings(), disc = calcCouponDiscount(sub, cartCoupon);
+        const hasArea = cartDeliveryArea === 'dhaka' || cartDeliveryArea === 'outside';
+        const del = hasArea ? (cartDeliveryArea === 'dhaka' ? Number(s.dhakaCharge) : Number(s.outsideCharge)) : 0;
+
+        $('cartSubTotal').textContent = '৳ ' + formatPrice(sub);
+        $('cartDiscRow').style.display = disc > 0 ? 'flex' : 'none';
+        $('cartDiscVal').textContent = '- ৳ ' + formatPrice(disc);
+        $('cartDelFee').textContent = hasArea ? ('৳ ' + formatPrice(del)) : 'জেলা সিলেক্ট করুন';
+        $('cartTotal').textContent = '৳ ' + formatPrice(sub - disc + del);
+
+        if (lh) lh.style.display = currentUser ? 'none' : 'flex';
+        if (f) f.style.display = 'flex';
+        if (dg) dg.style.display = 'grid';
+        if (dn) dn.style.display = 'flex';
+        if (cr) cr.style.display = 'flex';
+        if (pl) pl.style.display = 'flex';
+        if (bb) bb.style.display = 'block';
+    };
+
+    // 4. NATIVE PRODUCT MODAL OVERRIDE: Clean Share Button, Wishlist Toggle, WhatsApp Order & Zoom
+    const _baseOpenDetailsModal = window.openDetailsModal;
+    window.openDetailsModal = function(id) {
+        _baseOpenDetailsModal(id);
+        const p = storeData.products.find(x => x.id === id);
+        if (!p) return;
+
+        saveRecentlyViewed(p);
+
+        const body = $('detailsModalBody');
+        if (!body) return;
+
+        // A. Position Share Button cleanly to the far-right of the pill row (NEVER cut off!)
+        const pillRow = body.querySelector('.details-title')?.previousElementSibling;
+        if (pillRow) {
+            pillRow.querySelectorAll('.cm-share-btn, .cm-share-pill-btn').forEach(b => b.remove());
+            const shareBtn = document.createElement('button');
+            shareBtn.type = 'button';
+            shareBtn.className = 'cm-share-pill-btn';
+            shareBtn.innerHTML = '<i class="fa-solid fa-share-nodes"></i> Share';
+            shareBtn.onclick = function() { openMasterSharePopup(p.id); };
+            pillRow.appendChild(shareBtn);
+        }
+
+        // B. Discount % + Savings Badge
+        if (p.oldPrice && p.oldPrice > p.price) {
+            const priceRow = body.querySelector('.details-price-row');
+            if (priceRow && !priceRow.querySelector('.cm-save-badge')) {
+                const pct = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                const save = p.oldPrice - p.price;
+                const badge = document.createElement('span');
+                badge.className = 'cm-save-badge';
+                badge.textContent = `🔥 ${pct}% ছাড় (৳ ${formatPrice(save)} সাশ্রয়)`;
+                priceRow.appendChild(badge);
+            }
+        }
+
+        // C. Clean 3-Column Actions: Add to Cart + Order Now + Wishlist Button
+        const actionsDiv = body.querySelector('.details-actions');
+        if (actionsDiv && !actionsDiv.querySelector('.cm-wish-modal-btn')) {
+            actionsDiv.style.gridTemplateColumns = '1fr 1.2fr 0.9fr';
+
+            const wishBtn = document.createElement('button');
+            wishBtn.type = 'button';
+            wishBtn.id = 'detModalWishBtn';
+            const isSaved = wishlist.includes(p.id);
+            wishBtn.className = 'cm-wish-modal-btn' + (isSaved ? ' saved' : '');
+            wishBtn.innerHTML = isSaved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
+            wishBtn.onclick = function() {
+                toggleWishlist(p.id); // Uses site's own toggleWishlist!
+                const nowSaved = wishlist.includes(p.id);
+                wishBtn.classList.toggle('saved', nowSaved);
+                wishBtn.innerHTML = nowSaved ? '<i class="fa-solid fa-heart"></i> Saved' : '<i class="fa-regular fa-heart"></i> Wishlist';
+            };
+            actionsDiv.appendChild(wishBtn);
+
+            // D. 1-Click WhatsApp Direct Order Button
+            const waBtn = document.createElement('button');
+            waBtn.type = 'button';
+            waBtn.className = 'cm-wa-order-btn';
+            waBtn.innerHTML = '<i class="fa-brands fa-whatsapp" style="font-size:17px"></i> WhatsApp-এ সরাসরি অর্ডার করুন';
+            waBtn.onclick = function() {
+                const s = getSettings();
+                let wa = String(s.whatsapp || '01767068529').replace(/[^0-9]/g, '');
+                if (wa.startsWith('01')) wa = '88' + wa;
+                const shareUrl = `${location.origin}${location.pathname}?product=${encodeURIComponent(p.id)}`;
+                const msg = `আসসালামু আলাইকুম! আমি এই পণ্যটি অর্ডার করতে চাই:\n📦 পণ্য: ${p.name}\n🏷️ দাম: ৳ ${formatPrice(p.price)}${activeDetailsSize ? `\n📏 সাইজ: ${activeDetailsSize}` : ''}${p.sku ? `\n🔖 SKU: ${p.sku}` : ''}\n🔗 লিংক: ${shareUrl}`;
+                window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+            };
+            actionsDiv.insertAdjacentElement('afterend', waBtn);
+
+            // E. Trust Strip
+            const trust = document.createElement('div');
+            trust.className = 'cm-trust-strip';
+            trust.innerHTML = '<span><i class="fa-solid fa-shield-halved" style="color:#0ea646"></i> ১০০% ক্যাশ অন ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-truck-fast" style="color:#0ea646"></i> ২৪-৭২ ঘন্টায় ডেলিভারি</span><span>•</span><span><i class="fa-solid fa-rotate-left" style="color:#0ea646"></i> সহজ রিটার্ন</span>';
+            waBtn.insertAdjacentElement('afterend', trust);
+        }
+
+        // F. Click-to-Zoom Main Image Lightbox
+        const mainImg = $('detMainImg');
+        if (mainImg && !mainImg.dataset.cmZoomBound) {
+            mainImg.dataset.cmZoomBound = '1';
+            mainImg.style.cursor = 'zoom-in';
+            mainImg.title = 'বড় করে দেখতে ক্লিক করুন';
+            mainImg.onclick = function() {
+                const z = document.createElement('div');
+                z.className = 'cm-zoom-backdrop';
+                z.innerHTML = `<button type="button" class="cm-zoom-close" onclick="this.closest('.cm-zoom-backdrop').remove()">&times;</button><img src="${mainImg.src}" alt="${esc(p.name)}">`;
+                z.onclick = (e) => { if (e.target === z) z.remove(); };
+                document.body.appendChild(z);
+            };
+        }
+    };
+
+    // 5. MASTER SHARE POPUP (WhatsApp, Facebook, Telegram, Formatted Copy, Working Others App)
+    window.openMasterSharePopup = function(pid) {
+        const p = storeData.products.find(x => x.id === pid);
+        if (!p) return;
+        const shareUrl = `${location.origin}${location.pathname}?product=${encodeURIComponent(pid)}`;
+        const shareText = `🔥 ${p.name} — মাত্র ৳ ${formatPrice(p.price)}!\nএখনই অর্ডার করুন:\n${shareUrl}`;
+
+        // Safe copy fallback
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(shareUrl).catch(() => {});
+        }
+
+        showToast('🔗 প্রোডাক্ট লিংক কপি হয়েছে!');
+
+        document.querySelectorAll('.cm-share-backdrop').forEach(e => e.remove());
+        const bd = document.createElement('div');
+        bd.className = 'cm-share-backdrop';
+        bd.innerHTML = `
+        <div class="cm-share-box">
+            <div class="cm-share-head">
+                <h4>🔗 প্রোডাক্ট শেয়ার করুন</h4>
+                <button type="button" class="close-btn" style="color:#64748b;font-size:24px" onclick="this.closest('.cm-share-backdrop').remove()">&times;</button>
+            </div>
+            <p style="font-size:12.5px;color:#334155;margin-bottom:10px"><b>${esc(p.name)}</b> • <span style="color:var(--primary);font-weight:700">৳ ${formatPrice(p.price)}</span></p>
+            <div class="cm-share-url-row">
+                <input type="text" value="${esc(shareUrl)}" readonly onclick="this.select()">
+                <button type="button" id="cmShareCopyBtn" style="border:none;background:#2563eb;color:#fff;padding:0 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer">Copy</button>
+            </div>
+            <div class="cm-share-grid">
+                <a class="cm-share-btn" style="background:#25d366" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText)}"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                <a class="cm-share-btn" style="background:#1877f2" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}"><i class="fa-brands fa-facebook"></i> Facebook</a>
+                <a class="cm-share-btn" style="background:#0088cc" target="_blank" rel="noopener" href="https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(p.name)}"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                <button type="button" id="cmShareFullBtn" class="cm-share-btn" style="background:#0f172a"><i class="fa-solid fa-copy"></i> নাম+দামসহ কপি</button>
+                <button type="button" id="cmShareOtherBtn" class="cm-share-btn" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);grid-column:1/-1"><i class="fa-solid fa-share-nodes"></i> আরও অ্যাপ / অন্যান্য মাধ্যমে শেয়ার</button>
+            </div>
+        </div>`;
+
+        bd.onclick = (e) => { if (e.target === bd) bd.remove(); };
+        bd.querySelector('#cmShareCopyBtn').onclick = function() {
+            if (navigator.clipboard) navigator.clipboard.writeText(shareUrl).catch(() => {});
+            this.textContent = 'Copied ✓';
+            setTimeout(() => { if (this.isConnected) this.textContent = 'Copy'; }, 1500);
+            showToast('✅ লিংক কপি হয়েছে!');
+        };
+        bd.querySelector('#cmShareFullBtn').onclick = function() {
+            if (navigator.clipboard) navigator.clipboard.writeText(shareText).catch(() => {});
+            showToast('✅ নাম, দাম ও লিংক কপি হয়েছে!');
+        };
+        bd.querySelector('#cmShareOtherBtn').onclick = async function() {
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: p.name, text: `${p.name} — ৳ ${formatPrice(p.price)}`, url: shareUrl });
+                    return;
+                } catch (e) {}
+            }
+            if (navigator.clipboard) navigator.clipboard.writeText(shareText).catch(() => {});
+            showToast('✅ বিবরণ ও লিংক কপি হয়েছে! যেকোনো অ্যাপে পেস্ট করুন');
+        };
+        document.body.appendChild(bd);
+    };
+
+    // 6. Live Search Bar Auto-Suggestion
     function setupSearchAutoSuggest() {
-        const inp = document.querySelector("input[placeholder*='খুঁজছেন'], input[placeholder*='looking' i], input[type='search'], input[id*='search' i]");
+        const inp = $('searchInput');
         if (!inp || inp.dataset.cmSugBound) return;
-        inp.dataset.cmSugBound = "1";
-        inp.setAttribute("autocomplete", "off");
+        inp.dataset.cmSugBound = '1';
+        inp.setAttribute('autocomplete', 'off');
 
-        let dd = document.getElementById("cmSearchSuggest");
+        let dd = $('cmSearchSuggest');
         if (!dd) {
-            dd = document.createElement("div");
-            dd.id = "cmSearchSuggest";
-            dd.className = "cm-search-suggest";
+            dd = document.createElement('div');
+            dd.id = 'cmSearchSuggest';
+            dd.className = 'cm-search-suggest';
             document.body.appendChild(dd);
         }
 
-        let activeIdx = -1;
-        let currentMatches = [];
-
         function positionDropdown() {
-            const rect = inp.getBoundingClientRect();
-            const width = Math.max(rect.width + 44, 300);
-            const left = Math.min(rect.left, window.innerWidth - width - 10);
-            dd.style.left = Math.max(10, left) + "px";
-            dd.style.top = (rect.bottom + 7) + "px";
-            dd.style.width = Math.min(width, window.innerWidth - 20) + "px";
+            const r = inp.getBoundingClientRect();
+            dd.style.left = Math.max(10, r.left - 10) + 'px';
+            dd.style.top = (r.bottom + 8) + 'px';
+            dd.style.width = Math.min(r.width + 50, window.innerWidth - 20) + 'px';
         }
 
         function renderSuggestions() {
             const q = inp.value.trim().toLowerCase();
-            if (!q) { dd.style.display = "none"; currentMatches = []; return; }
-            if (!cachedProducts.length) loadStoreCache();
+            if (!q) { dd.style.display = 'none'; return; }
 
-            const words = q.split(/\s+/).filter(Boolean);
-            currentMatches = cachedProducts.filter(p => {
-                const hay = `${p.name || ""} ${p.sku || ""} ${p.category || ""} ${p.shortSpec || ""} ${p.sizes || ""}`.toLowerCase();
-                return words.every(w => hay.includes(w));
-            }).slice(0, 7);
+            const matches = (storeData.products || []).filter(p => {
+                const hay = `${p.name || ''} ${p.sku || ''} ${p.category || ''} ${p.shortSpec || ''}`.toLowerCase();
+                return hay.includes(q);
+            }).slice(0, 6);
 
             positionDropdown();
-            activeIdx = -1;
 
-            if (!currentMatches.length) {
-                dd.innerHTML = `<div class="cm-sug-empty">😔 "<b>${escHtml(inp.value.trim())}</b>" নামে কোনো পণ্য পাওয়া যায়নি</div>`;
-                dd.style.display = "block";
+            if (!matches.length) {
+                dd.innerHTML = `<div style="padding:14px;text-align:center;font-size:12px;color:#64748b">😔 "${esc(inp.value.trim())}" নামে কোনো পণ্য পাওয়া যায়নি</div>`;
+                dd.style.display = 'block';
                 return;
             }
 
-            dd.innerHTML = `<div class="cm-sug-head"><span>🔍 প্রস্তাবিত পণ্য (${currentMatches.length})</span><span>ক্লিক করে দেখুন</span></div>` +
-                currentMatches.map((p, idx) => `
-                    <div class="cm-sug-item" data-idx="${idx}">
-                        <img src="${escHtml(getFirstImg(p))}" alt="">
-                        <div class="cm-sug-meta">
-                            <div class="cm-sug-name">${escHtml(p.name)}</div>
-                            <div class="cm-sug-sub">${escHtml(p.category || "General")}${p.sku ? " • SKU: " + escHtml(p.sku) : ""}${p.sizes ? " • " + escHtml(p.sizes) : ""}</div>
+            dd.innerHTML = `<div class="cm-sug-head"><span>🔍 প্রস্তাবিত পণ্য (${matches.length})</span><span>ক্লিক করে দেখুন</span></div>` +
+                matches.map(p => `
+                    <div class="cm-sug-item" onclick="openDetailsModal('${p.id}');$('cmSearchSuggest').style.display='none'">
+                        <img src="${getProductImages(p)[0] || ''}" alt="${esc(p.name)}">
+                        <div style="flex:1;min-width:0">
+                            <div class="cm-sug-name">${esc(p.name)}</div>
+                            <small style="color:#64748b;font-size:11px">${esc(p.category || 'General')}${p.sku ? ' • SKU: ' + esc(p.sku) : ''}</small>
                         </div>
-                        <div class="cm-sug-price">
-                            <b>৳${fmtNum(p.price)}</b>
-                            ${p.oldPrice ? `<del>৳${fmtNum(p.oldPrice)}</del>` : ""}
-                        </div>
+                        <b style="color:var(--primary);font-size:13px;flex-shrink:0">৳ ${formatPrice(p.price)}</b>
                     </div>
-                `).join("");
-
-            dd.querySelectorAll(".cm-sug-item").forEach(row => {
-                row.addEventListener("mousedown", ev => {
-                    ev.preventDefault();
-                    const p = currentMatches[Number(row.dataset.idx)];
-                    dd.style.display = "none";
-                    if (p) openOrSearchProduct(p, inp);
-                });
-            });
-            dd.style.display = "block";
+                `).join('');
+            dd.style.display = 'block';
         }
 
-        inp.addEventListener("focus", () => {
-            if (!cachedProducts.length) loadStoreCache().then(renderSuggestions);
-            else if (inp.value.trim()) renderSuggestions();
-        });
-        inp.addEventListener("input", renderSuggestions);
-
-        inp.addEventListener("keydown", ev => {
-            if (dd.style.display !== "block" || !currentMatches.length) return;
-            const items = dd.querySelectorAll(".cm-sug-item");
-            if (ev.key === "ArrowDown") {
-                ev.preventDefault(); activeIdx = (activeIdx + 1) % items.length;
-                items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
-            } else if (ev.key === "ArrowUp") {
-                ev.preventDefault(); activeIdx = (activeIdx - 1 + items.length) % items.length;
-                items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
-            } else if (ev.key === "Enter" && activeIdx > -1) {
-                ev.preventDefault(); const p = currentMatches[activeIdx]; dd.style.display = "none";
-                if (p) openOrSearchProduct(p, inp);
-            } else if (ev.key === "Escape") { dd.style.display = "none"; }
-        });
-
-        document.addEventListener("click", ev => { if (ev.target !== inp && !dd.contains(ev.target)) dd.style.display = "none"; });
-        window.addEventListener("scroll", () => { if (dd.style.display === "block") positionDropdown(); }, { passive: true });
-        window.addEventListener("resize", () => { if (dd.style.display === "block") positionDropdown(); });
+        inp.addEventListener('input', renderSuggestions);
+        inp.addEventListener('focus', () => { if (inp.value.trim()) renderSuggestions(); });
+        document.addEventListener('click', e => { if (e.target !== inp && !dd.contains(e.target)) dd.style.display = 'none'; });
+        window.addEventListener('resize', () => { if (dd.style.display === 'block') positionDropdown(); });
     }
 
-    // ---------------------------------------------------------
-    // 6. Recently Viewed Products Strip
-    // ---------------------------------------------------------
-    function saveRecentlyViewed(prod) {
-        if (!prod || !prod.name) return;
+    // 7. Recently Viewed Products Strip
+    function saveRecentlyViewed(p) {
+        if (!p || !p.id) return;
         try {
-            let list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+            let list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
             if (!Array.isArray(list)) list = [];
-            list = list.filter(x => x.name !== prod.name);
-            list.unshift({ id: prod.id || "", name: prod.name, price: prod.price, oldPrice: prod.oldPrice || null, image: getFirstImg(prod) });
+            list = list.filter(x => x.id !== p.id);
+            list.unshift({ id: p.id, name: p.name, price: p.price, oldPrice: p.oldPrice || null, image: getProductImages(p)[0] || '' });
             localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 6)));
             renderRecentlyViewed();
         } catch (e) {}
@@ -5852,14 +5509,14 @@
 
     function renderRecentlyViewed() {
         let list = [];
-        try { list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); } catch (e) {}
+        try { list = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) {}
         if (!Array.isArray(list) || !list.length) return;
 
-        let wrap = document.getElementById("cmRecentlyViewed");
+        let wrap = $('cmRecentlyViewed');
         if (!wrap) {
-            wrap = document.createElement("section");
-            wrap.id = "cmRecentlyViewed";
-            const footer = document.querySelector("footer");
+            wrap = document.createElement('section');
+            wrap.id = 'cmRecentlyViewed';
+            const footer = $('footer-section');
             if (footer && footer.parentNode) footer.parentNode.insertBefore(wrap, footer);
             else document.body.appendChild(wrap);
         }
@@ -5867,491 +5524,99 @@
         wrap.innerHTML = `
             <div class="cm-rv-head">
                 <span>🕒 আপনি সম্প্রতি দেখেছেন</span>
-                <button type="button" onclick="localStorage.removeItem('${RECENT_KEY}');document.getElementById('cmRecentlyViewed')?.remove()" style="background:none;border:none;color:#64748b;font-size:11.5px;cursor:pointer">মুছুন</button>
+                <button type="button" onclick="localStorage.removeItem('${RECENT_KEY}');$('cmRecentlyViewed')?.remove()" style="background:none;border:none;color:#64748b;font-size:11.5px;cursor:pointer">মুছুন</button>
             </div>
             <div class="cm-rv-strip">
-                ${list.map((p, i) => `
-                    <div class="cm-rv-card" data-rv="${i}">
-                        <img src="${escHtml(p.image)}" alt="">
-                        <div class="cm-rv-title">${escHtml(p.name)}</div>
-                        <div class="cm-rv-price">৳${fmtNum(p.price)} ${p.oldPrice ? `<del style="color:#94a3b8;font-size:10.5px;font-weight:400">৳${fmtNum(p.oldPrice)}</del>` : ""}</div>
+                ${list.map(p => `
+                    <div class="cm-rv-card" onclick="openDetailsModal('${p.id}')">
+                        <img src="${p.image}" alt="${esc(p.name)}">
+                        <div class="cm-rv-title">${esc(p.name)}</div>
+                        <div class="cm-rv-price">৳ ${formatPrice(p.price)} ${p.oldPrice ? `<del style="color:#94a3b8;font-size:10px;font-weight:400">৳ ${formatPrice(p.oldPrice)}</del>` : ''}</div>
                     </div>
-                `).join("")}
+                `).join('')}
             </div>
         `;
-        wrap.querySelectorAll(".cm-rv-card").forEach(card => {
-            card.onclick = () => {
-                const p = list[Number(card.dataset.rv)];
-                const searchInp = document.querySelector("input[placeholder*='খুঁজছেন'], input[placeholder*='looking' i], input[type='search']");
-                if (p) openOrSearchProduct(p, searchInp);
-            };
-        });
     }
 
-    function hookProductClicksForRecent() {
-        document.addEventListener("click", e => {
-            if (e.target.closest("#cmSearchSuggest") || e.target.closest("#cmRecentlyViewed")) return;
-            const card = e.target.closest("[class*='prod'], [class*='product']");
-            if (!card || !/৳/.test(card.textContent || "") || !cachedProducts.length) return;
-            const txt = (card.textContent || "").toLowerCase();
-            const found = cachedProducts.find(p => p.name && txt.includes(p.name.toLowerCase()));
-            if (found) saveRecentlyViewed(found);
-        });
-    }
-
-    // ---------------------------------------------------------
-    // 7. PERSISTENT CART DELETE BUTTON
-    // ---------------------------------------------------------
-    const SUMMARY_SKIP_RE = /পণ্যের মূল্য|ডেলিভারি|সর্বমোট|মোট টাকা|Subtotal|Total Payable|Grand Total|Delivery Charge|Discount|কুপন/i;
-
-    function isActualCartItemRow(row) {
-        const txt = (row.textContent || "").trim();
-        if (!/৳/.test(txt) || SUMMARY_SKIP_RE.test(txt)) return false;
-        const hasImg = !!row.querySelector("img");
-        const hasQtyBtns = Array.from(row.querySelectorAll("button")).some(b => {
-            const bt = (b.textContent || "").trim();
-            return bt === "-" || bt === "+" || bt === "−";
-        });
-        return hasImg || hasQtyBtns || /\bx\s*\d+/i.test(txt);
-    }
-
-    function cleanItemTitleForMatch(txt) {
-        return String(txt || "")
-            .replace(/৳[\d,.\s]+/g, " ").replace(/\bx\s*\d+/gi, " ").replace(/\((S|M|L|XL|XXL|XXXL|\d+)\)/gi, " ")
-            .replace(/[-–—]/g, " ").replace(/মুছুন/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-    }
-
-    function findMatchingItemIndex(arr, rowCleanText, fallbackIdx) {
-        if (!Array.isArray(arr) || !arr.length) return -1;
-        let idx = arr.findIndex(it => {
-            if (!it || typeof it !== "object") return false;
-            const nm = String(it.name || it.title || it.productName || "").replace(/[-–—]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-            return nm && (rowCleanText.includes(nm) || nm.includes(rowCleanText.slice(0, 18)));
-        });
-        if (idx < 0 && fallbackIdx >= 0 && fallbackIdx < arr.length) idx = fallbackIdx;
-        return idx;
-    }
-
-    function findAllCartArraysInStorage() {
-        const matches = [];
-        for (const store of [localStorage, sessionStorage]) {
-            try {
-                for (let i = 0; i < store.length; i++) {
-                    const k = store.key(i);
-                    if (!k || k.includes("adm") || k.includes("visit") || k === RECENT_KEY || k === WISH_KEY) continue;
-                    const raw = store.getItem(k);
-                    if (!raw) continue;
-                    if (raw.startsWith("[")) {
-                        try {
-                            const arr = JSON.parse(raw);
-                            if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === "object" && (
-                                /cart/i.test(k) || arr[0].qty !== undefined || arr[0].quantity !== undefined || arr[0].price !== undefined
-                            )) { matches.push({ store, key: k, type: "array", data: arr }); }
-                        } catch (e) {}
-                    } else if (raw.startsWith("{")) {
-                        try {
-                            const obj = JSON.parse(raw);
-                            if (obj && typeof obj === "object" && Array.isArray(obj.cart) && obj.cart.length > 0) {
-                                matches.push({ store, key: k, type: "obj_cart", data: obj });
-                            }
-                        } catch (e) {}
-                    }
-                }
-            } catch (e) {}
-        }
-        return matches;
-    }
-
-    function refreshPageCartUI() {
-        ["saveCart", "syncCart", "renderCart", "renderCartItems", "saveAndRenderCart", "updateCart", "updateCartUI", "updateCartCount", "drawCart", "loadCart", "showCartItems", "calcCart"].forEach(fn => {
-            try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
-        });
-    }
-
-    async function syncFirebaseCartDeletion(rowCleanText, fallbackIdx) {
-        const cust = detectCustomer();
-        if (!cust.phone) return;
-        for (const p of [`users/${cust.phone}/cart`, `carts/${cust.phone}`]) {
-            try {
-                const r = await fetch(`${FB_URL_SF}/${p}.json?t=${Date.now()}`, { cache: "no-store" });
-                const d = await r.json();
-                if (!d) continue;
-                if (Array.isArray(d)) {
-                    const idx = findMatchingItemIndex(d, rowCleanText, fallbackIdx);
-                    if (idx > -1) {
-                        d.splice(idx, 1);
-                        await fetch(`${FB_URL_SF}/${p}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(d) });
-                    }
-                } else if (typeof d === "object") {
-                    const entries = Object.entries(d);
-                    const arr = entries.map(([, v]) => v);
-                    const idx = findMatchingItemIndex(arr, rowCleanText, fallbackIdx);
-                    if (idx > -1 && entries[idx]) await fetch(`${FB_URL_SF}/${p}/${entries[idx][0]}.json`, { method: "DELETE" });
-                }
-            } catch (e) {}
-        }
-    }
-
-    async function removeCartItemByRow(rowEl, rowIndex) {
-        const rowClean = cleanItemTitleForMatch(rowEl.textContent || "");
-        const existingBtn = rowEl.querySelector("button[onclick*='remove'], button[onclick*='del'], button[onclick*='Remove'], button[onclick*='Del']");
-        if (existingBtn && !existingBtn.classList.contains("cm-cart-del-btn")) {
-            existingBtn.click();
-            await syncFirebaseCartDeletion(rowClean, rowIndex);
-            miniToast("পণ্যটি কার্ট থেকে স্থায়ীভাবে মুছে ফেলা হয়েছে");
-            return;
-        }
-
-        const findSameRowInCart = () => {
-            const rows = Array.from(document.querySelectorAll("[id*='cart' i] *, [class*='cart' i] *")).filter(el => el.dataset && el.dataset.cmCartEnhanced === "1");
-            return rows.find(r => cleanItemTitleForMatch(r.textContent || "") === rowClean) || (rowEl.isConnected ? rowEl : null);
-        };
-
-        for (let attempt = 0; attempt < 15; attempt++) {
-            const curRow = findSameRowInCart();
-            if (!curRow) { await syncFirebaseCartDeletion(rowClean, rowIndex); miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
-            const minusBtn = Array.from(curRow.querySelectorAll("button")).find(b => { const bt = (b.textContent || "").trim(); return bt === "-" || bt === "−"; });
-            if (!minusBtn) break;
-            const beforeTxt = curRow.textContent;
-            minusBtn.click();
-            await sleepMs(75);
-            const afterRow = findSameRowInCart();
-            if (!afterRow) { await syncFirebaseCartDeletion(rowClean, rowIndex); miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
-            if (afterRow.textContent === beforeTxt) break;
-        }
-
-        let removedAny = false;
-        for (const gName of ["cart", "myCart", "cartItems", "shoppingCart", "userCart"]) {
-            try {
-                if (typeof window[gName] !== "undefined" && Array.isArray(window[gName]) && window[gName].length > 0) {
-                    const idx = findMatchingItemIndex(window[gName], rowClean, rowIndex);
-                    if (idx > -1) { window[gName].splice(idx, 1); removedAny = true; }
-                }
-            } catch (e) {}
-        }
-        try {
-            if (typeof cart !== "undefined" && Array.isArray(cart) && cart.length > 0) {
-                const idx = findMatchingItemIndex(cart, rowClean, rowIndex);
-                if (idx > -1) { cart.splice(idx, 1); removedAny = true; }
-            }
-        } catch (e) {}
-
-        for (const hit of findAllCartArraysInStorage()) {
-            const arr = hit.type === "array" ? hit.data : hit.data.cart;
-            const idx = findMatchingItemIndex(arr, rowClean, rowIndex);
-            if (idx > -1) { arr.splice(idx, 1); hit.store.setItem(hit.key, JSON.stringify(hit.data)); removedAny = true; }
-        }
-
-        await syncFirebaseCartDeletion(rowClean, rowIndex);
-        refreshPageCartUI();
-        if (rowEl.isConnected) rowEl.remove();
-        miniToast(removedAny ? "পণ্যটি কার্ট থেকে স্থায়ীভাবে মুছে ফেলা হয়েছে" : "পণ্যটি কার্ট থেকে সরানো হয়েছে");
-    }
-
-    function enhanceCartRows() {
-        try {
-            const containers = document.querySelectorAll("[id*='cart' i], [class*='cart' i]");
-            for (const box of containers) {
-                if (box.tagName === "BUTTON" || box.tagName === "A" || box.offsetHeight < 100) continue;
-                const rows = Array.from(box.querySelectorAll("[class*='item'], [class*='row'], li, .cart-row, .c-item"));
-                const candidates = rows.length ? rows : Array.from(box.children);
-                let itemIdx = 0;
-                for (const row of candidates) {
-                    if (!isActualCartItemRow(row)) continue;
-                    if (row.dataset.cmCartEnhanced) { itemIdx++; continue; }
-                    row.dataset.cmCartEnhanced = "1";
-
-                    const oldDel = Array.from(row.querySelectorAll("button")).find(b =>
-                        /remove|del|trash|×|✕/i.test((b.getAttribute("onclick") || "") + " " + b.innerHTML + " " + (b.title || ""))
-                    );
-                    if (oldDel) {
-                        oldDel.classList.add("cm-cart-del-btn");
-                        if (!/মুছুন|Delete/i.test(oldDel.textContent || "")) oldDel.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
-                    } else {
-                        const delBtn = document.createElement("button");
-                        delBtn.type = "button";
-                        delBtn.className = "cm-cart-del-btn";
-                        delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
-                        const capturedIdx = itemIdx;
-                        delBtn.onclick = e => { e.preventDefault(); e.stopPropagation(); removeCartItemByRow(row, capturedIdx); };
-                        row.appendChild(delBtn);
-                    }
-                    itemIdx++;
-                }
-            }
-        } catch (e) {}
-    }
-
-    // ---------------------------------------------------------
-    // 8. Live Chat Admin Unread Alert + Visitor Tracker + Social Proof + Coupon Guard
-    // ---------------------------------------------------------
-    let chatBtnRef = null, latestUnreadCount = 0, latestChatId = "";
-
-    function findLiveChatTrigger() {
-        if (chatBtnRef && document.contains(chatBtnRef)) return chatBtnRef;
-        const els = Array.from(document.querySelectorAll("button, a, div"));
-        chatBtnRef = els.find(el => {
-            const st = getComputedStyle(el);
-            const r = el.getBoundingClientRect();
-            const txt = (el.textContent || "").trim();
-            const isFloatingRight = st.position === "fixed" && r.right > window.innerWidth - 180 && r.bottom > window.innerHeight - 180 && r.width > 35 && r.height > 30 && r.height < 110;
-            const looksChat = /live\s*chat|chat/i.test(txt) || /chat/i.test(el.id || "") || /chat/i.test(el.className || "") || /chat/i.test(el.getAttribute("onclick") || "");
-            return isFloatingRight && looksChat;
-        }) || els.find(el => /live\s*chat/i.test((el.textContent || "").trim()) && el.offsetHeight < 80);
-
-        if (chatBtnRef && !chatBtnRef.dataset.cmChatHooked) {
-            chatBtnRef.dataset.cmChatHooked = "1";
-            if (getComputedStyle(chatBtnRef).position === "static") chatBtnRef.style.position = "relative";
-            chatBtnRef.style.overflow = "visible";
-            chatBtnRef.addEventListener("click", () => markClientChatRead());
-        }
-        return chatBtnRef;
-    }
-
-    function markClientChatRead() {
-        if (latestChatId && latestUnreadCount >= 0) {
-            const currentTotal = Number(sessionStorage.getItem("cm_cur_adm_cnt_" + latestChatId) || 0);
-            localStorage.setItem("cm_seen_adm_cnt_" + latestChatId, String(currentTotal));
-        }
-        document.querySelectorAll(".cm-chat-unread-badge, .cm-chat-preview-pop").forEach(e => e.remove());
-        document.title = document.title.replace(/^\(\d+\)\s*/, "");
-    }
-
-    async function checkAdminChatMessages() {
-        const cust = detectCustomer();
-        let chatObj = null;
-        try {
-            if (cust.chatId) {
-                const r = await fetch(`${FB_URL_SF}/chats/${encodeURIComponent(cust.chatId)}.json?t=${Date.now()}`, { cache: "no-store" });
-                chatObj = await r.json();
-            }
-            if ((!chatObj || !chatObj.messages) && cust.phone) {
-                const rAll = await fetch(`${FB_URL_SF}/chats.json?t=${Date.now()}`, { cache: "no-store" });
-                const allChats = (await rAll.json()) || {};
-                chatObj = Object.values(allChats).find(c => c && c.phone === cust.phone) || null;
-            }
-        } catch (e) { return; }
-
-        if (!chatObj || !chatObj.messages) return;
-        const cid = chatObj.id || cust.chatId;
-        latestChatId = cid;
-
-        const admMsgs = Object.values(chatObj.messages || {}).filter(m => m && m.sender === "admin");
-        const admCount = admMsgs.length;
-        sessionStorage.setItem("cm_cur_adm_cnt_" + cid, String(admCount));
-
-        const seenCount = Number(localStorage.getItem("cm_seen_adm_cnt_" + cid) || 0);
-        const unread = Math.max(0, admCount - seenCount);
-        latestUnreadCount = unread;
-
-        const chatBoxOpen = Array.from(document.querySelectorAll("[id*='chat' i], [class*='chat' i]")).some(el =>
-            el !== chatBtnRef && el.offsetHeight > 180 && /send|পাঠান|লিখুন/i.test(el.textContent || "")
-        );
-        if (chatBoxOpen && unread > 0) { markClientChatRead(); return; }
-
-        const btn = findLiveChatTrigger();
-        if (!btn) return;
-
-        let badge = btn.querySelector(".cm-chat-unread-badge");
-        if (unread > 0) {
-            if (!badge) { badge = document.createElement("span"); badge.className = "cm-chat-unread-badge"; btn.appendChild(badge); }
-            badge.textContent = unread > 9 ? "9+" : String(unread);
-            if (!/^\(\d+\)/.test(document.title)) document.title = `(${unread}) ${document.title}`;
-
-            const lastAdm = admMsgs[admMsgs.length - 1];
-            const dismissKey = "cm_pop_dismiss_" + cid + "_" + admCount;
-            if (lastAdm && !sessionStorage.getItem(dismissKey) && !document.querySelector(".cm-chat-preview-pop")) {
-                const pop = document.createElement("div");
-                pop.className = "cm-chat-preview-pop";
-                pop.innerHTML = `
-                    <div class="cm-pop-head">
-                        <span><i class="fa-solid fa-comment-dots"></i> Admin থেকে নতুন মেসেজ (${unread})</span>
-                        <button type="button" class="cm-chat-preview-close" title="বন্ধ করুন">&times;</button>
-                    </div>
-                    <div>${escHtml(String(lastAdm.text || "").slice(0, 95))}${String(lastAdm.text || "").length > 95 ? "..." : ""}</div>
-                    <small style="display:block;margin-top:4px;color:#94a3b8;font-size:10px">উত্তর দেখতে এখানে ক্লিক করুন</small>
-                `;
-                pop.querySelector(".cm-chat-preview-close").onclick = ev => { ev.stopPropagation(); sessionStorage.setItem(dismissKey, "1"); pop.remove(); };
-                pop.onclick = () => { pop.remove(); btn.click(); markClientChatRead(); };
-                document.body.appendChild(pop);
-            }
-        } else {
-            if (badge) badge.remove();
-            document.querySelectorAll(".cm-chat-preview-pop").forEach(e => e.remove());
-        }
-    }
-
-    function detectDevice() {
-        const ua = navigator.userAgent || "";
-        const isMob = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-        const os = /Android/i.test(ua) ? "Android" : (/iPhone|iPad/i.test(ua) ? "iOS" : (/Windows/i.test(ua) ? "Windows" : (/Mac/i.test(ua) ? "Mac" : "Linux")));
-        const br = /Edg/i.test(ua) ? "Edge" : (/Chrome/i.test(ua) ? "Chrome" : (/Firefox/i.test(ua) ? "Firefox" : (/Safari/i.test(ua) ? "Safari" : "Browser")));
-        return { full: `${isMob ? "Mobile" : "Desktop"} (${os} • ${br})`, short: `${isMob ? "Mobile" : "PC"} • ${os}` };
-    }
-
-    async function fetchGeo() {
-        try {
-            const r = await fetch("https://ipwho.is/");
-            const d = await r.json();
-            if (d && d.success !== false) return { location: [d.city, d.region, d.country].filter(Boolean).join(", ") || "Bangladesh", ip: d.ip || "" };
-        } catch (e) {}
-        try {
-            const r2 = await fetch("https://get.geojs.io/v1/ip/geo.json");
-            const d2 = await r2.json();
-            return { location: [d2.city, d2.region, d2.country].filter(Boolean).join(", ") || "Unknown", ip: d2.ip || "" };
-        } catch (e) {}
-        return { location: "Unknown", ip: "" };
-    }
-
-    async function logStoreVisit() {
-        const user = detectCustomer();
-        const existingKey = sessionStorage.getItem(VISIT_SESS_KEY);
-        if (existingKey) {
-            if (user.phone || user.name !== "Guest") {
-                fetch(`${FB_URL_SF}/visitorLogs/${existingKey}.json`, {
-                    method: "PATCH", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name: user.name, phone: user.phone })
-                }).catch(() => {});
-            }
-            return;
-        }
-        const dev = detectDevice();
-        const geo = await fetchGeo();
-        const now = new Date();
-        try {
-            const res = await fetch(`${FB_URL_SF}/visitorLogs.json`, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: user.name, phone: user.phone, location: geo.location, ip: geo.ip,
-                    device: dev.full, deviceShort: dev.short, page: (location.pathname + location.hash) || "/",
-                    ts: now.getTime(), dateIso: now.toISOString().slice(0, 10),
-                    dateText: now.toLocaleDateString("bn-BD"),
-                    timeText: now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-                })
-            });
-            const data = await res.json();
-            if (data && data.name) sessionStorage.setItem(VISIT_SESS_KEY, data.name);
-        } catch (e) {}
-    }
-
+    // 8. Scroll to Top & Social Proof
     function setupScrollToTop() {
-        if (document.getElementById("cmScrollTopBtn")) return;
-        const btn = document.createElement("button");
-        btn.id = "cmScrollTopBtn";
-        btn.type = "button";
-        btn.title = "উপরে যান";
+        if ($('cmScrollTopBtn')) return;
+        const btn = document.createElement('button');
+        btn.id = 'cmScrollTopBtn';
+        btn.type = 'button';
         btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
-        btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+        btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
         document.body.appendChild(btn);
-        window.addEventListener("scroll", () => { btn.style.display = window.scrollY > 360 ? "flex" : "none"; }, { passive: true });
+        window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 350 ? 'flex' : 'none'; }, { passive: true });
     }
 
     async function startSocialProof() {
         let orders = [];
         try {
-            const r = await fetch(`${FB_URL_SF}/orders.json?t=${Date.now()}`, { cache: "no-store" });
+            const r = await fetch(`${FB_URL}/orders.json?t=${Date.now()}`, { cache: 'no-store' });
             const d = await r.json();
-            if (d) orders = Object.values(d).filter(o => o && o.status !== "Cancelled").slice(-10).reverse();
+            if (d) orders = Object.values(d).filter(o => o && o.status !== 'Cancelled').slice(-10).reverse();
         } catch (e) {}
         if (!orders.length) return;
 
-        const box = document.createElement("div");
-        box.id = "cmSocialProof";
+        const box = document.createElement('div');
+        box.id = 'cmSocialProof';
         document.body.appendChild(box);
         let idx = 0;
+
         const showNext = () => {
-            if (sessionStorage.getItem("cm_sp_muted") === "1") return;
+            if (sessionStorage.getItem('cm_sp_muted') === '1') return;
             const o = orders[idx % orders.length]; idx++;
-            const city = escHtml(o.area || "বাংলাদেশ");
-            const firstItem = escHtml(String(o.items || "প্রিমিয়াম পণ্য").split(",")[0].slice(0, 38));
+            const city = esc(o.area || 'বাংলাদেশ');
+            const item = esc(String(o.items || 'প্রিমিয়াম পণ্য').split(',')[0].slice(0, 36));
             box.innerHTML = `
                 <div style="width:34px;height:34px;border-radius:9px;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-bag-shopping"></i></div>
-                <div style="flex:1;min-width:0"><b>${city}</b> থেকে একজন কাস্টমার<br><span style="color:#0ea646;font-weight:600">${firstItem}</span> অর্ডার করেছেন ✓</div>
+                <div style="flex:1;min-width:0"><b>${city}</b> থেকে একজন কাস্টমার<br><span style="color:#0ea646;font-weight:600">${item}</span> অর্ডার করেছেন ✓</div>
                 <button type="button" onclick="sessionStorage.setItem('cm_sp_muted','1');this.parentElement.remove()" style="background:none;border:none;color:#94a3b8;font-size:15px;cursor:pointer">&times;</button>
             `;
-            box.style.display = "flex";
-            setTimeout(() => { if (box.isConnected) box.style.display = "none"; }, 5500);
+            box.style.display = 'flex';
+            setTimeout(() => { if (box.isConnected) box.style.display = 'none'; }, 5500);
         };
-        setTimeout(showNext, 5000);
-        setInterval(showNext, 26000);
+        setTimeout(showNext, 4500);
+        setInterval(showNext, 25000);
     }
 
-    function setupConditionalCouponGuard() {
-        document.addEventListener("click", async e => {
-            const btn = e.target.closest("button");
-            if (!btn || btn.dataset.cmBypassCoupon) return;
-            if (!/apply|কুপন|প্রয়োগ/i.test((btn.textContent || "").trim())) return;
-            const container = btn.closest("div, form, section");
-            const inp = container ? container.querySelector("input[type='text']") : null;
-            if (!inp || !inp.value.trim()) return;
-            const enteredCode = inp.value.trim().toUpperCase();
-            try {
-                const r = await fetch(`${FB_URL_SF}/store/coupons.json?t=${Date.now()}`, { cache: "no-store" });
-                const list = await r.json();
-                const coupons = Array.isArray(list) ? list : (list ? Object.values(list) : []);
-                const cp = coupons.find(c => c && String(c.code || "").toUpperCase() === enteredCode);
-                if (!cp || (!Number(cp.minQty) && !Number(cp.minAmount))) return;
-
-                const hits = findAllCartArraysInStorage();
-                const arr = hits[0] ? (hits[0].type === "array" ? hits[0].data : hits[0].data.cart) : [];
-                const totalQty = arr.reduce((s, it) => s + Number(it.qty || it.quantity || 1), 0);
-                const subtotal = arr.reduce((s, it) => s + (Number(it.price || 0) * Number(it.qty || it.quantity || 1)), 0);
-
-                if (Number(cp.minQty) > 0 && totalQty < Number(cp.minQty)) {
-                    e.preventDefault(); e.stopImmediatePropagation();
-                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কার্টে কমপক্ষে ${cp.minQty}টি পণ্য থাকতে হবে!`);
-                    return;
-                }
-                if (Number(cp.minAmount) > 0 && subtotal < Number(cp.minAmount)) {
-                    e.preventDefault(); e.stopImmediatePropagation();
-                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কমপক্ষে ৳${fmtNum(cp.minAmount)} টাকার অর্ডার লাগবে!`);
-                    return;
-                }
-            } catch (err) {}
-        }, true);
+    // 9. Auto-Check Shared Product Link (?product=ID)
+    function checkProductDeepLink() {
+        const pid = new URLSearchParams(location.search).get('product') || new URLSearchParams(location.search).get('p');
+        if (!pid) return;
+        let tries = 0;
+        const timer = setInterval(() => {
+            tries++;
+            if ((storeData.products || []).some(p => p.id === pid)) {
+                clearInterval(timer);
+                openDetailsModal(pid);
+            } else if (tries > 25) {
+                clearInterval(timer);
+            }
+        }, 250);
     }
 
-    // Debounced Observer (200ms) for 60fps buttery smooth UI without lags
-    let obsTimer = null;
-    const obs = new MutationObserver(() => {
-        clearTimeout(obsTimer);
-        obsTimer = setTimeout(() => {
-            addProfileTagBesideAccount();
-            enhanceCartRows();
-            enhanceOpenProductModal();
-            enhanceWishlistDrawerRows();
-        }, 200);
-    });
-
-    window.addEventListener("load", () => {
-        loadStoreCache().then(() => autoOpenSharedProductFromUrl());
-        addProfileTagBesideAccount();
-        enhanceCartRows();
-        enhanceOpenProductModal();
-        enhanceWishlistDrawerRows();
-        setupSmartShareAndDeepLink();
+    // Boot Everything Cleanly
+    window.addEventListener('DOMContentLoaded', () => {
+        injectProfileTag();
+        renderWishlist();
+        renderCart();
         setupSearchAutoSuggest();
         renderRecentlyViewed();
-        hookProductClicksForRecent();
         setupScrollToTop();
-        setupConditionalCouponGuard();
-        updateWishlistCountUI(getWishlistItems().length);
-
-        obs.observe(document.body, { childList: true, subtree: true });
-
-        setTimeout(logStoreVisit, 1200);
-        setTimeout(checkAdminChatMessages, 1800);
         setTimeout(startSocialProof, 3000);
-
-        setInterval(checkAdminChatMessages, 7000);
-        setInterval(() => { addProfileTagBesideAccount(); logStoreVisit(); }, 10000);
-        setInterval(loadStoreCache, 60000);
-
-        window.addEventListener("offline", () => miniToast("⚠️ ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!"));
-        window.addEventListener("online", () => miniToast("✅ ইন্টারনেট পুনরায় সংযুক্ত হয়েছে"));
+        setTimeout(checkProductDeepLink, 400);
     });
+
+    injectProfileTag();
+    if (typeof wishlist !== 'undefined') renderWishlist();
+    if (typeof cart !== 'undefined') renderCart();
+    setupSearchAutoSuggest();
+    renderRecentlyViewed();
+    setupScrollToTop();
+    setTimeout(checkProductDeepLink, 500);
 })();
 </script>
   </body>
 </html>
- 
