@@ -4959,194 +4959,21 @@
   if (currentUser) syncCurrentUserProfile();
 })();
 </script>
-<!-- ================= END PRO THEME, OTP SECURITY & EXTRA PROFILE UPGRADE ================= -->
-    <!-- CHITRO MART Premium Storefront Upgrade v3.5 (Paste right before </body>) -->
+    <!-- CHITRO MART Premium Storefront JS Upgrade v3.7 (Paste right before </body>) -->
 <style>
-    /* Premium Buttons, Cards & Smooth UI Enhancements */
-    html { scroll-behavior: smooth; }
-    button, .btn, a[class*="btn"], input[type="submit"] {
-        transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, background .22s ease !important;
-    }
-    button:hover:not(:disabled), .btn:hover, a[class*="btn"]:hover {
-        transform: translateY(-1.5px);
-        box-shadow: 0 8px 20px rgba(14, 166, 70, 0.22);
-    }
-    button:active:not(:disabled) { transform: translateY(0) scale(.98); }
-
-    /* Card Hover Lift */
-    [class*="prod-card"], [class*="product-card"], [class*="cat-card"], [class*="category-card"] {
-        transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease !important;
-    }
-    [class*="prod-card"]:hover, [class*="product-card"]:hover, [class*="cat-card"]:hover, [class*="category-card"]:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 14px 30px rgba(7, 19, 31, 0.12) !important;
-    }
-
-    /* Account -> Profile Tag */
-    .cm-profile-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 3px;
-        margin-left: 5px;
-        padding: 1px 7px;
-        border-radius: 50px;
-        background: linear-gradient(135deg, #0ea646, #059669);
-        color: #fff !important;
-        font-size: 9.5px;
-        font-weight: 700;
-        letter-spacing: .3px;
-        vertical-align: middle;
-        box-shadow: 0 2px 8px rgba(14, 166, 70, 0.35);
-    }
-
-    /* Cart Delete Button */
-    .cm-cart-del-btn {
-        display: inline-flex !important;
-        align-items: center;
-        gap: 4px;
-        padding: 4px 9px !important;
-        margin-left: 6px;
-        border: 1px solid #fecaca !important;
-        border-radius: 7px !important;
-        background: #fee2e2 !important;
-        color: #dc2626 !important;
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        cursor: pointer !important;
-        line-height: 1.2 !important;
-        flex-shrink: 0;
-    }
-    .cm-cart-del-btn:hover {
-        background: #ef4444 !important;
-        color: #fff !important;
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
-    }
-
-    /* Live Chat Unread Badge & Preview Bubble */
-    .cm-chat-unread-badge {
-        position: absolute;
-        top: -7px;
-        right: -5px;
-        min-width: 22px;
-        height: 22px;
-        padding: 0 6px;
-        border-radius: 50px;
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: #fff;
-        font-size: 11px;
-        font-weight: 800;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid #fff;
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
-        animation: cmPulse 1.4s infinite;
-        z-index: 9999;
-        pointer-events: none;
-    }
-    .cm-chat-preview-pop {
-        position: fixed;
-        right: 20px;
-        bottom: 84px;
-        max-width: 280px;
-        background: #0f172a;
-        color: #f8fafc;
-        border: 1px solid rgba(16, 185, 129, 0.45);
-        border-radius: 14px;
-        padding: 10px 13px;
-        font-size: 12px;
-        line-height: 1.45;
-        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
-        z-index: 9998;
-        cursor: pointer;
-        animation: cmSlideUp .3s ease;
-    }
-    .cm-chat-preview-pop .cm-pop-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-        font-size: 11px;
-        font-weight: 700;
-        color: #34d399;
-        margin-bottom: 3px;
-    }
-    .cm-chat-preview-close {
-        background: none;
-        border: none;
-        color: #94a3b8;
-        font-size: 14px;
-        cursor: pointer;
-        padding: 0 2px;
-        line-height: 1;
-    }
-
-    /* Scroll to Top & Social Proof Toast */
-    #cmScrollTopBtn {
-        position: fixed;
-        right: 22px;
-        bottom: 86px;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        border: none;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.3);
-        z-index: 9990;
-        display: none;
-        align-items: center;
-        justify-content: center;
-    }
-    #cmSocialProof {
-        position: fixed;
-        left: 18px;
-        bottom: 20px;
-        max-width: 290px;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(8px);
-        color: #0f172a;
-        border: 1px solid #cbd5e1;
-        border-left: 4px solid #0ea646;
-        border-radius: 12px;
-        padding: 9px 12px;
-        font-size: 11.5px;
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
-        z-index: 9985;
-        display: none;
-        align-items: center;
-        gap: 9px;
-        animation: cmSlideUp .35s ease;
-    }
-    .cm-mini-toast {
-        position: fixed;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #0f172a;
-        color: #fff;
-        padding: 9px 20px;
-        border-radius: 50px;
-        font-size: 12.5px;
-        font-weight: 600;
-        z-index: 99999;
-        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
-    }
-    @keyframes cmPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
-    @keyframes cmSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 768px) {
-        #cmSocialProof { max-width: calc(100vw - 95px); left: 10px; bottom: 14px; font-size: 11px; }
-        .cm-chat-preview-pop { right: 12px; bottom: 78px; max-width: calc(100vw - 24px); }
-    }
+    .cm-cart-del-btn { align-self: center !important; width: auto !important; height: auto !important; padding: 6px 10px !important; }
 </style>
-
 <script>
 (function () {
     const FB_URL_SF = "https://chitro-mart-bd-default-rtdb.firebaseio.com";
     const VISIT_SESS_KEY = "cm_visit_log_key_v1";
+    const RECENT_KEY = "cm_recent_prods_v1";
     const escHtml = s => String(s || "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    const fmtNum = n => Number(n || 0).toLocaleString("en-IN");
+    const getFirstImg = p => (Array.isArray(p.images) && p.images[0]) ? p.images[0] : (p.image || "https://placehold.co/100x100/0f172a/f59e0b?text=Item");
+    const sleepMs = ms => new Promise(r => setTimeout(r, ms));
+
+    let cachedProducts = [];
 
     function miniToast(msg) {
         if (typeof showToast === "function") { showToast(msg); return; }
@@ -5188,136 +5015,454 @@
     }
 
     // ---------------------------------------------------------
-    // 2. Account -> Add "Profile" Pill Right Beside "Account"
+    // 2. Account -> "Profile" Badge Fix
     // ---------------------------------------------------------
     function addProfileTagBesideAccount() {
         try {
-            const candidates = document.querySelectorAll("header button, header a, header div, header span, .header button, .header a, .topbar button, .topbar a");
-            for (const el of candidates) {
-                if (el.querySelector(".cm-profile-tag")) return;
-                const txt = (el.textContent || "").trim();
-                if (/^Account\b/i.test(txt) && txt.length < 45 && el.children.length <= 2) {
-                    const tag = document.createElement("span");
-                    tag.className = "cm-profile-tag";
-                    tag.textContent = "Profile";
-                    // Place right after "Account" text node if possible, else append
-                    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-                    let placed = false;
-                    while (walker.nextNode()) {
-                        const tn = walker.currentNode;
-                        if (/Account/i.test(tn.nodeValue || "")) {
-                            const spanWrap = document.createElement("span");
-                            spanWrap.appendChild(document.createTextNode(tn.nodeValue));
-                            spanWrap.appendChild(tag);
-                            tn.parentNode.replaceChild(spanWrap, tn);
-                            placed = true;
-                            break;
-                        }
-                    }
-                    if (!placed) el.appendChild(tag);
-                    el.title = "Account & Profile";
-                    break;
-                }
+            if (document.querySelector(".cm-profile-tag")) return;
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+            while (walker.nextNode()) {
+                const tn = walker.currentNode;
+                const parent = tn.parentElement;
+                if (!parent || /^(SCRIPT|STYLE|NOSCRIPT|TEXTAREA|INPUT)$/i.test(parent.tagName)) continue;
+                const txt = (tn.nodeValue || "").trim();
+                if (!/^Account$/i.test(txt)) continue;
+
+                const rect = parent.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0 || rect.top > 220) continue;
+                if (parent.querySelector(".cm-profile-tag")) return;
+
+                const tag = document.createElement("span");
+                tag.className = "cm-profile-tag";
+                tag.textContent = "Profile";
+
+                const wrap = document.createElement("span");
+                wrap.style.cssText = "display:inline-flex;align-items:center;gap:4px;";
+                wrap.appendChild(document.createTextNode(tn.nodeValue));
+                wrap.appendChild(tag);
+                tn.parentNode.replaceChild(wrap, tn);
+
+                const clickable = parent.closest("button, a, div");
+                if (clickable) clickable.title = "Account & Profile";
+                return;
             }
         } catch (e) {}
     }
 
     // ---------------------------------------------------------
-    // 3. Cart Delete Button Injector & Smart Item Removal
+    // 3. Live Search Bar Auto-Suggestion
     // ---------------------------------------------------------
-    function findCartStorageInfo() {
+    async function loadStoreProductsCache() {
         try {
-            for (let i = 0; i < localStorage.length; i++) {
-                const k = localStorage.key(i);
-                if (!k || k.includes("adm") || k.includes("visit")) continue;
-                const raw = localStorage.getItem(k);
-                if (raw && raw.startsWith("[")) {
-                    try {
-                        const arr = JSON.parse(raw);
-                        if (Array.isArray(arr) && (k.toLowerCase().includes("cart") || (arr[0] && arr[0].price !== undefined && (arr[0].name || arr[0].title)))) {
-                            return { key: k, arr };
-                        }
-                    } catch (e) {}
-                }
-            }
+            const r = await fetch(`${FB_URL_SF}/store/products.json?t=${Date.now()}`, { cache: "no-store" });
+            const d = await r.json();
+            if (d) cachedProducts = Array.isArray(d) ? d.filter(Boolean) : Object.values(d).filter(Boolean);
         } catch (e) {}
-        return null;
+        if (!cachedProducts.length) {
+            try {
+                if (typeof products !== "undefined" && Array.isArray(products)) cachedProducts = products;
+                else if (typeof storeData !== "undefined" && Array.isArray(storeData.products)) cachedProducts = storeData.products;
+            } catch (e) {}
+        }
+    }
+
+    function openOrSearchProduct(prod, searchInp) {
+        saveRecentlyViewed(prod);
+        const prodCards = Array.from(document.querySelectorAll("[class*='prod'], [class*='product'], [onclick*='prod' i], [onclick*='detail' i], [onclick*='modal' i]"));
+        const targetCard = prodCards.find(c => {
+            if (c.closest("#cmSearchSuggest") || c.closest("#cmRecentlyViewed")) return false;
+            const t = (c.textContent || "").toLowerCase();
+            return prod.name && t.includes(prod.name.toLowerCase()) && /৳/.test(t);
+        });
+        if (targetCard) {
+            targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+            const clickTarget = targetCard.querySelector("img, h3, h4, a, button") || targetCard;
+            setTimeout(() => clickTarget.click(), 180);
+            return;
+        }
+        if (searchInp) {
+            searchInp.value = prod.name;
+            searchInp.dispatchEvent(new Event("input", { bubbles: true }));
+            searchInp.dispatchEvent(new Event("change", { bubbles: true }));
+            const wrap = searchInp.closest("form, div");
+            const sBtn = wrap ? wrap.querySelector("button") : null;
+            if (sBtn) sBtn.click();
+        }
+    }
+
+    function setupSearchAutoSuggest() {
+        const inp = document.querySelector("input[placeholder*='খুঁজছেন'], input[placeholder*='looking' i], input[type='search'], input[id*='search' i]");
+        if (!inp || inp.dataset.cmSugBound) return;
+        inp.dataset.cmSugBound = "1";
+        inp.setAttribute("autocomplete", "off");
+
+        let dd = document.getElementById("cmSearchSuggest");
+        if (!dd) {
+            dd = document.createElement("div");
+            dd.id = "cmSearchSuggest";
+            dd.className = "cm-search-suggest";
+            document.body.appendChild(dd);
+        }
+
+        let activeIdx = -1;
+        let currentMatches = [];
+
+        function positionDropdown() {
+            const rect = inp.getBoundingClientRect();
+            const width = Math.max(rect.width + 44, 300);
+            const left = Math.min(rect.left, window.innerWidth - width - 10);
+            dd.style.left = Math.max(10, left) + "px";
+            dd.style.top = (rect.bottom + 7) + "px";
+            dd.style.width = Math.min(width, window.innerWidth - 20) + "px";
+        }
+
+        function renderSuggestions() {
+            const q = inp.value.trim().toLowerCase();
+            if (!q) { dd.style.display = "none"; currentMatches = []; return; }
+            if (!cachedProducts.length) loadStoreProductsCache();
+
+            const words = q.split(/\s+/).filter(Boolean);
+            currentMatches = cachedProducts.filter(p => {
+                const hay = `${p.name || ""} ${p.sku || ""} ${p.category || ""} ${p.shortSpec || ""} ${p.sizes || ""}`.toLowerCase();
+                return words.every(w => hay.includes(w));
+            }).slice(0, 7);
+
+            positionDropdown();
+            activeIdx = -1;
+
+            if (!currentMatches.length) {
+                dd.innerHTML = `<div class="cm-sug-empty">😔 "<b>${escHtml(inp.value.trim())}</b>" নামে কোনো পণ্য পাওয়া যায়নি</div>`;
+                dd.style.display = "block";
+                return;
+            }
+
+            dd.innerHTML = `<div class="cm-sug-head"><span>🔍 প্রস্তাবিত পণ্য (${currentMatches.length})</span><span>ক্লিক করে দেখুন</span></div>` +
+                currentMatches.map((p, idx) => `
+                    <div class="cm-sug-item" data-idx="${idx}">
+                        <img src="${escHtml(getFirstImg(p))}" alt="">
+                        <div class="cm-sug-meta">
+                            <div class="cm-sug-name">${escHtml(p.name)}</div>
+                            <div class="cm-sug-sub">${escHtml(p.category || "General")}${p.sku ? " • SKU: " + escHtml(p.sku) : ""}${p.sizes ? " • " + escHtml(p.sizes) : ""}</div>
+                        </div>
+                        <div class="cm-sug-price">
+                            <b>৳${fmtNum(p.price)}</b>
+                            ${p.oldPrice ? `<del>৳${fmtNum(p.oldPrice)}</del>` : ""}
+                        </div>
+                    </div>
+                `).join("");
+
+            dd.querySelectorAll(".cm-sug-item").forEach(row => {
+                row.addEventListener("mousedown", ev => {
+                    ev.preventDefault();
+                    const p = currentMatches[Number(row.dataset.idx)];
+                    dd.style.display = "none";
+                    if (p) openOrSearchProduct(p, inp);
+                });
+            });
+            dd.style.display = "block";
+        }
+
+        inp.addEventListener("focus", () => {
+            if (!cachedProducts.length) loadStoreProductsCache().then(renderSuggestions);
+            else if (inp.value.trim()) renderSuggestions();
+        });
+        inp.addEventListener("input", renderSuggestions);
+
+        inp.addEventListener("keydown", ev => {
+            if (dd.style.display !== "block" || !currentMatches.length) return;
+            const items = dd.querySelectorAll(".cm-sug-item");
+            if (ev.key === "ArrowDown") {
+                ev.preventDefault();
+                activeIdx = (activeIdx + 1) % items.length;
+                items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
+            } else if (ev.key === "ArrowUp") {
+                ev.preventDefault();
+                activeIdx = (activeIdx - 1 + items.length) % items.length;
+                items.forEach((it, i) => it.classList.toggle("active", i === activeIdx));
+            } else if (ev.key === "Enter" && activeIdx > -1) {
+                ev.preventDefault();
+                const p = currentMatches[activeIdx];
+                dd.style.display = "none";
+                if (p) openOrSearchProduct(p, inp);
+            } else if (ev.key === "Escape") {
+                dd.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", ev => { if (ev.target !== inp && !dd.contains(ev.target)) dd.style.display = "none"; });
+        window.addEventListener("scroll", () => { if (dd.style.display === "block") positionDropdown(); }, { passive: true });
+        window.addEventListener("resize", () => { if (dd.style.display === "block") positionDropdown(); });
+    }
+
+    // ---------------------------------------------------------
+    // 4. Recently Viewed Products Strip
+    // ---------------------------------------------------------
+    function saveRecentlyViewed(prod) {
+        if (!prod || !prod.name) return;
+        try {
+            let list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+            if (!Array.isArray(list)) list = [];
+            list = list.filter(x => x.name !== prod.name);
+            list.unshift({ id: prod.id || "", name: prod.name, price: prod.price, oldPrice: prod.oldPrice || null, image: getFirstImg(prod) });
+            localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 6)));
+            renderRecentlyViewed();
+        } catch (e) {}
+    }
+
+    function renderRecentlyViewed() {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); } catch (e) {}
+        if (!Array.isArray(list) || !list.length) return;
+
+        let wrap = document.getElementById("cmRecentlyViewed");
+        if (!wrap) {
+            wrap = document.createElement("section");
+            wrap.id = "cmRecentlyViewed";
+            const footer = document.querySelector("footer");
+            if (footer && footer.parentNode) footer.parentNode.insertBefore(wrap, footer);
+            else document.body.appendChild(wrap);
+        }
+
+        wrap.innerHTML = `
+            <div class="cm-rv-head">
+                <span>🕒 আপনি সম্প্রতি দেখেছেন</span>
+                <button type="button" onclick="localStorage.removeItem('${RECENT_KEY}');document.getElementById('cmRecentlyViewed')?.remove()" style="background:none;border:none;color:#64748b;font-size:11.5px;cursor:pointer">মুছুন</button>
+            </div>
+            <div class="cm-rv-strip">
+                ${list.map((p, i) => `
+                    <div class="cm-rv-card" data-rv="${i}">
+                        <img src="${escHtml(p.image)}" alt="">
+                        <div class="cm-rv-title">${escHtml(p.name)}</div>
+                        <div class="cm-rv-price">৳${fmtNum(p.price)} ${p.oldPrice ? `<del style="color:#94a3b8;font-size:10.5px;font-weight:400">৳${fmtNum(p.oldPrice)}</del>` : ""}</div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+        wrap.querySelectorAll(".cm-rv-card").forEach(card => {
+            card.onclick = () => {
+                const p = list[Number(card.dataset.rv)];
+                const searchInp = document.querySelector("input[placeholder*='খুঁজছেন'], input[placeholder*='looking' i], input[type='search']");
+                if (p) openOrSearchProduct(p, searchInp);
+            };
+        });
+    }
+
+    function hookProductClicksForRecent() {
+        document.addEventListener("click", e => {
+            if (e.target.closest("#cmSearchSuggest") || e.target.closest("#cmRecentlyViewed")) return;
+            const card = e.target.closest("[class*='prod'], [class*='product']");
+            if (!card || !/৳/.test(card.textContent || "") || !cachedProducts.length) return;
+            const txt = (card.textContent || "").toLowerCase();
+            const found = cachedProducts.find(p => p.name && txt.includes(p.name.toLowerCase()));
+            if (found) saveRecentlyViewed(found);
+        });
+    }
+
+    // ---------------------------------------------------------
+    // 5. PERSISTENT CART DELETE (Fixed: Never deletes summary row + Persists on refresh!)
+    // ---------------------------------------------------------
+    const SUMMARY_SKIP_RE = /পণ্যের মূল্য|ডেলিভারি|সর্বমোট|মোট টাকা|Subtotal|Total Payable|Grand Total|Delivery Charge|Discount|কুপন/i;
+
+    function isActualCartItemRow(row) {
+        const txt = (row.textContent || "").trim();
+        if (!/৳/.test(txt) || SUMMARY_SKIP_RE.test(txt)) return false;
+        const hasImg = !!row.querySelector("img");
+        const hasQtyBtns = Array.from(row.querySelectorAll("button")).some(b => {
+            const bt = (b.textContent || "").trim();
+            return bt === "-" || bt === "+" || bt === "−";
+        });
+        return hasImg || hasQtyBtns || /\bx\s*\d+/i.test(txt);
+    }
+
+    function cleanItemTitleForMatch(txt) {
+        return String(txt || "")
+            .replace(/৳[\d,.\s]+/g, " ")
+            .replace(/\bx\s*\d+/gi, " ")
+            .replace(/\((S|M|L|XL|XXL|XXXL|\d+)\)/gi, " ")
+            .replace(/[-–—]/g, " ")
+            .replace(/মুছুন/g, " ")
+            .replace(/\s+/g, " ")
+            .trim()
+            .toLowerCase();
+    }
+
+    function findMatchingItemIndex(arr, rowCleanText, fallbackIdx) {
+        if (!Array.isArray(arr) || !arr.length) return -1;
+        let idx = arr.findIndex(it => {
+            if (!it || typeof it !== "object") return false;
+            const nm = String(it.name || it.title || it.productName || "").replace(/[-–—]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+            return nm && (rowCleanText.includes(nm) || nm.includes(rowCleanText.slice(0, 18)));
+        });
+        if (idx < 0 && fallbackIdx >= 0 && fallbackIdx < arr.length) idx = fallbackIdx;
+        return idx;
+    }
+
+    function findAllCartArraysInStorage() {
+        const matches = [];
+        for (const store of [localStorage, sessionStorage]) {
+            try {
+                for (let i = 0; i < store.length; i++) {
+                    const k = store.key(i);
+                    if (!k || k.includes("adm") || k.includes("visit") || k === RECENT_KEY) continue;
+                    const raw = store.getItem(k);
+                    if (!raw) continue;
+                    if (raw.startsWith("[")) {
+                        try {
+                            const arr = JSON.parse(raw);
+                            if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === "object" && (
+                                /cart/i.test(k) || arr[0].qty !== undefined || arr[0].quantity !== undefined || arr[0].price !== undefined
+                            )) {
+                                matches.push({ store, key: k, type: "array", data: arr });
+                            }
+                        } catch (e) {}
+                    } else if (raw.startsWith("{")) {
+                        try {
+                            const obj = JSON.parse(raw);
+                            if (obj && typeof obj === "object" && Array.isArray(obj.cart) && obj.cart.length > 0) {
+                                matches.push({ store, key: k, type: "obj_cart", data: obj });
+                            }
+                        } catch (e) {}
+                    }
+                }
+            } catch (e) {}
+        }
+        return matches;
     }
 
     function refreshPageCartUI() {
-        const fns = ["renderCart", "updateCart", "updateCartUI", "drawCart", "loadCart", "showCartItems", "syncCart"];
-        for (const fn of fns) {
+        ["saveCart", "syncCart", "renderCart", "renderCartItems", "saveAndRenderCart", "updateCart", "updateCartUI", "updateCartCount", "drawCart", "loadCart", "showCartItems", "calcCart"].forEach(fn => {
             try { if (typeof window[fn] === "function") window[fn](); } catch (e) {}
+        });
+    }
+
+    async function syncFirebaseCartDeletion(rowCleanText, fallbackIdx) {
+        const cust = detectCustomer();
+        if (!cust.phone) return;
+        const paths = [`users/${cust.phone}/cart`, `carts/${cust.phone}`];
+        for (const p of paths) {
+            try {
+                const r = await fetch(`${FB_URL_SF}/${p}.json?t=${Date.now()}`, { cache: "no-store" });
+                const d = await r.json();
+                if (!d) continue;
+                if (Array.isArray(d)) {
+                    const idx = findMatchingItemIndex(d, rowCleanText, fallbackIdx);
+                    if (idx > -1) {
+                        d.splice(idx, 1);
+                        await fetch(`${FB_URL_SF}/${p}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(d) });
+                    }
+                } else if (typeof d === "object") {
+                    const entries = Object.entries(d);
+                    const arr = entries.map(([, v]) => v);
+                    const idx = findMatchingItemIndex(arr, rowCleanText, fallbackIdx);
+                    if (idx > -1 && entries[idx]) {
+                        await fetch(`${FB_URL_SF}/${p}/${entries[idx][0]}.json`, { method: "DELETE" });
+                    }
+                }
+            } catch (e) {}
         }
     }
 
-    function removeCartItemByRow(rowEl, rowIndex) {
-        // First try existing remove button inside row if present
+    async function removeCartItemByRow(rowEl, rowIndex) {
+        const rowClean = cleanItemTitleForMatch(rowEl.textContent || "");
+
+        // Step 1: Try existing native delete button if one existed
         const existingBtn = rowEl.querySelector("button[onclick*='remove'], button[onclick*='del'], button[onclick*='Remove'], button[onclick*='Del']");
         if (existingBtn && !existingBtn.classList.contains("cm-cart-del-btn")) {
             existingBtn.click();
-            miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+            await syncFirebaseCartDeletion(rowClean, rowIndex);
+            miniToast("পণ্যটি কার্ট থেকে স্থায়ীভাবে মুছে ফেলা হয়েছে");
             return;
         }
 
-        // Otherwise remove safely from global cart variable and/or localStorage
-        const rowText = (rowEl.textContent || "").toLowerCase();
-        let removed = false;
+        // Step 2: Try clicking site's native [-] button until item disappears (handles native state + storage)
+        const findSameRowInCart = () => {
+            const rows = Array.from(document.querySelectorAll("[id*='cart' i] *, [class*='cart' i] *")).filter(el => el.dataset && el.dataset.cmCartEnhanced === "1");
+            return rows.find(r => cleanItemTitleForMatch(r.textContent || "") === rowClean) || (rowEl.isConnected ? rowEl : null);
+        };
 
+        for (let attempt = 0; attempt < 15; attempt++) {
+            const curRow = findSameRowInCart();
+            if (!curRow) {
+                await syncFirebaseCartDeletion(rowClean, rowIndex);
+                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+                return;
+            }
+            const minusBtn = Array.from(curRow.querySelectorAll("button")).find(b => {
+                const bt = (b.textContent || "").trim();
+                return bt === "-" || bt === "−";
+            });
+            if (!minusBtn) break;
+
+            const beforeTxt = curRow.textContent;
+            minusBtn.click();
+            await sleepMs(75);
+            const afterRow = findSameRowInCart();
+            if (!afterRow) {
+                await syncFirebaseCartDeletion(rowClean, rowIndex);
+                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
+                return;
+            }
+            // If clicking [-] did not reduce qty or remove row, break out to deep storage removal
+            if (afterRow.textContent === beforeTxt) break;
+        }
+
+        // Step 3: Deep removal from ALL global cart variables, ALL localStorage/sessionStorage keys, and Firebase
+        let removedAny = false;
+        const globalNames = ["cart", "myCart", "cartItems", "shoppingCart", "userCart"];
+        for (const gName of globalNames) {
+            try {
+                if (typeof window[gName] !== "undefined" && Array.isArray(window[gName]) && window[gName].length > 0) {
+                    const idx = findMatchingItemIndex(window[gName], rowClean, rowIndex);
+                    if (idx > -1) { window[gName].splice(idx, 1); removedAny = true; }
+                }
+            } catch (e) {}
+        }
         try {
             if (typeof cart !== "undefined" && Array.isArray(cart) && cart.length > 0) {
-                let idx = cart.findIndex(it => it && it.name && rowText.includes(String(it.name).toLowerCase()));
-                if (idx < 0 && rowIndex >= 0 && rowIndex < cart.length) idx = rowIndex;
-                if (idx > -1) {
-                    cart.splice(idx, 1);
-                    removed = true;
-                }
+                const idx = findMatchingItemIndex(cart, rowClean, rowIndex);
+                if (idx > -1) { cart.splice(idx, 1); removedAny = true; }
             }
         } catch (e) {}
 
-        const st = findCartStorageInfo();
-        if (st && st.arr.length > 0) {
-            let idx = st.arr.findIndex(it => it && it.name && rowText.includes(String(it.name).toLowerCase()));
-            if (idx < 0 && rowIndex >= 0 && rowIndex < st.arr.length) idx = rowIndex;
-            if (idx > -1) {
-                st.arr.splice(idx, 1);
-                localStorage.setItem(st.key, JSON.stringify(st.arr));
-                removed = true;
+        const storageHits = findAllCartArraysInStorage();
+        for (const hit of storageHits) {
+            if (hit.type === "array") {
+                const idx = findMatchingItemIndex(hit.data, rowClean, rowIndex);
+                if (idx > -1) {
+                    hit.data.splice(idx, 1);
+                    hit.store.setItem(hit.key, JSON.stringify(hit.data));
+                    removedAny = true;
+                }
+            } else if (hit.type === "obj_cart") {
+                const idx = findMatchingItemIndex(hit.data.cart, rowClean, rowIndex);
+                if (idx > -1) {
+                    hit.data.cart.splice(idx, 1);
+                    hit.store.setItem(hit.key, JSON.stringify(hit.data));
+                    removedAny = true;
+                }
             }
         }
 
-        if (removed) {
-            refreshPageCartUI();
-            if (!rowEl.isConnected) { miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে"); return; }
-            rowEl.remove();
-            miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
-        } else {
-            // Last fallback: click '-' button until item disappears
-            const minusBtn = Array.from(rowEl.querySelectorAll("button")).find(b => (b.textContent || "").trim() === "-");
-            if (minusBtn) {
-                for (let t = 0; t < 20; t++) {
-                    if (!rowEl.isConnected) break;
-                    minusBtn.click();
-                }
-                miniToast("পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে");
-            }
-        }
+        await syncFirebaseCartDeletion(rowClean, rowIndex);
+        refreshPageCartUI();
+
+        if (rowEl.isConnected) rowEl.remove();
+        miniToast(removedAny ? "পণ্যটি কার্ট থেকে স্থায়ীভাবে মুছে ফেলা হয়েছে" : "পণ্যটি কার্ট থেকে সরানো হয়েছে");
     }
 
     function enhanceCartRows() {
         try {
             const containers = document.querySelectorAll("[id*='cart' i], [class*='cart' i]");
             for (const box of containers) {
-                // Skip tiny header cart counter pill
                 if (box.tagName === "BUTTON" || box.tagName === "A" || box.offsetHeight < 100) continue;
-                const rows = box.querySelectorAll("[class*='item'], [class*='row'], li, .cart-row, .c-item");
-                const targetRows = rows.length ? rows : Array.from(box.children).filter(c => /৳/.test(c.textContent || "") && c.querySelector("button"));
-                let idx = 0;
-                for (const row of targetRows) {
-                    if (!/৳/.test(row.textContent || "") || row.dataset.cmCartEnhanced) { idx++; continue; }
+                const rows = Array.from(box.querySelectorAll("[class*='item'], [class*='row'], li, .cart-row, .c-item"));
+                const candidates = rows.length ? rows : Array.from(box.children);
+                let itemIdx = 0;
+                for (const row of candidates) {
+                    if (!isActualCartItemRow(row)) continue;
+                    if (row.dataset.cmCartEnhanced) { itemIdx++; continue; }
                     row.dataset.cmCartEnhanced = "1";
 
-                    // Style existing delete/trash button if found, or inject a brand new Delete button
                     const oldDel = Array.from(row.querySelectorAll("button")).find(b =>
                         /remove|del|trash|×|✕/i.test((b.getAttribute("onclick") || "") + " " + b.innerHTML + " " + (b.title || ""))
                     );
@@ -5329,7 +5474,7 @@
                         delBtn.type = "button";
                         delBtn.className = "cm-cart-del-btn";
                         delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> মুছুন';
-                        const capturedIdx = idx;
+                        const capturedIdx = itemIdx;
                         delBtn.onclick = e => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -5337,14 +5482,14 @@
                         };
                         row.appendChild(delBtn);
                     }
-                    idx++;
+                    itemIdx++;
                 }
             }
         } catch (e) {}
     }
 
     // ---------------------------------------------------------
-    // 4. Live Chat Admin Unread Message Detector (Homepage Alert)
+    // 6. Live Chat Admin Unread Message Alert
     // ---------------------------------------------------------
     let chatBtnRef = null, latestUnreadCount = 0, latestChatId = "";
 
@@ -5371,9 +5516,8 @@
 
     function markClientChatRead() {
         if (latestChatId && latestUnreadCount >= 0) {
-            const totalKey = "cm_seen_adm_cnt_" + latestChatId;
             const currentTotal = Number(sessionStorage.getItem("cm_cur_adm_cnt_" + latestChatId) || 0);
-            localStorage.setItem(totalKey, String(currentTotal));
+            localStorage.setItem("cm_seen_adm_cnt_" + latestChatId, String(currentTotal));
         }
         document.querySelectorAll(".cm-chat-unread-badge, .cm-chat-preview-pop").forEach(e => e.remove());
         document.title = document.title.replace(/^\(\d+\)\s*/, "");
@@ -5382,7 +5526,6 @@
     async function checkAdminChatMessages() {
         const cust = detectCustomer();
         let chatObj = null;
-
         try {
             if (cust.chatId) {
                 const r = await fetch(`${FB_URL_SF}/chats/${encodeURIComponent(cust.chatId)}.json?t=${Date.now()}`, { cache: "no-store" });
@@ -5399,8 +5542,7 @@
         const cid = chatObj.id || cust.chatId;
         latestChatId = cid;
 
-        const msgs = Object.values(chatObj.messages || {});
-        const admMsgs = msgs.filter(m => m && m.sender === "admin");
+        const admMsgs = Object.values(chatObj.messages || {}).filter(m => m && m.sender === "admin");
         const admCount = admMsgs.length;
         sessionStorage.setItem("cm_cur_adm_cnt_" + cid, String(admCount));
 
@@ -5408,30 +5550,19 @@
         const unread = Math.max(0, admCount - seenCount);
         latestUnreadCount = unread;
 
-        // If chat modal/box is currently open on screen, auto-mark as read
         const chatBoxOpen = Array.from(document.querySelectorAll("[id*='chat' i], [class*='chat' i]")).some(el =>
             el !== chatBtnRef && el.offsetHeight > 180 && /send|পাঠান|লিখুন/i.test(el.textContent || "")
         );
-        if (chatBoxOpen && unread > 0) {
-            markClientChatRead();
-            return;
-        }
+        if (chatBoxOpen && unread > 0) { markClientChatRead(); return; }
 
         const btn = findLiveChatTrigger();
         if (!btn) return;
 
         let badge = btn.querySelector(".cm-chat-unread-badge");
         if (unread > 0) {
-            if (!badge) {
-                badge = document.createElement("span");
-                badge.className = "cm-chat-unread-badge";
-                btn.appendChild(badge);
-            }
+            if (!badge) { badge = document.createElement("span"); badge.className = "cm-chat-unread-badge"; btn.appendChild(badge); }
             badge.textContent = unread > 9 ? "9+" : String(unread);
-
-            if (!/^\(\d+\)/.test(document.title)) {
-                document.title = `(${unread}) ${document.title}`;
-            }
+            if (!/^\(\d+\)/.test(document.title)) document.title = `(${unread}) ${document.title}`;
 
             const lastAdm = admMsgs[admMsgs.length - 1];
             const dismissKey = "cm_pop_dismiss_" + cid + "_" + admCount;
@@ -5446,16 +5577,8 @@
                     <div>${escHtml(String(lastAdm.text || "").slice(0, 95))}${String(lastAdm.text || "").length > 95 ? "..." : ""}</div>
                     <small style="display:block;margin-top:4px;color:#94a3b8;font-size:10px">উত্তর দেখতে এখানে ক্লিক করুন</small>
                 `;
-                pop.querySelector(".cm-chat-preview-close").onclick = ev => {
-                    ev.stopPropagation();
-                    sessionStorage.setItem(dismissKey, "1");
-                    pop.remove();
-                };
-                pop.onclick = () => {
-                    pop.remove();
-                    btn.click();
-                    markClientChatRead();
-                };
+                pop.querySelector(".cm-chat-preview-close").onclick = ev => { ev.stopPropagation(); sessionStorage.setItem(dismissKey, "1"); pop.remove(); };
+                pop.onclick = () => { pop.remove(); btn.click(); markClientChatRead(); };
                 document.body.appendChild(pop);
             }
         } else {
@@ -5465,7 +5588,7 @@
     }
 
     // ---------------------------------------------------------
-    // 5. Auto Visitor Tracker (Synced with Admin Visitor Logs)
+    // 7. Auto Visitor Tracker, Scroll-to-Top, Social Proof & Coupon Guard
     // ---------------------------------------------------------
     function detectDevice() {
         const ua = navigator.userAgent || "";
@@ -5479,9 +5602,7 @@
         try {
             const r = await fetch("https://ipwho.is/");
             const d = await r.json();
-            if (d && d.success !== false) {
-                return { location: [d.city, d.region, d.country].filter(Boolean).join(", ") || "Bangladesh", ip: d.ip || "" };
-            }
+            if (d && d.success !== false) return { location: [d.city, d.region, d.country].filter(Boolean).join(", ") || "Bangladesh", ip: d.ip || "" };
         } catch (e) {}
         try {
             const r2 = await fetch("https://get.geojs.io/v1/ip/geo.json");
@@ -5506,32 +5627,22 @@
         const dev = detectDevice();
         const geo = await fetchGeo();
         const now = new Date();
-        const payload = {
-            name: user.name,
-            phone: user.phone,
-            location: geo.location,
-            ip: geo.ip,
-            device: dev.full,
-            deviceShort: dev.short,
-            page: (location.pathname + location.hash) || "/",
-            ts: now.getTime(),
-            dateIso: now.toISOString().slice(0, 10),
-            dateText: now.toLocaleDateString("bn-BD"),
-            timeText: now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-        };
         try {
             const res = await fetch(`${FB_URL_SF}/visitorLogs.json`, {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({
+                    name: user.name, phone: user.phone, location: geo.location, ip: geo.ip,
+                    device: dev.full, deviceShort: dev.short, page: (location.pathname + location.hash) || "/",
+                    ts: now.getTime(), dateIso: now.toISOString().slice(0, 10),
+                    dateText: now.toLocaleDateString("bn-BD"),
+                    timeText: now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+                })
             });
             const data = await res.json();
             if (data && data.name) sessionStorage.setItem(VISIT_SESS_KEY, data.name);
         } catch (e) {}
     }
 
-    // ---------------------------------------------------------
-    // 6. Live Social Proof Popup + Scroll-to-Top + Network Alert
-    // ---------------------------------------------------------
     function setupScrollToTop() {
         if (document.getElementById("cmScrollTopBtn")) return;
         const btn = document.createElement("button");
@@ -5541,9 +5652,7 @@
         btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
         btn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
         document.body.appendChild(btn);
-        window.addEventListener("scroll", () => {
-            btn.style.display = window.scrollY > 360 ? "flex" : "none";
-        }, { passive: true });
+        window.addEventListener("scroll", () => { btn.style.display = window.scrollY > 360 ? "flex" : "none"; }, { passive: true });
     }
 
     async function startSocialProof() {
@@ -5559,44 +5668,32 @@
         box.id = "cmSocialProof";
         document.body.appendChild(box);
         let idx = 0;
-
         const showNext = () => {
             if (sessionStorage.getItem("cm_sp_muted") === "1") return;
-            const o = orders[idx % orders.length];
-            idx++;
+            const o = orders[idx % orders.length]; idx++;
             const city = escHtml(o.area || "বাংলাদেশ");
             const firstItem = escHtml(String(o.items || "প্রিমিয়াম পণ্য").split(",")[0].slice(0, 38));
             box.innerHTML = `
                 <div style="width:34px;height:34px;border-radius:9px;background:#dcfce7;color:#15803d;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fa-solid fa-bag-shopping"></i></div>
-                <div style="flex:1;min-width:0">
-                    <b>${city}</b> থেকে একজন কাস্টমার<br>
-                    <span style="color:#0ea646;font-weight:600">${firstItem}</span> অর্ডার করেছেন ✓
-                </div>
+                <div style="flex:1;min-width:0"><b>${city}</b> থেকে একজন কাস্টমার<br><span style="color:#0ea646;font-weight:600">${firstItem}</span> অর্ডার করেছেন ✓</div>
                 <button type="button" onclick="sessionStorage.setItem('cm_sp_muted','1');this.parentElement.remove()" style="background:none;border:none;color:#94a3b8;font-size:15px;cursor:pointer">&times;</button>
             `;
             box.style.display = "flex";
             setTimeout(() => { if (box.isConnected) box.style.display = "none"; }, 5500);
         };
-
         setTimeout(showNext, 5000);
         setInterval(showNext, 26000);
     }
 
-    // ---------------------------------------------------------
-    // 7. Conditional Coupon Guard (Min Qty & Min Order Amount)
-    // ---------------------------------------------------------
     function setupConditionalCouponGuard() {
         document.addEventListener("click", async e => {
             const btn = e.target.closest("button");
             if (!btn || btn.dataset.cmBypassCoupon) return;
-            const txt = (btn.textContent || "").trim();
-            if (!/apply|কুপন|প্রয়োগ/i.test(txt)) return;
-
+            if (!/apply|কুপন|প্রয়োগ/i.test((btn.textContent || "").trim())) return;
             const container = btn.closest("div, form, section");
             const inp = container ? container.querySelector("input[type='text']") : null;
             if (!inp || !inp.value.trim()) return;
             const enteredCode = inp.value.trim().toUpperCase();
-
             try {
                 const r = await fetch(`${FB_URL_SF}/store/coupons.json?t=${Date.now()}`, { cache: "no-store" });
                 const list = await r.json();
@@ -5604,9 +5701,8 @@
                 const cp = coupons.find(c => c && String(c.code || "").toUpperCase() === enteredCode);
                 if (!cp || (!Number(cp.minQty) && !Number(cp.minAmount))) return;
 
-                // Read cart totals
-                const st = findCartStorageInfo();
-                let arr = st ? st.arr : [];
+                const hits = findAllCartArraysInStorage();
+                let arr = hits[0] ? (hits[0].type === "array" ? hits[0].data : hits[0].data.cart) : [];
                 if (!arr.length && typeof cart !== "undefined" && Array.isArray(cart)) arr = cart;
                 const totalQty = arr.reduce((s, it) => s + Number(it.qty || it.quantity || 1), 0);
                 const subtotal = arr.reduce((s, it) => s + (Number(it.price || 0) * Number(it.qty || it.quantity || 1)), 0);
@@ -5618,28 +5714,26 @@
                 }
                 if (Number(cp.minAmount) > 0 && subtotal < Number(cp.minAmount)) {
                     e.preventDefault(); e.stopImmediatePropagation();
-                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কমপক্ষে ৳${Number(cp.minAmount).toLocaleString("en-IN")} টাকার অর্ডার লাগবে!`);
+                    miniToast(`⚠️ "${enteredCode}" কুপন ব্যবহার করতে কমপক্ষে ৳${fmtNum(cp.minAmount)} টাকার অর্ডার লাগবে!`);
                     return;
                 }
             } catch (err) {}
         }, true);
     }
 
-    // ---------------------------------------------------------
-    // Boot Everything Safely
-    // ---------------------------------------------------------
-    let cartObsTimer = null;
+    let obsTimer = null;
     const obs = new MutationObserver(() => {
-        clearTimeout(cartObsTimer);
-        cartObsTimer = setTimeout(() => {
-            addProfileTagBesideAccount();
-            enhanceCartRows();
-        }, 120);
+        clearTimeout(obsTimer);
+        obsTimer = setTimeout(() => { addProfileTagBesideAccount(); enhanceCartRows(); }, 120);
     });
 
     window.addEventListener("load", () => {
+        loadStoreProductsCache();
         addProfileTagBesideAccount();
         enhanceCartRows();
+        setupSearchAutoSuggest();
+        renderRecentlyViewed();
+        hookProductClicksForRecent();
         setupScrollToTop();
         setupConditionalCouponGuard();
         obs.observe(document.body, { childList: true, subtree: true });
@@ -5649,16 +5743,14 @@
         setTimeout(startSocialProof, 3000);
 
         setInterval(checkAdminChatMessages, 7000);
-        setInterval(() => {
-            addProfileTagBesideAccount();
-            logStoreVisit();
-        }, 10000);
+        setInterval(() => { addProfileTagBesideAccount(); logStoreVisit(); }, 10000);
+        setInterval(loadStoreProductsCache, 60000);
 
         window.addEventListener("offline", () => miniToast("⚠️ ইন্টারনেট সংযোগ বিচ্ছিন্ন হয়েছে!"));
         window.addEventListener("online", () => miniToast("✅ ইন্টারনেট পুনরায় সংযুক্ত হয়েছে"));
     });
 })();
 </script>
-</body>
+ </body>
 </html>
  
