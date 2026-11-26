@@ -5376,5 +5376,102 @@ Return ONLY valid JSON:
     setInterval(() => { refreshRsReadyBadge(); stripBuyPriceUI(); cleanBuyBadges(); }, 2500);
 })();
 </script>
+    <!-- CHITRO MART v3.8.1: Fast Publish Speed + Visible Loading Spinners -->
+<script>
+(function () {
+    function ensureBottomSpinner() {
+        const btn = document.getElementById('rsPublishBtn');
+        if (!btn || document.getElementById('rsBottomSpin')) return;
+        const sp = document.createElement('span');
+        sp.id = 'rsBottomSpin';
+        sp.style.cssText = 'display:none;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--primary)';
+        btn.parentElement.appendChild(sp);
+    }
+    ensureBottomSpinner();
+    setTimeout(ensureBottomSpinner, 800);
+
+    const origRun = window.rsRunAutoExtract;
+    if (typeof origRun === 'function') {
+        window.rsRunAutoExtract = async function () {
+            ensureBottomSpinner();
+            const btn = document.getElementById('rsRunBtn');
+            const origHtml = btn ? btn.innerHTML : '';
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> প্রসেস হচ্ছে, অপেক্ষা করুন...';
+            try { return await origRun(); }
+            finally { if (btn && origHtml) btn.innerHTML = origHtml; }
+        };
+    }
+
+    window.rsConfirmPublish = async function (skipDupAsk) {
+        ensureBottomSpinner();
+        const name = document.getElementById('rsPrName').value.trim();
+        const price = Number(document.getElementById('rsPrSell').value) || 0;
+        const sku = (document.getElementById('rsPrSku').value.trim() || ('CM-' + Math.floor(1000 + Math.random() * 8999))).toUpperCase();
+        if (!name || price <= 0) return showToast('নাম এবং Price সঠিকভাবে দিন!');
+        const dup = (storeData.products || []).some(p => (p.name || '').trim().toLowerCase() === name.toLowerCase() || (sku.length > 2 && !sku.startsWith('CM-') && (p.sku || '').toUpperCase() === sku));
+        if (!skipDupAsk && dup && !confirm('⚠️ এই নামের বা SKU-এর একটি প্রোডাক্ট আগে থেকেই আছে! তবুও আপলোড করবেন?')) return;
+
+        const imgs = document.getElementById('rsPrImgs').value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 10);
+        if (!imgs.length) return showToast('ছবির লিংক থাকতে হবে!');
+
+        const prod = {
+            id: 'p_' + Date.now(), name, sku,
+            shortSpec: document.getElementById('rsPrShort').value.trim(),
+            sizes: document.getElementById('rsPrSizes').value.trim(),
+            spec: document.getElementById('rsPrSpec').value.trim(),
+            price, oldPrice: document.getElementById('rsPrOld').value ? Number(document.getElementById('rsPrOld').value) : null,
+            category: document.getElementById('rsPrCat').value || 'General',
+            isHot: document.getElementById('rsPrHot').checked,
+            image: imgs[0], images: imgs, reviews: []
+        };
+
+        const btn = document.getElementById('rsPublishBtn');
+        const sp = document.getElementById('rsBottomSpin');
+        const st = document.getElementById('rsStatusLine');
+        const origBtnHtml = btn ? btn.innerHTML : '';
+
+        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> আপলোড হচ্ছে...'; }
+        if (sp) { sp.style.display = 'inline-flex'; sp.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> ওয়েবসাইট ও Google Sheet-এ পাঠানো হচ্ছে...'; }
+        if (st) st.textContent = '⏳ ওয়েবসাইট ও Google Sheet-এ সেভ হচ্ছে...';
+
+        try {
+            storeData.products.unshift(prod);
+            await syncStoreToCloud();
+
+            const gsUrl = (document.getElementById('gsWebAppUrl')?.value || '').trim();
+            const twoWayOn = document.getElementById('gsAutoTwoWay')?.checked;
+            if (gsUrl && !twoWayOn) {
+                fetch(gsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'sync_from_site', products: storeData.products })
+                }).catch(() => {});
+            }
+
+            const cntKey = 'cm_today_cnt_v1';
+            try {
+                const today = new Date().toISOString().slice(0, 10);
+                const cur = JSON.parse(localStorage.getItem(cntKey) || '{}');
+                const next = (cur.date === today ? (cur.count || 0) : 0) + 1;
+                localStorage.setItem(cntKey, JSON.stringify({ date: today, count: next }));
+                const el = document.getElementById('rsTodayCount'); if (el) el.textContent = next;
+            } catch (e) {}
+
+            if (st) st.textContent = `✅ "${name}" (৳${fmt(price)}, ${imgs.length}টি ছবি) সাইটে লাইভ হয়েছে ও শিটে যাচ্ছে!`;
+            showToast('✅ প্রোডাক্ট লাইভ ও Google Sheet-এ সেভ হয়েছে!');
+            if (typeof window.rsClearAll === 'function') {
+                document.getElementById('rsPreviewWrap').style.display = 'none';
+                document.getElementById('rsCustomSell').value = '';
+            }
+        } catch (e) {
+            if (st) st.textContent = '❌ আপলোড সমস্যা: ' + e.message;
+            showToast('❌ আপলোড সমস্যা: ' + e.message);
+        } finally {
+            if (btn) { btn.disabled = false; btn.innerHTML = origBtnHtml; }
+            if (sp) sp.style.display = 'none';
+        }
+    };
+})();
+</script>
 </body>
 </html>
