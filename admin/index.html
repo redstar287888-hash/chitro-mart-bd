@@ -3467,5 +3467,524 @@ STRICT ACCURACY RULES:
     setTimeout(() => { lastProdSig = getProductsSig(); refreshGsTargetDropdown(); }, 1500);
 })();
 </script>
+    <!-- CHITRO MART Reseller AI Screenshot + 10 Photos Auto-Fill (Sheet & Site) v3.5 -->
+<script>
+(function () {
+    const RS_CFG_KEY = 'cm_rs_uploader_v1';
+    let rsInfoImgs = [];   // HD screenshots for AI to read text/price/details
+    let rsProdFiles = [];  // Clean product images (1-10) to upload to ImgBB
+    let rsUploadedImgUrls = [];
+    let rsBusy = false;
+
+    function loadRsCfg() {
+        try { return JSON.parse(localStorage.getItem(RS_CFG_KEY) || '{}'); } catch (e) { return {}; }
+    }
+    function saveRsCfg(patch) {
+        const cur = Object.assign({ fullAuto: false, useFallback: true }, loadRsCfg(), patch || {});
+        localStorage.setItem(RS_CFG_KEY, JSON.stringify(cur));
+        return cur;
+    }
+
+    // 1. Upgrade regular Product form from 4 images to 10 images
+    function upgradeFormToTenPhotos() {
+        const pFile = document.getElementById('pFile');
+        if (pFile) {
+            const lbl = pFile.closest('.fg')?.querySelector('label');
+            if (lbl) lbl.textContent = 'ছবি আপলোড (১-১০টি)';
+        }
+        const gsMode = document.getElementById('gsImgMode');
+        if (gsMode) {
+            const opt = gsMode.querySelector('option[value="single_product"]');
+            if (opt) opt.textContent = 'সব ছবি = ১টি প্রোডাক্ট (১-১০ ছবি)';
+        }
+    }
+
+    window.saveProduct = async function (e) {
+        e.preventDefault();
+        const editId = document.getElementById('pEditId').value;
+        const name = document.getElementById('pName').value.trim();
+        const customId = document.getElementById('pProdId').value.replace(/['"<>\\]/g, '').trim();
+        const sku = document.getElementById('pSku').value.trim().toUpperCase();
+        const shortSpec = document.getElementById('pShort').value.trim();
+        const sizes = document.getElementById('pSizes').value.trim();
+        const spec = document.getElementById('pSpec').value.trim();
+        const finalId = customId || editId || ('p_' + Date.now());
+        if (storeData.products.some(p => p.id === finalId && p.id !== editId)) {
+            return showToast('এই Product ID আগেই ব্যবহার করা হয়েছে! অন্য একটি দিন।');
+        }
+        const price = Number(document.getElementById('pPrice').value);
+        const oldPrice = document.getElementById('pOldPrice').value ? Number(document.getElementById('pOldPrice').value) : null;
+        const buyPrice = document.getElementById('pBuyPrice').value ? Number(document.getElementById('pBuyPrice').value) : null;
+        const category = document.getElementById('pCat').value;
+        const isHot = document.getElementById('pHot').checked;
+        const files = Array.from(document.getElementById('pFile').files).slice(0, 10);
+        const urls = document.getElementById('pUrl').value.split(',').map(u => u.trim()).filter(u => u.startsWith('http') || u.startsWith('data:'));
+        let images = [];
+        for (const f of files) images.push(await uploadToImgbbIfConfigured(await compressImg(f, 750)));
+        images = images.concat(urls).slice(0, 10);
+
+        if (editId) {
+            const i = storeData.products.findIndex(p => p.id === editId);
+            if (i > -1) {
+                const old = storeData.products[i];
+                if (!images.length) images = getImgs(old);
+                storeData.products[i] = { id: finalId, name, sku, shortSpec, sizes, spec, price, oldPrice, buyPrice, category, isHot, image: images[0], images, reviews: old.reviews || [] };
+            }
+        } else {
+            if (!images.length) return showToast('ছবি দিন!');
+            storeData.products.unshift({ id: finalId, name, sku, shortSpec, sizes, spec, price, oldPrice, buyPrice, category, isHot, image: images[0], images, reviews: [] });
+        }
+        resetProdForm();
+        await syncStoreToCloud();
+        showToast('প্রোডাক্ট লাইভ হয়েছে!');
+    };
+
+    // 2. Inject Reseller Smart Uploader Card inside #tabProducts
+    function injectResellerCard() {
+        const tabProd = document.getElementById('tabProducts');
+        if (!tabProd || document.getElementById('rsAutoCard')) return;
+        const anchor = document.getElementById('gsSyncCard') || tabProd.querySelector('.card');
+        if (!anchor) return;
+
+        const cfg = loadRsCfg();
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.id = 'rsAutoCard';
+        card.style.marginBottom = '16px';
+        card.innerHTML = `
+            <div class="card-head">
+                <h3><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> Reseller 1-Click Auto-Post (তথ্যের স্ক্রিনশট + ১০টি ছবি ➔ Sheet &amp; Site)</h3>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <span class="status-pill b-amber" id="rsReadyBadge">Checking...</span>
+                    <label style="font-size:11.5px;display:flex;align-items:center;gap:5px;cursor:pointer;background:var(--bg);padding:4px 9px;border-radius:50px;border:1px solid var(--border)">
+                        <input type="checkbox" id="rsFullAuto" ${cfg.fullAuto ? 'checked' : ''} style="width:auto"> ⚡ Full Auto (প্রিভিউ ছাড়া সরাসরি Sheet+Site)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-row" style="gap:14px;margin-bottom:12px">
+                <!-- Box 1: Info Screenshot -->
+                <div id="rsInfoDrop" style="border:2px dashed var(--ai);border-radius:12px;padding:12px;background:var(--bg)">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:6px;flex-wrap:wrap">
+                        <b style="font-size:12.5px;color:var(--ai)"><i class="fa-solid fa-file-invoice"></i> ১. তথ্যের স্ক্রিনশট (১-৩টি)</b>
+                        <small style="color:var(--muted);font-size:11px">দাম, নাম, সাইজ পড়ার জন্য</small>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+                        <label class="btn-sm b-purple" style="cursor:pointer">
+                            <i class="fa-solid fa-upload"></i> স্ক্রিনশট দিন
+                            <input type="file" id="rsInfoInput" accept="image/*" multiple style="display:none">
+                        </label>
+                        <input type="text" id="rsInfoPaste" readonly placeholder="বা এখানে ক্লিক করে Ctrl+V পেস্ট করুন" style="flex:1;min-width:160px;padding:5px 8px;border:1px dashed var(--border);border-radius:7px;font-size:11.5px;background:var(--surface);color:var(--text);cursor:pointer">
+                    </div>
+                    <div id="rsInfoThumbs" style="display:flex;gap:6px;flex-wrap:wrap;min-height:24px"><small style="color:var(--muted);font-size:11px">কোনো স্ক্রিনশট দেওয়া হয়নি</small></div>
+                </div>
+
+                <!-- Box 2: Product Clean Photos (1-10) -->
+                <div id="rsPhotoDrop" style="border:2px dashed var(--primary);border-radius:12px;padding:12px;background:var(--bg)">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:6px;flex-wrap:wrap">
+                        <b style="font-size:12.5px;color:var(--primary)"><i class="fa-solid fa-images"></i> ২. প্রোডাক্টের আসল ছবি (<span id="rsPhotoCnt">0</span>/১০টি)</b>
+                        <label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer;color:var(--muted)">
+                            <input type="checkbox" id="rsUseFallback" ${cfg.useFallback !== false ? 'checked' : ''} style="width:auto"> ছবি না দিলে স্ক্রিনশট নেবে
+                        </label>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+                        <label class="btn-sm b-green" style="cursor:pointer">
+                            <i class="fa-solid fa-camera"></i> ছবি সিলেক্ট (১-১০টি)
+                            <input type="file" id="rsPhotoInput" accept="image/*" multiple style="display:none">
+                        </label>
+                        <input type="text" id="rsPhotoPaste" readonly placeholder="বা এখানে ক্লিক করে Ctrl+V পেস্ট করুন" style="flex:1;min-width:160px;padding:5px 8px;border:1px dashed var(--border);border-radius:7px;font-size:11.5px;background:var(--surface);color:var(--text);cursor:pointer">
+                    </div>
+                    <div id="rsPhotoThumbs" style="display:flex;gap:6px;flex-wrap:wrap;min-height:24px"><small style="color:var(--muted);font-size:11px">১ থেকে ১০টি প্রোডাক্টের ছবি ড্র্যাগ বা সিলেক্ট করুন</small></div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <input type="number" id="rsCustomSell" placeholder="কাস্টম বিক্রয়মূল্য ৳ (খালি রাখলে অটো লাভ যোগ হবে)" style="width:290px;max-width:100%;padding:8px 11px;border:1px solid var(--border);border-radius:9px;font-size:12px;background:var(--bg);color:var(--text)">
+                <button type="button" id="rsRunBtn" class="btn-primary" style="width:auto;padding:9px 18px;background:linear-gradient(135deg,#6366f1,#0ea646)" onclick="rsRunAutoExtract()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI দিয়ে তথ্য পড়ুন ➔ Sheet ও Site-এ পাঠান
+                </button>
+                <button type="button" class="btn-sm b-red" style="padding:9px 12px" onclick="rsClearAll()"><i class="fa-solid fa-trash"></i> Clear</button>
+                <small id="rsStatusLine" style="color:var(--muted);font-size:12px;flex:1;min-width:180px"></small>
+            </div>
+
+            <!-- Editable Preview Card (when Full Auto is OFF or for checking extracted data) -->
+            <div id="rsPreviewWrap" style="display:none;margin-top:14px;border-top:1px dashed var(--border);padding-top:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+                    <b style="font-size:13px;color:var(--primary)"><i class="fa-solid fa-check-double"></i> AI দিয়ে পাওয়া তথ্য (প্রয়োজনে এডিট করে Publish চাপুন):</b>
+                    <span id="rsPrProfitBadge" class="status-pill b-green"></span>
+                </div>
+                <div class="form-row-3">
+                    <div class="fg"><label>Product Name *</label><input type="text" id="rsPrName"></div>
+                    <div class="fg"><label>Category</label><select id="rsPrCat"></select></div>
+                    <div class="fg"><label>SKU Code</label><input type="text" id="rsPrSku" style="text-transform:uppercase"></div>
+                </div>
+                <div class="form-row-3">
+                    <div class="fg"><label>Buy Price (৳ কেনা)</label><input type="number" id="rsPrBuy" oninput="rsUpdatePrProfit()"></div>
+                    <div class="fg"><label>Sell Price (৳ বিক্রয়) *</label><input type="number" id="rsPrSell" oninput="rsUpdatePrProfit()"></div>
+                    <div class="fg"><label>Old Price (৳)</label><input type="number" id="rsPrOld"></div>
+                </div>
+                <div class="form-row-3">
+                    <div class="fg"><label>Sizes</label><input type="text" id="rsPrSizes" placeholder="M, L, XL"></div>
+                    <div class="fg"><label>Short Highlight</label><input type="text" id="rsPrShort"></div>
+                    <div class="fg" style="display:flex;align-items:center;padding-top:20px;gap:6px"><input type="checkbox" id="rsPrHot" checked style="width:auto"><label style="margin:0">Hot Badge</label></div>
+                </div>
+                <div class="fg"><label>Full Details &amp; Size Chart</label><textarea id="rsPrSpec" rows="2"></textarea></div>
+                <div class="fg"><label>Image Links (অটো তৈরি হওয়া লিংকসমূহ)</label><input type="text" id="rsPrImgs"></div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" id="rsPublishBtn" class="btn-primary" style="width:auto;padding:10px 22px" onclick="rsConfirmPublish()">
+                        <i class="fa-solid fa-rocket"></i> Confirm: Google Sheet ও Live Site-এ আপলোড করুন
+                    </button>
+                </div>
+            </div>
+        `;
+        anchor.insertAdjacentElement('afterend', card);
+
+        // Bind Settings & Inputs
+        document.getElementById('rsFullAuto').addEventListener('change', e => saveRsCfg({ fullAuto: e.target.checked }));
+        document.getElementById('rsUseFallback').addEventListener('change', e => saveRsCfg({ useFallback: e.target.checked }));
+        document.getElementById('rsInfoInput').addEventListener('change', async e => {
+            await rsAddInfoFiles(Array.from(e.target.files || []));
+            e.target.value = '';
+        });
+        document.getElementById('rsPhotoInput').addEventListener('change', e => {
+            rsAddProdFiles(Array.from(e.target.files || []));
+            e.target.value = '';
+        });
+
+        // Dedicated Drag & Drop
+        setupDrop('rsInfoDrop', '#6366f1', files => rsAddInfoFiles(files));
+        setupDrop('rsPhotoDrop', '#0ea646', files => rsAddProdFiles(files));
+
+        // Dedicated Paste (stops propagation so v3.4 doesn't double-capture!)
+        document.getElementById('rsInfoPaste').addEventListener('paste', async e => {
+            e.preventDefault(); e.stopPropagation();
+            const files = getPasteImages(e);
+            if (files.length) { await rsAddInfoFiles(files); showToast('তথ্যের স্ক্রিনশট পেস্ট হয়েছে!'); }
+        });
+        document.getElementById('rsPhotoPaste').addEventListener('paste', e => {
+            e.preventDefault(); e.stopPropagation();
+            const files = getPasteImages(e);
+            if (files.length) { rsAddProdFiles(files); showToast('প্রোডাক্টের ছবি পেস্ট হয়েছে!'); }
+        });
+
+        refreshRsReadyBadge();
+    }
+
+    function getPasteImages(e) {
+        const items = Array.from(e.clipboardData?.items || []);
+        return items.filter(it => it.type.startsWith('image/')).map(it => it.getAsFile()).filter(Boolean);
+    }
+
+    function setupDrop(elId, activeColor, cb) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        ['dragenter', 'dragover'].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); el.style.background = 'rgba(99,102,241,0.06)'; }));
+        ['dragleave', 'drop'].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); el.style.background = 'var(--bg)'; }));
+        el.addEventListener('drop', e => {
+            const files = Array.from(e.dataTransfer?.files || []).filter(f => f.type.startsWith('image/'));
+            if (files.length) cb(files);
+        });
+    }
+
+    async function rsAddInfoFiles(files) {
+        const imgs = files.filter(f => f.type.startsWith('image/'));
+        for (const f of imgs) {
+            if (rsInfoImgs.length >= 3) break;
+            const hdUrl = await compressImg(f, 1600);
+            rsInfoImgs.push(hdUrl);
+        }
+        renderRsThumbs();
+    }
+
+    function rsAddProdFiles(files) {
+        const imgs = files.filter(f => f.type.startsWith('image/'));
+        for (const f of imgs) {
+            if (rsProdFiles.length >= 10) { showToast('সর্বোচ্চ ১০টি ছবি দিতে পারবেন!'); break; }
+            rsProdFiles.push({ file: f, preview: URL.createObjectURL(f) });
+        }
+        renderRsThumbs();
+    }
+
+    window.rsRemoveInfo = function (idx) { rsInfoImgs.splice(idx, 1); renderRsThumbs(); };
+    window.rsRemovePhoto = function (idx) { rsProdFiles.splice(idx, 1); renderRsThumbs(); };
+
+    function renderRsThumbs() {
+        const infoBox = document.getElementById('rsInfoThumbs');
+        if (infoBox) {
+            infoBox.innerHTML = rsInfoImgs.length
+                ? rsInfoImgs.map((src, i) => `<div style="position:relative;width:54px;height:54px;border-radius:8px;overflow:hidden;border:1px solid var(--ai)"><img src="${src}" style="width:100%;height:100%;object-fit:cover"><button type="button" onclick="rsRemoveInfo(${i})" style="position:absolute;top:1px;right:1px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;cursor:pointer;line-height:1">×</button></div>`).join('')
+                : '<small style="color:var(--muted);font-size:11px">কোনো স্ক্রিনশট দেওয়া হয়নি</small>';
+        }
+        const phBox = document.getElementById('rsPhotoThumbs');
+        const cntEl = document.getElementById('rsPhotoCnt');
+        if (cntEl) cntEl.textContent = rsProdFiles.length;
+        if (phBox) {
+            phBox.innerHTML = rsProdFiles.length
+                ? rsProdFiles.map((it, i) => `<div style="position:relative;width:54px;height:54px;border-radius:8px;overflow:hidden;border:1px solid var(--primary)"><img src="${it.preview}" style="width:100%;height:100%;object-fit:cover"><button type="button" onclick="rsRemovePhoto(${i})" style="position:absolute;top:1px;right:1px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:16px;height:16px;font-size:10px;cursor:pointer;line-height:1">×</button></div>`).join('')
+                : '<small style="color:var(--muted);font-size:11px">১ থেকে ১০টি প্রোডাক্টের ছবি ড্র্যাগ বা সিলেক্ট করুন</small>';
+        }
+    }
+
+    function refreshRsReadyBadge() {
+        const b = document.getElementById('rsReadyBadge');
+        if (!b) return;
+        const aiQueue = typeof buildProviderQueue === 'function' ? buildProviderQueue(true) : [];
+        const imgKey = (document.getElementById('gsImgbbKey')?.value || document.getElementById('aiImgbbKey')?.value || '').trim();
+        const gsUrl = (document.getElementById('gsWebAppUrl')?.value || '').trim();
+
+        const missing = [];
+        if (!aiQueue.length) missing.push('AI Key');
+        if (!imgKey) missing.push('ImgBB Key');
+        if (!gsUrl) missing.push('Sheet URL');
+
+        if (!missing.length) { b.textContent = 'All Ready ✓'; b.className = 'status-pill b-green'; }
+        else { b.textContent = 'দরকার: ' + missing.join(', '); b.className = 'status-pill b-amber'; }
+    }
+
+    async function uploadDataUrlOrFileToImgbb(fileOrDataUrl, apiKey) {
+        const dataUrl = (typeof fileOrDataUrl === 'string') ? fileOrDataUrl : await compressImg(fileOrDataUrl, 900);
+        const b64 = dataUrl.split(',')[1];
+        const fd = new FormData();
+        fd.append('image', b64);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(apiKey)}`, { method: 'POST', body: fd });
+        const json = await res.json();
+        if (!json || !json.success || !json.data?.url) throw new Error(json?.error?.message || 'ImgBB upload failed');
+        return json.data.url;
+    }
+
+    function parseJsonLoose(txt) {
+        let s = String(txt || '').trim().replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+        const m = s.match(/\{[\s\S]*\}/);
+        if (m) s = m[0];
+        return JSON.parse(s);
+    }
+
+    async function extractProductWithVisionAI(infoDataUrls) {
+        const queue = buildProviderQueue(true);
+        if (!queue.length) throw new Error('আগে AI Command Center-এ Gemini বা OpenRouter API Key বসান!');
+        const cats = (storeData.categories || []).map(c => c.name).join(', ') || 'General';
+        const prompt = `You are a Bangladeshi e-commerce reselling product extractor.
+Analyze the attached supplier/reselling info screenshot(s) VERY carefully.
+Available store categories: [${cats}].
+Return ONLY a valid JSON object (no markdown, no explanation) with these exact keys:
+{
+  "name": "Clean product title",
+  "buy_price": 0,
+  "suggested_price": 0,
+  "category": "Closest category from [${cats}]",
+  "sku": "SKU if visible else empty string",
+  "sizes": "Comma-separated sizes if visible (e.g. M, L, XL) else empty string",
+  "short_spec": "Short 3-6 word highlight (e.g. 300 GSM Fleece)",
+  "spec": "Clean attractive Bengali/English product details & size info based ONLY on what is visible"
+}
+Rules: Read digits carefully. Do NOT confuse delivery charge with product buy_price.`;
+
+        const errors = [];
+        for (const prov of queue) {
+            if (prov.type === 'gemini') {
+                const chosen = document.getElementById('aiModel')?.value || 'gemini-3.8-flash';
+                const mdls = [...new Set([chosen, 'gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-2.5-flash'])];
+                for (const mdl of mdls) {
+                    try {
+                        const parts = [{ text: prompt }];
+                        infoDataUrls.forEach(dUrl => {
+                            const [meta, b64] = dUrl.split(',');
+                            const mime = (meta.match(/data:([^;]+)/) || [])[1] || 'image/webp';
+                            parts.push({ inline_data: { mime_type: mime, data: b64 } });
+                        });
+                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${mdl}:generateContent`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-goog-api-key': prov.key },
+                            body: JSON.stringify({
+                                contents: [{ role: 'user', parts }],
+                                generationConfig: { responseMimeType: 'application/json' }
+                            })
+                        });
+                        const json = await res.json();
+                        const rawTxt = json?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n');
+                        if (res.ok && rawTxt) return parseJsonLoose(rawTxt);
+                        errors.push(`Gemini (${mdl}): ${json?.error?.message || res.status}`);
+                    } catch (e) { errors.push(`Gemini (${mdl}): ${e.message}`); }
+                }
+            } else {
+                const visionMdls = (prov.models || []).filter(m => m.vision !== false);
+                for (const mdlCfg of visionMdls) {
+                    try {
+                        const content = [{ type: 'text', text: prompt }];
+                        infoDataUrls.forEach(u => content.push({ type: 'image_url', image_url: { url: u } }));
+                        const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
+                        if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
+                        const res = await fetch(prov.url, {
+                            method: 'POST', headers,
+                            body: JSON.stringify({ model: mdlCfg.id, messages: [{ role: 'user', content }] })
+                        });
+                        const json = await res.json();
+                        const rawTxt = json?.choices?.[0]?.message?.content;
+                        if (res.ok && rawTxt) return parseJsonLoose(rawTxt);
+                        errors.push(`${prov.label}: ${json?.error?.message || res.status}`);
+                    } catch (e) { errors.push(`${prov.label}: ${e.message}`); }
+                }
+            }
+        }
+        throw new Error(errors[0] || 'AI স্ক্রিনশট পড়তে পারেনি');
+    }
+
+    window.rsRunAutoExtract = async function () {
+        if (rsBusy) return;
+        refreshRsReadyBadge();
+        if (!rsInfoImgs.length) return showToast('প্রথমে বক্স ১-এ তথ্যের স্ক্রিনশট দিন!');
+
+        const imgKey = (document.getElementById('gsImgbbKey')?.value || document.getElementById('aiImgbbKey')?.value || '').trim();
+        const useFallback = document.getElementById('rsUseFallback').checked;
+        if (!rsProdFiles.length && !useFallback) return showToast('বক্স ২-এ অন্তত ১টি প্রোডাক্টের ছবি দিন!');
+        if (!imgKey) {
+            document.getElementById('gsImgbbKey')?.focus();
+            return showToast('আগে ImgBB API Key বসান! (অটো ছবির লিংক বানানোর জন্য)');
+        }
+
+        const st = document.getElementById('rsStatusLine');
+        const btn = document.getElementById('rsRunBtn');
+        rsBusy = true; btn.disabled = true;
+
+        try {
+            // Step 1: Upload product photos (1-10) to ImgBB
+            rsUploadedImgUrls = [];
+            const sources = rsProdFiles.length ? rsProdFiles.map(x => x.file) : [rsInfoImgs[0]];
+            for (let i = 0; i < sources.length; i++) {
+                st.textContent = `⏳ ছবি লিংক হচ্ছে (${i + 1}/${sources.length})...`;
+                rsUploadedImgUrls.push(await uploadDataUrlOrFileToImgbb(sources[i], imgKey));
+            }
+
+            // Step 2: Read Info Screenshot via AI
+            st.textContent = '⏳ AI তথ্যের স্ক্রিনশট পড়ছে...';
+            const data = await extractProductWithVisionAI(rsInfoImgs);
+
+            // Step 3: Calculate Reseller Sell Price & Old Price
+            const customSell = Number(document.getElementById('rsCustomSell').value) || 0;
+            const pricing = calcResellPricing(Number(data.buy_price) || 0, Number(data.suggested_price) || 0, customSell || undefined);
+
+            const catNames = [...new Set([...(storeData.categories || []).map(c => c.name), 'General'])];
+            const catSel = document.getElementById('rsPrCat');
+            const matchedCat = catNames.find(c => c.toLowerCase() === String(data.category || '').toLowerCase()) || data.category || catNames[0];
+            if (!catNames.includes(matchedCat)) catNames.unshift(matchedCat);
+            catSel.innerHTML = catNames.map(c => `<option value="${esc(c)}" ${c === matchedCat ? 'selected' : ''}>${esc(c)}</option>`).join('');
+
+            document.getElementById('rsPrName').value = data.name || '';
+            document.getElementById('rsPrSku').value = (data.sku || ('CM-' + Math.floor(1000 + Math.random() * 8999))).toUpperCase();
+            document.getElementById('rsPrBuy').value = pricing.buyPrice ?? '';
+            document.getElementById('rsPrSell').value = pricing.sellPrice || '';
+            document.getElementById('rsPrOld').value = pricing.oldPrice || '';
+            document.getElementById('rsPrSizes').value = data.sizes || '';
+            document.getElementById('rsPrShort').value = data.short_spec || '';
+            document.getElementById('rsPrSpec').value = data.spec || '';
+            document.getElementById('rsPrHot').checked = true;
+            document.getElementById('rsPrImgs').value = rsUploadedImgUrls.join(', ');
+            rsUpdatePrProfit();
+
+            document.getElementById('rsPreviewWrap').style.display = 'block';
+
+            if (document.getElementById('rsFullAuto').checked) {
+                st.textContent = '⏳ Google Sheet ও ওয়েবসাইটে আপলোড হচ্ছে...';
+                await window.rsConfirmPublish();
+            } else {
+                st.textContent = `✅ তথ্য ও ${rsUploadedImgUrls.length}টি ছবির লিংক রেডি! দেখে Confirm চাপুন।`;
+                showToast('AI তথ্য ও ছবির লিংক রেডি করেছে!');
+            }
+        } catch (err) {
+            st.textContent = '❌ সমস্যা: ' + err.message;
+            showToast('❌ ' + err.message);
+        } finally {
+            rsBusy = false; btn.disabled = false;
+        }
+    };
+
+    window.rsUpdatePrProfit = function () {
+        const buy = Number(document.getElementById('rsPrBuy')?.value || 0);
+        const sell = Number(document.getElementById('rsPrSell')?.value || 0);
+        const badge = document.getElementById('rsPrProfitBadge');
+        if (!badge) return;
+        if (buy > 0 && sell > 0) {
+            const prof = sell - buy;
+            badge.textContent = `Profit: ${prof >= 0 ? '+' : ''}৳${fmt(prof)}`;
+            badge.className = 'status-pill ' + (prof >= 0 ? 'b-green' : 'b-red');
+        } else {
+            badge.textContent = '';
+        }
+    };
+
+    window.rsConfirmPublish = async function () {
+        const name = document.getElementById('rsPrName').value.trim();
+        const price = Number(document.getElementById('rsPrSell').value) || 0;
+        if (!name || price <= 0) return showToast('প্রোডাক্টের নাম এবং বিক্রয়মূল্য সঠিকভাবে দিন!');
+
+        const imgs = document.getElementById('rsPrImgs').value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 10);
+        if (!imgs.length) return showToast('অন্তত ১টি ছবির লিংক থাকতে হবে!');
+
+        const prodObj = {
+            id: 'p_' + Date.now(),
+            name,
+            sku: (document.getElementById('rsPrSku').value.trim() || ('CM-' + Math.floor(1000 + Math.random() * 8999))).toUpperCase(),
+            shortSpec: document.getElementById('rsPrShort').value.trim(),
+            sizes: document.getElementById('rsPrSizes').value.trim(),
+            spec: document.getElementById('rsPrSpec').value.trim(),
+            price,
+            oldPrice: document.getElementById('rsPrOld').value ? Number(document.getElementById('rsPrOld').value) : null,
+            buyPrice: document.getElementById('rsPrBuy').value ? Number(document.getElementById('rsPrBuy').value) : null,
+            category: document.getElementById('rsPrCat').value || 'General',
+            isHot: document.getElementById('rsPrHot').checked,
+            image: imgs[0],
+            images: imgs,
+            reviews: []
+        };
+
+        const st = document.getElementById('rsStatusLine');
+        const pBtn = document.getElementById('rsPublishBtn');
+        if (pBtn) pBtn.disabled = true;
+
+        try {
+            st.textContent = '⏳ লাইভ ওয়েবসাইটে সেভ হচ্ছে...';
+            storeData.products.unshift(prodObj);
+            await syncStoreToCloud();
+
+            const gsUrl = (document.getElementById('gsWebAppUrl')?.value || '').trim();
+            if (gsUrl && !document.getElementById('gsAutoTwoWay')?.checked) {
+                st.textContent = '⏳ Google Sheet-এ পাঠানো হচ্ছে...';
+                await fetch(gsUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'sync_from_site', products: storeData.products })
+                });
+            }
+
+            st.textContent = `✅ "${name}" (৳${fmt(price)}, ${imgs.length}টি ছবি) ওয়েবসাইট ও Google Sheet-এ আপলোড হয়েছে!`;
+            showToast('✅ প্রোডাক্ট Google Sheet ও ওয়েবসাইটে লাইভ হয়েছে!');
+            rsClearInputsOnly();
+        } catch (e) {
+            st.textContent = '❌ আপলোড সমস্যা: ' + e.message;
+            showToast('আপলোড করতে সমস্যা হয়েছে!');
+        } finally {
+            if (pBtn) pBtn.disabled = false;
+        }
+    };
+
+    function rsClearInputsOnly() {
+        rsInfoImgs = [];
+        rsProdFiles = [];
+        rsUploadedImgUrls = [];
+        document.getElementById('rsCustomSell').value = '';
+        document.getElementById('rsPreviewWrap').style.display = 'none';
+        renderRsThumbs();
+    }
+
+    window.rsClearAll = function () {
+        rsClearInputsOnly();
+        document.getElementById('rsStatusLine').textContent = '';
+    };
+
+    upgradeFormToTenPhotos();
+    injectResellerCard();
+    setInterval(refreshRsReadyBadge, 3000);
+})();
+</script>
 </body>
 </html>
