@@ -3087,5 +3087,385 @@ STRICT ACCURACY RULES:
     if (Array.isArray(storeData.coupons)) renderCatalogLists();
 })();
 </script>
+    <!-- CHITRO MART Google Sheet Live Sync & Auto Image-to-Link v3.4 -->
+<script>
+(function () {
+    const GS_CFG_KEY = 'cm_gs_cfg_v1';
+    let gsCfg = { url: '', autoTwoWay: true, autoSendImg: true };
+    let gsUploadedUrls = [];
+    let gsSyncing = false;
+    let lastProdSig = '';
+
+    function loadGsCfg() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(GS_CFG_KEY) || '{}');
+            gsCfg = Object.assign({ url: '', autoTwoWay: true, autoSendImg: true }, saved);
+        } catch (e) {}
+    }
+
+    function saveGsCfg() {
+        localStorage.setItem(GS_CFG_KEY, JSON.stringify(gsCfg));
+    }
+
+    function getProductsSig() {
+        return JSON.stringify((storeData.products || []).map(p => ({
+            id: p.id, name: p.name, sku: p.sku, price: p.price, oldPrice: p.oldPrice,
+            buyPrice: p.buyPrice, category: p.category, sizes: p.sizes, shortSpec: p.shortSpec,
+            spec: p.spec, images: p.images, isHot: p.isHot
+        })));
+    }
+
+    function injectGoogleSheetPanel() {
+        const tabProd = document.getElementById('tabProducts');
+        if (!tabProd || document.getElementById('gsSyncCard')) return;
+        const firstCard = tabProd.querySelector('.card');
+        if (!firstCard) return;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.id = 'gsSyncCard';
+        card.style.marginBottom = '16px';
+        card.innerHTML = `
+            <div class="card-head">
+                <h3><i class="fa-solid fa-table" style="color:#10b981"></i> Google Sheet Live Sync &amp; Auto Image-to-Link</h3>
+                <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+                    <span class="status-pill b-amber" id="gsStatusBadge">Setup Needed</span>
+                    <button type="button" class="btn-sm b-blue" onclick="gsPullFromSheet()"><i class="fa-solid fa-cloud-arrow-down"></i> Sheet ➔ Site</button>
+                    <button type="button" class="btn-sm b-green" onclick="gsPushAllToSheet()"><i class="fa-solid fa-cloud-arrow-up"></i> Site ➔ Sheet</button>
+                </div>
+            </div>
+
+            <div class="form-row-3" style="align-items:end;margin-bottom:10px">
+                <div class="fg" style="margin-bottom:0">
+                    <label>Google Sheet Web App URL (Apps Script)</label>
+                    <input type="url" id="gsWebAppUrl" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                <div class="fg" style="margin-bottom:0">
+                    <label>ImgBB API Key (<a href="https://api.imgbb.com/" target="_blank" style="color:var(--primary)">১ মিনিটে ফ্রি নিন</a>)</label>
+                    <input type="password" id="gsImgbbKey" placeholder="ImgBB API Key বসালে ছবি অটো লিংক হবে">
+                </div>
+                <div style="display:flex;gap:6px;align-items:center">
+                    <button type="button" class="btn-sm b-green" style="height:36px;padding:0 14px" onclick="gsSaveAndTest()"><i class="fa-solid fa-plug-circle-check"></i> Save &amp; Test</button>
+                    <label style="font-size:11.5px;display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--muted)">
+                        <input type="checkbox" id="gsAutoTwoWay" style="width:auto"> Auto Two-Way
+                    </label>
+                </div>
+            </div>
+
+            <div style="border:2px dashed var(--border);border-radius:12px;padding:12px;background:var(--bg)" id="gsImgDropZone">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">
+                    <b style="font-size:13px"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--ai)"></i> অটো ছবি ➔ লিংক ➔ Google Sheet</b>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                        <label style="font-size:11.5px;display:flex;align-items:center;gap:4px;cursor:pointer">
+                            <input type="checkbox" id="gsAutoSendImg" style="width:auto"> ⚡ ছবি দিলেই অটো শিটে যাবে
+                        </label>
+                        <select id="gsImgMode" style="padding:4px 8px;border:1px solid var(--border);border-radius:7px;font-size:11.5px;background:var(--surface);color:var(--text)">
+                            <option value="per_photo">প্রতিটি ছবি = আলাদা প্রোডাক্ট রো</option>
+                            <option value="single_product">সব ছবি = ১টি প্রোডাক্ট (১-৪ ছবি)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row-3" style="margin-bottom:8px">
+                    <div class="fg" style="margin-bottom:0">
+                        <select id="gsTargetProd" style="padding:7px 9px;font-size:12px">
+                            <option value="">+ নতুন রো হিসেবে শিটে পাঠান</option>
+                        </select>
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <input type="text" id="gsQuickName" placeholder="প্রোডাক্টের নাম (ঐচ্ছিক - শিটেও লিখতে পারবেন)" style="padding:7px 9px;font-size:12px">
+                    </div>
+                    <div class="fg" style="margin-bottom:0">
+                        <input type="number" id="gsQuickPrice" placeholder="বিক্রয়মূল্য ৳ (ঐচ্ছিক)" style="padding:7px 9px;font-size:12px">
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <label class="btn-sm b-purple" style="cursor:pointer;padding:8px 14px">
+                        <i class="fa-solid fa-images"></i> ছবি সিলেক্ট / Drag / Ctrl+V করুন
+                        <input type="file" id="gsPhotoInput" accept="image/*" multiple style="display:none" onchange="gsHandlePhotoFiles(event)">
+                    </label>
+                    <button type="button" class="btn-sm b-green" id="gsManualSendBtn" style="display:none;padding:8px 14px" onclick="gsSendGeneratedLinksToSheet()"><i class="fa-solid fa-paper-plane"></i> লিংকগুলো শিটে পাঠান</button>
+                    <button type="button" class="btn-sm b-blue" id="gsCopyLinksBtn" style="display:none;padding:8px 12px" onclick="gsCopyAllLinks()"><i class="fa-solid fa-copy"></i> Copy Links</button>
+                    <small id="gsImgProgress" style="color:var(--muted);font-size:11.5px">ছবি আপলোড করলে অটো https:// লিংক হয়ে শিটে চলে যাবে</small>
+                </div>
+
+                <div id="gsImgResultBox" style="display:none;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"></div>
+            </div>
+        `;
+        firstCard.insertAdjacentElement('afterend', card);
+
+        // Bind fields
+        const urlEl = document.getElementById('gsWebAppUrl');
+        const keyEl = document.getElementById('gsImgbbKey');
+        const twoEl = document.getElementById('gsAutoTwoWay');
+        const sendEl = document.getElementById('gsAutoSendImg');
+
+        urlEl.value = gsCfg.url || '';
+        const aiKeyEl = document.getElementById('aiImgbbKey');
+        keyEl.value = (aiKeyEl && aiKeyEl.value) ? aiKeyEl.value : (gsCfg.imgbbKey || '');
+        twoEl.checked = gsCfg.autoTwoWay !== false;
+        sendEl.checked = gsCfg.autoSendImg !== false;
+
+        keyEl.addEventListener('input', () => {
+            const v = keyEl.value.trim();
+            gsCfg.imgbbKey = v;
+            saveGsCfg();
+            if (aiKeyEl) {
+                aiKeyEl.value = v;
+                if (typeof saveAiConfig === 'function') saveAiConfig();
+            }
+            updateGsBadge();
+        });
+        twoEl.addEventListener('change', () => { gsCfg.autoTwoWay = twoEl.checked; saveGsCfg(); });
+        sendEl.addEventListener('change', () => { gsCfg.autoSendImg = sendEl.checked; saveGsCfg(); });
+
+        // Drag & Drop support
+        const dz = document.getElementById('gsImgDropZone');
+        ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.style.borderColor = '#10b981'; }));
+        ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.style.borderColor = 'var(--border)'; }));
+        dz.addEventListener('drop', e => {
+            const files = Array.from(e.dataTransfer?.files || []).filter(f => f.type.startsWith('image/'));
+            if (files.length) gsProcessImageFiles(files);
+        });
+
+        // Paste (Ctrl+V) support when Products tab is active
+        document.addEventListener('paste', e => {
+            if (!document.getElementById('tabProducts')?.classList.contains('active')) return;
+            const items = Array.from(e.clipboardData?.items || []);
+            const files = items.filter(it => it.type.startsWith('image/')).map(it => it.getAsFile()).filter(Boolean);
+            if (files.length) {
+                e.preventDefault();
+                gsProcessImageFiles(files);
+            }
+        });
+
+        updateGsBadge();
+        refreshGsTargetDropdown();
+    }
+
+    function updateGsBadge() {
+        const b = document.getElementById('gsStatusBadge');
+        if (!b) return;
+        const hasUrl = !!(gsCfg.url && gsCfg.url.startsWith('https://script.google.com/'));
+        const hasImg = !!((document.getElementById('gsImgbbKey')?.value || document.getElementById('aiImgbbKey')?.value || '').trim());
+        if (hasUrl && hasImg) { b.textContent = 'Sheet + ImgBB Ready ✓'; b.className = 'status-pill b-green'; }
+        else if (hasUrl) { b.textContent = 'Sheet Ready (ImgBB Key দিন)'; b.className = 'status-pill b-amber'; }
+        else { b.textContent = 'Setup Needed'; b.className = 'status-pill b-amber'; }
+    }
+
+    function refreshGsTargetDropdown() {
+        const sel = document.getElementById('gsTargetProd');
+        if (!sel) return;
+        const prev = sel.value;
+        sel.innerHTML = `<option value="">+ নতুন রো হিসেবে শিটে পাঠান</option>` +
+            (storeData.products || []).map(p => `<option value="${esc(p.id)}">ছবি আপডেট: ${esc(p.name)} (${esc(p.sku || p.id)})</option>`).join('');
+        if (prev) sel.value = prev;
+    }
+
+    async function callAppsScript(payload) {
+        const url = (document.getElementById('gsWebAppUrl')?.value || gsCfg.url || '').trim();
+        if (!url) throw new Error('আগে Google Sheet Web App URL দিন!');
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (!json || json.ok === false) throw new Error(json?.error || 'Apps Script error');
+        return json;
+    }
+
+    window.gsSaveAndTest = async function () {
+        const url = document.getElementById('gsWebAppUrl').value.trim();
+        const key = document.getElementById('gsImgbbKey').value.trim();
+        gsCfg.url = url;
+        gsCfg.imgbbKey = key;
+        saveGsCfg();
+        if (document.getElementById('aiImgbbKey')) {
+            document.getElementById('aiImgbbKey').value = key;
+            if (typeof saveAiConfig === 'function') saveAiConfig();
+        }
+        updateGsBadge();
+        if (!url) return showToast('Google Sheet Web App URL বসান!');
+        try {
+            showToast('শিট কানেকশন টেস্ট হচ্ছে...');
+            const r = await callAppsScript({ action: 'ping' });
+            showToast(`✅ কানেকশন সফল! শিটে ${r.rows || 0}টি রো আছে।`);
+        } catch (e) {
+            showToast('❌ কানেক্ট হয়নি: ' + e.message);
+        }
+    };
+
+    window.gsHandlePhotoFiles = function (e) {
+        const files = Array.from(e.target.files || []).filter(f => f.type.startsWith('image/'));
+        e.target.value = '';
+        if (files.length) gsProcessImageFiles(files);
+    };
+
+    async function uploadFileToImgbb(file, apiKey) {
+        const dataUrl = await compressImg(file, 850);
+        const b64 = dataUrl.split(',')[1];
+        const fd = new FormData();
+        fd.append('image', b64);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(apiKey)}`, { method: 'POST', body: fd });
+        const json = await res.json();
+        if (!json || !json.success || !json.data?.url) {
+            throw new Error(json?.error?.message || 'ImgBB upload failed');
+        }
+        return json.data.url;
+    }
+
+    async function gsProcessImageFiles(files) {
+        const key = (document.getElementById('gsImgbbKey')?.value || document.getElementById('aiImgbbKey')?.value || '').trim();
+        if (!key) {
+            document.getElementById('gsImgbbKey')?.focus();
+            return showToast('আগে ImgBB ফ্রি API Key বসান! (api.imgbb.com থেকে ফ্রি পাবেন)');
+        }
+        const prog = document.getElementById('gsImgProgress');
+        const box = document.getElementById('gsImgResultBox');
+        box.style.display = 'flex';
+        gsUploadedUrls = [];
+        box.innerHTML = '';
+
+        for (let i = 0; i < files.length; i++) {
+            prog.textContent = `⏳ ছবি লিংক হচ্ছে (${i + 1}/${files.length})...`;
+            try {
+                const url = await uploadFileToImgbb(files[i], key);
+                gsUploadedUrls.push(url);
+                box.innerHTML += `
+                    <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:5px;display:flex;align-items:center;gap:6px;max-width:250px">
+                        <img src="${esc(url)}" style="width:42px;height:42px;object-fit:cover;border-radius:6px">
+                        <div style="min-width:0;flex:1">
+                            <input type="text" readonly value="${esc(url)}" onclick="this.select()" style="width:100%;font-size:10.5px;border:1px solid var(--border);border-radius:5px;padding:2px 4px;background:var(--bg);color:var(--text)">
+                        </div>
+                    </div>`;
+            } catch (err) {
+                showToast('ছবি আপলোড সমস্যা: ' + err.message);
+            }
+        }
+
+        if (!gsUploadedUrls.length) { prog.textContent = '❌ কোনো ছবি আপলোড হয়নি'; return; }
+        document.getElementById('gsCopyLinksBtn').style.display = 'inline-flex';
+        document.getElementById('gsManualSendBtn').style.display = 'inline-flex';
+
+        if (document.getElementById('gsAutoSendImg').checked && gsCfg.url) {
+            prog.textContent = '⏳ Google Sheet-এ পাঠানো হচ্ছে...';
+            await window.gsSendGeneratedLinksToSheet();
+        } else {
+            prog.textContent = `✅ ${gsUploadedUrls.length}টি ছবির লিংক তৈরি হয়েছে!`;
+        }
+    }
+
+    window.gsCopyAllLinks = function () {
+        if (!gsUploadedUrls.length) return;
+        navigator.clipboard?.writeText(gsUploadedUrls.join(', '));
+        showToast('সব ছবির লিংক কপি হয়েছে!');
+    };
+
+    window.gsSendGeneratedLinksToSheet = async function () {
+        if (!gsUploadedUrls.length) return showToast('আগে ছবি আপলোড করুন!');
+        if (!gsCfg.url) return showToast('আগে Google Sheet Web App URL সেভ করুন!');
+
+        const prog = document.getElementById('gsImgProgress');
+        const targetId = document.getElementById('gsTargetProd').value;
+        const mode = document.getElementById('gsImgMode').value;
+        const qName = document.getElementById('gsQuickName').value.trim();
+        const qPrice = Number(document.getElementById('gsQuickPrice').value) || 0;
+
+        try {
+            if (targetId) {
+                const imgsStr = gsUploadedUrls.slice(0, 4).join(', ');
+                await callAppsScript({ action: 'update_row_images', id: targetId, images: imgsStr });
+                const prod = (storeData.products || []).find(p => p.id === targetId);
+                if (prod) {
+                    prod.images = gsUploadedUrls.slice(0, 4);
+                    prod.image = prod.images[0];
+                    gsSyncing = true;
+                    await origSyncStoreToCloud();
+                    gsSyncing = false;
+                }
+                prog.textContent = '✅ প্রোডাক্টের ছবি শিট ও সাইটে আপডেট হয়েছে!';
+                showToast('ছবি শিট ও সাইটে আপডেট হয়েছে!');
+            } else {
+                const rows = (mode === 'single_product')
+                    ? [{ name: qName, price: qPrice || '', images: gsUploadedUrls.slice(0, 4) }]
+                    : gsUploadedUrls.map((u, idx) => ({ name: qName ? (gsUploadedUrls.length > 1 ? `${qName} #${idx + 1}` : qName) : '', price: qPrice || '', images: [u] }));
+
+                const res = await callAppsScript({ action: 'add_rows', rows });
+                document.getElementById('gsQuickName').value = '';
+                document.getElementById('gsQuickPrice').value = '';
+                if (res.fbSynced) {
+                    await loadStore();
+                    renderCatalogLists();
+                    lastProdSig = getProductsSig();
+                }
+                prog.textContent = `✅ ${rows.length}টি সারি Google Sheet-এ চলে গেছে! ${res.fbSynced ? '(সাইটেও লাইভ হয়েছে!)' : '(শিটে নাম-দাম লিখলেই লাইভ হবে)'}`;
+                showToast('Google Sheet-এ ছবির লিংক পাঠানো হয়েছে!');
+            }
+        } catch (e) {
+            prog.textContent = '❌ শিটে পাঠাতে সমস্যা: ' + e.message;
+            showToast('শিটে পাঠাতে সমস্যা হয়েছে!');
+        }
+    };
+
+    window.gsPullFromSheet = async function () {
+        const url = (document.getElementById('gsWebAppUrl')?.value || gsCfg.url || '').trim();
+        if (!url) return showToast('আগে Google Sheet Web App URL দিন!');
+        try {
+            showToast('Google Sheet থেকে প্রোডাক্ট আনা হচ্ছে...');
+            const res = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+            const json = await res.json();
+            if (!json || !json.ok || !Array.isArray(json.products)) throw new Error('সঠিক ডাটা পাওয়া যায়নি');
+            if (!json.products.length) return showToast('শিটে নাম ও দামসহ কোনো প্রোডাক্ট পাওয়া যায়নি!');
+            storeData.products = json.products;
+            gsSyncing = true;
+            await origSyncStoreToCloud();
+            gsSyncing = false;
+            lastProdSig = getProductsSig();
+            showToast(`✅ শিট থেকে ${json.products.length}টি প্রোডাক্ট সাইটে আপডেট হয়েছে!`);
+        } catch (e) {
+            showToast('❌ শিট থেকে আনতে সমস্যা: ' + e.message);
+        }
+    };
+
+    window.gsPushAllToSheet = async function () {
+        if (!gsCfg.url) return showToast('আগে Google Sheet Web App URL সেভ করুন!');
+        try {
+            showToast('সাইটের সব প্রোডাক্ট শিটে পাঠানো হচ্ছে...');
+            const r = await callAppsScript({ action: 'sync_from_site', products: storeData.products || [] });
+            showToast(`✅ ${r.count || 0}টি প্রোডাক্ট Google Sheet-এ সেভ হয়েছে!`);
+        } catch (e) {
+            showToast('❌ শিটে পাঠাতে সমস্যা: ' + e.message);
+        }
+    };
+
+    // Hook syncStoreToCloud for automatic Site -> Sheet sync
+    const origSyncStoreToCloud = window.syncStoreToCloud;
+    window.syncStoreToCloud = async function () {
+        await origSyncStoreToCloud();
+        refreshGsTargetDropdown();
+        const curSig = getProductsSig();
+        if (!gsSyncing && gsCfg.autoTwoWay && gsCfg.url && curSig !== lastProdSig) {
+            lastProdSig = curSig;
+            callAppsScript({ action: 'sync_from_site', products: storeData.products || [] })
+                .then(() => { const b = document.getElementById('gsStatusBadge'); if (b) b.textContent = 'Synced ✓'; })
+                .catch(() => {});
+        } else {
+            lastProdSig = curSig;
+        }
+    };
+
+    const origRenderCatalog = window.renderCatalogLists;
+    window.renderCatalogLists = function () {
+        origRenderCatalog();
+        refreshGsTargetDropdown();
+    };
+
+    loadGsCfg();
+    injectGoogleSheetPanel();
+    setTimeout(() => { lastProdSig = getProductsSig(); refreshGsTargetDropdown(); }, 1500);
+})();
+</script>
 </body>
 </html>
